@@ -9,5 +9,6 @@ class ModuleServiceProvider extends BaseModuleServiceProvider
     protected $models = [
         \Gaiproject\Option\Models\Option::class,
         \Gaiproject\Option\Models\OptionValue::class,
+        \Gaiproject\Option\Models\OptionGroup::class,
     ];
 }

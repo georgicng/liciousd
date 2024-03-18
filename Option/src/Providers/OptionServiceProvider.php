@@ -27,6 +27,18 @@ class OptionServiceProvider extends ServiceProvider
         Event::listen('bagisto.admin.layout.head', function($viewRenderEventManager) {
             $viewRenderEventManager->addTemplate('option::admin.layouts.style');
         });
+
+
+
+        Event::listen('bagisto.admin.catalog.families.create.create_form_controls.after', function($viewRenderEventManager) {
+            $viewRenderEventManager->addTemplate('option::admin.options.group.create');
+        });
+        Event::listen('catalog.attribute_family.create.after', 'Gaiproject\Option\Listeners\Catalog@createFamily');
+
+        Event::listen('bagisto.admin.catalog.families.edit.edit_form_control.after', function($viewRenderEventManager) {
+            $viewRenderEventManager->addTemplate('option::admin.options.group.edit');
+        });
+        Event::listen('catalog.attribute_family.update.after', 'Gaiproject\Option\Listeners\Catalog@editFamily');
     }
 
     /**
