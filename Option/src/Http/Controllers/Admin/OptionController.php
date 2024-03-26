@@ -36,7 +36,7 @@ class OptionController extends Controller
         if (request()->ajax()) {
             return app(OptionDataGrid::class)->toJson();
         }
-        return view('option::admin.options.index');
+        return view('admin::options.index');
     }
 
     /**
@@ -46,7 +46,7 @@ class OptionController extends Controller
      */
     public function create()
     {
-        return view('option::admin.options.create');
+        return view('admin::options.create');
     }
 
     /**
@@ -83,7 +83,7 @@ class OptionController extends Controller
     public function edit(int $id)
     {
         $option = $this->optionRepository->findOrFail($id);
-        return view('option::admin.options.edit', compact('option'));
+        return view('admin::options.edit', compact('option'));
     }
 
      /**

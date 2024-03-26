@@ -22,23 +22,29 @@ class OptionServiceProvider extends ServiceProvider
 
         $this->loadTranslationsFrom(__DIR__ . '/../Resources/lang', 'option');
 
-        $this->loadViewsFrom(__DIR__ . '/../Resources/views', 'option');
+        $this->loadViewsFrom(__DIR__ . '/../Resources/views/admin', 'admin');
+
+        $this->loadViewsFrom(__DIR__ . '/../Resources/views/shop', 'shop');
 
         Event::listen('bagisto.admin.layout.head', function($viewRenderEventManager) {
-            $viewRenderEventManager->addTemplate('option::admin.layouts.style');
+            $viewRenderEventManager->addTemplate('admin::layouts.style');
         });
 
 
 
         Event::listen('bagisto.admin.catalog.families.create.create_form_controls.after', function($viewRenderEventManager) {
-            $viewRenderEventManager->addTemplate('option::admin.options.group.create');
+            $viewRenderEventManager->addTemplate('admin::options.group.create');
         });
         Event::listen('catalog.attribute_family.create.after', 'Gaiproject\Option\Listeners\Catalog@createFamily');
 
         Event::listen('bagisto.admin.catalog.families.edit.edit_form_control.after', function($viewRenderEventManager) {
-            $viewRenderEventManager->addTemplate('option::admin.options.group.edit');
+            $viewRenderEventManager->addTemplate('admin::options.group.edit');
         });
         Event::listen('catalog.attribute_family.update.after', 'Gaiproject\Option\Listeners\Catalog@editFamily');
+
+        //Event::listen('catalog.product.update.after', 'Gaiproject\Option\Listeners\Catalog@editProduct');
+
+        //Event::listen('catalog.product.delete.after', 'Gaiproject\Option\Listeners\Catalog@deleteProduct');
     }
 
     /**
@@ -49,6 +55,9 @@ class OptionServiceProvider extends ServiceProvider
     public function register()
     {
         $this->registerConfig();
+        $this->mergeConfigFrom(
+            dirname(__DIR__) . '/Config/product_types.php', 'product_types'
+        );
     }
 
     /**

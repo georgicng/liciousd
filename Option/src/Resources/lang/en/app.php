@@ -227,6 +227,61 @@ return [
                 'last-delete-error'       => 'At least one family is required.',
                 'attribute-product-error' => 'family is used in products.',
             ],
+            'products' => [
+                'edit' => [
+                    'types' => [
+                        'optionable' => [
+                            'add-btn'           => 'Add Option',
+                            'delete-btn'        => 'Delete',
+                            'edit-btn'          => 'Edit',
+                            'empty-title'       => 'Add Option',
+                            'empty-info'        => 'To create various combination of product on a go.',
+                            'info'              => 'Variation products are depend on all possible combination of attribute.',
+                            'image-placeholder' => 'Product Image',
+                            'qty'               => ':qty Qty',
+                            'sku'               => 'SKU - :sku',
+                            'title'             => 'Options',
+
+                            'create'  => [
+                                'description'            => 'Description',
+                                'name'                   => 'Name',
+                                'save-btn'               => 'Add',
+                                'title'                  => 'Add Option',
+                                'variant-already-exists' => 'This option already exists',
+                            ],
+
+                            'edit' => [
+                                'disabled'         => 'Disabled',
+                                'edit-info'        => 'If you want to update product information in detail, then go to the',
+                                'edit-link-title'  => 'Product Details Page',
+                                'enabled'          => 'Enabled',
+                                'images'           => 'Images',
+                                'name'             => 'Name',
+                                'price'            => 'Price',
+                                'quantities'       => 'Quantities',
+                                'save-btn'         => 'Save',
+                                'sku'              => 'SKU',
+                                'status'           => 'Status',
+                                'title'            => 'Product',
+                                'weight'           => 'Weight',
+                            ],
+
+                            'mass-edit' => [
+                                'add-images'        => 'Add Images',
+                                'apply-to-all-sku'  => 'Apply a price to all SKU.',
+                                'apply-to-all-btn'  => 'Apply to All',
+                                'edit-prices'       => 'Edit Prices',
+                                'edit-inventories'  => 'Edit Inventories',
+                                'price'             => 'Price',
+                                'remove-images'     => 'Remove Images',
+                                'remove-variants'   => 'Remove Variants',
+                                'select-variants'   => 'Select Variants',
+                                'select-action'     => 'Select Action',
+                            ],
+                        ],
+                    ],
+                ]
+            ]
         ],
         'components' => [
             'layouts' => [

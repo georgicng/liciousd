@@ -26,6 +26,7 @@ class OptionGroup extends Model implements OptionGroupContract
     {
         return $this->belongsToMany(OptionProxy::modelClass(), 'option_group_mappings')
             ->withPivot('position')
+            ->with(['values'])
             ->orderBy('pivot_position', 'asc');
     }
 

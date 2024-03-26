@@ -41,7 +41,7 @@ class OptionGroupRepository extends Repository
             // $group['attribute_family_id'] = $attributeFamily->id;
             //$optionGroup = parent::create($group);
             //$optionGroup = $this->model->whereBelongsTo($attributeFamily)->create($group);
-            $optionGroup = $this->model->create(array_merge($group, ['attribute_family_id' => $attributeFamily->id]));
+            $optionGroup = $this->getModel()->create(array_merge($group, ['attribute_family_id' => $attributeFamily->id]));
 
             foreach ($customOptions as $key => $option) {
                 if (isset($option['id'])) {
@@ -63,11 +63,11 @@ class OptionGroupRepository extends Repository
     public function updateMany($data, $attributeFamily, $attribute = "id")
     {
 
-        $previousOptionGroupIds = $this->model->whereBelongsTo($attributeFamily)->get()->pluck('id'); //create scope to get groups per family in optiongroup model and swap with this or use the getbyfamily defined below
+        $previousOptionGroupIds = $this->getModel()->whereBelongsTo($attributeFamily)->get()->pluck('id');
 
         foreach ($data ?? [] as $optionGroupId => $optionGroupInputs) {
             if (Str::contains($optionGroupId, 'group_')) { //if new, create
-                $optionGroup = $this->model->whereBelongsTo($attributeFamily)->create($optionGroupInputs);
+                $optionGroup = $this->getModel()->whereBelongsTo($attributeFamily)->create($optionGroupInputs);
 
                 if (empty($optionGroupInputs['custom_options'])) {
                     continue;
@@ -126,7 +126,7 @@ class OptionGroupRepository extends Repository
             $family = $this->attributeFamilyRepository->findOneByField('code', 'default');
         }
         //$this->model->when($loadOptions, fn ($query) => $query-> with(['custom_options']))->whereBelongsTo($family)->get();
-        return $this->model->with(['custom_options'])->whereBelongsTo($family)->get();
+        return $this->getModel()->with(['custom_options'])->whereBelongsTo($family)->get();
     }
 
 
