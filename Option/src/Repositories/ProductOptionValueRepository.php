@@ -26,7 +26,7 @@ class ProductOptionValueRepository extends Repository
     /**
      * Retrieve product attributes.
      *
-     * @param  @param  \Webkul\Product\Contracts\Product  $product
+     * @param  \Webkul\Product\Contracts\Product  $product
      * @return \Illuminate\Support\Collection
      */
     public function getFamilyOptions($product)
@@ -48,6 +48,18 @@ class ProductOptionValueRepository extends Repository
         //fetch all options that can be configured for a product (for family that have no configured options) and inject into blade template
 
         return $this->optionRepository->with('values')->all(['id', 'code', 'admin_name', 'type']);
+    }
+
+    /**
+     * Retrieve option configurations.
+     *
+     * @param  \Webkul\Product\Contracts\Product  $product
+     * @return \Illuminate\Support\Collection
+     */
+    public function getOptionValues($product)
+    {
+        //fetch all options configuration for a product
+        return $this->getModel()->whereBelongsTo($product)->get();
     }
 
     /**

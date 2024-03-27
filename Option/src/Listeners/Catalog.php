@@ -47,6 +47,17 @@ class Catalog
      * @param \Webkul\Product\Contracts\Product
      * @return void
      */
+    public function createProduct($product)
+    {
+        return;
+    }
+
+    /**
+     * Save product option values on edit.
+     *
+     * @param \Webkul\Product\Contracts\Product
+     * @return void
+     */
     public function editProduct($product)
     {
         return;
