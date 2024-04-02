@@ -69,7 +69,7 @@ class Optionable extends AbstractType
         $groups = $this->productOptionValueRepository->getFamilyOptions($product);
 
         $optionValues = $groups->flatMap(
-            fn (array $group) => array_map(
+            fn ($group) => array_map(
                 fn ($option) => array_merge(
                     [
                         'required' => 0,
@@ -80,9 +80,9 @@ class Optionable extends AbstractType
                         'option_id' => $option['id']
                     ]
                 ),
-                $group['custom_options']
+                $group['custom_options']->toArray()
             )
-        );
+        )->toArray();
 
         $this->productOptionValueRepository->insert($optionValues);
         return $product;
@@ -113,5 +113,4 @@ class Optionable extends AbstractType
     {
         return app(SimpleIndexer::class);
     }
-
 }

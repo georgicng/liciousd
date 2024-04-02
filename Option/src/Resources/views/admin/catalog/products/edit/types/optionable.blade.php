@@ -340,17 +340,6 @@ $optionList = $productOptionValueRepository->getConfigurableOptions();
                     option_id: id
                 });
                 this.select(id);
-                console.log({
-                    id,
-                    setOptions: this.setOptions,
-                    options: this.options,
-                    optionList: this.optionList,
-                    valueList: this.valueList,
-                    productOptions: this.productOptions,
-                    optionMap: this.optionMap,
-                    optionListMap: this.optionListMap,
-                    valueMap: this.valueMap,
-                })
             },
 
             removeOption(id) {
@@ -400,10 +389,10 @@ $optionList = $productOptionValueRepository->getConfigurableOptions();
         ],
         computed: {
             assignedOptions() {
-                return this.model.map(item => item.id)
+                return this.model.map(item => String(item.id))
             },
             unassignedOptions() {
-                return this.options.filter(item => !this.assignedOptions.includes(item.id))
+                return this.options.filter(item => !this.assignedOptions.includes(String(item.id)))
             },
             nameById() {
                 return this.options.reduce((acc, item) => ({
@@ -426,7 +415,6 @@ $optionList = $productOptionValueRepository->getConfigurableOptions();
                     prefix: '+',
                     price: ''
                 });
-                console.log(this.option, this.model, this.controlName)
                 this.option = '';
             },
             remove(id) {
@@ -438,16 +426,8 @@ $optionList = $productOptionValueRepository->getConfigurableOptions();
                 id
             }) {
                 const index = this.model.findIndex(item => item.id == id)
-                console.log(this.model, index, key, value, id)
-                /**this.model.splice(index, 1, {
-                    ...this.model[index],
-                    [key]: value
-                })*/
                 this.model[index][key] = value;
             }
-        },
-        mounted() {
-            console.log(this.unassignedOptions, this.assignedOptions)
         }
 
     });
@@ -469,13 +449,6 @@ $optionList = $productOptionValueRepository->getConfigurableOptions();
                 }
             }
         },
-        created() {
-            console.log({
-                option: this.option,
-                controlName: this.controlName,
-            })
-        }
-
     });
 
     app.component('v-autocomplete', {
