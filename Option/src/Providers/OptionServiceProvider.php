@@ -42,8 +42,8 @@ class OptionServiceProvider extends ServiceProvider
         });
         Event::listen('catalog.attribute_family.update.after', 'Gaiproject\Option\Listeners\Catalog@editFamily');
         //Event::listen('catalog.product.create.after', 'Gaiproject\Option\Listeners\Catalog@createProduct');
-        //Event::listen('catalog.product.update.after', 'Gaiproject\Option\Listeners\Catalog@editProduct');
-        //Event::listen('catalog.product.delete.after', 'Gaiproject\Option\Listeners\Catalog@deleteProduct');
+        Event::listen('catalog.product.update.after', 'Gaiproject\Option\Listeners\Catalog@editProduct');
+        Event::listen('catalog.product.delete.after', 'Gaiproject\Option\Listeners\Catalog@deleteProduct');
     }
 
     /**

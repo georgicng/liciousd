@@ -23,12 +23,16 @@ class ProductOptionValue extends Model implements ProductOptionValueContract
         'value',
     ];
 
+    protected $casts = [
+        'value' => 'json',
+    ];
+
     /**
      * Get the option that owns the option value.
      */
     public function option(): BelongsTo
     {
-        return $this->belongsTo(OptionProxy::modelClass());
+        return $this->belongsTo(OptionProxy::modelClass())->with(['values']);
     }
 
     /**

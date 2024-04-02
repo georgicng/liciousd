@@ -47,7 +47,7 @@ class ProductOptionValueRepository extends Repository
     {
         //fetch all options that can be configured for a product (for family that have no configured options) and inject into blade template
 
-        return $this->optionRepository->with('values')->all(['id', 'code', 'admin_name', 'type']);
+        return $this->optionRepository->with('values')->all(['id', 'code', 'admin_name', 'type', 'is_sys_defined']);
     }
 
     /**
@@ -56,10 +56,10 @@ class ProductOptionValueRepository extends Repository
      * @param  \Webkul\Product\Contracts\Product  $product
      * @return \Illuminate\Support\Collection
      */
-    public function getOptionValues($product)
+    public function getOptionValues($product, $loadOption = false)
     {
         //fetch all options configuration for a product
-        return $this->getModel()->whereBelongsTo($product)->get();
+        return $this->getModel()->when($loadOption, fn ($query) => $query->with(['option']))->whereBelongsTo($product)->get();
     }
 
     /**

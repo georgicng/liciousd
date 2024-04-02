@@ -15,7 +15,7 @@ class Catalog
      */
     public function __construct(
         protected OptionGroupRepository $optionGroupRepository,
-        protected ProductOptionValueRepository $ProductOptionValueRepository,
+        protected ProductOptionValueRepository $productOptionValueRepository,
     ) {
     }
 
@@ -60,7 +60,15 @@ class Catalog
      */
     public function editProduct($product)
     {
-        return;
+        $data = request('options');
+        logger()->channel('custom')->info(json_encode([ 'type' => $product->type ]));
+        logger()->channel('custom')->info(json_encode(compact('data')));
+        //$this->productOptionValueRepository->getModel()->getTypeInstance()->updateOptions($data);
+        if ($product->type === 'optionable') {
+            $product->getTypeInstance()->updateOptions($data);
+        }
+
+        return $product;
     }
 
     /**
