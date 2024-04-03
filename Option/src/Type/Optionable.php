@@ -104,6 +104,93 @@ class Optionable extends AbstractType
         }
     }
 
+     /**
+     * Add product. Returns error message if can't prepare product.
+     *
+     * @param  array  $data
+     * @return array
+     */
+    public function prepareForCart($data)
+    {
+        $data['quantity'] = $this->handleQuantity((int) $data['quantity']);
+
+        $data = $this->getQtyRequest($data);
+
+        if (! $this->haveSufficientQuantity($data['quantity'])) {
+            return trans('shop::app.checkout.cart.inventory-warning');
+        }
+
+        $price = $this->getFinalPrice();
+
+        $products = [
+            [
+                'product_id'        => $this->product->id,
+                'sku'               => $this->product->sku,
+                'quantity'          => $data['quantity'],
+                'name'              => $this->product->name,
+                'price'             => $convertedPrice = core()->convertPrice($price),
+                'base_price'        => $price,
+                'total'             => $convertedPrice * $data['quantity'],
+                'base_total'        => $price * $data['quantity'],
+                'weight'            => $this->product->weight ?? 0,
+                'total_weight'      => ($this->product->weight ?? 0) * $data['quantity'],
+                'base_total_weight' => ($this->product->weight ?? 0) * $data['quantity'],
+                'type'              => $this->product->type,
+                'additional'        => $this->getAdditionalOptions($data),
+            ],
+        ];
+
+        return $products;
+    }
+
+    /**
+     * Get product minimal price.
+     *
+     * @param  int  $qty
+     * @return float
+     */
+    public function getFinalPrice($qty = null)
+    {
+        if (
+            is_null($qty)
+            || $qty == 1
+        ) {
+            return $this->getMinimalPrice();
+        }
+
+        $customerGroup = $this->customerRepository->getCurrentGroup();
+
+        $indexer = $this->getPriceIndexer()
+            ->setCustomerGroup($customerGroup)
+            ->setProduct($this->product);
+
+        return $indexer->getMinimalPrice($qty);
+    }
+
+    /**
+     * Returns additional information for items.
+     *
+     * @param  array  $data
+     * @return array
+     */
+    public function getAdditionalOptions($data)
+    {
+        return $data;
+    }
+
+    /**
+     * Get product minimal price.
+     *
+     * @return string
+     */
+    public function getPriceHtml()
+    {
+        return view('shop::products.prices.optionable', [
+            'product' => $this->product,
+            'prices'  => $this->getProductPrices(),
+        ])->render();
+    }
+
     /**
      * Returns price indexer class for a specific product type
      *
