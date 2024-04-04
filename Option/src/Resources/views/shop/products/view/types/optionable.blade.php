@@ -200,10 +200,6 @@
                         [option.code]: ''
                     }), {});
                 },
-
-                mounted() {
-                    console.log({ productOptions: this.productOptions, optionMap: this.optionMap })
-                }
             });
 
         </script>

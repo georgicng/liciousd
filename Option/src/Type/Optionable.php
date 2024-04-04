@@ -5,6 +5,7 @@ namespace Gaiproject\Option\Type;
 use Webkul\Product\Type\AbstractType;
 use Illuminate\Support\Facades\Log;
 use Gaiproject\Option\Repositories\ProductOptionValueRepository;
+use Gaiproject\Option\Contracts\ProductOptionValue;
 use Webkul\Customer\Repositories\CustomerRepository;
 use Webkul\Attribute\Repositories\AttributeRepository;
 use Webkul\Product\Repositories\ProductRepository;
@@ -13,7 +14,7 @@ use Webkul\Product\Repositories\ProductInventoryRepository;
 use Webkul\Product\Repositories\ProductImageRepository;
 use Webkul\Product\Repositories\ProductVideoRepository;
 use Webkul\Product\Repositories\ProductCustomerGroupPriceRepository;
-use Webkul\Product\Helpers\Indexers\Price\Simple as SimpleIndexer;
+use Gaiproject\Option\Helpers\Indexers\Price\Optionable as SimpleIndexer;
 
 class Optionable extends AbstractType
 {
@@ -120,7 +121,7 @@ class Optionable extends AbstractType
             return trans('shop::app.checkout.cart.inventory-warning');
         }
 
-        $price = $this->getFinalPrice();
+        $price = $this->getFinalPrice() + $this->getPriceIncrement($data['options']);
 
         $products = [
             [
@@ -149,22 +150,35 @@ class Optionable extends AbstractType
      * @param  int  $qty
      * @return float
      */
-    public function getFinalPrice($qty = null)
+    public function getPriceIncrement(array $options)
     {
-        if (
-            is_null($qty)
-            || $qty == 1
-        ) {
-            return $this->getMinimalPrice();
+        logger()->channel('custom')->info(json_encode(compact($options)));
+        $increment = 0;
+        if (empty($options)) {
+            return $increment;
         }
-
-        $customerGroup = $this->customerRepository->getCurrentGroup();
-
-        $indexer = $this->getPriceIndexer()
-            ->setCustomerGroup($customerGroup)
-            ->setProduct($this->product);
-
-        return $indexer->getMinimalPrice($qty);
+        $productOptions = $this->productOptionValueRepository->getOptionValues($this->product);
+        $optionMap = $productOptions->reduce(function (array $carry, ProductOptionValue $item) {
+            $key = $item->option_id;
+            $value = $item->value;
+            if (is_array($value)) {
+                $value = array_reduce($value, function($acc, $val) {
+                    $acc[$val['id']] = $val;
+                    return $acc;
+                }, []);
+            }
+            $carry[$key] = $value;
+            return $carry;
+        }, []);
+        logger()->channel('custom')->info(json_encode(compact($optionMap)));
+        foreach ($options as $key => $value) {
+            $val = $optionMap[$key];
+            [$prefix, $price] = $val[$value] ?: $val;
+            logger()->channel('custom')->info(json_encode([ 'option_increment' => "$prefix$price" ]));
+            $incremet += floatval("$prefix$price");
+        }
+        logger()->channel('custom')->info(json_encode([ 'increment' => $increment ]));
+        return $increment;
     }
 
     /**
@@ -175,6 +189,33 @@ class Optionable extends AbstractType
      */
     public function getAdditionalOptions($data)
     {
+        if (empty($data['options'])) {
+            return $data;
+        }
+        $productOptions = $this->productOptionValueRepository->getOptionValues($this->product, true);
+        logger()->channel('custom')->info(json_encode(compact($productOptions)));
+        $optionMap = $productOptions->reduce(function (array $carry, ProductOptionValue $item) {
+            $key = $item->option_id;
+            $value = [ 'option' => $item->option ];
+            if (in_array(['select'], $item->option->type)) {
+                $value['values'] = array_reduce($item->option->values, function($acc, $val) {
+                    $acc[$val['id']] = $val;
+                    return $acc;
+                }, []);
+            }
+            $carry[$key] = $value;
+            return $carry;
+        }, []);
+        logger()->channel('custom')->info(json_encode(compact($optionMap)));
+        foreach ($data['options'] as $key => $value) {
+            $option = $optionMap[$key]['option'];
+            $val = $optionMap[$key]['values'] ? $optionMap[$key]['values'][$value]['label'];
+            $data['options'][$option['code']] = [
+                'option_name' => $option['name'],
+                'option_id'      => $key,
+                'option_label'   => $val,
+            ];
+        }
         return $data;
     }
 
