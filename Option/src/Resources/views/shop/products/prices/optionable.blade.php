@@ -41,7 +41,7 @@
                 return this.onSale && this.price['final']['formatted_price']  + this.increment ;
             },
             regularPrice() {
-                return this.price['regular']['formatted_price']  + this.increment ;
+                return this.price['regular']['price']  + this.increment ;
             }
         },
 
