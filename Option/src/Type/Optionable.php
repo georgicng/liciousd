@@ -15,6 +15,12 @@ use Webkul\Product\Repositories\ProductImageRepository;
 use Webkul\Product\Repositories\ProductVideoRepository;
 use Webkul\Product\Repositories\ProductCustomerGroupPriceRepository;
 use Gaiproject\Option\Helpers\Indexers\Price\Optionable as SimpleIndexer;
+use Webkul\Product\DataTypes\CartItemValidationResult;
+use Webkul\Product\Models\ProductFlat;
+use Webkul\Product\Facades\ProductImage;
+use Webkul\Checkout\Facades\Cart;
+use Webkul\Checkout\Models\CartItem;
+use Webkul\Tax\Helpers\Tax;
 
 class Optionable extends AbstractType
 {
@@ -140,8 +146,66 @@ class Optionable extends AbstractType
                 'additional'        => $this->getAdditionalOptions($data),
             ],
         ];
+        logger()->channel('custom')->info(json_encode(compact('products')));
 
         return $products;
+    }
+
+     /**
+     * Get product minimal price.
+     *
+     * @param  int  $qty
+     * @return float
+     */
+    public function getFinalPrice($qty = null)
+    {
+        if (
+            is_null($qty)
+            || $qty == 1
+        ) {
+            return $this->getMinimalPrice();
+        }
+
+        $customerGroup = $this->customerRepository->getCurrentGroup();
+
+        $indexer = $this->getPriceIndexer()
+            ->setCustomerGroup($customerGroup)
+            ->setProduct($this->product);
+
+        return $indexer->getMinimalPrice($qty);
+    }
+
+    /**
+     * Validate cart item product price and other things.
+     *
+     * @param  \Webkul\Checkout\Models\CartItem  $item
+     * @return \Webkul\Product\DataTypes\CartItemValidationResult
+     */
+    public function validateCartItem(CartItem $item): CartItemValidationResult
+    {
+        $result = new CartItemValidationResult();
+
+        if ($this->isCartItemInactive($item)) {
+            $result->itemIsInactive();
+
+            return $result;
+        }
+
+        $price = round($this->getFinalPrice($item->quantity), 4) + $this->getPriceIncrement($item->additional['options']);
+
+        if ($price == $item->base_price) {
+            return $result;
+        }
+
+        $item->base_price = $price;
+        $item->price = core()->convertPrice($price);
+
+        $item->base_total = $price * $item->quantity;
+        $item->total = core()->convertPrice($price * $item->quantity);
+
+        $item->save();
+
+        return $result;
     }
 
     /**
@@ -152,7 +216,6 @@ class Optionable extends AbstractType
      */
     public function getPriceIncrement(array $options)
     {
-        logger()->channel('custom')->info(json_encode(compact($options)));
         $increment = 0;
         if (empty($options)) {
             return $increment;
@@ -161,7 +224,7 @@ class Optionable extends AbstractType
         $optionMap = $productOptions->reduce(function (array $carry, ProductOptionValue $item) {
             $key = $item->option_id;
             $value = $item->value;
-            if (is_array($value)) {
+            if (is_array($value) && array_is_list($value)) {
                 $value = array_reduce($value, function($acc, $val) {
                     $acc[$val['id']] = $val;
                     return $acc;
@@ -170,14 +233,13 @@ class Optionable extends AbstractType
             $carry[$key] = $value;
             return $carry;
         }, []);
-        logger()->channel('custom')->info(json_encode(compact($optionMap)));
         foreach ($options as $key => $value) {
-            $val = $optionMap[$key];
-            [$prefix, $price] = $val[$value] ?: $val;
-            logger()->channel('custom')->info(json_encode([ 'option_increment' => "$prefix$price" ]));
-            $incremet += floatval("$prefix$price");
+            $option = $optionMap[$key];
+            $optionValue = isset($option[$value]) ? $option[$value] : $option;
+            $prefix = $optionValue['prefix'];
+            $price = $optionValue['price'];
+            $increment += floatval("$prefix$price");
         }
-        logger()->channel('custom')->info(json_encode([ 'increment' => $increment ]));
         return $increment;
     }
 
@@ -193,12 +255,11 @@ class Optionable extends AbstractType
             return $data;
         }
         $productOptions = $this->productOptionValueRepository->getOptionValues($this->product, true);
-        logger()->channel('custom')->info(json_encode(compact($productOptions)));
         $optionMap = $productOptions->reduce(function (array $carry, ProductOptionValue $item) {
             $key = $item->option_id;
             $value = [ 'option' => $item->option ];
-            if (in_array(['select'], $item->option->type)) {
-                $value['values'] = array_reduce($item->option->values, function($acc, $val) {
+            if (in_array($item->option->type, ['select'])) {
+                $value['values'] = $item->option->values->reduce(function($acc, $val) {
                     $acc[$val['id']] = $val;
                     return $acc;
                 }, []);
@@ -206,17 +267,60 @@ class Optionable extends AbstractType
             $carry[$key] = $value;
             return $carry;
         }, []);
-        logger()->channel('custom')->info(json_encode(compact($optionMap)));
         foreach ($data['options'] as $key => $value) {
             $option = $optionMap[$key]['option'];
-            $val = $optionMap[$key]['values'] ? $optionMap[$key]['values'][$value]['label'];
-            $data['options'][$option['code']] = [
-                'option_name' => $option['name'],
+            $optionValue = isset($optionMap[$key]['values']) ? $optionMap[$key]['values'][$value]['label'] : $value;
+            $data['attributes'][$option['code']] = [
+                'attribute_name' => $option['name'],
                 'option_id'      => $key,
-                'option_label'   => $val,
+                'option_label'   => $optionValue,
             ];
         }
         return $data;
+    }
+
+    /**
+     * Compare options.
+     *
+     * @param  array  $options1
+     * @param  array  $options2
+     * @return bool
+     */
+    public function compareOptions($options1, $options2)
+    {
+        if ($this->product->id != $options2['product_id']) {
+            return false;
+        }
+
+        if (
+            isset($options1['options'])
+            && isset($options2['options'])
+        ) {
+            return empty(array_diff_assoc($options1['options'], $options2['options']));
+        }
+
+        if (
+            isset($options1['parent_id'])
+            && isset($options2['parent_id'])
+        ) {
+            return $options1['parent_id'] == $options2['parent_id'];
+        }
+
+        if (
+            isset($options1['parent_id'])
+            && ! isset($options2['parent_id'])
+        ) {
+            return false;
+        }
+
+        if (
+            isset($options2['parent_id'])
+            && ! isset($options1['parent_id'])
+        ) {
+            return false;
+        }
+
+        return true;
     }
 
     /**
