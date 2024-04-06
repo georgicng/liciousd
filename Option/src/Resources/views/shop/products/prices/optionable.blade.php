@@ -26,7 +26,6 @@
 
         data() {
             const price = @json($prices);
-            console.log({ price })
             return  {
                 price,
                 increment: 0,

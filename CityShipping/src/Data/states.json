@@ -1,0 +1,224 @@
+[
+    {
+      "code": "FC",
+      "default_name": "Abuja",
+      "country_code": "NG",
+      "country_id": 164
+    },
+    {
+      "code": "AB",
+      "default_name": "Abia",
+      "country_code": "NG",
+      "country_id": 164
+    },
+    {
+      "code": "AD",
+      "default_name": "Adamawa",
+      "country_code": "NG",
+      "country_id": 164
+    },
+    {
+      "code": "AK",
+      "default_name": "Akwa Ibom",
+      "country_code": "NG",
+      "country_id": 164
+    },
+    {
+      "code": "AN",
+      "default_name": "Anambra",
+      "country_code": "NG",
+      "country_id": 164
+    },
+    {
+      "code": "BA",
+      "default_name": "Bauchi",
+      "country_code": "NG",
+      "country_id": 164
+    },
+    {
+      "code": "BY",
+      "default_name": "Bayelsa",
+      "country_code": "NG",
+      "country_id": 164
+    },
+    {
+      "code": "BE",
+      "default_name": "Benue",
+      "country_code": "NG",
+      "country_id": 164
+    },
+    {
+      "code": "BO",
+      "default_name": "Borno",
+      "country_code": "NG",
+      "country_id": 164
+    },
+    {
+      "code": "CR",
+      "default_name": "Cross River",
+      "country_code": "NG",
+      "country_id": 164
+    },
+    {
+      "code": "DE",
+      "default_name": "Delta",
+      "country_code": "NG",
+      "country_id": 164
+    },
+    {
+      "code": "EB",
+      "default_name": "Ebonyi",
+      "country_code": "NG",
+      "country_id": 164
+    },
+    {
+      "code": "ED",
+      "default_name": "Edo",
+      "country_code": "NG",
+      "country_id": 164
+    },
+    {
+      "code": "EK",
+      "default_name": "Ekiti",
+      "country_code": "NG",
+      "country_id": 164
+    },
+    {
+      "code": "EN",
+      "default_name": "Enugu",
+      "country_code": "NG",
+      "country_id": 164
+    },
+    {
+      "code": "GO",
+      "default_name": "Gombe",
+      "country_code": "NG",
+      "country_id": 164
+    },
+    {
+      "code": "IM",
+      "default_name": "Imo",
+      "country_code": "NG",
+      "country_id": 164
+    },
+    {
+      "code": "JI",
+      "default_name": "Jigawa",
+      "country_code": "NG",
+      "country_id": 164
+    },
+    {
+      "code": "KD",
+      "default_name": "Kaduna",
+      "country_code": "NG",
+      "country_id": 164
+    },
+    {
+      "code": "KN",
+      "default_name": "Kano",
+      "country_code": "NG",
+      "country_id": 164
+    },
+    {
+      "code": "KT",
+      "default_name": "Katsina",
+      "country_code": "NG",
+      "country_id": 164
+    },
+    {
+      "code": "KE",
+      "default_name": "Kebbi",
+      "country_code": "NG",
+      "country_id": 164
+    },
+    {
+      "code": "KO",
+      "default_name": "Kogi",
+      "country_code": "NG",
+      "country_id": 164
+    },
+    {
+      "code": "KW",
+      "default_name": "Kwara",
+      "country_code": "NG",
+      "country_id": 164
+    },
+    {
+      "code": "LA",
+      "default_name": "Lagos",
+      "country_code": "NG",
+      "country_id": 164
+    },
+    {
+      "code": "NA",
+      "default_name": "Nassarawa",
+      "country_code": "NG",
+      "country_id": 164
+    },
+    {
+      "code": "NI",
+      "default_name": "Niger",
+      "country_code": "NG",
+      "country_id": 164
+    },
+    {
+      "code": "OG",
+      "default_name": "Ogun",
+      "country_code": "NG",
+      "country_id": 164
+    },
+    {
+      "code": "ON",
+      "default_name": "Ondo",
+      "country_code": "NG",
+      "country_id": 164
+    },
+    {
+      "code": "OS",
+      "default_name": "Osun",
+      "country_code": "NG",
+      "country_id": 164
+    },
+    {
+      "code": "OY",
+      "default_name": "Oyo",
+      "country_code": "NG",
+      "country_id": 164
+    },
+    {
+      "code": "PL",
+      "default_name": "Plateau",
+      "country_code": "NG",
+      "country_id": 164
+    },
+    {
+      "code": "RI",
+      "default_name": "Rivers",
+      "country_code": "NG",
+      "country_id": 164
+    },
+    {
+      "code": "SO",
+      "default_name": "Sokoto",
+      "country_code": "NG",
+      "country_id": 164
+    },
+    {
+      "code": "TA",
+      "default_name": "Taraba",
+      "country_code": "NG",
+      "country_id": 164
+    },
+    {
+      "code": "YO",
+      "default_name": "Yobe",
+      "country_code": "NG",
+      "country_id": 164
+    },
+    {
+      "code": "ZA",
+      "default_name": "Zamfara",
+      "country_code": "NG",
+      "country_id": 164
+    }
+  ]

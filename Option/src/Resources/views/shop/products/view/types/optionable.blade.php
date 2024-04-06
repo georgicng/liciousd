@@ -6,7 +6,7 @@
         $setOptionValues = $productOptionValueRepository->getOptionValues($product);
         $optionList = $productOptionValueRepository->getConfigurableOptions();
     @endphp
-
+    {{-- TODO: hide if no option is configured --}}
     <v-product-options :errors="errors"></v-product-options>
 
     @push('scripts')
@@ -195,6 +195,7 @@
                 },
 
                 created() {
+                    // TODO: set model from php
                     this.model = this.productOptions.reduce((acc, option) => ({
                         ...acc,
                         [option.code]: ''
