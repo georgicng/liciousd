@@ -26,6 +26,7 @@ class PickupController extends Controller
      */
     public function index()
     {
+        logger()->channel('custom')->info(json_encode(['request' => request()]));
         if (request()->ajax()) {
             return app(PickupDataGrid::class)->toJson();
         }

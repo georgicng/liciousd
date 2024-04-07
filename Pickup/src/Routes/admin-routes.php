@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use Gaiproject\Pickup\Http\Controllers\Admin\PickupController;
 
-Route::group(['middleware' => ['admin'], 'prefix' => config('app.admin_url')], function () {
+Route::group(['middleware' => ['web', 'admin'], 'prefix' => config('app.admin_url')], function () {
     Route::prefix('settings')->group(function () {
         Route::controller(PickupController::class)->prefix('pickup')->group(function () {
             Route::get('', 'index')->name('admin.settings.pickup.index');

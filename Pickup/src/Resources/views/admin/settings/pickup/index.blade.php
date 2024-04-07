@@ -57,8 +57,9 @@
             <div class="flex  gap-[16px] justify-between items-center mt-[28px] max-md:flex-wrap">
                 <div class="flex gap-x-[4px] items-center">
                     @php
+                        $countryCode = request('country', config('app.default_country'));
                         $countries = core()->countries();
-                        $setCountry = $countries->firstWhere('code', request('country', config('app.default_country')));
+                        $setCountry = $countries->firstWhere('code', $countryCode);
                     @endphp
                     {{-- Country Switcher --}}
                     <x-admin::dropdown>
@@ -83,7 +84,7 @@
                             @foreach ($countries as $country)
                                 <a
                                     href="?{{ Arr::query(['cid' => $country->code]) }}"
-                                    class="flex gap-[10px] px-5 py-2 text-[16px] cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-950 dark:text-white {{ $locale->code == $currentLocale->code ? 'bg-gray-100 dark:bg-gray-950' : ''}}"
+                                    class="flex gap-[10px] px-5 py-2 text-[16px] cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-950 dark:text-white"
                                 >
                                     {{ $country->name }}
                                 </a>
@@ -106,9 +107,9 @@
                             >
                                 <span class="icon-language text-[24px] "></span>
 
-                                {{ $setState->name }}
+                                {{ $setState->default_name ?? '' }}
 
-                                <input type="hidden" name="state" value="{{ $setState->code }}"/>
+                                <input type="hidden" name="state" value="{{ $setState->code ?? '' }}"/>
 
                                 <span class="icon-sort-down text-[24px]"></span>
                             </button>
@@ -118,10 +119,10 @@
                         <x-slot:content class="!p-[0px]">
                             @foreach ($states as $state)
                                 <a
-                                    href="?{{ Arr::query(['state' => $state->code]) }}"
-                                    class="flex gap-[10px] px-5 py-2 text-[16px] cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-950 dark:text-white {{ $locale->code == $currentLocale->code ? 'bg-gray-100 dark:bg-gray-950' : ''}}"
+                                    href="?{{ Arr::query(['state' => $state->code, 'country' => $countryCode]) }}"
+                                    class="flex gap-[10px] px-5 py-2 text-[16px] cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-950 dark:text-white"
                                 >
-                                    {{ $state->name }}
+                                    {{ $state->default_name }}
                                 </a>
                             @endforeach
                         </x-slot:content>
@@ -430,6 +431,55 @@
                                     >
                                     </x-admin::form.control-group.error>
                                 </x-admin::form.control-group>
+                                <x-admin::form.control-group class="mb-[10px]">
+                                    <x-admin::form.control-group.label class="required">
+                                        @lang('admin::app.settings.cs.index.create.rate')
+                                    </x-admin::form.control-group.label>
+
+                                    <x-admin::form.control-group.control
+                                        type="text"
+                                        name="rate"
+                                        :value="old('rate')"
+                                        rules="required"
+                                        v-model="selectedCity.rate"
+                                        :label="trans('admin::app.settings.cs.index.create.rate')"
+                                        :placeholder="trans('admin::app.settings.cs.index.create.rate')"
+                                    >
+                                    </x-admin::form.control-group.control>
+
+                                    <x-admin::form.control-group.error
+                                        control-name="rate"
+                                    >
+                                    </x-admin::form.control-group.error>
+                                </x-admin::form.control-group>
+
+                                <!-- Status -->
+                                <x-admin::form.control-group class="mb-[10px]">
+                                    <x-admin::form.control-group.label>
+                                        @lang('admin::app.settings.inventory-sources.edit.status')
+                                    </x-admin::form.control-group.label>
+
+                                    @php $selectedValue = old('status') ?: $inventorySource->status; @endphp
+
+                                    <x-admin::form.control-group.control
+                                        type="switch"
+                                        name="status"
+                                        :value="old('status') ?? ($inventorySource->status)"
+                                        :label="trans('admin::app.settings.inventory-sources.edit.status')"
+                                        :placeholder="trans('admin::app.settings.inventory-sources.edit.status')"
+                                        :checked="(boolean) $selectedValue"
+                                    >
+                                    </x-admin::form.control-group.control>
+
+                                    <x-admin::form.control-group.error
+                                        control-name="status"
+                                    >
+                                    </x-admin::form.control-group.error>
+                                </x-admin::form.control-group>
+                                <input type="hidden" name="country_id" value="{{ $setCountry->id }}"/>
+                                <input type="hidden" name="country_code" value="{{ $setCountry->code }}"/>
+                                <input type="hidden" name="state_id" value="{{ $setState->id }}"/>
+                                <input type="hidden" name="state_code" value="{{ $setState->code }}"/>
 
                                 {!! view_render_event('bagisto.admin.settings.pickup.create.after') !!}
                             </div>

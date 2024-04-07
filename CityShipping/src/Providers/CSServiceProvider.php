@@ -46,7 +46,7 @@ class CSServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //$this->loadMigrationsFrom(__DIR__ . '/../Database/Migrations');
+        $this->loadMigrationsFrom(__DIR__ . '/../Database/Migrations');
 
         $this->loadRoutesFrom(__DIR__ . '/../Routes/admin-routes.php');
 
@@ -54,7 +54,7 @@ class CSServiceProvider extends ServiceProvider
 
         $this->loadTranslationsFrom(__DIR__ . '/../Resources/lang', 'cs');
 
-        $this->loadViewsFrom(__DIR__ . '/../Resources/views/admin', 'cs');
+        $this->loadViewsFrom(__DIR__ . '/../Resources/views/admin', 'admin');
 
     }
 }

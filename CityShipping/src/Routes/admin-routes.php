@@ -3,18 +3,17 @@
 use Illuminate\Support\Facades\Route;
 use Gaiproject\CityShipping\Http\Controllers\Admin\CSController;
 
-Route::group(['middleware' => ['admin'], 'prefix' => config('app.admin_url')], function () {
-    Route::prefix('settings')->group(function () {
-        Route::controller(CSController::class)->prefix('cs')->group(function () {
-            Route::get('', 'index')->name('cs.settings.index');
+Route::group(['middleware' => ['web', 'admin'], 'prefix' => config('app.admin_url')], function () {
 
-            Route::post('create', 'store')->name('admin.settings.cs.store');
+    Route::controller(CSController::class)->prefix('settings/cs')->group(function () {
+        Route::get('', 'index')->name('admin.settings.cs.index');
 
-            Route::get('edit/{id}', 'edit')->name('admin.settings.cs.edit');
+        Route::post('create', 'store')->name('admin.settings.cs.store');
 
-            Route::put('edit', 'update')->name('admin.settings.cs.update');
+        Route::get('edit/{id}', 'edit')->name('admin.settings.cs.edit');
 
-            Route::delete('edit/{id}', 'destroy')->name('admin.settings.cs.delete');;
-        });
+        Route::put('edit', 'update')->name('admin.settings.cs.update');
+
+        Route::delete('edit/{id}', 'destroy')->name('admin.settings.cs.delete');;
     });
 });

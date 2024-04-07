@@ -4,7 +4,7 @@ return [
     [
         'key'   => 'settings.cs',
         'name'  => 'City Shipping',
-        'route' => 'cs.settings.index',
+        'route' => 'admin.settings.cs.index',
         'sort'  => 2
     ]
 ];

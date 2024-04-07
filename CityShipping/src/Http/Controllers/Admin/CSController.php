@@ -26,11 +26,13 @@ class CSController extends Controller
      */
     public function index()
     {
+
+        logger()->channel('custom')->info(json_encode(['request' => request()]));
         if (request()->ajax()) {
             return app(CSDataGrid::class)->toJson();
         }
 
-        return view('cs::settings.index');
+        return view('admin::settings.cs.index');
     }
 
     /**
