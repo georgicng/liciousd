@@ -26,7 +26,7 @@ class PickupController extends Controller
      */
     public function index()
     {
-        logger()->channel('custom')->info(json_encode(['request' => request()]));
+        logger()->channel('custom')->info(json_encode(['request' => request(), 'get' => $_GET]));
         if (request()->ajax()) {
             return app(PickupDataGrid::class)->toJson();
         }
@@ -42,21 +42,32 @@ class PickupController extends Controller
     public function store(): JsonResponse
     {
         $this->validate(request(), [
-            'code' => 'required|min:3|max:3|unique:currencies,code',
+            'city' => 'required',
             'name' => 'required',
         ]);
 
         $data = request()->only([
-            'code',
             'name',
-            'symbol',
-            'decimal'
+            'city',
+            'phone',
+            'address',
+            'landmark',
+            'rate',
+            'location',
+            'whatsapp',
+            'email',
+            'status',
+            'country_id',
+            'country_code',
+            'state_id',
+            'state_code',
+            'additional'
         ]);
 
         $this->pickupCentreRepository->create($data);
 
         return new JsonResponse([
-            'message' => trans('admin::app.settings.pickup.index.create-success'),
+            'message' => trans('pickup::app.admin.settings.pickup.index.create-success'),
         ]);
     }
 
@@ -83,21 +94,32 @@ class PickupController extends Controller
         $id = request()->id;
 
         $this->validate(request(), [
-            'code' => ['required', 'unique:currencies,code,' . $id, new \Webkul\Core\Rules\Code],
+            'city' => 'required',
             'name' => 'required',
         ]);
 
         $data = request()->only([
-            'code',
             'name',
-            'symbol',
-            'decimal'
+            'city',
+            'phone',
+            'address',
+            'landmark',
+            'rate',
+            'location',
+            'whatsapp',
+            'email',
+            'status',
+            'country_id',
+            'country_code',
+            'state_id',
+            'state_code',
+            'additional'
         ]);
 
         $this->pickupCentreRepository->update($data, $id);
 
         return new JsonResponse([
-            'message' => trans('admin::app.settings.pickup.index.update-success'),
+            'message' => trans('pickup::app.admin.settings.pickup.index.update-success'),
         ]);
     }
 
@@ -113,7 +135,7 @@ class PickupController extends Controller
 
         if ($this->pickupCentreRepository->count() == 1) {
             return response()->json([
-                'message' => trans('admin::app.settings.pickup.index.last-delete-error')
+                'message' => trans('pickup::app.admin.settings.pickup.index.last-delete-error')
             ], 400);
         }
 
@@ -121,14 +143,14 @@ class PickupController extends Controller
             $this->pickupCentreRepository->delete($id);
 
             return response()->json([
-                'message' => trans('admin::app.settings.pickup.index.delete-success'),
+                'message' => trans('pickup::app.admin.settings.pickup.index.delete-success'),
             ], 200);
         } catch (\Exception $e) {
             report($e);
         }
 
         return response()->json([
-            'message' => trans('admin::app.settings.pickup.index.delete-failed')
+            'message' => trans('pickup::app.admin.settings.pickup.index.delete-failed')
         ], 500);
     }
 }

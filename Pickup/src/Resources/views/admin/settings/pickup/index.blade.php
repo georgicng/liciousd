@@ -1,14 +1,14 @@
 <x-admin::layouts>
     <x-slot:title>
-        @lang('admin::app.settings.pickup.index.title')
+        @lang('pickup::app.admin.settings.pickup.index.title')
     </x-slot:title>
 
     {!! view_render_event('bagisto.admin.settings.pickup.create.before') !!}
 
-    <v-currencies>
+    <v-centres>
         <div class="flex  gap-[16px] justify-between items-center max-sm:flex-wrap">
             <p class="text-[20px] text-gray-800 dark:text-white font-bold">
-                @lang('admin::app.settings.pickup.index.title')
+                @lang('pickup::app.admin.settings.pickup.index.title')
             </p>
 
             <div class="flex gap-x-[10px] items-center">
@@ -18,7 +18,7 @@
                         type="button"
                         class="primary-button"
                     >
-                        @lang('admin::app.settings.pickup.index.create-btn')
+                        @lang('pickup::app.admin.settings.pickup.index.create-btn')
                     </button>
                 @endif
             </div>
@@ -26,18 +26,18 @@
 
         {{-- DataGrid Shimmer --}}
         <x-admin::shimmer.datagrid/>
-    </v-currencies>
+    </v-centres>
 
     {!! view_render_event('bagisto.admin.settings.pickup.create.after') !!}
 
     @pushOnce('scripts')
         <script
             type="text/x-template"
-            id="v-currencies-template"
+            id="v-centres-template"
         >
             <div class="flex gap-[16px] justify-between items-center max-sm:flex-wrap">
                 <p class="text-[20px] text-gray-800 dark:text-white font-bold">
-                    @lang('admin::app.settings.pickup.index.title')
+                    @lang('pickup::app.admin.settings.pickup.index.title')
                 </p>
 
                 <div class="flex gap-x-[10px] items-center">
@@ -46,9 +46,9 @@
                         <button
                             type="button"
                             class="primary-button"
-                            @click="id=0; selectedCurrency={}; $refs.centreUpdateOrCreateModal.toggle()"
+                            @click="id=0; selectedCentre={}; $refs.centreUpdateOrCreateModal.toggle()"
                         >
-                            @lang('admin::app.settings.pickup.index.create-btn')
+                            @lang('pickup::app.admin.settings.pickup.index.create-btn')
                         </button>
                     @endif
                 </div>
@@ -131,7 +131,7 @@
             </div>
 
             <x-admin::datagrid
-                :src="route('admin.settings.pickup.index')"
+                :src="route('admin.settings.pickup.index', empty($setState) ? [] : ['state' => $setState->code, 'country' => $countryCode])"
                 ref="datagrid"
             >
                 @php
@@ -143,7 +143,7 @@
                     <div class="row grid grid-cols-{{ $hasPermission ? '4' : '3' }} grid-rows-1 gap-[10px] items-center px-[16px] py-[10px] border-b-[1px] dark:border-gray-800 text-gray-600 dark:text-gray-300 bg-gray-50 dark:bg-gray-900 font-semibold">
                         <div
                             class="flex gap-[10px] cursor-pointer"
-                            v-for="(columnGroup, index) in ['id', 'name', 'city']"
+                            v-for="(columnGroup, index) in ['id', 'name', 'city', 'rate', 'status']"
                         >
                             <p class="text-gray-600 dark:text-gray-300">
                                 <span class="[&>*]:after:content-['_/_']">
@@ -198,6 +198,9 @@
                         <!-- Rate -->
                         <p v-text="record.rate"></p>
 
+                        <!-- Status -->
+                        <p v-text="record.status"></p>
+
                         <!-- Actions -->
                         <div class="flex justify-end">
                             <a @click="id=1; editModal(record.actions.find(action => action.title === 'Edit')?.url)">
@@ -236,14 +239,14 @@
                                 class="text-[18px] text-gray-800 dark:text-white font-bold"
                                 v-if="id"
                             >
-                                @lang('admin::app.settings.pickup.index.edit.title')
+                                @lang('pickup::app.admin.settings.pickup.index.edit.title')
                             </p>
 
                             <p
                                 class="text-[18px] text-gray-800 dark:text-white font-bold"
                                 v-else
                             >
-                                @lang('admin::app.settings.pickup.index.create.title')
+                                @lang('pickup::app.admin.settings.pickup.index.create.title')
                             </p>
                         </x-slot:header>
 
@@ -254,23 +257,22 @@
                                 <x-admin::form.control-group.control
                                     type="hidden"
                                     name="id"
-                                    v-model="selectedCurrency.id"
+                                    v-model="selectedCentre.id"
                                 >
                                 </x-admin::form.control-group.control>
 
                                 <x-admin::form.control-group class="mb-[10px]">
                                     <x-admin::form.control-group.label class="required">
-                                        @lang('admin::app.settings.pickup.index.create.name')
+                                        @lang('pickup::app.admin.settings.pickup.index.create.name')
                                     </x-admin::form.control-group.label>
 
                                     <x-admin::form.control-group.control
                                         type="text"
                                         name="name"
-                                        :value="old('name')"
                                         rules="required"
-                                        v-model="selectedCurrency.name"
-                                        :label="trans('admin::app.settings.pickup.index.create.name')"
-                                        :placeholder="trans('admin::app.settings.pickup.index.create.name')"
+                                        v-model="selectedCentre.name"
+                                        :label="trans('pickup::app.admin.settings.pickup.index.create.name')"
+                                        :placeholder="trans('pickup::app.admin.settings.pickup.index.create.name')"
                                     >
                                     </x-admin::form.control-group.control>
 
@@ -282,17 +284,16 @@
 
                                 <x-admin::form.control-group class="mb-[10px]">
                                     <x-admin::form.control-group.label class="required">
-                                        @lang('admin::app.settings.pickup.index.create.address')
+                                        @lang('pickup::app.admin.settings.pickup.index.create.address')
                                     </x-admin::form.control-group.label>
 
                                     <x-admin::form.control-group.control
-                                        type="text"
+                                        as="textarea"
                                         name="address"
-                                        :value="old('address')"
                                         rules="required"
-                                        v-model="selectedCurrency.address"
-                                        :label="trans('admin::app.settings.pickup.index.create.address')"
-                                        :placeholder="trans('admin::app.settings.pickup.index.create.address')"
+                                        v-model="selectedCentre.address"
+                                        :label="trans('pickup::app.admin.settings.pickup.index.create.address')"
+                                        :placeholder="trans('pickup::app.admin.settings.pickup.index.create.address')"
                                     >
                                     </x-admin::form.control-group.control>
 
@@ -304,17 +305,16 @@
 
                                 <x-admin::form.control-group class="mb-[10px]">
                                     <x-admin::form.control-group.label class="required">
-                                        @lang('admin::app.settings.pickup.index.create.landmark')
+                                        @lang('pickup::app.admin.settings.pickup.index.create.landmark')
                                     </x-admin::form.control-group.label>
 
                                     <x-admin::form.control-group.control
                                         type="text"
                                         name="landmark"
-                                        :value="old('landmark')"
                                         rules="required"
-                                        v-model="selectedCurrency.landmark"
-                                        :label="trans('admin::app.settings.pickup.index.create.landmark')"
-                                        :placeholder="trans('admin::app.settings.pickup.index.create.landmark')"
+                                        v-model="selectedCentre.landmark"
+                                        :label="trans('pickup::app.admin.settings.pickup.index.create.landmark')"
+                                        :placeholder="trans('pickup::app.admin.settings.pickup.index.create.landmark')"
                                     >
                                     </x-admin::form.control-group.control>
 
@@ -326,17 +326,16 @@
 
                                 <x-admin::form.control-group class="mb-[10px]">
                                     <x-admin::form.control-group.label class="required">
-                                        @lang('admin::app.settings.pickup.index.create.city')
+                                        @lang('pickup::app.admin.settings.pickup.index.create.city')
                                     </x-admin::form.control-group.label>
 
                                     <x-admin::form.control-group.control
                                         type="text"
                                         name="city"
-                                        :value="old('city')"
                                         rules="required"
-                                        v-model="selectedCurrency.city"
-                                        :label="trans('admin::app.settings.pickup.index.create.city')"
-                                        :placeholder="trans('admin::app.settings.pickup.index.create.city')"
+                                        v-model="selectedCentre.city"
+                                        :label="trans('pickup::app.admin.settings.pickup.index.create.city')"
+                                        :placeholder="trans('pickup::app.admin.settings.pickup.index.create.city')"
                                     >
                                     </x-admin::form.control-group.control>
 
@@ -348,17 +347,16 @@
 
                                 <x-admin::form.control-group class="mb-[10px]">
                                     <x-admin::form.control-group.label class="required">
-                                        @lang('admin::app.settings.pickup.index.create.phone')
+                                        @lang('pickup::app.admin.settings.pickup.index.create.phone')
                                     </x-admin::form.control-group.label>
 
                                     <x-admin::form.control-group.control
                                         type="text"
                                         name="phone"
-                                        :value="old('phone')"
                                         rules="required"
-                                        v-model="selectedCurrency.phone"
-                                        :label="trans('admin::app.settings.pickup.index.create.phone')"
-                                        :placeholder="trans('admin::app.settings.pickup.index.create.phone')"
+                                        v-model="selectedCentre.phone"
+                                        :label="trans('pickup::app.admin.settings.pickup.index.create.phone')"
+                                        :placeholder="trans('pickup::app.admin.settings.pickup.index.create.phone')"
                                     >
                                     </x-admin::form.control-group.control>
 
@@ -370,17 +368,16 @@
 
                                 <x-admin::form.control-group class="mb-[10px]">
                                     <x-admin::form.control-group.label class="required">
-                                        @lang('admin::app.settings.pickup.index.create.whatsapp')
+                                        @lang('pickup::app.admin.settings.pickup.index.create.whatsapp')
                                     </x-admin::form.control-group.label>
 
                                     <x-admin::form.control-group.control
                                         type="text"
                                         name="whatsapp"
-                                        :value="old('whatsapp')"
                                         rules="required"
-                                        v-model="selectedCurrency.whatsapp"
-                                        :label="trans('admin::app.settings.pickup.index.create.whatsappy')"
-                                        :placeholder="trans('admin::app.settings.pickup.index.create.whatsapp')"
+                                        v-model="selectedCentre.whatsapp"
+                                        :label="trans('pickup::app.admin.settings.pickup.index.create.whatsappy')"
+                                        :placeholder="trans('pickup::app.admin.settings.pickup.index.create.whatsapp')"
                                     >
                                     </x-admin::form.control-group.control>
 
@@ -392,16 +389,15 @@
 
                                 <x-admin::form.control-group class="mb-[10px]">
                                     <x-admin::form.control-group.label>
-                                        @lang('admin::app.settings.pickup.index.create.rate')
+                                        @lang('pickup::app.admin.settings.pickup.index.create.rate')
                                     </x-admin::form.control-group.label>
 
                                     <x-admin::form.control-group.control
                                         type="number"
                                         name="rate"
-                                        :value="old('rate')"
-                                        v-model="selectedCurrency.rate"
-                                        :label="trans('admin::app.settings.pickup.index.create.rate')"
-                                        :placeholder="trans('admin::app.settings.pickup.index.create.rate')"
+                                        v-model="selectedCentre.rate"
+                                        :label="trans('pickup::app.admin.settings.pickup.index.create.rate')"
+                                        :placeholder="trans('pickup::app.admin.settings.pickup.index.create.rate')"
                                     >
                                     </x-admin::form.control-group.control>
 
@@ -413,42 +409,40 @@
 
                                 <x-admin::form.control-group class="mb-[10px]">
                                     <x-admin::form.control-group.label>
-                                        @lang('admin::app.settings.pickup.index.create.decimal')
+                                        @lang('pickup::app.admin.settings.pickup.index.create.location')
                                     </x-admin::form.control-group.label>
 
                                     <x-admin::form.control-group.control
                                         type="text"
-                                        name="decimal"
-                                        :value="old('decimal')"
-                                        v-model="selectedCurrency.decimal"
-                                        :label="trans('admin::app.settings.pickup.index.create.decimal')"
-                                        :placeholder="trans('admin::app.settings.pickup.index.create.decimal')"
+                                        name="location"
+                                        v-model="selectedCentre.location"
+                                        :label="trans('pickup::app.admin.settings.pickup.index.create.location')"
+                                        :placeholder="trans('pickup::app.admin.settings.pickup.index.create.location')"
                                     >
                                     </x-admin::form.control-group.control>
 
                                     <x-admin::form.control-group.error
-                                        control-name="decimal"
+                                        control-name="location"
                                     >
                                     </x-admin::form.control-group.error>
                                 </x-admin::form.control-group>
                                 <x-admin::form.control-group class="mb-[10px]">
                                     <x-admin::form.control-group.label class="required">
-                                        @lang('admin::app.settings.cs.index.create.rate')
+                                        @lang('pickup::app.admin.settings.pickup.index.create.additional')
                                     </x-admin::form.control-group.label>
 
                                     <x-admin::form.control-group.control
-                                        type="text"
-                                        name="rate"
-                                        :value="old('rate')"
+                                        as="textarea"
+                                        name="additional"
                                         rules="required"
-                                        v-model="selectedCity.rate"
-                                        :label="trans('admin::app.settings.cs.index.create.rate')"
-                                        :placeholder="trans('admin::app.settings.cs.index.create.rate')"
+                                        v-model="selectedCentre.additional"
+                                        :label="trans('pickup::app.admin.settings.pickup.index.create.additional')"
+                                        :placeholder="trans('pickup::app.admin.settings.pickup.index.create.additional')"
                                     >
                                     </x-admin::form.control-group.control>
 
                                     <x-admin::form.control-group.error
-                                        control-name="rate"
+                                        control-name="additional"
                                     >
                                     </x-admin::form.control-group.error>
                                 </x-admin::form.control-group>
@@ -456,17 +450,17 @@
                                 <!-- Status -->
                                 <x-admin::form.control-group class="mb-[10px]">
                                     <x-admin::form.control-group.label>
-                                        @lang('admin::app.settings.inventory-sources.edit.status')
+                                        @lang('pickup::app.admin.settings.pickup.index.create.status')
                                     </x-admin::form.control-group.label>
 
-                                    @php $selectedValue = old('status') ?: $inventorySource->status; @endphp
+                                    @php $selectedValue = old('status', true); @endphp
 
                                     <x-admin::form.control-group.control
                                         type="switch"
                                         name="status"
-                                        :value="old('status') ?? ($inventorySource->status)"
-                                        :label="trans('admin::app.settings.inventory-sources.edit.status')"
-                                        :placeholder="trans('admin::app.settings.inventory-sources.edit.status')"
+                                        v-model="selectedCentre.status"
+                                        :label="trans('pickup::app.admin.settings.pickup.index.create.status')"
+                                        :placeholder="trans('pickup::app.admin.settings.pickup.index.create.status')"
                                         :checked="(boolean) $selectedValue"
                                     >
                                     </x-admin::form.control-group.control>
@@ -476,10 +470,10 @@
                                     >
                                     </x-admin::form.control-group.error>
                                 </x-admin::form.control-group>
-                                <input type="hidden" name="country_id" value="{{ $setCountry->id }}"/>
-                                <input type="hidden" name="country_code" value="{{ $setCountry->code }}"/>
-                                <input type="hidden" name="state_id" value="{{ $setState->id }}"/>
-                                <input type="hidden" name="state_code" value="{{ $setState->code }}"/>
+                                <x-admin::form.control-group.control type="hidden" name="country_id" :value="$setCountry->id"> </x-admin::form.control-group.control>
+                                <x-admin::form.control-group.control type="hidden" name="country_code" :value="$setCountry->code"> </x-admin::form.control-group.control>
+                                <x-admin::form.control-group.control type="hidden" name="state_id" :value="$setState->id"> </x-admin::form.control-group.control>
+                                <x-admin::form.control-group.control type="hidden" name="state_code" :value="$setState->code"> </x-admin::form.control-group.control>
 
                                 {!! view_render_event('bagisto.admin.settings.pickup.create.after') !!}
                             </div>
@@ -491,7 +485,7 @@
                                     type="submit"
                                     class="primary-button"
                                 >
-                                    @lang('admin::app.settings.pickup.index.create.save-btn')
+                                    @lang('pickup::app.admin.settings.pickup.index.create.save-btn')
                                 </button>
                             </div>
                         </x-slot:footer>
@@ -501,12 +495,23 @@
         </script>
 
         <script type="module">
-            app.component('v-currencies', {
-                template: '#v-currencies-template',
+            app.component('v-centres', {
+                template: '#v-centres-template',
 
                 data() {
                     return {
-                        selectedCurrency: {},
+                        selectedCentre: {
+                            name: {{ old('name') ?? "null" }},
+                            city: {{ old('city') ?? "null" }},
+                            phone: {{ old('phone') ?? "null" }},
+                            address: {{ old('address') ?? "null" }},
+                            landmark: {{ old('landmark') ?? "null" }},
+                            rate: {{ old('rate') ?? "null" }},
+                            location: {{ old('location')  ?? "null" }},
+                            whatsapp: {{ old('whatsapp') ?? "null" }},
+                            status: {{ old('status') ?? "null" }},
+                            additional: {{ old('additional') ?? "null" }},
+                        },
                     }
                 },
 
@@ -538,7 +543,7 @@
                     editModal(url) {
                         this.$axios.get(url)
                             .then((response) => {
-                                this.selectedCurrency = response.data;
+                                this.selectedCentre = response.data;
 
                                 this.$refs.centreUpdateOrCreateModal.toggle();
                             })

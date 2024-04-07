@@ -14,8 +14,8 @@ class CSDataGrid extends DataGrid
      */
     public function prepareQueryBuilder()
     {
-        $country = request('country', config('app.default_country'));
-        $state = request('state') ?? core()->states($country)->first()->code;
+        $country = request('country');
+        $state = request('state');
         $queryBuilder = DB::table('shipping_cities')->addSelect('id', 'name', 'rate', 'status')
             ->where('country_code', $country)
             ->where('state_code', $state);
@@ -32,7 +32,7 @@ class CSDataGrid extends DataGrid
     {
         $this->addColumn([
             'index'      => 'id',
-            'label'      => trans('admin::app.settings.cs.index.datagrid.id'),
+            'label'      => trans('cs::app.admin.settings.cs.index.datagrid.id'),
             'type'       => 'integer',
             'searchable' => false,
             'filterable' => true,
@@ -41,7 +41,7 @@ class CSDataGrid extends DataGrid
 
         $this->addColumn([
             'index'      => 'name',
-            'label'      => trans('admin::app.settings.cs.index.datagrid.name'),
+            'label'      => trans('cs::app.admin.settings.cs.index.datagrid.name'),
             'type'       => 'string',
             'searchable' => true,
             'filterable' => true,
@@ -50,7 +50,7 @@ class CSDataGrid extends DataGrid
 
         $this->addColumn([
             'index'      => 'rate',
-            'label'      => trans('admin::app.settings.cs.index.datagrid.rate'),
+            'label'      => trans('cs::app.admin.settings.cs.index.datagrid.rate'),
             'type'       => 'decimal',
             'searchable' => false,
             'filterable' => false,
@@ -59,19 +59,19 @@ class CSDataGrid extends DataGrid
 
         $this->addColumn([
             'index'      => 'status',
-            'label'      => trans('admin::app.settings.cs.index.datagrid.status'),
+            'label'      => trans('cs::app.admin.settings.cs.index.datagrid.status'),
             'type'       => 'decimal',
             'searchable' => false,
             'filterable' => true,
             'sortable'   => false,
             'closure'    => function ($value) {
                 if ($value->status == 1) {
-                    return trans('admin::app.settings.cs.index.datagrid.active');
+                    return trans('cs::app.admin.settings.cs.index.datagrid.active');
                 } elseif ($value->status == 0) {
-                    return trans('admin::app.settings.cs.index.datagrid.inactive');
+                    return trans('cs::app.admin.settings.cs.index.datagrid.inactive');
                 }
 
-                return trans('admin::app.settings.cs.index.datagrid.draft');
+                return trans('cs::app.admin.settings.cs.index.datagrid.draft');
             }
         ]);
     }
@@ -86,7 +86,7 @@ class CSDataGrid extends DataGrid
         if (bouncer()->hasPermission('settings.cs.edit')) {
             $this->addAction([
                 'icon'   => 'icon-edit',
-                'title'  => trans('admin::app.settings.cs.index.datagrid.edit'),
+                'title'  => trans('cs::app.admin.settings.cs.index.datagrid.edit'),
                 'method' => 'GET',
                 'url'    => function ($row) {
                     return route('admin.settings.cs.edit', $row->id);
@@ -97,7 +97,7 @@ class CSDataGrid extends DataGrid
         if (bouncer()->hasPermission('settings.cs.delete')) {
             $this->addAction([
                 'icon'   => 'icon-delete',
-                'title'  => trans('admin::app.settings.cs.index.datagrid.delete'),
+                'title'  => trans('cs::app.admin.settings.cs.index.datagrid.delete'),
                 'method' => 'DELETE',
                 'url'    => function ($row) {
                     return route('admin.settings.cs.delete', $row->id);

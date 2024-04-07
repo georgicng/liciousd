@@ -43,21 +43,24 @@ class CSController extends Controller
     public function store(): JsonResponse
     {
         $this->validate(request(), [
-            'code' => 'required|min:3|max:3|unique:currencies,code',
+            'rate' => 'required',
             'name' => 'required',
         ]);
 
         $data = request()->only([
-            'code',
+            'rate',
             'name',
-            'symbol',
-            'decimal'
+            'status',
+            'country_id',
+            'country_code',
+            'state_id',
+            'state_code',
         ]);
 
         $this->shippingCityRepository->create($data);
 
         return new JsonResponse([
-            'message' => trans('admin::app.settings.cs.index.create-success'),
+            'message' => trans('cs::app.admin.settings.cs.index.create-success'),
         ]);
     }
 
@@ -84,21 +87,24 @@ class CSController extends Controller
         $id = request()->id;
 
         $this->validate(request(), [
-            'code' => ['required', 'unique:currencies,code,' . $id, new \Webkul\Core\Rules\Code],
+            'rate' => 'required',
             'name' => 'required',
         ]);
 
         $data = request()->only([
-            'code',
+            'rate',
             'name',
-            'symbol',
-            'decimal'
+            'status',
+            'country_id',
+            'country_code',
+            'state_id',
+            'state_code',
         ]);
 
         $this->shippingCityRepository->update($data, $id);
 
         return new JsonResponse([
-            'message' => trans('admin::app.settings.cs.index.update-success'),
+            'message' => trans('cs::app.admin.settings.cs.index.update-success'),
         ]);
     }
 
@@ -114,7 +120,7 @@ class CSController extends Controller
 
         if ($this->shippingCityRepository->count() == 1) {
             return response()->json([
-                'message' => trans('admin::app.settings.cs.index.last-delete-error')
+                'message' => trans('cs::app.admin.settings.cs.index.last-delete-error')
             ], 400);
         }
 
@@ -122,14 +128,14 @@ class CSController extends Controller
             $this->shippingCityRepository->delete($id);
 
             return response()->json([
-                'message' => trans('admin::app.settings.cs.index.delete-success'),
+                'message' => trans('cs::app.admin.settings.cs.index.delete-success'),
             ], 200);
         } catch (\Exception $e) {
             report($e);
         }
 
         return response()->json([
-            'message' => trans('admin::app.settings.cs.index.delete-failed')
+            'message' => trans('cs::app.admin.settings.cs.index.delete-failed')
         ], 500);
     }
 }

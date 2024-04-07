@@ -7,5 +7,25 @@ use Gaiproject\Pickup\Contracts\PickupCentre as PickupCentreContract;
 
 class PickupCentre extends Model implements PickupCentreContract
 {
-    protected $fillable = [];
+    protected $fillable = [
+        'name',
+        'city',
+        'phone',
+        'address',
+        'landmark',
+        'rate',
+        'location',
+        'whatsapp',
+        'email',
+        'status',
+        'country_id',
+        'country_code',
+        'state_id',
+        'state_code',
+        'additional'
+    ];
+
+    protected $casts = [
+        'additional' => 'array',
+    ];
 }

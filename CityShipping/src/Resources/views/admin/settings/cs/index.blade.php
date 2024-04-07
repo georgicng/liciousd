@@ -1,6 +1,6 @@
 <x-admin::layouts>
     <x-slot:title>
-        @lang('admin::app.settings.cs.index.title')
+        @lang('cs::app.admin.settings.cs.index.title')
     </x-slot:title>
 
     {!! view_render_event('bagisto.admin.settings.cs.create.before') !!}
@@ -8,7 +8,7 @@
     <v-cities>
         <div class="flex  gap-[16px] justify-between items-center max-sm:flex-wrap">
             <p class="text-[20px] text-gray-800 dark:text-white font-bold">
-                @lang('admin::app.settings.cs.index.title')
+                @lang('cs::app.admin.settings.cs.index.title')
             </p>
 
             <div class="flex gap-x-[10px] items-center">
@@ -18,7 +18,7 @@
                         type="button"
                         class="primary-button"
                     >
-                        @lang('admin::app.settings.cs.index.create-btn')
+                        @lang('cs::app.admin.settings.cs.index.create-btn')
                     </button>
                 @endif
             </div>
@@ -37,7 +37,7 @@
         >
             <div class="flex gap-[16px] justify-between items-center max-sm:flex-wrap">
                 <p class="text-[20px] text-gray-800 dark:text-white font-bold">
-                    @lang('admin::app.settings.cs.index.title')
+                    @lang('cs::app.admin.settings.cs.index.title')
                 </p>
 
                 <div class="flex gap-x-[10px] items-center">
@@ -48,7 +48,7 @@
                             class="primary-button"
                             @click="id=0; selectedCity={}; $refs.cityUpdateOrCreateModal.toggle()"
                         >
-                            @lang('admin::app.settings.cs.index.create-btn')
+                            @lang('cs::app.admin.settings.cs.index.create-btn')
                         </button>
                     @endif
                 </div>
@@ -131,7 +131,7 @@
             </div>
 
             <x-admin::datagrid
-                :src="route('admin.settings.cs.index')"
+                :src="route('admin.settings.cs.index', empty($setState) ? [] : ['state' => $setState->code, 'country' => $countryCode])"
                 ref="datagrid"
             >
                 @php
@@ -143,7 +143,7 @@
                     <div class="row grid grid-cols-{{ $hasPermission ? '4' : '3' }} grid-rows-1 gap-[10px] items-center px-[16px] py-[10px] border-b-[1px] dark:border-gray-800 text-gray-600 dark:text-gray-300 bg-gray-50 dark:bg-gray-900 font-semibold">
                         <div
                             class="flex gap-[10px] cursor-pointer"
-                            v-for="(columnGroup, index) in ['id', 'code', 'name']"
+                            v-for="(columnGroup, index) in ['id', 'name', 'rate', 'status']"
                         >
                             <p class="text-gray-600 dark:text-gray-300">
                                 <span class="[&>*]:after:content-['_/_']">
@@ -195,6 +195,9 @@
                         <!-- Name -->
                         <p v-text="record.rate"></p>
 
+                        <!-- Status -->
+                        <p v-text="record.status"></p>
+
                         <!-- Actions -->
                         <div class="flex justify-end">
                             <a @click="id=1; editModal(record.actions.find(action => action.title === 'Edit')?.url)">
@@ -233,14 +236,14 @@
                                 class="text-[18px] text-gray-800 dark:text-white font-bold"
                                 v-if="id"
                             >
-                                @lang('admin::app.settings.cs.index.edit.title')
+                                @lang('cs::app.admin.settings.cs.index.edit.title')
                             </p>
 
                             <p
                                 class="text-[18px] text-gray-800 dark:text-white font-bold"
                                 v-else
                             >
-                                @lang('admin::app.settings.cs.index.create.title')
+                                @lang('cs::app.admin.settings.cs.index.create.title')
                             </p>
                         </x-slot:header>
 
@@ -257,17 +260,16 @@
 
                                 <x-admin::form.control-group class="mb-[10px]">
                                     <x-admin::form.control-group.label class="required">
-                                        @lang('admin::app.settings.cs.index.create.name')
+                                        @lang('cs::app.admin.settings.cs.index.create.name')
                                     </x-admin::form.control-group.label>
 
                                     <x-admin::form.control-group.control
                                         type="text"
                                         name="name"
-                                        :value="old('name')"
                                         rules="required"
                                         v-model="selectedCity.name"
-                                        :label="trans('admin::app.settings.cs.index.create.name')"
-                                        :placeholder="trans('admin::app.settings.cs.index.create.name')"
+                                        :label="trans('cs::app.admin.settings.cs.index.create.name')"
+                                        :placeholder="trans('cs::app.admin.settings.cs.index.create.name')"
                                     >
                                     </x-admin::form.control-group.control>
 
@@ -279,17 +281,16 @@
 
                                 <x-admin::form.control-group class="mb-[10px]">
                                     <x-admin::form.control-group.label class="required">
-                                        @lang('admin::app.settings.cs.index.create.rate')
+                                        @lang('cs::app.admin.settings.cs.index.create.rate')
                                     </x-admin::form.control-group.label>
 
                                     <x-admin::form.control-group.control
                                         type="text"
                                         name="rate"
-                                        :value="old('rate')"
                                         rules="required"
                                         v-model="selectedCity.rate"
-                                        :label="trans('admin::app.settings.cs.index.create.rate')"
-                                        :placeholder="trans('admin::app.settings.cs.index.create.rate')"
+                                        :label="trans('cs::app.admin.settings.cs.index.create.rate')"
+                                        :placeholder="trans('cs::app.admin.settings.cs.index.create.rate')"
                                     >
                                     </x-admin::form.control-group.control>
 
@@ -302,17 +303,17 @@
                                 <!-- Status -->
                                 <x-admin::form.control-group class="mb-[10px]">
                                     <x-admin::form.control-group.label>
-                                        @lang('admin::app.settings.inventory-sources.edit.status')
+                                        @lang('cs::app.admin.settings.cs.index.create.status')
                                     </x-admin::form.control-group.label>
 
-                                    @php $selectedValue = old('status') ?: $inventorySource->status; @endphp
+                                    @php $selectedValue = old('status', true); @endphp
 
                                     <x-admin::form.control-group.control
                                         type="switch"
                                         name="status"
-                                        :value="old('status') ?? ($inventorySource->status)"
-                                        :label="trans('admin::app.settings.inventory-sources.edit.status')"
-                                        :placeholder="trans('admin::app.settings.inventory-sources.edit.status')"
+                                        v-model="selectedCity.status"
+                                        :label="trans('cs::app.admin.settings.cs.index.create.status')"
+                                        :placeholder="trans('cs::app.admin.settings.cs.index.create.status')"
                                         :checked="(boolean) $selectedValue"
                                     >
                                     </x-admin::form.control-group.control>
@@ -322,10 +323,11 @@
                                     >
                                     </x-admin::form.control-group.error>
                                 </x-admin::form.control-group>
-                                <input type="hidden" name="country_id" value="{{ $setCountry->id }}"/>
-                                <input type="hidden" name="country_code" value="{{ $setCountry->code }}"/>
-                                <input type="hidden" name="state_id" value="{{ $setState->id }}"/>
-                                <input type="hidden" name="state_code" value="{{ $setState->code }}"/>
+                                <x-admin::form.control-group.control type="hidden" name="country_id" :value="$setCountry->id"> </x-admin::form.control-group.control>
+                                <x-admin::form.control-group.control type="hidden" name="country_code" :value="$setCountry->code"> </x-admin::form.control-group.control>
+                                <x-admin::form.control-group.control type="hidden" name="state_id" :value="$setState?->id"> </x-admin::form.control-group.control>
+                                <x-admin::form.control-group.control type="hidden" name="state_code" :value="$setState?->code"> </x-admin::form.control-group.control>
+
 
                                 {!! view_render_event('bagisto.admin.settings.cs.create.after') !!}
                             </div>
@@ -337,7 +339,7 @@
                                     type="submit"
                                     class="primary-button"
                                 >
-                                    @lang('admin::app.settings.cs.index.create.save-btn')
+                                    @lang('cs::app.admin.settings.cs.index.create.save-btn')
                                 </button>
                             </div>
                         </x-slot:footer>
@@ -352,7 +354,11 @@
 
                 data() {
                     return {
-                        selectedCity: {},
+                        selectedCity: {
+                            name: {{ old('name') ?? "null" }},
+                            rate: {{ old('rate') ?? "null" }},
+                            status: {{ old('status') ?? "null" }},
+                        },
                     }
                 },
 

@@ -16,10 +16,8 @@ class PickupDataGrid extends DataGrid
     {
         $country = request('country');
         $state = request('state');
-        $queryBuilder = DB::table('pickup_centres')->addSelect('id', 'name', 'address', 'city', 'rate', 'status')
-            ->where('country_code', $country)
-            ->where('state_code', $state);
-
+        logger()->channel('custom')->info(json_encode(['country' => $country, 'state' => $state]));
+        $queryBuilder = DB::table('pickup_centres')->addSelect('id', 'name', 'address', 'city', 'rate', 'status')->where('country_code', $country)->where('state_code', $state);
         return $queryBuilder;
     }
 
@@ -32,7 +30,7 @@ class PickupDataGrid extends DataGrid
     {
         $this->addColumn([
             'index'      => 'id',
-            'label'      => trans('admin::app.settings.pickup.index.datagrid.id'),
+            'label'      => trans('pickup::app.admin.settings.pickup.index.datagrid.id'),
             'type'       => 'integer',
             'searchable' => false,
             'filterable' => true,
@@ -41,7 +39,7 @@ class PickupDataGrid extends DataGrid
 
         $this->addColumn([
             'index'      => 'name',
-            'label'      => trans('admin::app.settings.pickup.index.datagrid.name'),
+            'label'      => trans('pickup::app.admin.settings.pickup.index.datagrid.name'),
             'type'       => 'string',
             'searchable' => true,
             'filterable' => true,
@@ -50,7 +48,7 @@ class PickupDataGrid extends DataGrid
 
         $this->addColumn([
             'index'      => 'city',
-            'label'      => trans('admin::app.settings.pickup.index.datagrid.city'),
+            'label'      => trans('pickup::app.admin.settings.pickup.index.datagrid.city'),
             'type'       => 'string',
             'searchable' => true,
             'filterable' => true,
@@ -59,28 +57,28 @@ class PickupDataGrid extends DataGrid
 
         $this->addColumn([
             'index'      => 'rate',
-            'label'      => trans('admin::app.settings.pickup.index.datagrid.rate'),
-            'type'       => 'decimal',
-            'searchable' => false,
-            'filterable' => false,
+            'label'      => trans('pickup::app.admin.settings.pickup.index.datagrid.rate'),
+            'type'       => 'price',
+            'searchable' => true,
+            'filterable' => true,
             'sortable'   => true,
         ]);
 
         $this->addColumn([
             'index'      => 'status',
-            'label'      => trans('admin::app.settings.pickup.index.datagrid.status'),
+            'label'      => trans('pickup::app.admin.settings.pickup.index.datagrid.status'),
             'type'       => 'boolean',
-            'searchable' => false,
+            'searchable' => true,
             'filterable' => true,
-            'sortable'   => false,
+            'sortable'   => true,
             'closure'    => function ($value) {
                 if ($value->status == 1) {
-                    return trans('admin::app.settings.pickup.index.datagrid.active');
+                    return trans('pickup::app.admin.settings.pickup.index.datagrid.active');
                 } elseif ($value->status == 0) {
-                    return trans('admin::app.settings.pickup.index.datagrid.inactive');
+                    return trans('pickup::app.admin.settings.pickup.index.datagrid.inactive');
                 }
 
-                return trans('admin::app.settings.pickup.index.datagrid.draft');
+                return trans('pickup::app.admin.settings.pickup.index.datagrid.draft');
             },
         ]);
     }
@@ -95,7 +93,7 @@ class PickupDataGrid extends DataGrid
         if (bouncer()->hasPermission('settings.pickup.edit')) {
             $this->addAction([
                 'icon'   => 'icon-edit',
-                'title'  => trans('admin::app.settings.pickup.index.datagrid.edit'),
+                'title'  => trans('pickup::app.admin.settings.pickup.index.datagrid.edit'),
                 'method' => 'GET',
                 'url'    => function ($row) {
                     return route('admin.settings.pickup.edit', $row->id);
@@ -106,7 +104,7 @@ class PickupDataGrid extends DataGrid
         if (bouncer()->hasPermission('settings.pickup.delete')) {
             $this->addAction([
                 'icon'   => 'icon-delete',
-                'title'  => trans('admin::app.settings.pickup.index.datagrid.delete'),
+                'title'  => trans('pickup::app.admin.settings.pickup.index.datagrid.delete'),
                 'method' => 'DELETE',
                 'url'    => function ($row) {
                     return route('admin.settings.pickup.delete', $row->id);
