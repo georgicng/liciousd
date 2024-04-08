@@ -56,6 +56,15 @@ return [
                     'delete-failed'     => 'City deletion failed',
                 ],
             ],
+        ],
+        'system' => [
+            'cs' => 'City Shipping',
+            'title' => 'Title',
+            'description' => 'Description',
+            'rate' => 'Base Rate',
+            'minimum-amount' => 'Minimum order to qualify',
+            'status' => 'Status',
+            'type' => 'Type',
         ]
 
     ]

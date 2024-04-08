@@ -2,11 +2,9 @@
 
 namespace Gaiproject\Pickup\Carriers;
 
-use Config;
-
+use Gaiproject\Pickup\Repositories\PickupCentreRepository;
+use Webkul\Checkout\Facades\Cart;
 use Webkul\Checkout\Models\CartShippingRate;
-use Webkul\Inventory\Models\InventorySource;
-
 use Webkul\Shipping\Carriers\AbstractShipping;
 
 /**
@@ -29,59 +27,46 @@ class Pickup extends AbstractShipping
      */
     public function calculate()
     {
-        if (! $this->isAvailable()) {
+        if (!$this->isAvailable()) {
             return false;
         }
 
-        $inventories = $this->getInventories();
-
-        if ($inventories) {
-            foreach ($inventories as $code => $inventorySource) {
-                $pickup = new CartShippingRate;
-
-                $pickup->carrier = 'pickup';
-                $pickup->carrier_title = __('pickup::app.admin.system.pickup');
-                $pickup->method = 'pickup_' . $code;
-                $pickup->method_title = $this->getConfigData('title') .' '. $inventorySource['title'];
-                $pickup->method_description = $inventorySource['description'];
-                $pickup->price = 0;
-                $pickup->base_price = 0;
-
-                $pickupMethods[] = $pickup;
-            }
-        }
-
-        return $pickupMethods;
-
+        return $this->getRates();
     }
 
     /**
-     * Get all inventories
+     * Get rate.
      *
-     * @return inventoryData|false
+     * @return \Webkul\Checkout\Models\CartShippingRate
      */
-    public function getInventories()
+    public function getRates(): array
     {
+        $pickupMethods = [];
+        $cart = Cart::getCart();
+        $records = app(PickupCentreRepository::class)->findWhere([
+            'state_code' => $cart->ShippingAddress->state,
+            'country_code' => $cart->ShippingAddress->country
+        ]);
 
-        $inventories = InventorySource::where('status', 1)->get();
-
-        if (isset ($inventories)) {
-            foreach ($inventories as $inventory) {
-                if ($this->getConfigData('display_address')) {
-                    $description = $inventory->street . ' ' . $inventory->postcode . ' ' . $inventory->city . ' ' . $inventory->country;
-                } else {
-                    $description = $this->getConfigData('description');
-                }
-
-                $inventoryData[$inventory->id] = [
-                    'title'       => $inventory->name,
-                    'description' => $description
-                ];
-            }
-
-            return $inventoryData;
-        } else {
+        if ($records->isEmpty()) {
             return false;
         }
+
+        foreach ($records as $record) {
+
+            $rate = $record->rate ?? $this->getConfigData('default_rate');
+            $cartShippingRate = new CartShippingRate;
+
+            $cartShippingRate->carrier = "{$this->getCode()}_{$record->id}";
+            $cartShippingRate->carrier_title = "{$this->getConfigData('title')}_{$record->city}";
+            $cartShippingRate->method = $this->getMethod();
+            $cartShippingRate->method_title = "{$this->getConfigData('title')}_{$record->city}";
+            $cartShippingRate->method_description = "{$record->address}, {$record->city}";
+            $cartShippingRate->price = core()->convertPrice($rate);
+            $cartShippingRate->base_price = $rate;
+            $pickupMethods[] = $cartShippingRate;
+        }
+
+        return $pickupMethods;
     }
 }

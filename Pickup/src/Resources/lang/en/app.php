@@ -3,8 +3,14 @@
 return [
     'admin' => [
         'system' => [
-            'pickup'          => 'Picking up at the store',
-            'display_address' => 'Show the pick-up address in the checkout form'
+            'pickup' => 'Store Pickup',
+            'title' => 'Title',
+            'description' => 'Description',
+            'rate' => 'Base Rate',
+            'minimum-amount' => 'Minimum order to qualify',
+            'status' => 'Status',
+            'type' => 'Type',
+            'display_address' => 'Display Address'
         ],
         'components' => [
             'layouts' => [
@@ -64,6 +70,6 @@ return [
                     'delete-failed'     => 'Centre deletion failed',
                 ],
             ],
-        ]
+        ],
     ]
 ];

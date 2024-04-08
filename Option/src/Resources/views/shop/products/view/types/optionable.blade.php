@@ -94,7 +94,20 @@
 
                 data() {
                     const optionList = @json($optionList);
-                    const valueList = @json($setOptionValues);
+                    const valueList = @json($setOptionValues->map(function($item) {
+                        $value = null;
+                        if (is_array($item->value) && array_is_list($item->value)) {
+                            $value = array_map(function($val) {
+                                $val['price'] = core()->convertPrice(floatval($val));
+                                return $val;
+                            }, $item->value);
+                        } else {
+                            $value = $item->value;
+                            $value['price'] = core()->convertPrice(floatval($value['price']));
+                        }
+                        $item->value = $value;
+                        return $item;
+                    }));
                     return {
                         optionList,
                         valueList,

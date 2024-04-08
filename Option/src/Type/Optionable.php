@@ -237,7 +237,7 @@ class Optionable extends AbstractType
             $option = $optionMap[$key];
             $optionValue = isset($option[$value]) ? $option[$value] : $option;
             $prefix = $optionValue['prefix'];
-            $price = $optionValue['price'];
+            $price = core()->convertPrice($optionValue['price']);
             $increment += floatval("$prefix$price");
         }
         return $increment;

@@ -2,10 +2,10 @@
 
 namespace Gaiproject\CityShipping\Carriers;
 
-use Config;
-use Webkul\Shipping\Carriers\AbstractShipping;
+use Gaiproject\CityShipping\Repositories\ShippingCityRepository;
+use Webkul\Checkout\Facades\Cart;
 use Webkul\Checkout\Models\CartShippingRate;
-use Webkul\Shipping\Facades\Shipping;
+use Webkul\Shipping\Carriers\AbstractShipping;
 
 class CS extends AbstractShipping
 {
@@ -27,40 +27,51 @@ class CS extends AbstractShipping
            return false;
        }
 
-       $object = new CartShippingRate;
-
-       $object->carrier = 'city-shipping';
-       $object->carrier_title = $this->getConfigData('title');
-       $object->method = 'city_shipping';
-       $object->method_title = $this->getConfigData('title');
-       $object->method_description = $this->getConfigData('description');
-       $object->price = 0;
-       $object->base_price = 0;
-
-       if ($this->getConfigData('type') == 'per_unit') {
-           foreach ($cart->items as $item) {
-               if (
-                   $this->getConfigData('base_amount') &&
-                   $this->getConfigData('base_amount') > ($item->product->price)
-               ) {
-                   continue;
-               }
-               if ($item->product->getTypeInstance()->isStockable()) {
-                   $object->price += core()->convertPrice($this->getConfigData('default_rate')) * $item->quantity;
-                   $object->base_price += $this->getConfigData('default_rate') * $item->quantity;
-               }
-           }
-       } else {
-           if (
-               $this->getConfigData('base_amount') &&
-               $this->getConfigData('base_amount') > ($cart->sub_total)
-           ) {
-               return false;
-           }
-           $object->price = core()->convertPrice($this->getConfigData('default_rate'));
-           $object->base_price = $this->getConfigData('default_rate');
-       }
-
-       return $object;
+       return $this->getRate();
    }
+
+    /**
+     * Get rate.
+     *
+     * @return \Webkul\Checkout\Models\CartShippingRate
+     */
+    public function getRate(): \Webkul\Checkout\Models\CartShippingRate
+    {
+        $cart = Cart::getCart();
+        $records = app(ShippingCityRepository::class)->findWhere([
+            'state_code' => $cart->ShippingAddress->state,
+            'country_code' => $cart->ShippingAddress->country,
+            'name' => $cart->ShippingAddress->city
+        ]);
+
+        if ($records->isEmpty()) {
+            return false;
+        }
+
+        $rate = $records->first()->rate ?? $this->getConfigData('default_rate');
+
+        $cartShippingRate = new CartShippingRate;
+
+        $cartShippingRate->carrier = $this->getCode();
+        $cartShippingRate->carrier_title = $this->getConfigData('title');
+        $cartShippingRate->method = $this->getMethod();
+        $cartShippingRate->method_title = $this->getConfigData('title');
+        $cartShippingRate->method_description = $this->getConfigData('description');
+        $cartShippingRate->price = 0;
+        $cartShippingRate->base_price = 0;
+
+        if ($this->getConfigData('type') == 'per_unit') {
+            foreach ($cart->items as $item) {
+                if ($item->getTypeInstance()->isStockable()) {
+                    $cartShippingRate->price += core()->convertPrice($rate) * $item->quantity;
+                    $cartShippingRate->base_price += $rate * $item->quantity;
+                }
+            }
+        } else {
+            $cartShippingRate->price = core()->convertPrice($rate);
+            $cartShippingRate->base_price = $rate;
+        }
+
+        return $cartShippingRate;
+    }
 }
