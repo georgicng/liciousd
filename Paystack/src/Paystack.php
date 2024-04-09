@@ -89,8 +89,8 @@ class Paystack
     public function setKey()
     {
         $this->secretKey = $this->getConfigData('sandbox')
-            ? config('app.paystack_test_private_key')
-            : config('app.paystack_live_private_key');
+            ? config('app.paystack_test_secret_key')
+            : config('app.paystack_live_secret_key');
     }
 
     /**

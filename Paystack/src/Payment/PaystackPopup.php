@@ -45,7 +45,7 @@ class PaystackPopup extends Payment
             'key' => $this->getPublicKey(),
             'amount' => $cart->grand_total * 100,
             'email' => $cart->billing_address->email,
-            "currency" => (request()->currency != ""  ? request()->currency : "NGN"),
+            "currency" => "NGN", //(request()->currency != ""  ? request()->currency : "NGN"),
             "ref" => paystack()->genTranxRef()
         ];
     }

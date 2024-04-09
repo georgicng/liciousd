@@ -4,7 +4,7 @@ namespace Gaiproject\BankTransfer\Providers;
 
 use Illuminate\Support\ServiceProvider;
 
-class BankTransferProvider extends ServiceProvider
+class BankTransferServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap services.

@@ -191,7 +191,7 @@ class Optionable extends AbstractType
             return $result;
         }
 
-        $price = round($this->getFinalPrice($item->quantity), 4) + $this->getPriceIncrement($item->additional['options']);
+        $price = round($this->getFinalPrice($item->quantity), 4) + round($this->getPriceIncrement($item->additional['options']), 4);
 
         if ($price == $item->base_price) {
             return $result;
@@ -236,9 +236,7 @@ class Optionable extends AbstractType
         foreach ($options as $key => $value) {
             $option = $optionMap[$key];
             $optionValue = isset($option[$value]) ? $option[$value] : $option;
-            $prefix = $optionValue['prefix'];
-            $price = core()->convertPrice($optionValue['price']);
-            $increment += floatval("$prefix$price");
+            $increment += $optionValue['base_increment'];
         }
         return $increment;
     }

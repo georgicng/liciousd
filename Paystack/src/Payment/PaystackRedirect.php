@@ -21,7 +21,9 @@ class PaystackRedirect extends Payment
      */
     public function isAvailable()
     {
-        return $this->getConfigData('active') && paystack()->isReady();
+        return $this->getConfigData('active')
+            && paystack()->isReady()
+            && !core()->getConfigData('sales.payment_methods.paystack_popup.active');
     }
 
     public function getRedirectUrl()

@@ -2,7 +2,7 @@
 
 return [
     'bank_transfer'   => [
-        'code'        => 'bankt_ransfer',
+        'code'        => 'bank_transfer',
         'title'       => 'Bank Transfer',
         'description' => 'Bank Transfer',
         'class'       => 'Gaiproject\BankTransfer\Payment\BankTransfer',

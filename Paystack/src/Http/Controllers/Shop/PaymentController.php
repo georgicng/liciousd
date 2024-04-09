@@ -2,6 +2,7 @@
 
 namespace Gaiproject\Paystack\Http\Controllers\Shop;
 
+use Exception;
 use Gaiproject\Paystack\Http\Controllers\Controller;
 use Webkul\Checkout\Facades\Cart;
 use Webkul\Sales\Repositories\OrderRepository;
@@ -60,11 +61,18 @@ class PaymentController extends Controller
      */
     public function success()
     {
-        if (paystack()->isValid(request()->query('reference'))) {
-            $order = $this->orderRepository->create(Cart::prepareDataForOrder());
-            Cart::deActivateCart();
-            //session()->flash('order', $order);
-            return redirect()->route('shop.checkout.onepage.success');
+        try {
+            if (paystack()->isValid(request()->query('reference'))) {
+                $order = $this->orderRepository->create(Cart::prepareDataForOrder());
+                $this->orderRepository->update(['status' => 'processing'], $order->id);
+                Cart::deActivateCart();
+                Cart::activateCartIfSessionHasDeactivatedCartId();
+                session()->flash('order', $order);
+                return redirect()->route('shop.checkout.onepage.success');
+            }
+            return redirect()->route('shop.checkout.cart.index');
+        } catch (Exception $exception) {
+            return back()->withError($exception->getMessage())->withInput();
         }
     }
 
@@ -75,6 +83,6 @@ class PaymentController extends Controller
      */
     public function popup()
     {
-        return view('paystack::paystack-popup');
+        return view('shop::paystack-popup');
     }
 }
