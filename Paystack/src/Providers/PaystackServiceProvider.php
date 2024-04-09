@@ -3,6 +3,8 @@
 namespace Gaiproject\Paystack\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Foundation\AliasLoader;
+use Gaiproject\Paystack\Facades\Paystack;
 
 class PaystackServiceProvider extends ServiceProvider
 {
@@ -13,6 +15,7 @@ class PaystackServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        include __DIR__ . '/../Http/helpers.php';
         $this->loadRoutesFrom(__DIR__ . '/../Routes/shop-routes.php');
         $this->loadTranslationsFrom(__DIR__ . '/../Resources/lang', 'paystack');
         $this->loadViewsFrom(__DIR__ . '/../Resources/views', 'paystack');
@@ -26,6 +29,7 @@ class PaystackServiceProvider extends ServiceProvider
     public function register()
     {
         $this->registerConfig();
+        $this->registerFacades();
     }
 
     /**
@@ -36,11 +40,25 @@ class PaystackServiceProvider extends ServiceProvider
     protected function registerConfig()
     {
         $this->mergeConfigFrom(
-            dirname(__DIR__) . '/Config/paymentmethods.php', 'paymentmethods'
+            dirname(__DIR__) . '/Config/paymentmethods.php', 'payment_methods'
         );
 
         $this->mergeConfigFrom(
             dirname(__DIR__) . '/Config/system.php', 'core'
         );
+    }
+
+    /**
+     * Register cart as a singleton.
+     *
+     * @return void
+     */
+    protected function registerFacades(): void
+    {
+        $loader = AliasLoader::getInstance();
+
+        $loader->alias('paystack', Paystack::class);
+
+        $this->app->singleton('paystack', \Gaiproject\Paystack\Paystack::class);
     }
 }

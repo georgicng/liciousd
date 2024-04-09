@@ -13,12 +13,10 @@ class PickupServiceProvider extends ServiceProvider
      */
     public function register()
     {
-       $this->registerConfig();
-        $this->mergeConfigFrom(dirname(__DIR__) . '/Config/system.php', 'core');
-        $this->mergeConfigFrom(dirname(__DIR__) . '/Config/carriers.php', 'carriers');
+        $this->registerConfig();
     }
 
-     /**
+    /**
      * Register package config.
      *
      * @return void
@@ -26,12 +24,17 @@ class PickupServiceProvider extends ServiceProvider
     protected function registerConfig()
     {
         $this->mergeConfigFrom(
-            dirname(__DIR__) . '/Config/admin-menu.php', 'menu.admin'
+            dirname(__DIR__) . '/Config/admin-menu.php',
+            'menu.admin'
         );
 
         $this->mergeConfigFrom(
-            dirname(__DIR__) . '/Config/acl.php', 'acl'
+            dirname(__DIR__) . '/Config/acl.php',
+            'acl'
         );
+
+        $this->mergeConfigFrom(dirname(__DIR__) . '/Config/system.php', 'core');
+        $this->mergeConfigFrom(dirname(__DIR__) . '/Config/carriers.php', 'carriers');
     }
 
 
@@ -51,6 +54,5 @@ class PickupServiceProvider extends ServiceProvider
         $this->loadTranslationsFrom(__DIR__ . '/../Resources/lang', 'pickup');
 
         $this->loadViewsFrom(__DIR__ . '/../Resources/views/admin', 'admin');
-
     }
 }

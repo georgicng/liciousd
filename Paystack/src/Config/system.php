@@ -2,9 +2,9 @@
 
 return [
     [
-        'key'    => 'sales.paymentmethods.paystack',
+        'key'    => 'sales.payment_methods.paystack',
         'name'   => 'Paystack',
-        'sort'   => 1,
+        'sort'   => 4,
         'fields' => [
             [
                 'name'          => 'title',
@@ -37,9 +37,9 @@ return [
                 'name'          => 'mode',
                 'title'         => 'paystack::app.admin.system.mode',
                 'type'          => 'select',
-                'options'          => [
-                    'test' => 'Test',
-                    'live' => 'Live'
+                'options'       => [
+                    ['value' => 'test', 'title' => 'Test'],
+                    ['value' => 'live', 'title' => 'Live']
                 ],
                 'validation'    => 'required',
                 'channel_based' => false,
