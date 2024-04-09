@@ -1,4 +1,5 @@
 <?php
+
 namespace Gaiproject\Paystack;
 
 use GuzzleHttp\Client;
@@ -67,11 +68,19 @@ class Paystack
     }
 
     /**
+     * Get secret key from Paystack config file
+     */
+    public function isReady()
+    {
+        return $this->baseUrl && $this->secretKey;
+    }
+
+    /**
      * Get Base Url from Paystack config file
      */
     public function setBaseUrl()
     {
-        $this->baseUrl = $this->getConfigData('base_url');
+        $this->baseUrl = config('app.paystack_payment_url');
     }
 
     /**
@@ -79,9 +88,9 @@ class Paystack
      */
     public function setKey()
     {
-        $this->secretKey = $this->getConfigData('mode') == 'live'
-        ? $this->getConfigData('live_private_key')
-        : $this->getConfigData('test_private_key');
+        $this->secretKey = $this->getConfigData('sandbox')
+            ? config('app.paystack_test_private_key')
+            : config('app.paystack_live_private_key');
     }
 
     /**
@@ -200,9 +209,9 @@ class Paystack
     /**
      * Fluent method to redirect to Paystack Payment Page
      */
-    public function getRedirectUrl()
+    public function redirectNow()
     {
-        return $this->url;
+        return redirect($this->url);
     }
 
     /**
