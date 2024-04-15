@@ -35,7 +35,7 @@ class CS extends AbstractShipping
      *
      * @return \Webkul\Checkout\Models\CartShippingRate
      */
-    public function getRate(): \Webkul\Checkout\Models\CartShippingRate
+    public function getRate(): \Webkul\Checkout\Models\CartShippingRate | bool
     {
         $cart = Cart::getCart();
         $records = app(ShippingCityRepository::class)->findWhere([

@@ -46,6 +46,7 @@ class CSServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        include __DIR__ . '/../Http/helpers.php';
         $this->loadMigrationsFrom(__DIR__ . '/../Database/Migrations');
 
         $this->loadRoutesFrom(__DIR__ . '/../Routes/admin-routes.php');

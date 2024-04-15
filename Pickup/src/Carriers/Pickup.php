@@ -39,7 +39,7 @@ class Pickup extends AbstractShipping
      *
      * @return \Webkul\Checkout\Models\CartShippingRate
      */
-    public function getRates(): array
+    public function getRates(): array | bool
     {
         $pickupMethods = [];
         $cart = Cart::getCart();
@@ -59,7 +59,7 @@ class Pickup extends AbstractShipping
 
             $cartShippingRate->carrier = "{$this->getCode()}_{$record->id}";
             $cartShippingRate->carrier_title = "{$this->getConfigData('title')}_{$record->city}";
-            $cartShippingRate->method = $this->getMethod();
+            $cartShippingRate->method = "{$this->getMethod()}_{$record->city}";
             $cartShippingRate->method_title = "{$this->getConfigData('title')}_{$record->city}";
             $cartShippingRate->method_description = "{$record->address}, {$record->city}";
             $cartShippingRate->price = core()->convertPrice($rate);
