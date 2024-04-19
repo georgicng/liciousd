@@ -98,7 +98,13 @@
                     </label>
                 </div>
             </div>
-            <div v-if="dynamicPricing"></div>
+            <div v-if="dynamicPricing">
+                <v-rules
+                    :options="optionListMap"
+                    :value="valueList"
+                    :initial-rules="config.rules"
+                ></v-product-option-item>
+            </div>
         </div>
     </script>
 
@@ -348,9 +354,13 @@
             <div>
                 <v-field
                     as="select"
-                    v-model="key"
+                    v-model="model.field"
+                    :name="`config[rules][${ruleIndex}][conditions][${conditionIndex}][field]`"
                 >
-                    <option v-for="item in condition.keys" :key="item.id" :value="item.code" >
+                    <option value="" >
+                        Selection field
+                    </option>
+                    <option v-for="item in context.options" :key="item.code" :value="item.code" >
                         @{{item.admin_name}}
                     </option>
                 </v-field>
@@ -359,20 +369,50 @@
             <div>
                 <v-field
                     as="select"
-                    v-model="operator"
-                    :items="condition.operators"
+                    v-model="model.operator"
+                    :name="`config[rules][${ruleIndex}][conditions][${conditionIndex}][operator]`"
                 >
-                    <option v-for="item in condition.operators" :key="item.key" :value="item.value" >
+                    <option value="" >
+                        Selection operator
+                    </option>
+                    <option v-for="item in context.operators[field.type]" :key="item.value" :value="item.value" >
                         @{{item.label}}
                     </option>
-                </v-select>
+                </v-field>
             </div>
 
             <div>
-                <v-field :name="condition.name" label="Value" type="text" v-model="value" placeholder="input"/>
+                <v-field
+                    v-if="linearOperators.includes(model.operator) && textGroup.includes(field.type)"
+                    :name="`config[rules][${ruleIndex}][conditions][${conditionIndex}][value]`"
+                    type="text"
+                    v-model="model.value"
+                    placeholder="input"
+                />
+                <v-field
+                    as="select"
+                    v-if="linearOperators.includes(model.operator) && selectGroup.includes(field.type)"
+                    :name="`config[rules][${ruleIndex}][conditions][${conditionIndex}][value]`"
+                    v-model="model.value"
+                >
+                    <option v-for="item in field.values" :key="item.value" :value="item.value" >
+                        @{{item.label}}
+                    </option>
+                </v-field>
+                <v-field
+                    as="select"
+                    v-if="selectionOperators.includes(model.operator) && selectGroup.includes(field.type)"
+                    :name="`config[rules][${ruleIndex}][conditions][${conditionIndex}][value]`"
+                    v-model="model.value"
+                    multiple
+                >
+                    <option v-for="item in field.values" :key="item.value" :value="item.value" >
+                        @{{item.label}}
+                    </option>
+                </v-field>
             </div>
 
-            <button type="button" @click="delete()">
+            <button type="button" @click="$emit('delete')">
                 delete
             </button>
         </div>
@@ -400,6 +440,7 @@
                         class="btn btn-xs btn-purple add-rule pull-right"
                         @click="deleteRule(index)"
                     >Delete Rule</button>
+                    <input type="hidden" :name="`config[rules][${index}][logic]`"  :value="rule.logic" />
                 </div>
                 <template v-if="rule.conditions.length">
                     <div >
@@ -411,13 +452,16 @@
                         </button>
                     </div>
                     <v-condition
-                        v-for="condition in rule.conditions"
+                        v-for="(condition, _index) in rule.conditions"
                         :condition="condition"
+                        :context="context"
                         :key="condition.key"
+                        :rule-index="index"
+                        :condition-index="_index"
                         @delete="deleteRuleCondition(index, condition.key)"
                     ></v-condition>
                     <div>
-                        <v-field :name="result" label="Value" type="text" v-model="rule.result" placeholder="input"/>
+                        <v-field :name="`config[rules][${index}][result]`" label="Value" type="text" v-model="rule.result" placeholder="input"/>
                     </div>
                 </template>
                 <div v-else>
@@ -708,62 +752,104 @@
 
         app.component('v-condition', {
             template: "#v-condition-template",
-            props: ["condition"],
-            watch: {
-                "condition.keys"() {
-                    this.field = -99;
-                },
-                "condition.operators"() {
-                    this.condition = -99;
-                }
-            },
+            props: ["condition", "context", "ruleIndex", "conditionIndex"],
             data() {
                 return {
-                    field: -99,
-                    operator: -99,
-                    value: ""
+                    model: this.condition
                 };
             },
+            computed: {
+                fieldMap() {
+                    return this.mapToId(context.options, 'code')
+                },
+                field() {
+                    if (!model.field) {
+                        return {}
+                    }
+                    return this.fieldMap[model.field]
+                },
+                linearOperators() {
+                    return ['=', '!='];
+                },
+                selectionOperators() {
+                    return ['contains', 'excludes'];
+                },
+                touchedOperators() {
+                    return ['empty', 'exist'];
+                },
+                textGroup() {
+                    return ['text', 'textarea'];
+                },
+                selectGroup() {
+                    return ['select', 'multiselect', 'checkbox'];
+                },
+            },
+            watch: {
+                condition(newVal) {
+                    this.model = newVal;
+                },
+            },
             methods: {
-                delete() {
-                    this.$emit("delete");
+                mapToId(col, key = 'id') {
+                    return col.reduce((acc, val) => ({
+                        ...acc,
+                        [val[key]]: val
+                    }), {});
                 },
-
-                queryFormStatus() {
-                    return {
-                        field: this.field,
-                        operator: this.operator,
-                        value: this.value
-                    };
-                },
-
-                fillRuleStatus(data) {
-                    this.field = data.field;
-                    this.operator = data.operator;
-                    this.value = data.value;
-                }
             }
         });
         app.component('v-rules', {
             template: "#v-rules-template",
             props: {
-                options: {
+                optionMap: {
                     type: Array,
                     default: []
                 },
-                value: {
+                valueList: {
+                    type: Array,
+                    default: []
+                },
+                initialRules: {
                     type: Array,
                     default: []
                 },
             },
             data() {
                 return {
-                    rules: this.value
+                    rules: this.initialRules
                 };
             },
             computed: {
                 operators() {
+                    const initialisedOperators = ['exist', 'empty']
+                    const comparismOperators = ['=', '!=']
+                    const findOperators = ['includes', 'excludes']
+                    const computedOperators = ['count']
+                    const commonOperators = [...initialisedOperators, ...comparismOperators]
+                    const arrayOperators = [...initialisedOperators, ...comparismOperators, ...findOperators]
+                    const allOperators = [...initialisedOperators, ...comparismOperators, ...findOperators, ...computedOperators]
+                    return {
+                        'text': commonOperators,
+                        'textarea': initialisedOperators,
+                        'boolean': initialisedOperators,
+                        'select': arrayOperators,
+                        'multiselect': allOperators,
+                        'checkbox': allOperators,
+                    }
+                },
+                options() {
                     return []
+                },
+                context() {
+                    return {
+                        operators: this.operators,
+                        options: this.options
+                    }
+                }
+            },
+            watch: {
+                initialRules(newVal) {
+                    this.rules = newVal;
                 }
             },
             methods: {
