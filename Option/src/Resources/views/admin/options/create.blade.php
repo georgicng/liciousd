@@ -429,7 +429,7 @@
                                         @change="swatchAttribute=true"
                                     >
                                         <!-- Here! All Needed types are defined -->
-                                        @foreach(['text', 'textarea', 'boolean', 'select', 'multiselect', 'file'] as $type)
+                                        @foreach(['text', 'textarea', 'boolean', 'select', 'multiselect', 'checkbox', 'file', 'json', 'date'] as $type)
                                             <option
                                                 value="{{ $type }}"
                                                 {{ $type === 'text' ? "selected" : '' }}

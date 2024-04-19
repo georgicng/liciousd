@@ -6,6 +6,7 @@ use Webkul\Product\Type\AbstractType;
 use Illuminate\Support\Facades\Log;
 use Gaiproject\Option\Repositories\ProductOptionValueRepository;
 use Gaiproject\Option\Contracts\ProductOptionValue;
+use \Gaiproject\Option\Repositories\OptionRepository;
 use Webkul\Customer\Repositories\CustomerRepository;
 use Webkul\Attribute\Repositories\AttributeRepository;
 use Webkul\Product\Repositories\ProductRepository;
@@ -25,6 +26,13 @@ use Webkul\Tax\Helpers\Tax;
 class Optionable extends AbstractType
 {
     /**
+     * Show quantity box.
+     *
+     * @var bool
+     */
+    protected $showQuantityBox = true;
+
+    /**
      * Create a new product type instance.
      *
      * @param  \Webkul\Customer\Repositories\CustomerRepository  $customerRepository
@@ -37,6 +45,7 @@ class Optionable extends AbstractType
      * @param  \Webkul\Product\Repositories\ProductDownloadableLinkRepository  $productDownloadableLinkRepository
      * @param  \Webkul\Product\Repositories\ProductDownloadableSampleRepository  $productDownloadableSampleRepository
      * @param  \Webkul\Product\Repositories\ProductVideoRepository  $productVideoRepository
+     * @param  \Gaiproject\Option\Repositories\OptionRepository  $optionRepository
      * @param  \Gaiproject\Option\Repositories\ProductOptionValueRepository $productOptionValueRepository
      * @return void
      */
@@ -49,6 +58,7 @@ class Optionable extends AbstractType
         productImageRepository $productImageRepository,
         ProductVideoRepository $productVideoRepository,
         ProductCustomerGroupPriceRepository $productCustomerGroupPriceRepository,
+        protected OptionRepository  $optionRepository,
         protected ProductOptionValueRepository $productOptionValueRepository,
     ) {
         parent::__construct(
@@ -77,22 +87,39 @@ class Optionable extends AbstractType
 
         $optionValues = $groups->flatMap(
             fn ($group) => array_map(
-                fn ($option) => array_merge(
-                    [
-                        'required' => 0,
-                        'value' => in_array($option['type'], ['select']) ? json_encode([]) : json_encode(new \stdClass()),
-                    ],
-                    [
-                        'product_id' => $product->id,
-                        'option_id' => $option['id']
-                    ]
-                ),
+                fn ($option) => $this->getOptionDefaults($option['id'], $product->id, $option['type']),
                 $group['custom_options']->toArray()
             )
         )->toArray();
 
-        $this->productOptionValueRepository->insert($optionValues);
+        $this->productOptionValueRepository->insert(array_merge(
+            $this->getOptionDefaults($this->getConfigOptionId(), $product->id),
+            $optionValues
+        ));
         return $product;
+    }
+
+
+    //Maybe add this as an attribute
+    private function getConfigOptionId()
+    {
+        return $this->optionRepository->Where('code', 'config')->first()->id;
+    }
+
+
+    //Maybe use seeder/factory
+    private function getOptionDefaults($optionId, $productId, $type = "")
+    {
+        return  [
+            'required' => 0,
+            'value' => in_array($type, ['select', 'multiselect', 'checkbox']) ? json_encode([]) : json_encode(new \stdClass()),
+            'product_id' => $productId,
+            'option_id' => $optionId,
+            'position' => 0,
+            'required' => 0,
+            'min' => "",
+            'max' => 0,
+        ];
     }
 
     /**
@@ -111,7 +138,7 @@ class Optionable extends AbstractType
         }
     }
 
-     /**
+    /**
      * Add product. Returns error message if can't prepare product.
      *
      * @param  array  $data
@@ -123,7 +150,7 @@ class Optionable extends AbstractType
 
         $data = $this->getQtyRequest($data);
 
-        if (! $this->haveSufficientQuantity($data['quantity'])) {
+        if (!$this->haveSufficientQuantity($data['quantity'])) {
             return trans('shop::app.checkout.cart.inventory-warning');
         }
 
@@ -151,7 +178,7 @@ class Optionable extends AbstractType
         return $products;
     }
 
-     /**
+    /**
      * Get product minimal price.
      *
      * @param  int  $qty
@@ -225,7 +252,7 @@ class Optionable extends AbstractType
             $key = $item->option_id;
             $value = $item->value;
             if (is_array($value) && array_is_list($value)) {
-                $value = array_reduce($value, function($acc, $val) {
+                $value = array_reduce($value, function ($acc, $val) {
                     $acc[$val['id']] = $val;
                     return $acc;
                 }, []);
@@ -234,9 +261,13 @@ class Optionable extends AbstractType
             return $carry;
         }, []);
         foreach ($options as $key => $value) {
+            if (empty($value)) {
+                continue;
+            }
             $option = $optionMap[$key];
             $optionValue = isset($option[$value]) ? $option[$value] : $option;
             $increment += $optionValue['base_increment'];
+            logger()->channel('custom')->info(json_encode([]));
         }
         return $increment;
     }
@@ -255,9 +286,9 @@ class Optionable extends AbstractType
         $productOptions = $this->productOptionValueRepository->getOptionValues($this->product, true);
         $optionMap = $productOptions->reduce(function (array $carry, ProductOptionValue $item) {
             $key = $item->option_id;
-            $value = [ 'option' => $item->option ];
+            $value = ['option' => $item->option];
             if (in_array($item->option->type, ['select'])) {
-                $value['values'] = $item->option->values->reduce(function($acc, $val) {
+                $value['values'] = $item->option->values->reduce(function ($acc, $val) {
                     $acc[$val['id']] = $val;
                     return $acc;
                 }, []);
@@ -306,14 +337,14 @@ class Optionable extends AbstractType
 
         if (
             isset($options1['parent_id'])
-            && ! isset($options2['parent_id'])
+            && !isset($options2['parent_id'])
         ) {
             return false;
         }
 
         if (
             isset($options2['parent_id'])
-            && ! isset($options1['parent_id'])
+            && !isset($options1['parent_id'])
         ) {
             return false;
         }
@@ -331,6 +362,7 @@ class Optionable extends AbstractType
         return view('shop::products.prices.optionable', [
             'product' => $this->product,
             'prices'  => $this->getProductPrices(),
+            'currency' => core()->getCurrentCurrency(),
         ])->render();
     }
 

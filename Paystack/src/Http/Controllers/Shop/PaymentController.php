@@ -72,7 +72,8 @@ class PaymentController extends Controller
             }
             return redirect()->route('shop.checkout.cart.index');
         } catch (Exception $exception) {
-            return back()->withError($exception->getMessage())->withInput();
+            return redirect()->route('shop.checkout.cart.index');
+            //return back()->withError($exception->getMessage())->withInput();
         }
     }
 

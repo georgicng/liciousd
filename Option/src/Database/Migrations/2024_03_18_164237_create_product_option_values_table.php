@@ -16,7 +16,10 @@ return new class extends Migration
             $table->integer('product_id')->unsigned();
             $table->integer('option_id')->unsigned();
             $table->json('value')->nullable();
+            $table->integer('position');
             $table->boolean('required')->default(0);
+            $table->string('min', 10)->nullable();
+            $table->string('max', 10)->nullable();
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
             $table->foreign('option_id')->references('id')->on('options')->onDelete('cascade');
         });

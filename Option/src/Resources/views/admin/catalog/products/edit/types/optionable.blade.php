@@ -31,27 +31,33 @@
 
 
             <div class="flex flex-row">
-                <ul
+                <draggable
+                    tag="ul"
+                    ghost-class="draggable-ghost"
                     class="flex-none w-32 flex-column space-y space-y-4 text-sm font-medium text-gray-500 dark:text-gray-400 md:me-4 mb-4 md:mb-0"
+                    v-bind="{animation: 200}"
+                    v-model="productOptions"
+                    item-key="id"
                 >
-                    <template v-if="productOptions.length">
-                        <li
-                            v-for="option in productOptions"
-                        >
+                    <template #item="{ element: option, index }">
+                        <li>
                             <button
                                 type="button"
                                 class="py-2 px-3 w-full flex items-center focus:outline-none focus-visible:underline"
                                 :class="{ 'bg-gray-50 dark:bg-gray-800':  option.id === selectedOption.id }"
                                 @click="select(option.id)"
                             >
-                                <span>@{{optionMap[option.id].name}}</span>
+                                <i class="icon-drag text-[20px] transition-all group-hover:text-gray-700"></i><span>@{{optionMap[option.id].name}}</span>
                             </button>
                         </li>
                     </template>
-                    <li>
-                        <v-autocomplete :items="availableOptions" @add="addOption($event)"/>
-                    </li>
-                </ul>
+                    <template #footer>
+                        <li>
+                            <v-autocomplete :items="availableOptions" @add="addOption($event)"/>
+                        </li>
+                    </template>
+
+                </draggable>
 
                 <div class="flex-1 p-6 bg-gray-50 text-medium text-gray-500 dark:text-gray-400 dark:bg-gray-800 rounded-lg">
                     <template v-if="productOptions.length">
@@ -62,10 +68,37 @@
                             :value="valueMap[option.id]"
                             :index="index"
                             :errors="errors"
+                            :key="option.id"
                         ></v-product-option-item>
                     </template>
                 </div>
             </div>
+            <div>
+                <div class="flex gap-[10px] w-max !mb-0 p-[6px] cursor-pointer select-none">
+                    <input
+                        type="checkbox"
+                        id="pricing_type"
+                        for="pricing_type"
+                        class="hidden peer"
+                        v-model="dynamicPricing"
+                        @click="togglePricing()"
+                    />
+
+                    <label
+                        for="pricing_type"
+                        class="icon-uncheckbox text-[24px] rounded-[6px] cursor-pointer peer-checked:icon-checked peer-checked:text-blue-600"
+                    >
+                    </label>
+
+                    <label
+                        for="pricing_type"
+                        class="text-[14px] text-gray-600 dark:text-gray-300 font-semibold cursor-pointer"
+                    >
+                        @lang('option::app.admin.catalog.options.create.create-empty-option')
+                    </label>
+                </div>
+            </div>
+            <div v-if="dynamicPricing"></div>
         </div>
     </script>
 
@@ -110,9 +143,10 @@
                         v-if="['text', 'textarea'].includes(option.type)"
                         :control-name="`options[${index}][value]`"
                         :option="value['value']"
+                        :type="option.type"
                     />
                     <v-product-option-select
-                        v-if="option.type == 'select'"
+                        v-else-if="['select', 'checkbox', 'multiselect'].includes(option.type)"
                         :control-name="`options[${index}][value]`"
                         :value="value['value']"
                         :options="option.values"
@@ -129,9 +163,56 @@
                         </p>
                     </v-error-message>
                 </x-admin::form.control-group>
+                <template v-if="['text', 'textarea', 'checkbox', 'multiselect'].includes(option.type)">
+                    <x-admin::form.control-group>
+                        <x-admin::form.control-group.label class="min">
+                            Min
+                        </x-admin::form.control-group.label>
+
+                        <v-field
+                            :name="`options[${index}][min]`"
+                            type="text"
+                            :value="value['min']"
+                        />
+
+                        <v-error-message
+                            :name="min"
+                            v-slot="{ message }"
+                        >
+                            <p
+                                class="mt-1 text-red-600 text-xs italic"
+                                v-text="message"
+                            >
+                            </p>
+                        </v-error-message>
+                    </x-admin::form.control-group>
+                    <x-admin::form.control-group>
+                        <x-admin::form.control-group.label class="max">
+                            Max
+                        </x-admin::form.control-group.label>
+
+                        <v-field
+                            :name="`options[${index}][max]`"
+                            type="text"
+                            :value="value['min']"
+                        />
+
+                        <v-error-message
+                            :name="max"
+                            v-slot="{ message }"
+                        >
+                            <p
+                                class="mt-1 text-red-600 text-xs italic"
+                                v-text="message"
+                            >
+                            </p>
+                        </v-error-message>
+                    </x-admin::form.control-group>
+                </template>
                 <input v-if="value.id" type="hidden" :name="`options[${index}][id]`" :value="value.id" />
                 <input type="hidden" :name="`options[${index}][option_id]`" :value="value.option_id" />
                 <input type="hidden" :name="`options[${index}][product_id]`" :value="value.product_id" />
+                <input type="hidden" :name="`options[${index}][position]`" :value="value.position" />
             </div>
         </div>
     </script>
@@ -141,11 +222,11 @@
         <div>
             <x-admin::form.control-group>
                 <x-admin::form.control-group.label>
-                    Default Value
+                    @{{ type == 'boolean' ? 'Label' : 'Default Value' }}
                 </x-admin::form.control-group.label>
                 <v-field
                     :type="option.type"
-                    :name="`${controlName}[default]`"
+                    :name="`${controlName}[${type == 'boolean' ? 'label' : 'default'}]`"
                     v-model="model.default"
                 />
             </x-admin::form.control-group>
@@ -185,12 +266,19 @@
                         <th scope="col"></th>
                     </tr>
                 </thead>
-                <tbody>
-                    <template v-if="model.length">
-                        <tr v-for="(value, index) in model" :key="value.id">
+                <draggable
+                    tag="tbody"
+                    ghost-class="draggable-ghost"
+                    v-bind="{animation: 200}"
+                    :list="model"
+                    item-key="id"
+                >
+                    <template #item="{ element: value, index }">
+                        <tr>
                             <th scope="row">
-                                @{{ nameById[value.id] }}
+                                <i class="icon-drag text-[20px] transition-all group-hover:text-gray-700"></i> @{{ nameById[value.id] }}
                                 <input type="hidden" :name="`${controlName}[${index}][id]`" :value="value.id" />
+                                <input type="hidden" :name="`${controlName}[${index}][position]`" :value="index" />
                             </th>
                             <td>
                                 <select
@@ -216,10 +304,11 @@
                             <td><button type="button" @click="remove(value.id)">remove</button></td>
                         </tr>
                     </template>
-                    <template v-else>
+
+                    <template v-if="!model.length" #header>
                         <tr><td colspan="3">Please add an option item to begin</td></tr>
                     </template>
-                </tbody>
+                </draggable>
                 <tfoot v-if="unassignedOptions.length">
                     <tr>
                         <th scope="row" colspan="2">
@@ -253,6 +342,91 @@
         </div>
     </script>
 
+    {{-- Condition --}}
+    <script type="text/x-template" id="v-condition-template">
+        <div class="and-or-rule">
+            <div>
+                <v-field
+                    as="select"
+                    v-model="key"
+                >
+                    <option v-for="item in condition.keys" :key="item.id" :value="item.code" >
+                        @{{item.admin_name}}
+                    </option>
+                </v-field>
+            </div>
+
+            <div>
+                <v-field
+                    as="select"
+                    v-model="operator"
+                    :items="condition.operators"
+                >
+                    <option v-for="item in condition.operators" :key="item.key" :value="item.value" >
+                        @{{item.label}}
+                    </option>
+                </v-select>
+            </div>
+
+            <div>
+                <v-field :name="condition.name" label="Value" type="text" v-model="value" placeholder="input"/>
+            </div>
+
+            <button type="button" @click="delete()">
+                delete
+            </button>
+        </div>
+    </script>
+
+    {{-- Rules --}}
+    <script type="text/x-template" id="v-rules-template">
+        <div class="col-xs-12">
+            <div>
+                <button
+                    type="button"
+                    class="btn btn-xs btn-purple add-rule pull-right"
+                    @click="addRule"
+                >Add Ruleset</button>
+            </div>
+            <div v-for="(rule, index) in rules" :key="rule.key">
+                <div>
+                    <button
+                        type="button"
+                        class="btn btn-xs btn-purple add-rule pull-right"
+                        @click.prevent="addRuleCondition(index)"
+                    >+ Add more conditions</button>
+                    <button
+                        type="button"
+                        class="btn btn-xs btn-purple add-rule pull-right"
+                        @click="deleteRule(index)"
+                    >Delete Rule</button>
+                </div>
+                <template v-if="rule.conditions.length">
+                    <div >
+                        <button type="button" @click="setRuleLogic(index, 'and')">
+                            And
+                        </button>
+                        <button type="button" @click="setRuleLogic(index, 'or')">
+                            Or
+                        </button>
+                    </div>
+                    <v-condition
+                        v-for="condition in rule.conditions"
+                        :condition="condition"
+                        :key="condition.key"
+                        @delete="deleteRuleCondition(index, condition.key)"
+                    ></v-condition>
+                    <div>
+                        <v-field :name="result" label="Value" type="text" v-model="rule.result" placeholder="input"/>
+                    </div>
+                </template>
+                <div v-else>
+                    Add a rule to begin
+                </div>
+            </div>
+        </div>
+    </script>
+
 
     <script type="module">
         app.component('v-product-options', {
@@ -270,10 +444,16 @@
                     setOptions,
                     valueList,
                     selectedOption,
+                    dynamicPricing: false
                 }
             },
 
             computed: {
+                config() {
+                    return this.valueList.filter(({
+                            option_id: id
+                        }) => this.optionMap[id].code === 'config')
+                },
                 options() {
                     if (!this.optionList?.length) {
                         return []
@@ -299,22 +479,30 @@
                 optionMap() {
                     return this.mapToId(this.options);
                 },
-                productOptions() {
-                    if (!this.valueList?.length) {
-                        return []
-                    }
+                productOptions: {
+                    get() {
+                        if (!this.valueList?.length) {
+                            return []
+                        }
 
-                    return this.valueList.filter(({
-                        option_id: id
-                    }) => !this.optionMap[id].is_sys_defined).map(({
-                        option_id: id,
-                        required,
-                        value
-                    }) => ({
-                        id,
-                        required,
-                        value
-                    }))
+                        return this.valueList.filter(({
+                            option_id: id
+                        }) => !this.optionMap[id].is_sys_defined).map(({
+                            option_id: id,
+                            required,
+                            value,
+                            position: sort
+                        }) => ({
+                            id,
+                            required,
+                            value,
+                            sort
+                        })).sort((a, b) => a.sort - b.sort)
+                    },
+                    set(value) {
+                        this.valueList = value.map(({ id }, index) => ({ ...this.valueMap[id], position: index}))
+                        console.log({ list: this.valueList, map: this.valueMap })
+                    }
                 },
                 valueMap() {
                     if (!this.valueList?.length) {
@@ -362,6 +550,7 @@
             },
             created() {
                 this.selectedOption = this.options[0];
+                this.dynamicPricing = !!this.config?.pricing
             }
         });
 
@@ -433,7 +622,8 @@
 
             props: [
                 'option',
-                'controlName'
+                'controlName',
+                'type'
             ],
 
             data() {
@@ -450,7 +640,7 @@
         app.component('v-autocomplete', {
             template: "#v-autocomplete-template",
             props: {
-                items: {
+                rules: {
                     type: Array,
                     required: true,
                 },
@@ -513,6 +703,148 @@
             },
             destroyed() {
                 document.removeEventListener("click", this.handleClickOutside);
+            }
+        });
+
+        app.component('v-condition', {
+            template: "#v-condition-template",
+            props: ["condition"],
+            watch: {
+                "condition.keys"() {
+                    this.field = -99;
+                },
+                "condition.operators"() {
+                    this.condition = -99;
+                }
+            },
+            data() {
+                return {
+                    field: -99,
+                    operator: -99,
+                    value: ""
+                };
+            },
+            methods: {
+                delete() {
+                    this.$emit("delete");
+                },
+
+                queryFormStatus() {
+                    return {
+                        field: this.field,
+                        operator: this.operator,
+                        value: this.value
+                    };
+                },
+
+                fillRuleStatus(data) {
+                    this.field = data.field;
+                    this.operator = data.operator;
+                    this.value = data.value;
+                }
+            }
+        });
+        app.component('v-rules', {
+            template: "#v-rules-template",
+            props: {
+                options: {
+                    type: Array,
+                    default: []
+                },
+                value: {
+                    type: Array,
+                    default: []
+                },
+            },
+            data() {
+                return {
+                    rules: this.value
+                };
+            },
+            computed: {
+                operators() {
+                    return []
+                }
+            },
+            methods: {
+                setRuleLogic(index, value) {
+                    this.rules[index]['logic'] = value;
+                },
+                addRuleCondition(index) {
+                    this.rules[index]['conditions'].push({
+                        key: this.generateId(),
+                        field: -99,
+                        operator: -99,
+                        value: ""
+                    });
+                },
+                deleteRuleCondtion(index, key) {
+                    this.rules[index]['conditions'] = this.rules[index]['conditions'].filter(item => item.key !== key);
+                },
+                addRule() {
+                    this.rules.push({
+                        key: this.generateId(),
+                        logic: 'and',
+                        conditions:[],
+                        result: null
+                    });
+                },
+                deleteRule(index) {
+                    this.rules.splice(index, 1);
+                },
+
+                queryFormStatus() {
+                    var query = {};
+                    var rules = this.$refs.rules || {};
+                    var groups = this.$refs.groups || {};
+                    var i, j;
+
+                    query["condition"] = this.isAnd ? "AND" : "OR";
+                    query["rules"] = [];
+                    for (i = 0; i < rules.length; i++) {
+                        query.rules.push(rules[i].queryFormStatus());
+                    }
+                    for (j = 0; j < groups.length; j++) {
+                        query.rules[query.rules.length] = groups[j].queryFormStatus();
+                    }
+                    return query;
+                },
+
+                fillFormStatus(data) {
+                    var i, len;
+                    var group = this;
+                    group.rules = [];
+                    group.groups = [];
+                    if (data) {
+                        group.isAnd = /and/i.test(data.condition);
+                        len = data.rules.length;
+                        for (i = 0; i < len; i++) {
+                        if (data.rules[i].condition) {
+                            group.groups.push(group.generateId());
+                            (function(i, index) {
+                            group.$nextTick(function() {
+                                group.$refs.groups[index].fillFormStatus(data.rules[i]);
+                            });
+                            })(i, group.groups.length - 1);
+                        } else {
+                            group.rules.push(group.generateId());
+                            (function(i, index) {
+                            group.$nextTick(function() {
+                                group.$refs.rules[index].fillRuleStatus(data.rules[i]);
+                            });
+                            })(i, group.rules.length - 1);
+                        }
+                        }
+                    }
+                },
+
+                generateId() {
+                    return "xxxxxxxxxxxxxxxx".replace(/[xy]/g, function(c) {
+                        var r = (Math.random() * 16) | 0,
+                        v = c == "x" ? r : (r & 0x3) | 0x8;
+                        return v.toString(16);
+                    });
+                }
             }
         });
     </script>

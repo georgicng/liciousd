@@ -14,28 +14,22 @@
             <div class="flex gap-x-[10px] items-center">
                 <!-- Craete currency Button -->
                 @if (bouncer()->hasPermission('settings.pickup.create'))
-                    <button
-                        type="button"
-                        class="primary-button"
-                    >
-                        @lang('pickup::app.admin.settings.pickup.index.create-btn')
-                    </button>
+                <button type="button" class="primary-button">
+                    @lang('pickup::app.admin.settings.pickup.index.create-btn')
+                </button>
                 @endif
             </div>
         </div>
 
         {{-- DataGrid Shimmer --}}
-        <x-admin::shimmer.datagrid/>
+        <x-admin::shimmer.datagrid />
     </v-centres>
 
     {!! view_render_event('bagisto.admin.settings.pickup.create.after') !!}
 
     @pushOnce('scripts')
-        <script
-            type="text/x-template"
-            id="v-centres-template"
-        >
-            <div class="flex gap-[16px] justify-between items-center max-sm:flex-wrap">
+    <script type="text/x-template" id="v-centres-template">
+        <div class="flex gap-[16px] justify-between items-center max-sm:flex-wrap">
                 <p class="text-[20px] text-gray-800 dark:text-white font-bold">
                     @lang('pickup::app.admin.settings.pickup.index.title')
                 </p>
@@ -431,15 +425,13 @@
                                         @lang('pickup::app.admin.settings.pickup.index.create.additional')
                                     </x-admin::form.control-group.label>
 
-                                    <x-admin::form.control-group.control
-                                        as="textarea"
+
+                                    <v-business-hours
                                         name="additional"
                                         rules="required"
-                                        v-model="selectedCentre.additional"
-                                        :label="trans('pickup::app.admin.settings.pickup.index.create.additional')"
-                                        :placeholder="trans('pickup::app.admin.settings.pickup.index.create.additional')"
+                                        :value="selectedCentre.additional"
                                     >
-                                    </x-admin::form.control-group.control>
+                                    </v-business-hours>
 
                                     <x-admin::form.control-group.error
                                         control-name="additional"
@@ -493,66 +485,154 @@
                 </form>
             </x-admin::form>
         </script>
+        <script type="text/x-template" id="v-business-hours-template">
+            <div class="overflow-y-auto h-32">
+                <div v-for="item in Object.keys(model)" :key="item" class="flex">
+                    <div role="cell" class="flex-auto p-16 w-14">
+                        <div>@{{ item.charAt(0).toUpperCase() + item.slice(1)}}</div>
+                    </div>
+                    <div class="flex-auto p-16 w-14">
+                        <input :name="`${name}[${item}][isOpen]`" type="checkbox" v-model="model[item].isOpen" true-value="on" false-value="off"> <label>Open</label>
+                    </div>
+                    <div v-show="model[item].isOpen" class="flex-auto p-16">
+                        <input :name="`${name}[${item}][open]`" type="text" v-model="model[item].open" placeholder="Opens"> - <input :name="`${name}[${item}][close]`" type="text" v-model="model[item].close" placeholder="Closes">
+                    </div>
+                    <div v-show="false" class="flex-auto p-16 w-14">
+                        <input :name="`${name}[${item}][groupWithFormer]`" type="checkbox" v-model="model[item].groupWithFormer"> <label>Group</label>
+                    </div>
+                </div>
+            </div>
+        </script>
 
-        <script type="module">
-            app.component('v-centres', {
-                template: '#v-centres-template',
+    <script type="module">
+        app.component('v-centres', {
+            template: '#v-centres-template',
 
-                data() {
-                    return {
-                        selectedCentre: {
-                            name: {{ old('name') ?? "null" }},
-                            city: {{ old('city') ?? "null" }},
-                            phone: {{ old('phone') ?? "null" }},
-                            address: {{ old('address') ?? "null" }},
-                            landmark: {{ old('landmark') ?? "null" }},
-                            rate: {{ old('rate') ?? "null" }},
-                            location: {{ old('location')  ?? "null" }},
-                            whatsapp: {{ old('whatsapp') ?? "null" }},
-                            status: {{ old('status') ?? "null" }},
-                            additional: {{ old('additional') ?? "null" }},
-                        },
+            data() {
+                return {
+                    selectedCentre: {
+                        name: {{ old('name') ?? "null" }},
+                        city: {{ old('city') ?? "null" }},
+                        phone: {{ old('phone') ?? "null" }},
+                        address: {{ old('address') ?? "null"}},
+                        landmark: {{ old('landmark') ?? "null" }},
+                        rate: {{ old('rate') ?? "null" }},
+                        location: {{ old('location') ?? "null" }},
+                        whatsapp: {{ old('whatsapp') ?? "null" }},
+                        status: {{ old('status') ?? "null" }},
+                        additional: {{ old('additional') ?? "null" }},
+                    },
+                }
+            },
+
+            methods: {
+                updateOrCreate(params, {
+                    resetForm,
+                    setErrors
+                }) {
+                    let formData = new FormData(this.$refs.currencyCreateForm);
+
+                    if (params.id) {
+                        formData.append('_method', 'put');
                     }
-                },
 
-                methods: {
-                    updateOrCreate(params, { resetForm, setErrors  }) {
-                        let formData = new FormData(this.$refs.currencyCreateForm);
-
-                        if (params.id) {
-                            formData.append('_method', 'put');
-                        }
-
-                        this.$axios.post(params.id ? "{{ route('admin.settings.pickup.update') }}" : "{{ route('admin.settings.pickup.store') }}", formData)
+                    this.$axios.post(params.id ? "{{ route('admin.settings.pickup.update') }}" : "{{ route('admin.settings.pickup.store') }}", formData)
                         .then((response) => {
                             this.$refs.centreUpdateOrCreateModal.close();
 
                             this.$refs.datagrid.get();
 
-                            this.$emitter.emit('add-flash', { type: 'success', message: response.data.message });
+                            this.$emitter.emit('add-flash', {
+                                type: 'success',
+                                message: response.data.message
+                            });
 
                             resetForm();
                         })
                         .catch(error => {
-                            if (error.response.status ==422) {
+                            if (error.response.status == 422) {
                                 setErrors(error.response.data.errors);
                             }
                         });
-                    },
+                },
 
-                    editModal(url) {
-                        this.$axios.get(url)
-                            .then((response) => {
-                                this.selectedCentre = response.data;
+                editModal(url) {
+                    this.$axios.get(url)
+                        .then((response) => {
+                            this.selectedCentre = response.data;
 
-                                this.$refs.centreUpdateOrCreateModal.toggle();
+                            this.$refs.centreUpdateOrCreateModal.toggle();
+                        })
+                        .catch(error => {
+                            this.$emitter.emit('add-flash', {
+                                type: 'error',
+                                message: error.response.data.message
                             })
-                            .catch(error => {
-                                this.$emitter.emit('add-flash', { type: 'error', message: error.response.data.message })
-                            });
-                    },
+                        });
+                },
+            }
+        });
+
+        app.component('v-business-hours', {
+            template: '#v-business-hours-template',
+            props: ['value', 'name'],
+            data() {
+                const defaultValue = {
+                        "monday": {
+                            "open": "",
+                            "close": "",
+                            "isOpen": true
+                        },
+                        "tuesday": {
+                            "open": "",
+                            "close": "",
+                            "isOpen": true,
+                            "groupWithFormer": false,
+                        },
+                        "wednesday": {
+                            "open": "",
+                            "close": "",
+                            "isOpen": true,
+                            "groupWithFormer": false,
+                        },
+                        "thursday": {
+                            "open": "",
+                            "close": "",
+                            "isOpen": true,
+                            "groupWithFormer": false,
+                        },
+                        "friday": {
+                            "open": "",
+                            "close": "",
+                            "isOpen": true,
+                            "groupWithFormer": false,
+                        },
+                        "saturday": {
+                            "open": "",
+                            "close": "",
+                            "isOpen": true,
+                            "groupWithFormer": false,
+                        },
+                        "sunday": {
+                            "open": "",
+                            "close": "",
+                            "isOpen": true,
+                            "groupWithFormer": false,
+                        },
+                    };
+                    console.log({ value: this.value })
+                return {
+                    model: this.value ? this.value : defaultValue
                 }
-            })
-        </script>
+            },
+
+            watch: {
+                model(newValue) {
+                    this.$emit('change', newValue)
+                },
+                deep: true
+            }
+        })
+    </script>
     @endPushOnce
 </x-admin::layouts>
