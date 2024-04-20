@@ -162,6 +162,50 @@
                 },
 
                 methods: {
+                    evalRules(rule, domain) {
+                        const { logic, conditions, result } = rule;
+                        const outcome = conditions.reduce((acc, condition) => {
+                        const { field, operator, value } = condition;
+                        const domainValue = domain[field];
+                        const isArrayCheck = Array.isArray(value);
+                        let check
+                        switch(operator) {
+                            case 'exist':
+                                check = !!domainValue
+                                break;
+                            case 'empty':
+                                check = !domainValue
+                                break;
+                            case '=':
+                            case 'in':
+                                check = isArrayCheck ? value.includes(domainValue) : domainValue == value;
+                                break;
+                            case '!=':
+                            case 'not in':
+                                check = isArrayCheck ? !value.includes(domainValue) : domainValue != value;
+                                break;
+                            case 'regex':
+                                check = domainValue.match(value);
+                                break;
+                            case 'include':
+                                check = domainValue.every(value => value.includes(value));
+                                break;
+                            case 'exclude':
+                                check = domainValue.every(value => !value.includes(value));
+                                break;
+                            case 'count':
+                                check = domainValue.length == value;
+                                break;
+                            default:
+                                check = false;
+                            }
+                            return logic === 'and' ? acc && check : acc || check;
+                        }, true);
+                        return outcome ? result : 0;
+                    },
+                    getIncrement(rules, domain) {
+                        return rules.reduce((acc, rule) => acc += evalRules(rule, domain), 0)
+                    },
                     mapToId(col, key = 'id') {
                         return col.reduce((acc, val) => ({
                             ...acc,

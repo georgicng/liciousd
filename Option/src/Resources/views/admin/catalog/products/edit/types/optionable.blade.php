@@ -69,6 +69,7 @@
                             :index="index"
                             :errors="errors"
                             :key="option.id"
+                            @updateValue="updateOption(index, $event)"
                         ></v-product-option-item>
                     </template>
                 </div>
@@ -78,9 +79,10 @@
                     <input
                         type="checkbox"
                         id="pricing_type"
+                        :name="`options[${configIndex}][value][dynamic]`"
                         for="pricing_type"
                         class="hidden peer"
-                        v-model="dynamicPricing"
+                        v-model="dynamic"
                         @click="togglePricing()"
                     />
 
@@ -94,16 +96,17 @@
                         for="pricing_type"
                         class="text-[14px] text-gray-600 dark:text-gray-300 font-semibold cursor-pointer"
                     >
-                        @lang('option::app.admin.catalog.options.create.create-empty-option')
+                        @lang('option::app.admin.catalog.options.create.dynamic-pricing')
                     </label>
                 </div>
             </div>
-            <div v-if="dynamicPricing">
+            <div v-if="dynamic">
                 <v-rules
-                    :options="optionListMap"
-                    :value="valueList"
+                    :control-name="`options[${configIndex}][value]`"
+                    :optionMap="optionListMap"
+                    :valueList="valueList"
                     :initial-rules="config.rules"
-                ></v-product-option-item>
+                ></v-rules>
             </div>
         </div>
     </script>
@@ -123,7 +126,7 @@
                         as="select"
                         :name="`options[${index}][required]`"
                         class="custom-select flex w-full min-h-[39px] py-[6px] px-[12px] bg-white dark:bg-gray-900 border dark:border-gray-800 rounded-[6px] text-[14px] text-gray-600 dark:text-gray-300 font-normal transition-all hover:border-gray-400"
-                        :value="value['required']"
+                        v-model="model.required"
                     >
                         <option value="0" >
                             No
@@ -150,12 +153,14 @@
                         :control-name="`options[${index}][value]`"
                         :option="value['value']"
                         :type="option.type"
+                        @updateValue="update('value', $event)"
                     />
                     <v-product-option-select
                         v-else-if="['select', 'checkbox', 'multiselect'].includes(option.type)"
                         :control-name="`options[${index}][value]`"
                         :value="value['value']"
                         :options="option.values"
+                        @updateValue="update('value', $event)"
                     />
 
                     <v-error-message
@@ -178,7 +183,7 @@
                         <v-field
                             :name="`options[${index}][min]`"
                             type="text"
-                            :value="value['min']"
+                            v-model="model.min"
                         />
 
                         <v-error-message
@@ -200,7 +205,7 @@
                         <v-field
                             :name="`options[${index}][max]`"
                             type="text"
-                            :value="value['min']"
+                            v-model="model.max"
                         />
 
                         <v-error-message
@@ -215,10 +220,10 @@
                         </v-error-message>
                     </x-admin::form.control-group>
                 </template>
-                <input v-if="value.id" type="hidden" :name="`options[${index}][id]`" :value="value.id" />
-                <input type="hidden" :name="`options[${index}][option_id]`" :value="value.option_id" />
-                <input type="hidden" :name="`options[${index}][product_id]`" :value="value.product_id" />
-                <input type="hidden" :name="`options[${index}][position]`" :value="value.position" />
+                <input v-if="value.id" type="hidden" :name="`options[${index}][id]`" :value="model.id" />
+                <input type="hidden" :name="`options[${index}][option_id]`" :value="model.option_id" />
+                <input type="hidden" :name="`options[${index}][product_id]`" :value="model.product_id" />
+                <input type="hidden" :name="`options[${index}][position]`" :value="index" />
             </div>
         </div>
     </script>
@@ -352,66 +357,68 @@
     <script type="text/x-template" id="v-condition-template">
         <div class="and-or-rule">
             <div>
-                <v-field
-                    as="select"
-                    v-model="model.field"
-                    :name="`config[rules][${ruleIndex}][conditions][${conditionIndex}][field]`"
-                >
-                    <option value="" >
-                        Selection field
-                    </option>
-                    <option v-for="item in context.options" :key="item.code" :value="item.code" >
-                        @{{item.name}}
-                    </option>
-                </v-field>
-            </div>
+                <div>
+                    <v-field
+                        as="select"
+                        v-model="model.field"
+                        :name="`${controlName}[rules][${ruleIndex}][conditions][${conditionIndex}][field]`"
+                    >
+                        <option value="" >
+                            Selection field
+                        </option>
+                        <option v-for="item in context.options" :key="item.code" :value="item.code" >
+                            @{{item.name}}
+                        </option>
+                    </v-field>
+                </div>
 
-            <div>
-                <v-field
-                    as="select"
-                    v-model="model.operator"
-                    :name="`config[rules][${ruleIndex}][conditions][${conditionIndex}][operator]`"
-                >
-                    <option value="" >
-                        Selection operator
-                    </option>
-                    <option v-for="item in context.operators[field.type]" :key="item" :value="item" >
-                        @{{item}}
-                    </option>
-                </v-field>
-            </div>
+                <div>
+                    <v-field
+                        as="select"
+                        v-model="model.operator"
+                        :name="`${controlName}[rules][${ruleIndex}][conditions][${conditionIndex}][operator]`"
+                    >
+                        <option value="" >
+                            Selection operator
+                        </option>
+                        <option v-for="item in context.operators[field.type]" :key="item" :value="item" >
+                            @{{item}}
+                        </option>
+                    </v-field>
+                </div>
 
-            <div>
-                <v-field
-                    v-if="linearOperators.includes(model.operator) && textGroup.includes(field.type)"
-                    :name="`config[rules][${ruleIndex}][conditions][${conditionIndex}][value]`"
-                    type="text"
-                    v-model="model.value"
-                    placeholder="input"
-                />
-                <v-field
-                    as="select"
-                    v-if="linearOperators.includes(model.operator) && selectGroup.includes(field.type)"
-                    :name="`config[rules][${ruleIndex}][conditions][${conditionIndex}][value]`"
-                    v-model="model.value"
-                >
-                    <option v-for="item in field.options" :key="item.id" :value="item.id" >
-                        @{{item.label}}
-                    </option>
-                </v-field>
-                <v-field
-                    as="select"
-                    v-if="selectionOperators.includes(model.operator) && selectGroup.includes(field.type)"
-                    :name="`config[rules][${ruleIndex}][conditions][${conditionIndex}][value]`"
-                    v-model="model.value"
-                    multiple
-                >
-                    <option v-for="item in field.options" :key="item.id" :value="item.id" >
-                        @{{item.label}}
-                    </option>
-                </v-field>
+                <div>
+                    <v-field
+                        v-if="linearOperators.includes(model.operator) && textGroup.includes(field.type)"
+                        :name="`${controlName}[rules][${ruleIndex}][conditions][${conditionIndex}][value]`"
+                        type="text"
+                        v-model="model.value"
+                        placeholder="input"
+                    />
+                    <v-field
+                        as="select"
+                        v-if="linearOperators.includes(model.operator) && selectGroup.includes(field.type)"
+                        :name="`${controlName}[rules][${ruleIndex}][conditions][${conditionIndex}][value]`"
+                        v-model="model.value"
+                    >
+                        <option v-for="item in field.options" :key="item.id" :value="item.id" >
+                            @{{item.label}}
+                        </option>
+                    </v-field>
+                    <v-field
+                        as="select"
+                        v-if="selectionOperators.includes(model.operator) && selectGroup.includes(field.type)"
+                        :name="`${controlName}[rules][${ruleIndex}][conditions][${conditionIndex}][value]`"
+                        v-model="model.value"
+                        multiple
+                    >
+                        <option v-for="item in field.options" :key="item.id" :value="item.id" >
+                            @{{item.label}}
+                        </option>
+                    </v-field>
+                </div>
             </div>
-            <input :name="`config[rules][${ruleIndex}][conditions][${conditionIndex}][id]`" type="hidden" v-model="model.id"/>
+            <input :name="`${controlName}[rules][${ruleIndex}][conditions][${conditionIndex}][id]`" type="hidden" v-model="model.id"/>
             <button type="button" @click="$emit('delete')">
                 delete
             </button>
@@ -440,8 +447,8 @@
                         class="btn btn-xs btn-purple add-rule pull-right"
                         @click="deleteRule(index)"
                     >Delete Rule</button>
-                    <input type="hidden" :name="`config[rules][${index}][logic]`"  :value="rule.logic" />
-                    <input type="hidden" :name="`config[rules][${index}][id]`"  :value="rule.id" />
+                    <input type="hidden" :name="`${controlName}[rules][${index}][logic]`"  :value="rule.logic" />
+                    <input type="hidden" :name="`${controlName}[rules][${index}][id]`"  :value="rule.id" />
                 </div>
                 <template v-if="rule.conditions.length">
                     <div >
@@ -459,10 +466,11 @@
                         :key="condition.id"
                         :rule-index="index"
                         :condition-index="_index"
+                        :control-name="controlName"
                         @delete="deleteRuleCondition(index, condition.id)"
                     ></v-condition>
                     <div>
-                        <v-field :name="`config[rules][${index}][result]`" label="Value" type="text" v-model="rule.result" placeholder="input"/>
+                        <v-field :name="`${controlName}[rules][${index}][result]`" label="Value" type="text" v-model="rule.result" placeholder="result"/>
                     </div>
                 </template>
                 <div v-else>
@@ -489,7 +497,7 @@
                     setOptions,
                     valueList,
                     selectedOption,
-                    dynamicPricing: false
+                    dynamic: false
                 }
             },
 
@@ -498,6 +506,9 @@
                     return this.valueList.filter(({
                             option_id: id
                         }) => this.optionMap[id].code === 'config')
+                },
+                configIndex() {
+                    return this.valueList.length + 1;
                 },
                 options() {
                     if (!this.optionList?.length) {
@@ -550,6 +561,7 @@
                     },
                     set(value) {
                         this.valueList = value.map(({ id }, index) => ({ ...this.valueMap[id], position: index}))
+                        //this.valueList = value;
                         console.log({ list: this.valueList, map: this.valueMap })
                     }
                 },
@@ -580,6 +592,9 @@
                     });
                     this.select(id);
                 },
+                updateOption(index, value) {
+                    this.valueList[index] = value
+                },
 
                 removeOption(id) {
                     this.valueList = this.valueList.filter(item => item.option_id !== id);
@@ -596,10 +611,13 @@
                         [val[key]]: val
                     }), {});
                 },
+                togglePricing() {
+                    this.dynamic = !this.dynamic;
+                }
             },
             created() {
                 this.selectedOption = this.options[0];
-                this.dynamicPricing = !!this.config?.pricing
+                this.dynamic = !!this.config?.dynamic
             }
         });
 
@@ -611,6 +629,21 @@
                 'value',
                 'index'
             ],
+            data() {
+                return {
+                    model: this.value
+                }
+            },
+            method: {
+                update(key, value) {
+                    this.model[key] = value
+                }
+            },
+            watch: {
+                model(newVal) {
+                    this.$emit('updateValue', newVal)
+                }
+            }
         });
 
         app.component('v-product-option-select', {
@@ -662,6 +695,11 @@
                     const index = this.model.findIndex(item => item.id == id)
                     this.model[index][key] = value;
                 }
+            },
+            watch: {
+                model(newVal) {
+                    this.$emit('updateValue', newVal)
+                }
             }
 
         });
@@ -684,12 +722,17 @@
                     }
                 }
             },
+            watch: {
+                model(newVal) {
+                    this.$emit('updateValue', newVal)
+                }
+            }
         });
 
         app.component('v-autocomplete', {
             template: "#v-autocomplete-template",
             props: {
-                rules: {
+                items: {
                     type: Array,
                     required: true,
                 },
@@ -757,21 +800,22 @@
 
         app.component('v-condition', {
             template: "#v-condition-template",
-            props: ["condition", "context", "ruleIndex", "conditionIndex"],
+            props: ["condition", "context", "ruleIndex", "conditionIndex", "controlName"],
             data() {
+                console.log(this.context, this.condition)
                 return {
                     model: this.condition
                 };
             },
             computed: {
                 fieldMap() {
-                    return this.mapToId(context.options, 'code')
+                    return this.mapToId(this.context.options, 'code')
                 },
                 field() {
-                    if (!model.field) {
+                    if (!this.model.field) {
                         return {}
                     }
-                    return this.fieldMap[model.field]
+                    return this.fieldMap[this.model.field]
                 },
                 linearOperators() {
                     return ['=', '!='];
@@ -818,6 +862,10 @@
                     type: Array,
                     default: []
                 },
+                controlName: {
+                    type: String,
+                    default: ""
+                }
             },
             data() {
                 return {
@@ -826,20 +874,13 @@
             },
             computed: {
                 operators() {
-                    const initialisedOperators = ['exist', 'empty']
-                    const comparismOperators = ['=', '!=']
-                    const findOperators = ['includes', 'excludes']
-                    const computedOperators = ['count']
-                    const commonOperators = [...initialisedOperators, ...comparismOperators]
-                    const arrayOperators = [...initialisedOperators, ...comparismOperators, ...findOperators]
-                    const allOperators = [...initialisedOperators, ...comparismOperators, ...findOperators, ...computedOperators]
                     return {
-                        text: commonOperators,
-                        textarea: initialisedOperators,
-                        boolean: initialisedOperators,
-                        select: arrayOperators,
-                        multiselect: allOperators,
-                        checkbox: allOperators,
+                        text: ['=', '!=', 'exist', 'empty', 'regex'],
+                        textarea: ['exist', 'empty', 'regex'],
+                        boolean: ['exist', 'empty'],
+                        select: ['=', '!=', 'exist', 'empty', 'in', 'not in'],
+                        multiselect: ['includes', 'excludes', 'count'],
+                        checkbox: ['includes', 'excludes', 'count'],
                     }
                 },
                 options() {
@@ -877,7 +918,7 @@
                         value: ""
                     });
                 },
-                deleteRuleCondtion(index, id) {
+                deleteRuleCondition(index, id) {
                     this.rules[index]['conditions'] = this.rules[index]['conditions'].filter(item => item.id !== id);
                 },
                 addRule() {
