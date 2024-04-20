@@ -361,7 +361,7 @@
                         Selection field
                     </option>
                     <option v-for="item in context.options" :key="item.code" :value="item.code" >
-                        @{{item.admin_name}}
+                        @{{item.name}}
                     </option>
                 </v-field>
             </div>
@@ -375,8 +375,8 @@
                     <option value="" >
                         Selection operator
                     </option>
-                    <option v-for="item in context.operators[field.type]" :key="item.value" :value="item.value" >
-                        @{{item.label}}
+                    <option v-for="item in context.operators[field.type]" :key="item" :value="item" >
+                        @{{item}}
                     </option>
                 </v-field>
             </div>
@@ -395,7 +395,7 @@
                     :name="`config[rules][${ruleIndex}][conditions][${conditionIndex}][value]`"
                     v-model="model.value"
                 >
-                    <option v-for="item in field.values" :key="item.value" :value="item.value" >
+                    <option v-for="item in field.options" :key="item.id" :value="item.id" >
                         @{{item.label}}
                     </option>
                 </v-field>
@@ -406,12 +406,12 @@
                     v-model="model.value"
                     multiple
                 >
-                    <option v-for="item in field.values" :key="item.value" :value="item.value" >
+                    <option v-for="item in field.options" :key="item.id" :value="item.id" >
                         @{{item.label}}
                     </option>
                 </v-field>
             </div>
-
+            <input :name="`config[rules][${ruleIndex}][conditions][${conditionIndex}][id]`" type="hidden" v-model="model.id"/>
             <button type="button" @click="$emit('delete')">
                 delete
             </button>
@@ -428,7 +428,7 @@
                     @click="addRule"
                 >Add Ruleset</button>
             </div>
-            <div v-for="(rule, index) in rules" :key="rule.key">
+            <div v-for="(rule, index) in rules" :key="rule.id">
                 <div>
                     <button
                         type="button"
@@ -441,6 +441,7 @@
                         @click="deleteRule(index)"
                     >Delete Rule</button>
                     <input type="hidden" :name="`config[rules][${index}][logic]`"  :value="rule.logic" />
+                    <input type="hidden" :name="`config[rules][${index}][id]`"  :value="rule.id" />
                 </div>
                 <template v-if="rule.conditions.length">
                     <div >
@@ -455,10 +456,10 @@
                         v-for="(condition, _index) in rule.conditions"
                         :condition="condition"
                         :context="context"
-                        :key="condition.key"
+                        :key="condition.id"
                         :rule-index="index"
                         :condition-index="_index"
-                        @delete="deleteRuleCondition(index, condition.key)"
+                        @delete="deleteRuleCondition(index, condition.id)"
                     ></v-condition>
                     <div>
                         <v-field :name="`config[rules][${index}][result]`" label="Value" type="text" v-model="rule.result" placeholder="input"/>
@@ -535,11 +536,15 @@
                             option_id: id,
                             required,
                             value,
+                            min,
+                            max,
                             position: sort
                         }) => ({
                             id,
                             required,
                             value,
+                            min,
+                            max,
                             sort
                         })).sort((a, b) => a.sort - b.sort)
                     },
@@ -569,7 +574,7 @@
                     const option = this.optionListMap[id];
                     this.valueList.push({
                         required: 0,
-                        value: ['select'].includes(option.type) ? [] : {},
+                        value: ['select', 'multiselect', 'checkbox'].includes(option.type) ? [] : {},
                         product_id: {{ $product->id }},
                         option_id: id
                     });
@@ -829,16 +834,24 @@
                     const arrayOperators = [...initialisedOperators, ...comparismOperators, ...findOperators]
                     const allOperators = [...initialisedOperators, ...comparismOperators, ...findOperators, ...computedOperators]
                     return {
-                        'text': commonOperators,
-                        'textarea': initialisedOperators,
-                        'boolean': initialisedOperators,
-                        'select': arrayOperators,
-                        'multiselect': allOperators,
-                        'checkbox': allOperators,
+                        text: commonOperators,
+                        textarea: initialisedOperators,
+                        boolean: initialisedOperators,
+                        select: arrayOperators,
+                        multiselect: allOperators,
+                        checkbox: allOperators,
                     }
                 },
                 options() {
-                    return []
+                    return this.valueList.map(({ option_id, value }) => {
+                        const { code, type, admin_name: name, values } = this.optionMap[option_id]
+                        let options
+                        if (['select', 'multiselect', 'checkbox'].includes(type)) {
+                            const valueMap = this.mapToId(values)
+                            options = value.map(({ id }) => ({ id, label: valueMap[id]['admin_name'] }))
+                        }
+                        return { code, type, name, ...( options ? { options } : {}) }
+                    })
                 },
                 context() {
                     return {
@@ -858,18 +871,18 @@
                 },
                 addRuleCondition(index) {
                     this.rules[index]['conditions'].push({
-                        key: this.generateId(),
-                        field: -99,
-                        operator: -99,
+                        id: this.generateId(),
+                        field: "",
+                        operator: "",
                         value: ""
                     });
                 },
-                deleteRuleCondtion(index, key) {
-                    this.rules[index]['conditions'] = this.rules[index]['conditions'].filter(item => item.key !== key);
+                deleteRuleCondtion(index, id) {
+                    this.rules[index]['conditions'] = this.rules[index]['conditions'].filter(item => item.id !== id);
                 },
                 addRule() {
                     this.rules.push({
-                        key: this.generateId(),
+                        id: this.generateId(),
                         logic: 'and',
                         conditions:[],
                         result: null
@@ -878,59 +891,19 @@
                 deleteRule(index) {
                     this.rules.splice(index, 1);
                 },
-
-                queryFormStatus() {
-                    var query = {};
-                    var rules = this.$refs.rules || {};
-                    var groups = this.$refs.groups || {};
-                    var i, j;
-
-                    query["condition"] = this.isAnd ? "AND" : "OR";
-                    query["rules"] = [];
-                    for (i = 0; i < rules.length; i++) {
-                        query.rules.push(rules[i].queryFormStatus());
-                    }
-                    for (j = 0; j < groups.length; j++) {
-                        query.rules[query.rules.length] = groups[j].queryFormStatus();
-                    }
-                    return query;
-                },
-
-                fillFormStatus(data) {
-                    var i, len;
-                    var group = this;
-                    group.rules = [];
-                    group.groups = [];
-                    if (data) {
-                        group.isAnd = /and/i.test(data.condition);
-                        len = data.rules.length;
-                        for (i = 0; i < len; i++) {
-                        if (data.rules[i].condition) {
-                            group.groups.push(group.generateId());
-                            (function(i, index) {
-                            group.$nextTick(function() {
-                                group.$refs.groups[index].fillFormStatus(data.rules[i]);
-                            });
-                            })(i, group.groups.length - 1);
-                        } else {
-                            group.rules.push(group.generateId());
-                            (function(i, index) {
-                            group.$nextTick(function() {
-                                group.$refs.rules[index].fillRuleStatus(data.rules[i]);
-                            });
-                            })(i, group.rules.length - 1);
-                        }
-                        }
-                    }
-                },
-
                 generateId() {
                     return "xxxxxxxxxxxxxxxx".replace(/[xy]/g, function(c) {
                         var r = (Math.random() * 16) | 0,
                         v = c == "x" ? r : (r & 0x3) | 0x8;
                         return v.toString(16);
                     });
-                }
+                },
+                mapToId(col, key = 'id') {
+                    return col.reduce((acc, val) => ({
+                        ...acc,
+                        [val[key]]: val
+                    }), {});
+                },
             }
         });
     </script>
