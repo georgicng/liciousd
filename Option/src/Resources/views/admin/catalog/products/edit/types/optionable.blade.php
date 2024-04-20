@@ -366,7 +366,7 @@
                         <option value="" >
                             Selection field
                         </option>
-                        <option v-for="item in context.options" :key="item.code" :value="item.code" >
+                        <option v-for="item in context.options" :key="item.id" :value="item.id" >
                             @{{item.name}}
                         </option>
                     </v-field>
@@ -885,13 +885,13 @@
                 },
                 options() {
                     return this.valueList.map(({ option_id, value }) => {
-                        const { code, type, admin_name: name, values } = this.optionMap[option_id]
+                        const { option_id: id, code, type, admin_name: name, values } = this.optionMap[option_id]
                         let options
                         if (['select', 'multiselect', 'checkbox'].includes(type)) {
                             const valueMap = this.mapToId(values)
                             options = value.map(({ id }) => ({ id, label: valueMap[id]['admin_name'] }))
                         }
-                        return { code, type, name, ...( options ? { options } : {}) }
+                        return { id, code, type, name, ...( options ? { options } : {}) }
                     })
                 },
                 context() {
