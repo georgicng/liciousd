@@ -91,11 +91,12 @@ class Optionable extends AbstractType
                 $group['custom_options']->toArray()
             )
         )->toArray();
-
-        $this->productOptionValueRepository->insert(array_merge(
-            $this->getOptionDefaults($this->getConfigOptionId(), $product->id),
+        $insert = array_merge(
+            [$this->getOptionDefaults($this->getConfigOptionId(), $product->id)],
             $optionValues
-        ));
+        );
+        logger()->channel('custom')->info(json_encode([ 'insert' => $insert ]));
+        $this->productOptionValueRepository->insert($insert);
         return $product;
     }
 
@@ -118,7 +119,7 @@ class Optionable extends AbstractType
             'position' => 0,
             'required' => 0,
             'min' => "",
-            'max' => 0,
+            'max' => "",
         ];
     }
 

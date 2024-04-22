@@ -2,20 +2,20 @@
 @inject('optionRepository', 'Gaiproject\Option\Repositories\OptionRepository')
 
 @php
-    $setOptions = $productOptionValueRepository->getFamilyOptions($product);
-    $setOptionValues = $productOptionValueRepository->getOptionValues($product);
-    $optionList = $productOptionValueRepository->getConfigurableOptions();
+$setOptions = $productOptionValueRepository->getFamilyOptions($product);
+$setOptionValues = $productOptionValueRepository->getOptionValues($product);
+$optionList = $productOptionValueRepository->getConfigurableOptions();
 @endphp
 {!! view_render_event('bagisto.admin.catalog.product.edit.form.types.optionable.before', ['product' => $product]) !!}
 
-<v-product-options :errors="errors"></v-product-options>
+<v-product-options :product-id="{{ $product->id }}" :errors="errors" :set-options="{{ json_encode($setOptions, 15, 512) }}" :option-list="{{ json_encode($optionList, 15, 512) }}" :value-list="{{ json_encode($setOptionValues, 15, 512) }}"></v-product-options>
 
 {!! view_render_event('bagisto.admin.catalog.product.edit.form.types.optionable.after', ['product' => $product]) !!}
 
 @pushOnce('scripts')
-    {{-- Variations Template --}}
-    <script type="text/x-template" id="v-product-options-template">
-        <div class="relative bg-white dark:bg-gray-900  rounded-[4px] box-shadow">
+{{-- Variations Template --}}
+<script type="text/x-template" id="v-product-options-template">
+    <div class="relative bg-white dark:bg-gray-900  rounded-[4px] box-shadow">
             <!-- Panel Header -->
             <div class="flex flex-wrap gap-[10px] justify-between mb-[10px] p-[16px]">
                 <div class="flex flex-col gap-[8px]">
@@ -30,50 +30,6 @@
             </div>
 
 
-            <div class="flex flex-row">
-                <draggable
-                    tag="ul"
-                    ghost-class="draggable-ghost"
-                    class="flex-none w-32 flex-column space-y space-y-4 text-sm font-medium text-gray-500 dark:text-gray-400 md:me-4 mb-4 md:mb-0"
-                    v-bind="{animation: 200}"
-                    v-model="productOptions"
-                    item-key="id"
-                >
-                    <template #item="{ element: option, index }">
-                        <li>
-                            <button
-                                type="button"
-                                class="py-2 px-3 w-full flex items-center focus:outline-none focus-visible:underline"
-                                :class="{ 'bg-gray-50 dark:bg-gray-800':  option.id === selectedOption.id }"
-                                @click="select(option.id)"
-                            >
-                                <i class="icon-drag text-[20px] transition-all group-hover:text-gray-700"></i><span>@{{optionMap[option.id].name}}</span>
-                            </button>
-                        </li>
-                    </template>
-                    <template #footer>
-                        <li>
-                            <v-autocomplete :items="availableOptions" @add="addOption($event)"/>
-                        </li>
-                    </template>
-
-                </draggable>
-
-                <div class="flex-1 p-6 bg-gray-50 text-medium text-gray-500 dark:text-gray-400 dark:bg-gray-800 rounded-lg">
-                    <template v-if="productOptions.length">
-                        <v-product-option-item
-                            v-for="(option, index) in productOptions"
-                            v-show="selectedOption.id === option.id"
-                            :option="optionListMap[option.id]"
-                            :value="valueMap[option.id]"
-                            :index="index"
-                            :errors="errors"
-                            :key="option.id"
-                            @updateValue="updateOption(index, $event)"
-                        ></v-product-option-item>
-                    </template>
-                </div>
-            </div>
             <div>
                 <div class="flex gap-[10px] w-max !mb-0 p-[6px] cursor-pointer select-none">
                     <input
@@ -100,21 +56,68 @@
                     </label>
                 </div>
             </div>
+            <div class="flex flex-row">
+                <draggable
+                    tag="ul"
+                    ghost-class="draggable-ghost"
+                    class="flex-none w-32 flex-column space-y space-y-4 text-sm font-medium text-gray-500 dark:text-gray-400 md:me-4 mb-4 md:mb-0"
+                    v-bind="{animation: 200}"
+                    v-model="sort"
+                    item-key="option_id"
+                >
+                    <template #item="{ element, index }">
+                        <li>
+                            <button
+                                type="button"
+                                class="py-2 px-3 w-full flex items-center focus:outline-none focus-visible:underline"
+                                :class="{ 'bg-gray-50 dark:bg-gray-800':  element.option_id === selectedOption.id }"
+                                @click="select(element.option_id)"
+                            >
+                                <i class="icon-drag text-[20px] transition-all group-hover:text-gray-700"></i><span>@{{optionMap[element.option_id].name}}</span>
+                            </button>
+                        </li>
+                    </template>
+                    <template #footer>
+                        <li>
+                            <v-autocomplete :items="availableOptions" @add="addOption($event)"/>
+                        </li>
+                    </template>
+
+                </draggable>
+
+                <div class="flex-1 p-6 bg-gray-50 text-medium text-gray-500 dark:text-gray-400 dark:bg-gray-800 rounded-lg">
+                    <template v-if="model.length">
+                        <v-product-option-item
+                            v-for="(option, index) in model"
+                            v-show="selectedOption.id === option.option_id"
+                            :option="optionListMap[option.option_id]"
+                            :value="modelMap[option.option_id]"
+                            :index="index"
+                            :dynamic-pricing="dynamic"
+                            :errors="errors"
+                            :key="option.option_id"
+                            @updateValue="updateOption(index, $event)"
+                        ></v-product-option-item>
+                    </template>
+                </div>
+            </div>
             <div v-if="dynamic">
                 <v-rules
                     :control-name="`options[${configIndex}][value]`"
                     :optionMap="optionListMap"
-                    :valueList="valueList"
-                    :initial-rules="config.rules"
+                    :valueList="model"
+                    :initial-rules="config.value.rules"
                 ></v-rules>
+                <input type="hidden" :name="`options[${configIndex}][option_id]`" :value="config.option_id" />
+                <input type="hidden" :name="`options[${configIndex}][product_id]`" :value="config.product_id" />
             </div>
         </div>
     </script>
 
 
-    {{-- Variation Item Template --}}
-    <script type="text/x-template" id="v-product-option-item-template">
-        <div class="animate-[on-fade_0.5s_ease-in-out]">
+{{-- Variation Item Template --}}
+<script type="text/x-template" id="v-product-option-item-template">
+    <div class="animate-[on-fade_0.5s_ease-in-out]">
 
             <div class="flex-column gap-[10px] justify-between px-[16px] py-[24px] border-b-[1px] border-slate-300 dark:border-gray-800">
                 <x-admin::form.control-group>
@@ -151,8 +154,9 @@
                     <v-product-option-input
                         v-if="['text', 'textarea'].includes(option.type)"
                         :control-name="`options[${index}][value]`"
-                        :option="value['value']"
+                        :value="value['value']"
                         :type="option.type"
+                        :dynamic-pricing="dynamicPricing"
                         @updateValue="update('value', $event)"
                     />
                     <v-product-option-select
@@ -160,6 +164,7 @@
                         :control-name="`options[${index}][value]`"
                         :value="value['value']"
                         :options="option.values"
+                        :dynamic-pricing="dynamicPricing"
                         @updateValue="update('value', $event)"
                     />
 
@@ -228,20 +233,20 @@
         </div>
     </script>
 
-    {{-- Variation Item Template --}}
-    <script type="text/x-template" id="v-product-option-input-template">
-        <div>
+{{-- Variation Item Template --}}
+<script type="text/x-template" id="v-product-option-input-template">
+    <div>
             <x-admin::form.control-group>
                 <x-admin::form.control-group.label>
                     @{{ type == 'boolean' ? 'Label' : 'Default Value' }}
                 </x-admin::form.control-group.label>
                 <v-field
-                    :type="option.type"
+                    :type="type"
                     :name="`${controlName}[${type == 'boolean' ? 'label' : 'default'}]`"
                     v-model="model.default"
                 />
             </x-admin::form.control-group>
-            <x-admin::form.control-group>
+            <x-admin::form.control-group v-show="!dynamicPricing">
                 <x-admin::form.control-group.label>
                     Price
                 </x-admin::form.control-group.label>
@@ -266,14 +271,14 @@
         </div>
     </script>
 
-    {{-- Option Pricing Template --}}
-    <script type="text/x-template" id="v-product-option-select-template">
-        <div>
+{{-- Option Pricing Template --}}
+<script type="text/x-template" id="v-product-option-select-template">
+    <div>
             <table>
                 <thead>
                     <tr>
                         <th scope="col">Option Value</th>
-                        <th scope="col">Price</th>
+                        <th scope="col" v-show="!dynamicPricing">Price</th>
                         <th scope="col"></th>
                     </tr>
                 </thead>
@@ -291,7 +296,7 @@
                                 <input type="hidden" :name="`${controlName}[${index}][id]`" :value="value.id" />
                                 <input type="hidden" :name="`${controlName}[${index}][position]`" :value="index" />
                             </th>
-                            <td>
+                            <td v-show="!dynamicPricing">
                                 <select
                                     as="select"
                                     :name="`${controlName}[${index}][prefix]`"
@@ -334,16 +339,16 @@
                                 </option>
                             </select>
                         </th>
-                        <td><button type="button" @click="add">add</button></td>
+                        <td><button type="button" @click="add">add</button> <button v-if="unassignedOptions.length > 1" type="button" @click="addAll">add all</button></td>
                     </tr>
                 </tfoot>
             </table>
         </div>
     </script>
 
-    {{-- Autocomplete --}}
-    <script type="text/x-template" id="v-autocomplete-template">
-        <div v-if="items.length" class="relative w-[130px]">
+{{-- Autocomplete --}}
+<script type="text/x-template" id="v-autocomplete-template">
+    <div v-if="items.length" class="relative w-[130px]">
             <input type="text" v-model="search" @keyup.down="onArrowDown" @keyup.up="onArrowUp" @keyup.enter="onEnter" />
             <ul v-if="candidates.length"  id="autocomplete-results" class="p-0 m-0 border-[1px] border-[solid] border-[#eeeeee] h-[120px] overflow-auto w-full">
                 <li v-for="(item, i) in candidates" :key="item.id" class="[list-style:none] text-left px-[2px] py-[4px] cursor-pointer" :class="{ 'hover:bg-[#4aae9b] hover:text-[white]': i === index }" @click="selected(item.id)">
@@ -353,15 +358,16 @@
         </div>
     </script>
 
-    {{-- Condition --}}
-    <script type="text/x-template" id="v-condition-template">
-        <div class="and-or-rule">
-            <div>
-                <div>
+{{-- Condition --}}
+<script type="text/x-template" id="v-condition-template">
+    <div class="bg-gray-100 rounded border border-gray-300 mb-3 p-3">
+            <div class="flex items-center">
+                <div class="mr-5">
                     <v-field
                         as="select"
                         v-model="model.field"
                         :name="`${controlName}[rules][${ruleIndex}][conditions][${conditionIndex}][field]`"
+                        class="inline-block w-auto h-10 px-1 py-2 leading-normal gray-500 border border-gray-300 rounded"
                     >
                         <option value="" >
                             Selection field
@@ -372,11 +378,12 @@
                     </v-field>
                 </div>
 
-                <div>
+                <div class="mr-5">
                     <v-field
                         as="select"
                         v-model="model.operator"
                         :name="`${controlName}[rules][${ruleIndex}][conditions][${conditionIndex}][operator]`"
+                        class="inline-block w-auto h-10 px-1 py-2 leading-normal gray-500 border border-gray-300 rounded"
                     >
                         <option value="" >
                             Selection operator
@@ -387,19 +394,21 @@
                     </v-field>
                 </div>
 
-                <div>
+                <div class="mr-5">
                     <v-field
                         v-if="linearOperators.includes(model.operator) && textGroup.includes(field.type)"
                         :name="`${controlName}[rules][${ruleIndex}][conditions][${conditionIndex}][value]`"
                         type="text"
                         v-model="model.value"
                         placeholder="input"
+                        class="inline-block w-auto h-10 px-1 py-2 leading-normal gray-500 border border-gray-300 rounded"
                     />
                     <v-field
                         as="select"
                         v-if="linearOperators.includes(model.operator) && selectGroup.includes(field.type)"
                         :name="`${controlName}[rules][${ruleIndex}][conditions][${conditionIndex}][value]`"
                         v-model="model.value"
+                        class="inline-block w-auto h-10 px-1 py-2 leading-normal gray-500 border border-gray-300 rounded"
                     >
                         <option v-for="item in field.options" :key="item.id" :value="item.id" >
                             @{{item.label}}
@@ -410,6 +419,7 @@
                         v-if="selectionOperators.includes(model.operator) && selectGroup.includes(field.type)"
                         :name="`${controlName}[rules][${ruleIndex}][conditions][${conditionIndex}][value]`"
                         v-model="model.value"
+                        class="inline-block w-auto h-10 px-1 py-2 leading-normal gray-500 border border-gray-300 rounded"
                         multiple
                     >
                         <option v-for="item in field.options" :key="item.id" :value="item.id" >
@@ -419,38 +429,36 @@
                 </div>
             </div>
             <input :name="`${controlName}[rules][${ruleIndex}][conditions][${conditionIndex}][id]`" type="hidden" v-model="model.id"/>
-            <button type="button" @click="$emit('delete')">
-                delete
-            </button>
+            <button type="button" class="close ml-auto" @click="$emit('delete')">x</button>
         </div>
     </script>
 
-    {{-- Rules --}}
-    <script type="text/x-template" id="v-rules-template">
-        <div class="col-xs-12">
-            <div>
+{{-- Rules --}}
+<script type="text/x-template" id="v-rules-template">
+    <div class="relative flex flex-col bg-white rounded border border-gray-300 mb-3">
+            <div >
                 <button
                     type="button"
                     class="btn btn-xs btn-purple add-rule pull-right"
                     @click="addRule"
-                >Add Ruleset</button>
+                >Add Rulegroup</button>
             </div>
-            <div v-for="(rule, index) in rules" :key="rule.id">
-                <div>
+            <div v-for="(rule, index) in rules" :key="rule.id" class="mb-5 flex flex-col">
+                <div class="form-group flex items-center flex-none">
                     <button
                         type="button"
-                        class="btn btn-xs btn-purple add-rule pull-right"
+                        class="text-white px-3 py-2 rounded bg-gray-600 mr-2"
                         @click.prevent="addRuleCondition(index)"
-                    >+ Add more conditions</button>
+                    >Add rule</button>
                     <button
                         type="button"
-                        class="btn btn-xs btn-purple add-rule pull-right"
+                        class="text-white px-3 py-2 rounded bg-gray-600"
                         @click="deleteRule(index)"
-                    >Delete Rule</button>
+                    >x</button>
                     <input type="hidden" :name="`${controlName}[rules][${index}][logic]`"  :value="rule.logic" />
                     <input type="hidden" :name="`${controlName}[rules][${index}][id]`"  :value="rule.id" />
                 </div>
-                <template v-if="rule.conditions.length">
+                <div v-if="rule.conditions.length" class="flex flex-col flex-auto p-5 mb-px">
                     <div >
                         <button type="button" @click="setRuleLogic(index, 'and')">
                             And
@@ -472,7 +480,7 @@
                     <div>
                         <v-field :name="`${controlName}[rules][${index}][result]`" label="Value" type="text" v-model="rule.result" placeholder="result"/>
                     </div>
-                </template>
+                </div>
                 <div v-else>
                     Add a rule to begin
                 </div>
@@ -481,471 +489,509 @@
     </script>
 
 
-    <script type="module">
-        app.component('v-product-options', {
-            template: '#v-product-options-template',
+<script type="module">
+    app.component('v-product-options', {
+        template: '#v-product-options-template',
 
-            props: ['errors'],
+        props: ['errors', 'optionList', 'valueList', 'setOptions', 'productId'],
 
-            data() {
-                const optionList = @json($optionList);
-                const setOptions = @json($setOptions);
-                const valueList = @json($setOptionValues);
-                const selectedOption = {};
-                return {
-                    optionList,
-                    setOptions,
-                    valueList,
-                    selectedOption,
-                    dynamic: false
+        data() {
+            return {
+                model: [],
+                selectedOption: {},
+                dynamic: false
+            }
+        },
+
+        computed: {
+            sort: {
+                get() {
+                    return this.model.map(({
+                        option_id,
+                        position
+                    }) => ({
+                        option_id,
+                        position
+                    })).sort((a, b) => a.position - b.position)
+                },
+                set(val) {
+                    this.model = this.model.map(item => {
+                        const index = val.findIndex(_item => _item.option_id == item.option_id)
+                        return {
+                            ...item,
+                            position: index
+                        }
+                    })
                 }
             },
-
-            computed: {
-                config() {
-                    return this.valueList.filter(({
-                            option_id: id
-                        }) => this.optionMap[id].code === 'config')
-                },
-                configIndex() {
-                    return this.valueList.length + 1;
-                },
-                options() {
-                    if (!this.optionList?.length) {
-                        return []
-                    }
-                    return this.optionList.map(
-                        ({
+            config() {
+                return this.valueList.find(({
+                    option_id: id
+                }) => this.optionMap[id].code === 'config')
+            },
+            configIndex() {
+                return this.valueList.length + 1;
+            },
+            options() {
+                if (!this.optionList?.length) {
+                    return []
+                }
+                return this.optionList.map(
+                    ({
+                        id,
+                        code,
+                        name,
+                        values,
+                        type
+                    }) => {
+                        return {
                             id,
                             code,
                             name,
-                            values,
-                            type
-                        }) => {
-                            return {
-                                id,
-                                code,
-                                name,
-                                type,
-                                options: values,
-                            }
+                            type,
+                            options: values,
                         }
-                    );
-                },
-                optionMap() {
-                    return this.mapToId(this.options);
-                },
-                productOptions: {
-                    get() {
-                        if (!this.valueList?.length) {
-                            return []
-                        }
+                    }
+                );
+            },
+            optionMap() {
+                return this.mapToId(this.options);
+            },
+            valueMap() {
+                if (!this.valueList?.length) {
+                    return {}
+                }
+                return this.mapToId(this.valueList, 'option_id');
+            },
+            modelMap() {
+                if (!this.model?.length) {
+                    return {}
+                }
+                return this.mapToId(this.model, 'option_id');
+            },
+            optionListMap() {
+                return this.mapToId(this.optionList);
+            },
+            availableOptions() {
+                return this.optionList.filter(
+                    item => item.code !== 'config' && !this.model.find(_item => _item.id === item.option_id)
+                )
+            },
+        },
+        methods: {
+            addOption(id) {
+                const option = this.optionListMap[id];
+                this.model.push({
+                    required: 0,
+                    value: ['select', 'multiselect', 'checkbox'].includes(option.type) ? [] : {},
+                    product_id: this.productId,
+                    option_id: id,
+                    min: '',
+                    max: ''
+                });
+                this.select(id);
+            },
+            updateOption(index, value) {
+                this.model[index] = value
+            },
+            removeOption(id) {
+                this.model = this.model.filter(item => item.option_id !== id);
+                if (this.selectedOption.id === id) {
+                    this.model.length && this.select(this.modelt[0].option_id);
+                }
+            },
+            select(id) {
+                this.selectedOption = this.optionMap[id];
+            },
+            mapToId(col, key = 'id') {
+                return col.reduce((acc, val) => ({
+                    ...acc,
+                    [val[key]]: {
+                        ...val
+                    }
+                }), {});
+            },
+            togglePricing() {
+                this.dynamic = !this.dynamic;
+            },
+        },
+        created() {
+            this.selectedOption = this.options[0];
+            this.dynamic = this.config?.value?.dynamic && ['on', true].includes(this.config.value.dynamic);
+            this.model = [...this.valueList.filter(item => item.option_id != this.config?.option_id)].sort((a, b) => a.position - b.position);
+        },
+    });
 
-                        return this.valueList.filter(({
-                            option_id: id
-                        }) => !this.optionMap[id].is_sys_defined).map(({
-                            option_id: id,
-                            required,
-                            value,
-                            min,
-                            max,
-                            position: sort
+
+    app.component('v-product-option-item', {
+        template: '#v-product-option-item-template',
+        props: [
+            'option',
+            'value',
+            'index',
+            'dynamicPricing'
+        ],
+        data() {
+            return {
+                model: this.value
+            }
+        },
+        methods: {
+            update(key, value) {
+                this.model[key] = value
+                this.$emit('updateValue', this.model)
+            }
+        },
+        watch: {
+            value(newVal) {
+                this.model = newVal
+            }
+        }
+    });
+
+    app.component('v-product-option-select', {
+        template: '#v-product-option-select-template',
+
+        props: [
+            'options',
+            'value',
+            'controlName',
+            'dynamicPricing'
+        ],
+        computed: {
+            assignedOptions() {
+                return this.model.map(item => String(item.id))
+            },
+            unassignedOptions() {
+                return this.options.filter(item => !this.assignedOptions.includes(String(item.id)))
+            },
+            nameById() {
+                return this.options.reduce((acc, item) => ({
+                    ...acc,
+                    [item.id]: item.admin_name
+                }), {})
+            }
+        },
+
+        data() {
+            return {
+                option: '',
+                model: this.value || []
+            }
+        },
+        methods: {
+            add() {
+                this.model.push({
+                    id: this.option,
+                    prefix: '+',
+                    price: ''
+                });
+                this.option = '';
+                this.$emit('updateValue', this.model)
+            },
+            addAll() {
+                const append = this.unassignedOptions.map(item => ({
+                    id: item.id,
+                    prefix: '+',
+                    price: ''
+                }))
+                this.model = [this.model, append]
+                this.$emit('updateValue', this.model)
+            },
+            remove(id) {
+                this.model = this.model.filter(item => item.id != id)
+                this.$emit('updateValue', this.model)
+            },
+            edit({
+                key,
+                value,
+                id
+            }) {
+                const index = this.model.findIndex(item => item.id == id)
+                this.model[index][key] = value;
+                this.$emit('updateValue', this.model)
+            }
+        },
+        watch: {
+            value(newVal, oldVal) {
+                this.model = newVal
+            }
+        }
+
+    });
+
+    app.component('v-product-option-input', {
+        template: '#v-product-option-input-template',
+
+        props: [
+            'value',
+            'controlName',
+            'option',
+            'dynamicPricing'
+        ],
+
+        data() {
+            return {
+                model: !this.isEmpty(this.value) ? this.value : {
+                    default: '',
+                    prefix: '+',
+                    price: '',
+                }
+            }
+        },
+        methods: {
+            isEmpty(value) {
+                return !value || !Object.keys(value).length
+            }
+        },
+        watch: {
+            model(newVal) {
+                this.$emit('updateValue', newVal)
+            },
+            value(newVal) {
+                this.model = newVal
+            }
+        },
+    });
+
+    app.component('v-autocomplete', {
+        template: "#v-autocomplete-template",
+        props: {
+            items: {
+                type: Array,
+                required: true,
+            },
+        },
+
+        data() {
+            return {
+                search: "",
+                index: 0
+            };
+        },
+        computed: {
+            candidates() {
+                const search = this.search;
+
+                if (!search) {
+                    return [];
+                }
+
+                return this.items.filter(item => item.admin_name.toLowerCase().indexOf(search.toLowerCase()) > -1);
+            },
+        },
+        methods: {
+            selected(id) {
+                this.$emit("add", id);
+                this.search = '';
+            },
+            onArrowDown() {
+                if (this.index < this.candidates?.length) {
+                    this.index += 1;
+                }
+            },
+            onArrowUp() {
+                if (this.arrowCounter > 0) {
+                    this.index -= 1;
+                }
+            },
+            onEnter() {
+                this.selected(this.candidates[this.index]?.id);
+                this.resetIndex();
+            },
+            resetIndex() {
+                this.index = -1;
+            },
+            handleClickOutside(evt) {
+                if (!this.$el.contains(evt.target)) {
+                    this.resetIndex();
+                }
+            }
+        },
+        watch: {
+            search: function() {
+                if (this.index !== -1) {
+                    this.resetIndex();
+                }
+            }
+        },
+        mounted() {
+            document.addEventListener("click", this.handleClickOutside);
+        },
+        destroyed() {
+            document.removeEventListener("click", this.handleClickOutside);
+        }
+    });
+
+    app.component('v-condition', {
+        template: "#v-condition-template",
+        props: ["condition", "context", "ruleIndex", "conditionIndex", "controlName"],
+        data() {
+            return {
+                model: this.condition
+            };
+        },
+        computed: {
+            fieldMap() {
+                return this.mapToId(this.context.options)
+            },
+            field() {
+                if (!this.model.field) {
+                    return {}
+                }
+                return this.fieldMap[this.model.field]
+            },
+            linearOperators() {
+                return ['=', '!='];
+            },
+            selectionOperators() {
+                return ['contains', 'excludes', 'in', 'not in'];
+            },
+            touchedOperators() {
+                return ['empty', 'exist'];
+            },
+            textGroup() {
+                return ['text', 'textarea'];
+            },
+            selectGroup() {
+                return ['select', 'multiselect', 'checkbox'];
+            },
+        },
+        watch: {
+            condition(newVal) {
+                this.model = newVal;
+            },
+        },
+        methods: {
+            mapToId(col, key = 'id') {
+                return col.reduce((acc, val) => ({
+                    ...acc,
+                    [val[key]]: {...val}
+                }), {});
+            },
+        }
+    });
+    app.component('v-rules', {
+        template: "#v-rules-template",
+        props: {
+            optionMap: {
+                type: Array,
+                default: []
+            },
+            valueList: {
+                type: Array,
+                default: []
+            },
+            initialRules: {
+                type: Array,
+                default: []
+            },
+            controlName: {
+                type: String,
+                default: ""
+            }
+        },
+        data() {
+            return {
+                rules: this.initialRules
+            };
+        },
+        computed: {
+            operators() {
+                return {
+                    text: ['=', '!=', 'exist', 'empty', 'regex'],
+                    textarea: ['exist', 'empty', 'regex'],
+                    boolean: ['exist', 'empty'],
+                    select: ['=', '!=', 'exist', 'empty', 'in', 'not in'],
+                    multiselect: ['includes', 'excludes', 'count'],
+                    checkbox: ['includes', 'excludes', 'count'],
+                }
+            },
+            options() {
+                return this.valueList.map(({
+                    option_id,
+                    value
+                }) => {
+                    const {
+                        id,
+                        code,
+                        type,
+                        admin_name: name,
+                        values
+                    } = this.optionMap[option_id]
+                    let options
+                    if (['select', 'multiselect', 'checkbox'].includes(type)) {
+                        const valueMap = this.mapToId(values)
+                        options = value.map(({
+                            id
                         }) => ({
                             id,
-                            required,
-                            value,
-                            min,
-                            max,
-                            sort
-                        })).sort((a, b) => a.sort - b.sort)
-                    },
-                    set(value) {
-                        this.valueList = value.map(({ id }, index) => ({ ...this.valueMap[id], position: index}))
-                        //this.valueList = value;
-                        console.log({ list: this.valueList, map: this.valueMap })
+                            label: valueMap[id]['admin_name']
+                        }))
                     }
-                },
-                valueMap() {
-                    if (!this.valueList?.length) {
-                        return {}
-                    }
-                    return this.mapToId(this.valueList, 'option_id');
-                },
-                optionListMap() {
-                    return this.mapToId(this.optionList);
-                },
-                availableOptions() {
-                    return this.optionList.filter(
-                        item => item.code !== 'config' && !this.productOptions.find(_item => _item.id === item.id)
-                    )
-                },
-            },
-
-            methods: {
-                addOption(id) {
-                    const option = this.optionListMap[id];
-                    this.valueList.push({
-                        required: 0,
-                        value: ['select', 'multiselect', 'checkbox'].includes(option.type) ? [] : {},
-                        product_id: {{ $product->id }},
-                        option_id: id
-                    });
-                    this.select(id);
-                },
-                updateOption(index, value) {
-                    this.valueList[index] = value
-                },
-
-                removeOption(id) {
-                    this.valueList = this.valueList.filter(item => item.option_id !== id);
-                    if (this.selectedOption.id === id) {
-                        this.valueList.length && this.select(this.valueList[0].option_id);
-                    }
-                },
-                select(id) {
-                    this.selectedOption = this.optionMap[id];
-                },
-                mapToId(col, key = 'id') {
-                    return col.reduce((acc, val) => ({
-                        ...acc,
-                        [val[key]]: val
-                    }), {});
-                },
-                togglePricing() {
-                    this.dynamic = !this.dynamic;
-                }
-            },
-            created() {
-                this.selectedOption = this.options[0];
-                this.dynamic = !!this.config?.dynamic
-            }
-        });
-
-
-        app.component('v-product-option-item', {
-            template: '#v-product-option-item-template',
-            props: [
-                'option',
-                'value',
-                'index'
-            ],
-            data() {
-                return {
-                    model: this.value
-                }
-            },
-            method: {
-                update(key, value) {
-                    this.model[key] = value
-                }
-            },
-            watch: {
-                model(newVal) {
-                    this.$emit('updateValue', newVal)
-                }
-            }
-        });
-
-        app.component('v-product-option-select', {
-            template: '#v-product-option-select-template',
-
-            props: [
-                'options',
-                'value',
-                'controlName',
-            ],
-            computed: {
-                assignedOptions() {
-                    return this.model.map(item => String(item.id))
-                },
-                unassignedOptions() {
-                    return this.options.filter(item => !this.assignedOptions.includes(String(item.id)))
-                },
-                nameById() {
-                    return this.options.reduce((acc, item) => ({
-                        ...acc,
-                        [item.id]: item.admin_name
-                    }), {})
-                }
-            },
-
-            data() {
-                return {
-                    option: '',
-                    model: this.value || []
-                }
-            },
-            methods: {
-                add() {
-                    this.model.push({
-                        id: this.option,
-                        prefix: '+',
-                        price: ''
-                    });
-                    this.option = '';
-                },
-                remove(id) {
-                    this.model = this.model.filter(item => item.id != id)
-                },
-                edit({
-                    key,
-                    value,
-                    id
-                }) {
-                    const index = this.model.findIndex(item => item.id == id)
-                    this.model[index][key] = value;
-                }
-            },
-            watch: {
-                model(newVal) {
-                    this.$emit('updateValue', newVal)
-                }
-            }
-
-        });
-
-        app.component('v-product-option-input', {
-            template: '#v-product-option-input-template',
-
-            props: [
-                'option',
-                'controlName',
-                'type'
-            ],
-
-            data() {
-                return {
-                    model: Object.keys(this.option).length ? this.option : {
-                        default: '',
-                        prefix: '+',
-                        price: '',
-                    }
-                }
-            },
-            watch: {
-                model(newVal) {
-                    this.$emit('updateValue', newVal)
-                }
-            }
-        });
-
-        app.component('v-autocomplete', {
-            template: "#v-autocomplete-template",
-            props: {
-                items: {
-                    type: Array,
-                    required: true,
-                },
-            },
-
-            data() {
-                return {
-                    search: "",
-                    index: 0
-                };
-            },
-            computed: {
-                candidates() {
-                    const search = this.search;
-
-                    if (!search) {
-                        return [];
-                    }
-
-                    return this.items.filter(item => item.admin_name.toLowerCase().indexOf(search.toLowerCase()) > -1);
-                },
-            },
-            methods: {
-                selected(id) {
-                    this.$emit("add", id);
-                    this.search = '';
-                },
-                onArrowDown() {
-                    if (this.index < this.candidates?.length) {
-                        this.index += 1;
-                    }
-                },
-                onArrowUp() {
-                    if (this.arrowCounter > 0) {
-                        this.index -= 1;
-                    }
-                },
-                onEnter() {
-                    this.selected(this.candidates[this.index]?.id);
-                    this.resetIndex();
-                },
-                resetIndex() {
-                    this.index = -1;
-                },
-                handleClickOutside(evt) {
-                    if (!this.$el.contains(evt.target)) {
-                        this.resetIndex();
-                    }
-                }
-            },
-            watch: {
-                search: function() {
-                    if (this.index !== -1) {
-                        this.resetIndex();
-                    }
-                }
-            },
-            mounted() {
-                document.addEventListener("click", this.handleClickOutside);
-            },
-            destroyed() {
-                document.removeEventListener("click", this.handleClickOutside);
-            }
-        });
-
-        app.component('v-condition', {
-            template: "#v-condition-template",
-            props: ["condition", "context", "ruleIndex", "conditionIndex", "controlName"],
-            data() {
-                console.log(this.context, this.condition)
-                return {
-                    model: this.condition
-                };
-            },
-            computed: {
-                fieldMap() {
-                    return this.mapToId(this.context.options, 'code')
-                },
-                field() {
-                    if (!this.model.field) {
-                        return {}
-                    }
-                    return this.fieldMap[this.model.field]
-                },
-                linearOperators() {
-                    return ['=', '!='];
-                },
-                selectionOperators() {
-                    return ['contains', 'excludes'];
-                },
-                touchedOperators() {
-                    return ['empty', 'exist'];
-                },
-                textGroup() {
-                    return ['text', 'textarea'];
-                },
-                selectGroup() {
-                    return ['select', 'multiselect', 'checkbox'];
-                },
-            },
-            watch: {
-                condition(newVal) {
-                    this.model = newVal;
-                },
-            },
-            methods: {
-                mapToId(col, key = 'id') {
-                    return col.reduce((acc, val) => ({
-                        ...acc,
-                        [val[key]]: val
-                    }), {});
-                },
-            }
-        });
-        app.component('v-rules', {
-            template: "#v-rules-template",
-            props: {
-                optionMap: {
-                    type: Array,
-                    default: []
-                },
-                valueList: {
-                    type: Array,
-                    default: []
-                },
-                initialRules: {
-                    type: Array,
-                    default: []
-                },
-                controlName: {
-                    type: String,
-                    default: ""
-                }
-            },
-            data() {
-                return {
-                    rules: this.initialRules
-                };
-            },
-            computed: {
-                operators() {
                     return {
-                        text: ['=', '!=', 'exist', 'empty', 'regex'],
-                        textarea: ['exist', 'empty', 'regex'],
-                        boolean: ['exist', 'empty'],
-                        select: ['=', '!=', 'exist', 'empty', 'in', 'not in'],
-                        multiselect: ['includes', 'excludes', 'count'],
-                        checkbox: ['includes', 'excludes', 'count'],
+                        id,
+                        code,
+                        type,
+                        name,
+                        ...(options ? {
+                            options
+                        } : {})
                     }
-                },
-                options() {
-                    return this.valueList.map(({ option_id, value }) => {
-                        const { option_id: id, code, type, admin_name: name, values } = this.optionMap[option_id]
-                        let options
-                        if (['select', 'multiselect', 'checkbox'].includes(type)) {
-                            const valueMap = this.mapToId(values)
-                            options = value.map(({ id }) => ({ id, label: valueMap[id]['admin_name'] }))
-                        }
-                        return { id, code, type, name, ...( options ? { options } : {}) }
-                    })
-                },
-                context() {
-                    return {
-                        operators: this.operators,
-                        options: this.options
-                    }
-                }
+                })
             },
-            watch: {
-                initialRules(newVal) {
-                    this.rules = newVal;
+            context() {
+                return {
+                    operators: this.operators,
+                    options: this.options
                 }
+            }
+        },
+        /* watch: {
+            initialRules(newVal) {
+                this.rules = newVal;
+            }
+        }, */
+        methods: {
+            addRuleCondition(index) {
+                this.rules[index]['conditions'].push({
+                    id: this.generateId(),
+                    field: "",
+                    operator: "",
+                    value: ""
+                });
             },
-            methods: {
-                setRuleLogic(index, value) {
-                    this.rules[index]['logic'] = value;
-                },
-                addRuleCondition(index) {
-                    this.rules[index]['conditions'].push({
-                        id: this.generateId(),
-                        field: "",
-                        operator: "",
-                        value: ""
-                    });
-                },
-                deleteRuleCondition(index, id) {
-                    this.rules[index]['conditions'] = this.rules[index]['conditions'].filter(item => item.id !== id);
-                },
-                addRule() {
-                    this.rules.push({
-                        id: this.generateId(),
-                        logic: 'and',
-                        conditions:[],
-                        result: null
-                    });
-                },
-                deleteRule(index) {
-                    this.rules.splice(index, 1);
-                },
-                generateId() {
-                    return "xxxxxxxxxxxxxxxx".replace(/[xy]/g, function(c) {
-                        var r = (Math.random() * 16) | 0,
+            deleteRuleCondition(index, id) {
+                this.rules[index]['conditions'] = this.rules[index]['conditions'].filter(item => item.id !== id);
+            },
+            setRuleLogic(index, value) {
+                this.rules[index]['logic'] = value;
+            },
+            addRule() {
+                this.rules.push({
+                    id: this.generateId(),
+                    logic: 'and',
+                    conditions: [],
+                    result: null
+                });
+            },
+            deleteRule(index) {
+                this.rules.splice(index, 1);
+            },
+            generateId() {
+                return "xxxxxxxxxxxxxxxx".replace(/[xy]/g, function(c) {
+                    var r = (Math.random() * 16) | 0,
                         v = c == "x" ? r : (r & 0x3) | 0x8;
-                        return v.toString(16);
-                    });
-                },
-                mapToId(col, key = 'id') {
-                    return col.reduce((acc, val) => ({
-                        ...acc,
-                        [val[key]]: val
-                    }), {});
-                },
-            }
-        });
-    </script>
+                    return v.toString(16);
+                });
+            },
+            mapToId(col, key = 'id') {
+                return col.reduce((acc, val) => ({
+                    ...acc,
+                    [val[key]]: {...val}
+                }), {});
+            },
+        }
+    });
+</script>
 @endPushOnce

@@ -58,10 +58,13 @@ class ProductOptionValue extends Model implements ProductOptionValueContract
                         return $_value;
                     }, $value);
                 }
-                $_value = $value;
-                $_value['base_increment'] = floatval("{$_value['prefix']}{$_value['price']}");
-                $_value['increment'] = core()->convertPrice($_value['base_increment']);
-                return $_value;
+                if (array_key_exists('prefix', $value) && array_key_exists('price', $value)) {
+                    $_value = $value;
+                    $_value['base_increment'] = floatval("{$_value['prefix']}{$_value['price']}");
+                    $_value['increment'] = core()->convertPrice($_value['base_increment']);
+                    return $_value;
+                }
+                return $value;
             },
         );
     }
