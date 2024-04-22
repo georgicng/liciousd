@@ -417,12 +417,12 @@ $optionList = $productOptionValueRepository->getConfigurableOptions();
                     <v-field
                         as="select"
                         v-if="selectionOperators.includes(model.operator) && selectGroup.includes(field.type)"
-                        :name="`${controlName}[rules][${ruleIndex}][conditions][${conditionIndex}][value]`"
+                        :name="`${controlName}[rules][${ruleIndex}][conditions][${conditionIndex}][value][]`"
                         v-model="model.value"
                         class="inline-block w-auto h-10 px-1 py-2 leading-normal gray-500 border border-gray-300 rounded"
                         multiple
                     >
-                        <option v-for="item in field.options" :key="item.id" :value="item.id" >
+                        <option v-for="item in field.options" :key="item.id" :value="item.id" :selected="Array.isArray(model.value) && model.value.includes(item.id)">
                             @{{item.label}}
                         </option>
                     </v-field>
@@ -441,15 +441,20 @@ $optionList = $productOptionValueRepository->getConfigurableOptions();
                     type="button"
                     class="btn btn-xs btn-purple add-rule pull-right"
                     @click="addRule"
-                >Add Rulegroup</button>
+                >Add Ruleset</button>
             </div>
             <div v-for="(rule, index) in rules" :key="rule.id" class="mb-5 flex flex-col">
                 <div class="form-group flex items-center flex-none">
                     <button
                         type="button"
                         class="text-white px-3 py-2 rounded bg-gray-600 mr-2"
-                        @click.prevent="addRuleCondition(index)"
-                    >Add rule</button>
+                        @click="addRuleCondition(index)"
+                    >Add Condition</button>
+                    <button
+                        type="button"
+                        class="text-white px-3 py-2 rounded bg-gray-600 mr-2"
+                        @click="duplicateRule(index)"
+                    >Duplicate Ruleset</button>
                     <button
                         type="button"
                         class="text-white px-3 py-2 rounded bg-gray-600"
@@ -866,7 +871,9 @@ $optionList = $productOptionValueRepository->getConfigurableOptions();
             mapToId(col, key = 'id') {
                 return col.reduce((acc, val) => ({
                     ...acc,
-                    [val[key]]: {...val}
+                    [val[key]]: {
+                        ...val
+                    }
                 }), {});
             },
         }
@@ -975,6 +982,12 @@ $optionList = $productOptionValueRepository->getConfigurableOptions();
                     result: null
                 });
             },
+            duplicateRule(index) {
+                const element = this.rules[index]
+                const append = JSON.parse(JSON.stringify(element));
+                console.log({ append })
+                this.rules.splice(index, 0, append);
+            },
             deleteRule(index) {
                 this.rules.splice(index, 1);
             },
@@ -988,7 +1001,9 @@ $optionList = $productOptionValueRepository->getConfigurableOptions();
             mapToId(col, key = 'id') {
                 return col.reduce((acc, val) => ({
                     ...acc,
-                    [val[key]]: {...val}
+                    [val[key]]: {
+                        ...val
+                    }
                 }), {});
             },
         }
