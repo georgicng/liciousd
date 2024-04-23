@@ -985,7 +985,6 @@ $optionList = $productOptionValueRepository->getConfigurableOptions();
             duplicateRule(index) {
                 const element = this.rules[index]
                 const append = JSON.parse(JSON.stringify(element));
-                console.log({ append })
                 this.rules.splice(index, 0, append);
             },
             deleteRule(index) {

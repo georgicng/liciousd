@@ -1,21 +1,23 @@
 <?php
 
+namespace Gaiproject\Option;
+
 class PriceIncrementEvaluator
 {
-
     private static function evalRules($rule, $domain)
     {
         $logic = $rule['logic'];
-        $conditions = $rule['conditions'];
+        $conditions = collect($rule['conditions']);
         $result = $rule['result'];
 
-        $outcome = array_reduce($conditions, function ($acc, $condition) use ($domain, $logic) {
+        $outcome = $conditions->map(function (array $condition) use ($domain, $logic) {
             $field = $condition['field'];
             $operator = $condition['operator'];
             $value = $condition['value'];
 
             $domainValue = $domain[$field];
             $isArrayCheck = is_array($value);
+            $check = null;
 
             switch ($operator) {
                 case 'exist':
@@ -36,14 +38,10 @@ class PriceIncrementEvaluator
                     $check = preg_match($value, $domainValue);
                     break;
                 case 'include':
-                    $check = is_array($domainValue) && PriceIncrementEvaluator::array_every($domainValue, function ($item) use ($value) {
-                        return strpos($item, $value) !== false;
-                    });
+                    $check = is_array($domainValue) && collect($domainValue)->every(fn ($item) => in_array($item, $value));
                     break;
                 case 'exclude':
-                    $check = is_array($domainValue) && PriceIncrementEvaluator::array_every($domainValue, function ($item) use ($value) {
-                        return strpos($item, $value) === false;
-                    });
+                    $check = is_array($domainValue) && collect($domainValue)->every(fn ($item) => !in_array($item, $value));
                     break;
                 case 'count':
                     $check = is_array($domainValue) && count($domainValue) == $value;
@@ -51,27 +49,20 @@ class PriceIncrementEvaluator
                 default:
                     $check = false;
             }
+            return $check;
+        });
 
-            return $logic === 'and' ? $acc && $check : $acc || $check;
-        }, true);
-
-        return $outcome ? $result : 0;
-    }
-
-    private static function array_every($array, $callback)
-    {
-        foreach ($array as $item) {
-            if (!$callback($item)) {
-                return false;
-            }
+        if($logic == 'and') {
+            return collect($outcome)->every(fn ($val) => $val == true) ? floatval($result) : floatval(0);
         }
-        return true;
+        return collect($outcome)->some(fn ($val) => $val == true) ? floatval($result) : floatval(0);
     }
+
 
     public static function getResult($rules, $domain)
     {
         return array_reduce($rules, function ($acc, $rule) use ($domain) {
-            return $acc + PriceIncrementEvaluator::evalRules($rule, $domain);
+            return $acc += PriceIncrementEvaluator::evalRules($rule, $domain);
         }, 0);
     }
 }

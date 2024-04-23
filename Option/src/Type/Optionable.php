@@ -5,6 +5,7 @@ namespace Gaiproject\Option\Type;
 use Webkul\Product\Type\AbstractType;
 use Illuminate\Support\Facades\Log;
 use Gaiproject\Option\Repositories\ProductOptionValueRepository;
+use Gaiproject\Option\PriceIncrementEvaluator;
 use Gaiproject\Option\Contracts\ProductOptionValue;
 use \Gaiproject\Option\Repositories\OptionRepository;
 use Webkul\Customer\Repositories\CustomerRepository;
@@ -261,6 +262,10 @@ class Optionable extends AbstractType
             $carry[$key] = $value;
             return $carry;
         }, []);
+        $config = $optionMap[$this->getConfigOptionId()];
+        if (!empty($config['dynamic']) && $config['dynamic'] === "on") {
+            return PriceIncrementEvaluator::getResult($config['rules'], $options);
+        }
         foreach ($options as $key => $value) {
             if (empty($value)) {
                 continue;
@@ -268,7 +273,6 @@ class Optionable extends AbstractType
             $option = $optionMap[$key];
             $optionValue = isset($option[$value]) ? $option[$value] : $option;
             $increment += $optionValue['base_increment'];
-            logger()->channel('custom')->info(json_encode([]));
         }
         return $increment;
     }
