@@ -48,7 +48,7 @@
                 </div>
             </div>
 
-            <div class="flex  gap-[16px] justify-between items-center mt-[28px] max-md:flex-wrap">
+            <div class="flex  gap-[16px] items-center mt-[28px] max-md:flex-wrap">
                 <div class="flex gap-x-[4px] items-center">
                     @php
                         $countryCode = request('country', config('app.default_country'));
@@ -74,7 +74,7 @@
                         </x-slot:toggle>
 
                         {{-- Dropdown Content --}}
-                        <x-slot:content class="!p-[0px]">
+                        <x-slot:content class="!p-[0px] overflow-auto h-[120px] relative">
                             @foreach ($countries as $country)
                                 <a
                                     href="?{{ Arr::query(['cid' => $country->code]) }}"
@@ -110,7 +110,7 @@
                         </x-slot:toggle>
 
                         {{-- Dropdown Content --}}
-                        <x-slot:content class="!p-[0px]">
+                        <x-slot:content class="!p-[0px] overflow-auto h-[120px] relative">
                             @foreach ($states as $state)
                                 <a
                                     href="?{{ Arr::query(['state' => $state->code, 'country' => $countryCode]) }}"
@@ -134,7 +134,7 @@
 
                 <!-- DataGrid Header -->
                 <template #header="{ columns, records, sortPage, applied}">
-                    <div class="row grid grid-cols-{{ $hasPermission ? '4' : '3' }} grid-rows-1 gap-[10px] items-center px-[16px] py-[10px] border-b-[1px] dark:border-gray-800 text-gray-600 dark:text-gray-300 bg-gray-50 dark:bg-gray-900 font-semibold">
+                    <div class="row grid grid-cols-{{ $hasPermission ? '6' : '4' }} grid-rows-1 gap-[10px] items-center px-[16px] py-[10px] border-b-[1px] dark:border-gray-800 text-gray-600 dark:text-gray-300 bg-gray-50 dark:bg-gray-900 font-semibold">
                         <div
                             class="flex gap-[10px] cursor-pointer"
                             v-for="(columnGroup, index) in ['id', 'name', 'city', 'rate', 'status']"
@@ -178,7 +178,7 @@
                     <div
                         v-for="record in records"
                         class="row grid gap-[10px] items-center px-[16px] py-[16px] border-b-[1px] dark:border-gray-800 text-gray-600 dark:text-gray-300 transition-all hover:bg-gray-50 dark:hover:bg-gray-950"
-                        :style="'grid-template-columns: repeat(' + (record.actions.length ? 4 : 3) + ', 1fr);'"
+                        :style="'grid-template-columns: repeat(' + (record.actions.length ? 6 : 4) + ', 1fr);'"
                     >
                         <!-- Id -->
                         <p v-text="record.id"></p>
@@ -627,10 +627,12 @@
             },
 
             watch: {
-                model(newValue) {
-                    this.$emit('change', newValue)
-                },
-                deep: true
+                model: {
+                    handler(newValue) {
+                        this.$emit('change', newValue)
+                    },
+                    deep: true
+                }
             }
         })
     </script>

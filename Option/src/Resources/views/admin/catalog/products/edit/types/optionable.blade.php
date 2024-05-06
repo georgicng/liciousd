@@ -101,7 +101,23 @@ $optionList = $productOptionValueRepository->getConfigurableOptions();
                     </template>
                 </div>
             </div>
-            <div v-if="dynamic">
+        </div>
+        <div v-if="dynamic" class="relative bg-white dark:bg-gray-900  rounded-[4px] box-shadow">
+            <!-- Panel Header -->
+            <div class="flex flex-wrap gap-[10px] justify-between mb-[10px] p-[16px]">
+                <div class="flex flex-col gap-[8px]">
+                    <p class="text-[16px] text-gray-800 dark:text-white font-semibold">
+                        @lang('option::app.admin.catalog.options.create.dynamic-pricing-title')
+                    </p>
+
+                    <p class="text-[12px] text-gray-500 dark:text-gray-300 font-medium">
+                        @lang('option::app.admin.catalog.options.create.dynamic-pricing-description')
+                    </p>
+                </div>
+            </div>
+
+
+            <div class="flex flex-col gap-[3px] mb-[30px] px-4">
                 <v-rules
                     :control-name="`options[${configIndex}][value]`"
                     :optionMap="optionListMap"
@@ -360,9 +376,9 @@ $optionList = $productOptionValueRepository->getConfigurableOptions();
 
 {{-- Condition --}}
 <script type="text/x-template" id="v-condition-template">
-    <div class="bg-gray-100 rounded border border-gray-300 mb-3 p-3">
-            <div class="flex items-center">
-                <div class="mr-5">
+    <div class="relative mb-4">
+            <div class="flex flex-row bg-white items-center content-between">
+                <div class="flex p-4">
                     <v-field
                         as="select"
                         v-model="model.field"
@@ -378,7 +394,7 @@ $optionList = $productOptionValueRepository->getConfigurableOptions();
                     </v-field>
                 </div>
 
-                <div class="mr-5">
+                <div class="flex  p-4">
                     <v-field
                         as="select"
                         v-model="model.operator"
@@ -394,7 +410,7 @@ $optionList = $productOptionValueRepository->getConfigurableOptions();
                     </v-field>
                 </div>
 
-                <div class="mr-5">
+                <div class="flex p-4">
                     <v-field
                         v-if="linearOperators.includes(model.operator) && textGroup.includes(field.type)"
                         :name="`${controlName}[rules][${ruleIndex}][conditions][${conditionIndex}][value]`"
@@ -427,51 +443,106 @@ $optionList = $productOptionValueRepository->getConfigurableOptions();
                         </option>
                     </v-field>
                 </div>
+                <div class="flex">
+                    <button
+                        type="button"
+                        class="close ml-auto"
+                        @click="$emit('delete')"
+                    >
+                        <span class="icon-cross text-[30px] cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-950 hover:rounded-[6px]">
+                        </span>
+                    </button>
+                </div>
             </div>
             <input :name="`${controlName}[rules][${ruleIndex}][conditions][${conditionIndex}][id]`" type="hidden" v-model="model.id"/>
-            <button type="button" class="close ml-auto" @click="$emit('delete')">x</button>
+        </div>
+    </script>
+
+<script type="text/x-template" id="v-accordion-template">
+    <div class="bg-white dark:bg-gray-900 rounded-[4px] box-shadow">
+            <div :class="`p-[6px] ${isOpen ? 'active' : ''}`" @click="toggle">
+                <slot name="header">
+                    Default Header
+                </slot>
+            </div>
+
+            <div class="px-[16px] pb-[16px]" v-show="isOpen">
+                <slot name="content">
+                    Default Content
+                </slot>
+            </div>
         </div>
     </script>
 
 {{-- Rules --}}
 <script type="text/x-template" id="v-rules-template">
-    <div class="relative flex flex-col bg-white rounded border border-gray-300 mb-3">
-            <div >
+
+    <div class="grid gap-[10px]">
+        <div class="flex gap-[16px] justify-between items-center max-sm:flex-wrap">
+            <div class="grid gap-[6px]"><h3>All Rules</h3></div>
+            <div class="flex gap-x-[10px] items-center">
                 <button
                     type="button"
-                    class="btn btn-xs btn-purple add-rule pull-right"
+                    class="secondary-button"
                     @click="addRule"
                 >Add Ruleset</button>
             </div>
-            <div v-for="(rule, index) in rules" :key="rule.id" class="mb-5 flex flex-col">
-                <div class="form-group flex items-center flex-none">
+        </div>
+    </div>
+
+    <div style="overflow:auto; height:500px; position:relative">
+    <v-accordion :is-active="false" v-for="(rule, index) in rules" :key="rule.id" class="mb-5 flex flex-col">
+
+        <template v-slot:header>
+            <div class="form-group flex items-center justify-between flex-none">
+                <div>
+                <span
+                    :class="`text-[24px] p-[6px] rounded-[6px] cursor-pointer transition-all hover:bg-gray-100 dark:hover:bg-gray-950 ${isOpen ? 'icon-arrow-up' : 'icon-arrow-down'}`"
+                ></span>
+                <v-field type="text" :name="`${controlName}[rules][${index}][name]`"  v-model="rule.name" placeholder="Add rule name" />
+            </div>
+            <div>
+                <span v-if="rule.result">@{{ rule.result }}</span>
+                <button
+                    type="button"
+                    class="text-white px-3 py-2 rounded bg-gray-600"
+                    @click="deleteRule(index)"
+                >x</button></div>
+                <input type="hidden" :name="`${controlName}[rules][${index}][logic]`"  :value="rule.logic" />
+                <input type="hidden" :name="`${controlName}[rules][${index}][id]`"  :value="rule.id" />
+            </div>
+        </template>
+        <template v-slot:content>
+            <button
+                type="button"
+                class="text-white px-3 py-2 rounded bg-gray-600 mr-2"
+                @click="addRuleCondition(index)"
+            >Add Condition</button>
+            <button
+                type="button"
+                class="text-white px-3 py-2 rounded bg-gray-600 mr-2"
+                @click="duplicateRule(index)"
+            >Duplicate Ruleset</button>
+            <div v-if="rule.conditions && rule.conditions.length" class="flex flex-col flex-auto p-5 mb-px">
+                <div class="inline-flex rounded-md shadow-sm" role="group">
                     <button
                         type="button"
-                        class="text-white px-3 py-2 rounded bg-gray-600 mr-2"
-                        @click="addRuleCondition(index)"
-                    >Add Condition</button>
+                        class="px-4 py-2 text-sm font-medium text-gray-900 border border-gray-200 rounded-s-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:ring-blue-500 dark:focus:text-white"
+                        :class="{ 'bg-gray bg-gray-100' : rule.logic == 'and', 'bg-white' : rule.logic != 'and' }"
+                        @click="setRuleLogic(index, 'and')"
+                    >
+                        And
+                    </button>
                     <button
                         type="button"
-                        class="text-white px-3 py-2 rounded bg-gray-600 mr-2"
-                        @click="duplicateRule(index)"
-                    >Duplicate Ruleset</button>
-                    <button
-                        type="button"
-                        class="text-white px-3 py-2 rounded bg-gray-600"
-                        @click="deleteRule(index)"
-                    >x</button>
-                    <input type="hidden" :name="`${controlName}[rules][${index}][logic]`"  :value="rule.logic" />
-                    <input type="hidden" :name="`${controlName}[rules][${index}][id]`"  :value="rule.id" />
+                        class="px-4 py-2 text-sm font-medium text-gray-900 border border-gray-200 rounded-e-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:ring-blue-500 dark:focus:text-white"
+                        :class="{ 'bg-gray bg-gray-100' : rule.logic == 'or', 'bg-white' : rule.logic != 'or' }"
+                        @click="setRuleLogic(index, 'or')"
+                    >
+                        Or
+                    </button>
                 </div>
-                <div v-if="rule.conditions.length" class="flex flex-col flex-auto p-5 mb-px">
-                    <div >
-                        <button type="button" @click="setRuleLogic(index, 'and')">
-                            And
-                        </button>
-                        <button type="button" @click="setRuleLogic(index, 'or')">
-                            Or
-                        </button>
-                    </div>
+                <div class="rounded-[4px] box-shadow mb-4">
                     <v-condition
                         v-for="(condition, _index) in rule.conditions"
                         :condition="condition"
@@ -482,16 +553,33 @@ $optionList = $productOptionValueRepository->getConfigurableOptions();
                         :control-name="controlName"
                         @delete="deleteRuleCondition(index, condition.id)"
                     ></v-condition>
-                    <div>
-                        <v-field :name="`${controlName}[rules][${index}][result]`" label="Value" type="text" v-model="rule.result" placeholder="result"/>
-                    </div>
                 </div>
-                <div v-else>
-                    Add a rule to begin
+                <div>
+
+                    <label
+                        class="px-4 py-2 text-sm font-medium text-gray-900 bg-gray bg-gray-100 border border-gray-200 rounded-s-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:ring-blue-500 dark:focus:text-white"
+
+                    >
+                        Result
+                    </label>
+                    <v-field
+                        :name="`${controlName}[rules][${index}][result]`"
+                        class="flex w-full min-h-[39px] py-2 px-3 border rounded-[6px] text-[14px] text-gray-600 dark:text-gray-300 transition-all hover:border-gray-400 dark:hover:border-gray-400 focus:border-gray-400 dark:focus:border-gray-400 dark:bg-gray-900 dark:border-gray-800"
+                        label="Value"
+                        type="text"
+                        v-model="rule.result"
+                        placeholder="result"
+                    />
                 </div>
             </div>
-        </div>
-    </script>
+            <div v-else>
+                Add a rule to begin
+            </div>
+        </template>
+    </v-accordion>
+</div>
+
+</script>
 
 
 <script type="module">
@@ -621,6 +709,9 @@ $optionList = $productOptionValueRepository->getConfigurableOptions();
             },
         },
         created() {
+            console.log({
+                config: this.config?.value
+            })
             this.selectedOption = this.options[0];
             this.dynamic = this.config?.value?.dynamic && ['on', true].includes(this.config.value.dynamic);
             this.model = [...this.valueList.filter(item => item.option_id != this.config?.option_id)].sort((a, b) => a.position - b.position);
@@ -863,9 +954,20 @@ $optionList = $productOptionValueRepository->getConfigurableOptions();
             },
         },
         watch: {
-            condition(newVal) {
-                this.model = newVal;
+            condition: {
+                handler(newVal) {
+                    this.model = newVal;
+                },
+                deep: true
             },
+            model: {
+                handler(newVal) {
+                    console.log({
+                        rules: newVal
+                    });
+                },
+                deep: true
+            }
         },
         methods: {
             mapToId(col, key = 'id') {
@@ -878,6 +980,31 @@ $optionList = $productOptionValueRepository->getConfigurableOptions();
             },
         }
     });
+
+    app.component('v-accordion', {
+        template: '#v-accordion-template',
+
+        props: [
+            'isActive',
+        ],
+
+        data() {
+            return {
+                isOpen: this.isActive,
+            };
+        },
+
+        methods: {
+            toggle() {
+                this.isOpen = !this.isOpen;
+
+                this.$emit('toggle', {
+                    isActive: this.isOpen
+                });
+            },
+        },
+    });
+
     app.component('v-rules', {
         template: "#v-rules-template",
         props: {
@@ -899,9 +1026,28 @@ $optionList = $productOptionValueRepository->getConfigurableOptions();
             }
         },
         data() {
+            console.log(this.initialRules)
             return {
-                rules: this.initialRules
+                rules: this.initialRules.map(rule => ({
+                    ...rule,
+                    ...(!rule.conditions ? {
+                        conditions: []
+                    } : {}),
+                    ...(!rule.name ? {
+                        name: ''
+                    } : {})
+                }))
             };
+        },
+        watch: {
+            rules: {
+                handler(newVal) {
+                    console.log({
+                        rules: newVal
+                    });
+                },
+                deep: true
+            },
         },
         computed: {
             operators() {
@@ -954,11 +1100,6 @@ $optionList = $productOptionValueRepository->getConfigurableOptions();
                 }
             }
         },
-        /* watch: {
-            initialRules(newVal) {
-                this.rules = newVal;
-            }
-        }, */
         methods: {
             addRuleCondition(index) {
                 this.rules[index]['conditions'].push({
@@ -977,6 +1118,7 @@ $optionList = $productOptionValueRepository->getConfigurableOptions();
             addRule() {
                 this.rules.push({
                     id: this.generateId(),
+                    name: '',
                     logic: 'and',
                     conditions: [],
                     result: null

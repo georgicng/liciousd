@@ -68,6 +68,9 @@ return [
                     'value-per-channel'     => 'Value Per Channel',
                     'yes'                   => 'Yes',
                     'default-value'         => 'Default Value',
+                    'dynamic-pricing'       => 'Use dynamic pricing',
+                    'dynamic-pricing-title' => 'Pricing Rules',
+                    'dynamic-pricing-description'       => 'Use this rule builder to set pricing rules',
 
                     'option'                => [
                         'color'    => 'Color Swatch',
