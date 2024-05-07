@@ -502,7 +502,7 @@ $optionList = $productOptionValueRepository->getConfigurableOptions();
                 <v-field type="text" :name="`${controlName}[rules][${index}][name]`"  v-model="rule.name" placeholder="Add rule name" />
             </div>
             <div>
-                <span v-if="rule.result">@{{ rule.result }}</span>
+                <span v-show="rule.result">@{{ rule.result }}</span>
                 <button
                     type="button"
                     class="text-white px-3 py-2 rounded bg-gray-600"

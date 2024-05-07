@@ -13,7 +13,7 @@ class PriceIncrementEvaluator
         $outcome = $conditions->map(function (array $condition) use ($domain, $logic) {
             $field = $condition['field'];
             $operator = $condition['operator'];
-            $value = $condition['value'];
+            $value = $condition['value'] ?? null;
 
             $domainValue = $domain[$field];
             $isArrayCheck = is_array($value);
