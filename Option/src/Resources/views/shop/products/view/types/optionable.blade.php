@@ -6,7 +6,8 @@
 $setOptionValues = $productOptionValueRepository->getOptionValues($product);
 $optionList = $productOptionValueRepository->getConfigurableOptions();
 @endphp
-{{-- TODO: hide if no option is configured --}}
+
+@if ($setOptionValues && $setOptionValues->isNotEmpty())
 <v-product-options :errors="errors" :option-list="{{ json_encode($optionList, 15, 512) }}" :value-list="{{ json_encode($setOptionValues, 15, 512) }}"></v-product-options>
 
 @push('scripts')
@@ -123,10 +124,6 @@ $optionList = $productOptionValueRepository->getConfigurableOptions();
                 return this.mapToId(this.options, 'code');
             },
             productOptions() {
-                if (!this.valueList?.length) {
-                    return []
-                }
-
                 return this.valueList.filter(({
                     option_id: id
                 }) => id !== this.config?.option_id).map(({
@@ -266,4 +263,5 @@ $optionList = $productOptionValueRepository->getConfigurableOptions();
     });
 </script>
 @endpush
+@endif
 @endif
