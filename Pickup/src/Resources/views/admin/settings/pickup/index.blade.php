@@ -620,7 +620,6 @@
                             "groupWithFormer": false,
                         },
                     };
-                    console.log({ value: this.value })
                 return {
                     model: this.value ? this.value : defaultValue
                 }
