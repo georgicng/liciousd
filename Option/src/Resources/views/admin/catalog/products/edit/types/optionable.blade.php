@@ -156,7 +156,7 @@ $optionList = $productOptionValueRepository->getConfigurableOptions();
                     </v-field>
 
                     <v-error-message
-                        :name="required"
+                        :name="`options[${index}][required]`"
                         v-slot="{ message }"
                     >
                         <p
@@ -185,7 +185,7 @@ $optionList = $productOptionValueRepository->getConfigurableOptions();
                     />
 
                     <v-error-message
-                        :name="value"
+                        :name="`options[${index}][value]`"
                         v-slot="{ message }"
                     >
                         <p
@@ -208,7 +208,7 @@ $optionList = $productOptionValueRepository->getConfigurableOptions();
                         />
 
                         <v-error-message
-                            :name="min"
+                            :name="`options[${index}][min]`"
                             v-slot="{ message }"
                         >
                             <p
@@ -230,7 +230,7 @@ $optionList = $productOptionValueRepository->getConfigurableOptions();
                         />
 
                         <v-error-message
-                            :name="max"
+                            :name="`options[${index}][max]`"
                             v-slot="{ message }"
                         >
                             <p
@@ -454,7 +454,7 @@ $optionList = $productOptionValueRepository->getConfigurableOptions();
                     </button>
                 </div>
             </div>
-            <input :name="`${controlName}[rules][${ruleIndex}][conditions][${conditionIndex}][id]`" type="hidden" v-model="model.id"/>
+            <input type="hidden" :name="`${controlName}[rules][${ruleIndex}][conditions][${conditionIndex}][id]`" v-model="model.id"/>
         </div>
     </script>
 
@@ -709,9 +709,6 @@ $optionList = $productOptionValueRepository->getConfigurableOptions();
             },
         },
         created() {
-            console.log({
-                config: this.config?.value
-            })
             this.selectedOption = this.options[0];
             this.dynamic = this.config?.value?.dynamic && ['on', true].includes(this.config.value.dynamic);
             this.model = [...this.valueList.filter(item => item.option_id != this.config?.option_id)].sort((a, b) => a.position - b.position);
@@ -954,20 +951,9 @@ $optionList = $productOptionValueRepository->getConfigurableOptions();
             },
         },
         watch: {
-            condition: {
-                handler(newVal) {
-                    this.model = newVal;
-                },
-                deep: true
+            condition(newVal) {
+                this.model = newVal;
             },
-            model: {
-                handler(newVal) {
-                    console.log({
-                        rules: newVal
-                    });
-                },
-                deep: true
-            }
         },
         methods: {
             mapToId(col, key = 'id') {
@@ -1026,7 +1012,6 @@ $optionList = $productOptionValueRepository->getConfigurableOptions();
             }
         },
         data() {
-            console.log(this.initialRules)
             return {
                 rules: this.initialRules.map(rule => ({
                     ...rule,
@@ -1038,16 +1023,6 @@ $optionList = $productOptionValueRepository->getConfigurableOptions();
                     } : {})
                 }))
             };
-        },
-        watch: {
-            rules: {
-                handler(newVal) {
-                    console.log({
-                        rules: newVal
-                    });
-                },
-                deep: true
-            },
         },
         computed: {
             operators() {
