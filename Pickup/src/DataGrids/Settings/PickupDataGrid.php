@@ -16,7 +16,6 @@ class PickupDataGrid extends DataGrid
     {
         $country = request('country');
         $state = request('state');
-        logger()->channel('custom')->info(json_encode(['country' => $country, 'state' => $state]));
         $queryBuilder = DB::table('pickup_centres')->addSelect('id', 'name', 'address', 'city', 'rate', 'status')->where('country_code', $country)->where('state_code', $state);
         return $queryBuilder;
     }

@@ -86,7 +86,6 @@ class Quotable extends AbstractType
             [$this->getOptionDefaults($this->getConfigOptionId(), $product->id)],
             $optionValues
         );
-        logger()->channel('custom')->info(json_encode([ 'insert' => $insert ]));
         $this->productOptionValueRepository->insert($insert);
         return $product;
     }

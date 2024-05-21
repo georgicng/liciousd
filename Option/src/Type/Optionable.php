@@ -96,7 +96,6 @@ class Optionable extends AbstractType
             [$this->getOptionDefaults($this->getConfigOptionId(), $product->id)],
             $optionValues
         );
-        logger()->channel('custom')->info(json_encode([ 'insert' => $insert ]));
         $this->productOptionValueRepository->insert($insert);
         return $product;
     }
@@ -132,6 +131,7 @@ class Optionable extends AbstractType
      */
     public function updateOptions(array $data)
     {
+        logger()->channel('custom')->info(json_encode(compact('data')));
         foreach ($data as $option) {
             $this->productOptionValueRepository->updateOrCreate([
                 'product_id' => $option['product_id'],
@@ -175,7 +175,6 @@ class Optionable extends AbstractType
                 'additional'        => $this->getAdditionalOptions($data),
             ],
         ];
-        logger()->channel('custom')->info(json_encode(compact('products')));
 
         return $products;
     }

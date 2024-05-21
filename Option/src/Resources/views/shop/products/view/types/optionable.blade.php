@@ -14,7 +14,7 @@ $optionList = $productOptionValueRepository->getConfigurableOptions();
 <script type="text/x-template" id="v-product-options-template">
     <div class="w-[455px] max-w-full">
 
-        <div v-for="option in productOptions"  class="mt-[20px]">
+        <div v-for="option in productOptions.toSorted((a, b) => a.position - b.position)"  class="mt-[20px]">
             <h3
                 class="mb-[15px] text-[20px] max-sm:text-[16px]"
                 v-text="option.name"
@@ -31,11 +31,11 @@ $optionList = $productOptionValueRepository->getConfigurableOptions();
                 :multiple="option.type == 'multiselect'"
             >
                 <option
-                    v-for='(_option, index) in option.options'
+                    v-for='(_option, index) in option.value.toSorted((a, b) => a.position - b.position)'
                     :value="_option.id"
                     :selected="_option.id == model[option.code]"
                 >
-                    @{{ _option.label }}
+                    @{{ option.nameById[_option.id] }}
                 </option>
             </v-field>
 
@@ -140,8 +140,12 @@ $optionList = $productOptionValueRepository->getConfigurableOptions();
                     position,
                     min,
                     max,
-                    ...this.optionMap[id]
-                })).sort((a, b) => a.position - b.position)
+                    ...this.optionMap[id],
+                    nameById: this.optionMap[id]?.options.reduce((acc, item) => ({
+                        ...acc,
+                        [item.id]: item.admin_name
+                    }), {})
+                }))
             },
             valueMap() {
                 return this.productOptions.reduce((acc, option) => {

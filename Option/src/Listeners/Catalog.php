@@ -61,8 +61,6 @@ class Catalog
     public function editProduct($product)
     {
         $data = request('options');
-        logger()->channel('custom')->info(json_encode([ 'type' => $product->type ]));
-        logger()->channel('custom')->info(json_encode(compact('data')));
         //$this->productOptionValueRepository->getModel()->getTypeInstance()->updateOptions($data);
         if ($product->type === 'optionable') {
             $product->getTypeInstance()->updateOptions($data);

@@ -89,14 +89,14 @@ $optionList = $productOptionValueRepository->getConfigurableOptions();
                     <template v-if="model.length">
                         <v-product-option-item
                             v-for="(option, index) in model"
-                            v-show="selectedOption.id === option.option_id"
+                            v-show="selectedOption.id == option.option_id"
                             :option="optionListMap[option.option_id]"
-                            :value="modelMap[option.option_id]"
+                            :value="model[index]"
                             :index="index"
                             :dynamic-pricing="dynamic"
                             :errors="errors"
                             :key="option.option_id"
-                            @updateValue="updateOption(index, $event)"
+                            @update-value="updateOption(index, $event)"
                         ></v-product-option-item>
                     </template>
                 </div>
@@ -134,26 +134,24 @@ $optionList = $productOptionValueRepository->getConfigurableOptions();
 {{-- Variation Item Template --}}
 <script type="text/x-template" id="v-product-option-item-template">
     <div class="animate-[on-fade_0.5s_ease-in-out]">
-
             <div class="flex-column gap-[10px] justify-between px-[16px] py-[24px] border-b-[1px] border-slate-300 dark:border-gray-800">
                 <x-admin::form.control-group>
                     <x-admin::form.control-group.label class="required">
                         Required
                     </x-admin::form.control-group.label>
-
-                    <v-field
-                        as="select"
-                        :name="`options[${index}][required]`"
-                        class="custom-select flex w-full min-h-[39px] py-[6px] px-[12px] bg-white dark:bg-gray-900 border dark:border-gray-800 rounded-[6px] text-[14px] text-gray-600 dark:text-gray-300 font-normal transition-all hover:border-gray-400"
-                        v-model="model.required"
-                    >
-                        <option value="0" >
-                            No
-                        </option>
-                        <option value="1" >
-                            Yes
-                        </option>
-                    </v-field>
+                        <select
+                            @change="$event => update('required', $event.target.value)"
+                            :value="model.required"
+                            :name="`options[${index}][required]`"
+                            class="custom-select flex w-full min-h-[39px] py-[6px] px-[12px] bg-white dark:bg-gray-900 border dark:border-gray-800 rounded-[6px] text-[14px] text-gray-600 dark:text-gray-300 font-normal transition-all hover:border-gray-400"
+                        >
+                            <option value="0" >
+                                No
+                            </option>
+                            <option value="1" >
+                                Yes
+                            </option>
+                        </select>
 
                     <v-error-message
                         :name="`options[${index}][required]`"
@@ -201,11 +199,9 @@ $optionList = $productOptionValueRepository->getConfigurableOptions();
                             Min
                         </x-admin::form.control-group.label>
 
-                        <v-field
-                            :name="`options[${index}][min]`"
-                            type="text"
-                            v-model="model.min"
-                        />
+                        <input :name="`options[${index}][min]`"
+                            type="text" @change="$event => update('min', $event.target.value)" :value="model.min" />
+
 
                         <v-error-message
                             :name="`options[${index}][min]`"
@@ -223,11 +219,9 @@ $optionList = $productOptionValueRepository->getConfigurableOptions();
                             Max
                         </x-admin::form.control-group.label>
 
-                        <v-field
-                            :name="`options[${index}][max]`"
-                            type="text"
-                            v-model="model.max"
-                        />
+                        <input :name="`options[${index}][max]`"
+                            type="text" @change="$event => update('max', $event.target.value)" :value="model.max" />
+
 
                         <v-error-message
                             :name="`options[${index}][max]`"
@@ -256,7 +250,7 @@ $optionList = $productOptionValueRepository->getConfigurableOptions();
                 <x-admin::form.control-group.label>
                     @{{ type == 'boolean' ? 'Label' : 'Default Value' }}
                 </x-admin::form.control-group.label>
-                <v-field
+                <input
                     :type="type"
                     :name="`${controlName}[${type == 'boolean' ? 'label' : 'default'}]`"
                     v-model="model.default"
@@ -266,8 +260,7 @@ $optionList = $productOptionValueRepository->getConfigurableOptions();
                 <x-admin::form.control-group.label>
                     Price
                 </x-admin::form.control-group.label>
-                <v-field
-                    as="select"
+                <select
                     :name="`${controlName}[prefix]`"
                     v-model="model.prefix"
                 >
@@ -277,8 +270,8 @@ $optionList = $productOptionValueRepository->getConfigurableOptions();
                     <option value="-" >
                         -
                     </option>
-                </v-field>
-                <v-field
+                </select>
+                <input
                     type="text"
                     :name="`${controlName}[price]`"
                     v-model="model.price"
@@ -379,8 +372,7 @@ $optionList = $productOptionValueRepository->getConfigurableOptions();
     <div class="relative mb-4">
             <div class="flex flex-row bg-white items-center content-between">
                 <div class="flex p-4">
-                    <v-field
-                        as="select"
+                    <select
                         v-model="model.field"
                         :name="`${controlName}[rules][${ruleIndex}][conditions][${conditionIndex}][field]`"
                         class="inline-block w-auto h-10 px-1 py-2 leading-normal gray-500 border border-gray-300 rounded"
@@ -391,12 +383,11 @@ $optionList = $productOptionValueRepository->getConfigurableOptions();
                         <option v-for="item in context.options" :key="item.id" :value="item.id" >
                             @{{item.name}}
                         </option>
-                    </v-field>
+                    </select>
                 </div>
 
                 <div class="flex  p-4">
-                    <v-field
-                        as="select"
+                    <select
                         v-model="model.operator"
                         :name="`${controlName}[rules][${ruleIndex}][conditions][${conditionIndex}][operator]`"
                         class="inline-block w-auto h-10 px-1 py-2 leading-normal gray-500 border border-gray-300 rounded"
@@ -407,11 +398,11 @@ $optionList = $productOptionValueRepository->getConfigurableOptions();
                         <option v-for="item in context.operators[field.type]" :key="item" :value="item" >
                             @{{item}}
                         </option>
-                    </v-field>
+            </select>
                 </div>
 
                 <div class="flex p-4">
-                    <v-field
+                    <input
                         v-if="linearOperators.includes(model.operator) && textGroup.includes(field.type)"
                         :name="`${controlName}[rules][${ruleIndex}][conditions][${conditionIndex}][value]`"
                         type="text"
@@ -419,8 +410,7 @@ $optionList = $productOptionValueRepository->getConfigurableOptions();
                         placeholder="input"
                         class="inline-block w-auto h-10 px-1 py-2 leading-normal gray-500 border border-gray-300 rounded"
                     />
-                    <v-field
-                        as="select"
+                    <select
                         v-if="linearOperators.includes(model.operator) && selectGroup.includes(field.type)"
                         :name="`${controlName}[rules][${ruleIndex}][conditions][${conditionIndex}][value]`"
                         v-model="model.value"
@@ -429,9 +419,8 @@ $optionList = $productOptionValueRepository->getConfigurableOptions();
                         <option v-for="item in field.options" :key="item.id" :value="item.id" >
                             @{{item.label}}
                         </option>
-                    </v-field>
-                    <v-field
-                        as="select"
+                    </select>
+                    <select
                         v-if="selectionOperators.includes(model.operator) && selectGroup.includes(field.type)"
                         :name="`${controlName}[rules][${ruleIndex}][conditions][${conditionIndex}][value][]`"
                         v-model="model.value"
@@ -441,7 +430,7 @@ $optionList = $productOptionValueRepository->getConfigurableOptions();
                         <option v-for="item in field.options" :key="item.id" :value="item.id" :selected="Array.isArray(model.value) && model.value.includes(item.id)">
                             @{{item.label}}
                         </option>
-                    </v-field>
+                    </select>
                 </div>
                 <div class="flex">
                     <button
@@ -499,7 +488,7 @@ $optionList = $productOptionValueRepository->getConfigurableOptions();
                 <span
                     :class="`text-[24px] p-[6px] rounded-[6px] cursor-pointer transition-all hover:bg-gray-100 dark:hover:bg-gray-950 ${isOpen ? 'icon-arrow-up' : 'icon-arrow-down'}`"
                 ></span>
-                <v-field type="text" :name="`${controlName}[rules][${index}][name]`"  v-model="rule.name" placeholder="Add rule name" />
+                <input type="text" :name="`${controlName}[rules][${index}][name]`"  v-model="rule.name" placeholder="Add rule name" />
             </div>
             <div>
                 <span v-show="rule.result">@{{ rule.result }}</span>
@@ -562,7 +551,7 @@ $optionList = $productOptionValueRepository->getConfigurableOptions();
                     >
                         Result
                     </label>
-                    <v-field
+                    <input
                         :name="`${controlName}[rules][${index}][result]`"
                         class="flex w-full min-h-[39px] py-2 px-3 border rounded-[6px] text-[14px] text-gray-600 dark:text-gray-300 transition-all hover:border-gray-400 dark:hover:border-gray-400 focus:border-gray-400 dark:focus:border-gray-400 dark:bg-gray-900 dark:border-gray-800"
                         label="Value"
@@ -605,16 +594,16 @@ $optionList = $productOptionValueRepository->getConfigurableOptions();
                     }) => ({
                         option_id,
                         position
-                    })).sort((a, b) => a.position - b.position)
+                    }))
                 },
                 set(val) {
-                    this.model = this.model.map(item => {
-                        const index = val.findIndex(_item => _item.option_id == item.option_id)
-                        return {
-                            ...item,
-                            position: index
-                        }
-                    })
+                    const position = val.reduce((acc, {
+                        option_id
+                    }, i) => ({
+                        ...acc,
+                        [option_id]: i
+                    }), {});
+                    this.model = this.model.toSorted((a, b) => position[a.option_id] - position[b.option_id]);
                 }
             },
             config() {
@@ -655,12 +644,6 @@ $optionList = $productOptionValueRepository->getConfigurableOptions();
                     return {}
                 }
                 return this.mapToId(this.valueList, 'option_id');
-            },
-            modelMap() {
-                if (!this.model?.length) {
-                    return {}
-                }
-                return this.mapToId(this.model, 'option_id');
             },
             optionListMap() {
                 return this.mapToId(this.optionList);
@@ -711,7 +694,7 @@ $optionList = $productOptionValueRepository->getConfigurableOptions();
         created() {
             this.selectedOption = this.options[0];
             this.dynamic = this.config?.value?.dynamic && ['on', true].includes(this.config.value.dynamic);
-            this.model = [...this.valueList.filter(item => item.option_id != this.config?.option_id)].sort((a, b) => a.position - b.position);
+            this.model = this.valueList.filter(item => item.option_id != this.config?.option_id).toSorted((a, b) => a.position - b.position);
         },
     });
 
@@ -730,14 +713,17 @@ $optionList = $productOptionValueRepository->getConfigurableOptions();
             }
         },
         methods: {
-            update(key, value) {
+            update(key, value, callback = null, event = null) {
                 this.model[key] = value
+                if (callback != null && event != null) {
+                    callback(event)
+                }
                 this.$emit('updateValue', this.model)
             }
         },
         watch: {
             value(newVal) {
-                this.model = newVal
+                this.model = newVal;
             }
         }
     });
@@ -769,7 +755,7 @@ $optionList = $productOptionValueRepository->getConfigurableOptions();
         data() {
             return {
                 option: '',
-                model: this.value || []
+                model: this.value.toSorted((a, b) => a.position - b.position) || []
             }
         },
         methods: {
@@ -807,7 +793,7 @@ $optionList = $productOptionValueRepository->getConfigurableOptions();
         },
         watch: {
             value(newVal, oldVal) {
-                this.model = newVal
+                this.model = newVal.toSorted((a, b) => a.position - b.position)
             }
         }
 

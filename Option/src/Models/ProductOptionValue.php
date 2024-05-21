@@ -22,6 +22,9 @@ class ProductOptionValue extends Model implements ProductOptionValueContract
         'option_id',
         'required',
         'value',
+        'position',
+        'min',
+        'max',
     ];
 
     protected $casts = [
@@ -69,15 +72,4 @@ class ProductOptionValue extends Model implements ProductOptionValueContract
         );
     }
 
-    /* public function getRealValueAttribute() {
-        if(is_array($this->value) && array_is_list($this->value)) {
-            return array_map(function($value) {
-                $value['increment'] = core()->convertPrice(floatval("{$value['prefix']}{$value['price']}"));
-                return $value;
-            }, $this->value);
-        }
-        $value = $this->value;
-        $value['increment'] = core()->convertPrice(floatval("{$value['prefix']}{$value['price']}"));
-        return $value;
-    } */
 }

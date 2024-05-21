@@ -32,7 +32,6 @@ class ProductOptionValueRepository extends Repository
     public function getFamilyOptions($product)
     {
         $data = $this->optionGroupRepository->getModel()->with(['custom_options'])->whereBelongsTo($product->attribute_family)->get();
-        logger()->channel('custom')->info(json_encode(compact('data')));
         return $data;
     }
 
