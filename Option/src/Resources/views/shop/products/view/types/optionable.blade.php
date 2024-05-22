@@ -23,12 +23,11 @@ $optionList = $productOptionValueRepository->getConfigurableOptions();
             <!-- Dropdown Options -->
             <v-field
                 as="select"
-                v-if="['select', 'multiselect'].includes(option.type)"
+                v-if="'select' == option.type"
                 :name="'options[' + option.id + ']'"
                 class="custom-select block w-full p-[14px] pr-[36px] bg-white border border-[#E9E9E9] rounded-lg text-[16px] text-[#6E6E6E] focus:ring-blue-500 focus:border-blue-500 max-md:border-0 max-md:outline-none max-md:w-[110px] cursor-pointer"
                 :label="option.name"
                 v-model="model[option.code]"
-                :multiple="option.type == 'multiselect'"
             >
                 <option
                     v-for='(_option, index) in option.value.toSorted((a, b) => a.position - b.position)'
@@ -38,6 +37,23 @@ $optionList = $productOptionValueRepository->getConfigurableOptions();
                     @{{ option.nameById[_option.id] }}
                 </option>
             </v-field>
+            <template v-if="'multiselect' == option.type">
+                <multiselect
+                    track-by="id"
+                    label="label"
+                    selectLabel="Click to select"
+                    deselectLabel="Click to remove"
+                    :multiple="true"
+                    :taggable="true"
+                    :hideSelected="true"
+                    :options="option.value.map(item => ({ id: item.id, label: option.nameById[item.id] }))"
+                    :model-value="model[option.code].map(id => ({  id, label: option.nameById[id]}))"
+                    class="inline-block w-auto h-10 px-1 py-2 leading-normal gray-500 border border-gray-300 rounded"
+                    @update:model-value="update(option.code, $event)"
+                >
+                </multiselect>
+                <input v-for="item in model[option.code]" type="hidden" :name="'options[' + option.id + '][]'" :key="item" :value="item" />
+            </template>
 
             <v-field
                 v-if="option.type == 'text'"
@@ -225,11 +241,16 @@ $optionList = $productOptionValueRepository->getConfigurableOptions();
                 if (!value) {
                     return 0;
                 }
+                if(!Array.isArray(value)){
+                    value = [value];
+                }
                 const val = this.valueMap[key]
-                const {
-                    increment
-                } = val[value] ? val[value] : val;
-                return increment;
+                return value.reduce((acc, _value) => {
+                    const {
+                        increment
+                    } = val[_value] ? val[_value] : val;
+                    return acc + increment;
+                }, 0)
             },
             increment(model) {
                 if (this.dynamic) {
@@ -246,11 +267,16 @@ $optionList = $productOptionValueRepository->getConfigurableOptions();
                     [val[key]]: val
                 }), {});
             },
+            update(key, val) {
+                this.model[key] = val.map(item => item.id);
+                console.log(val, this.model[key]);
+            }
         },
 
         watch: {
             model: {
                 handler(newVal) {
+                    console.log({ newVal})
                     this.$emitter.emit('update-price', this.increment(newVal));
                 },
                 deep: true
@@ -261,8 +287,9 @@ $optionList = $productOptionValueRepository->getConfigurableOptions();
             // TODO: set model from php
             this.model = this.productOptions.reduce((acc, option) => ({
                 ...acc,
-                [option.code]: ''
+                [option.code]: ['multiselect', 'checkbox'].includes(option.type)? [] : ''
             }), {});
+            console.log(this.productOptions)
         },
     });
 </script>

@@ -266,12 +266,14 @@ class Optionable extends AbstractType
             return PriceIncrementEvaluator::getResult($config['rules'], $options);
         }
         foreach ($options as $key => $value) {
-            if (empty($value)) {
-                continue;
-            }
+            if (empty($value))  continue;
+            $values = is_array($value) ? $value : [$value];
             $option = $optionMap[$key];
-            $optionValue = isset($option[$value]) ? $option[$value] : $option;
-            $increment += $optionValue['base_increment'];
+            $sub = array_reduce($values, function ($acc, $val) use ($option) {
+                $optionValue = isset($option[$val]) ? $option[$val] : $option;
+                return $acc + $optionValue['base_increment'];
+            }, 0);
+            $increment += $sub;
         }
         return $increment;
     }
@@ -284,14 +286,12 @@ class Optionable extends AbstractType
      */
     public function getAdditionalOptions($data)
     {
-        if (empty($data['options'])) {
-            return $data;
-        }
+        if (empty($data['options'])) return $data;
         $productOptions = $this->productOptionValueRepository->getOptionValues($this->product, true);
         $optionMap = $productOptions->reduce(function (array $carry, ProductOptionValue $item) {
             $key = $item->option_id;
             $value = ['option' => $item->option];
-            if (in_array($item->option->type, ['select'])) {
+            if (in_array($item->option->type, ['select', 'multiselect', 'checkbox'])) {
                 $value['values'] = $item->option->values->reduce(function ($acc, $val) {
                     $acc[$val['id']] = $val;
                     return $acc;
@@ -301,12 +301,17 @@ class Optionable extends AbstractType
             return $carry;
         }, []);
         foreach ($data['options'] as $key => $value) {
+            if (empty($value))  continue;
+            $values = is_array($value) ? $value : [$value];
             $option = $optionMap[$key]['option'];
-            $optionValue = isset($optionMap[$key]['values']) ? $optionMap[$key]['values'][$value]['label'] : $value;
+            $optionValue = array_map(
+                fn($val) => isset($optionMap[$key]['values']) ? $optionMap[$key]['values'][$val]['label'] : $val,
+                $values
+            );
             $data['attributes'][$option['code']] = [
                 'attribute_name' => $option['name'],
                 'option_id'      => $key,
-                'option_label'   => $optionValue,
+                'option_label'   => implode(', ', $optionValue),
             ];
         }
         return $data;
