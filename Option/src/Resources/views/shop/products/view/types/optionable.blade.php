@@ -23,11 +23,13 @@ $optionList = $productOptionValueRepository->getConfigurableOptions();
             <!-- Dropdown Options -->
             <v-field
                 as="select"
-                v-if="'select' == option.type"
+                v-if="['select', 'multiselect'].includes(option.type)"
                 :name="'options[' + option.id + ']'"
+                :rules="option.rules"
                 class="custom-select block w-full p-[14px] pr-[36px] bg-white border border-[#E9E9E9] rounded-lg text-[16px] text-[#6E6E6E] focus:ring-blue-500 focus:border-blue-500 max-md:border-0 max-md:outline-none max-md:w-[110px] cursor-pointer"
                 :label="option.name"
                 v-model="model[option.code]"
+                :multiple="option.type == 'multiselect'"
             >
                 <option
                     v-for='(_option, index) in option.value.toSorted((a, b) => a.position - b.position)'
@@ -37,28 +39,12 @@ $optionList = $productOptionValueRepository->getConfigurableOptions();
                     @{{ option.nameById[_option.id] }}
                 </option>
             </v-field>
-            <template v-if="'multiselect' == option.type">
-                <multiselect
-                    track-by="id"
-                    label="label"
-                    selectLabel="Click to select"
-                    deselectLabel="Click to remove"
-                    :multiple="true"
-                    :taggable="true"
-                    :hideSelected="true"
-                    :options="option.value.map(item => ({ id: item.id, label: option.nameById[item.id] }))"
-                    :model-value="model[option.code].map(id => ({  id, label: option.nameById[id]}))"
-                    class="inline-block w-auto h-10 px-1 py-2 leading-normal gray-500 border border-gray-300 rounded"
-                    @update:model-value="update(option.code, $event)"
-                >
-                </multiselect>
-                <input v-for="item in model[option.code]" type="hidden" :name="'options[' + option.id + '][]'" :key="item" :value="item" />
-            </template>
 
             <v-field
                 v-if="option.type == 'text'"
                 type="text"
                 :name="'options[' + option.id + ']'"
+                :rules="option.rules"
                 v-model="model[option.code]"
                 class="flex w-full min-h-[39px] py-[6px] px-[12px] bg-white dark:bg-gray-900 border dark:border-gray-800 rounded-[6px] text-[14px] text-gray-600 dark:text-gray-300 font-normal transition-all hover:border-gray-400"
                 :label="option.name"
@@ -68,6 +54,7 @@ $optionList = $productOptionValueRepository->getConfigurableOptions();
                 v-if="option.type == 'textarea'"
                 type="textarea"
                 :name="'options[' + option.id + ']'"
+                :rules="option.rules"
                 v-model="model[option.code]"
                 class="flex w-full min-h-[39px] py-[6px] px-[12px] bg-white dark:bg-gray-900 border dark:border-gray-800 rounded-[6px] text-[14px] text-gray-600 dark:text-gray-300 font-normal transition-all hover:border-gray-400"
                 :label="option.name"
@@ -149,19 +136,34 @@ $optionList = $productOptionValueRepository->getConfigurableOptions();
                     position,
                     min,
                     max
-                }) => ({
-                    id,
-                    required,
-                    value,
-                    position,
-                    min,
-                    max,
-                    ...this.optionMap[id],
-                    nameById: this.optionMap[id]?.options.reduce((acc, item) => ({
-                        ...acc,
-                        [item.id]: item.admin_name
-                    }), {})
-                }))
+                }) => {
+                    const option = this.optionMap[id];
+                    const multi = ['checkbox', 'multiselect'].includes(option.type)
+                    const rules = ['min', 'max', 'required'].map(key => {
+                        switch (key) {
+                            case 'required':
+                                return required ? 'required' : '';
+                            case 'min':
+                                    return multi ? '' : min ? `min:${min}` : '';
+                            case 'max':
+                                if (multi) {
+                                    return min && max ? `length:${min},${max}` : `length:${min || max}`;
+                                }
+                                return max ? `max:${max}` : '';
+                        }
+                    }).filter(item => !!item).join('|');
+                    console.log({rules});
+                    return {
+                        id,
+                        rules,
+                        value,
+                        position,
+                        ...option,
+                        nameById: this.optionMap[id]?.options.reduce((acc, item) => ({
+                            ...acc,
+                            [item.id]: item.admin_name
+                        }), {})
+                    }})
             },
             valueMap() {
                 return this.productOptions.reduce((acc, option) => {
