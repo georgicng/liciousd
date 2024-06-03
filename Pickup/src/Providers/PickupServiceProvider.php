@@ -3,6 +3,7 @@
 namespace Gaiproject\Pickup\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Event;
 
 class PickupServiceProvider extends ServiceProvider
 {
@@ -35,6 +36,10 @@ class PickupServiceProvider extends ServiceProvider
 
         $this->mergeConfigFrom(dirname(__DIR__) . '/Config/system.php', 'core');
         $this->mergeConfigFrom(dirname(__DIR__) . '/Config/carriers.php', 'carriers');
+        $this->loadViewsFrom(__DIR__ . '/../Resources/views/shop', 'shop');
+        Event::listen('bagisto.shop.checkout.shipping-method.after', function($viewRenderEventManager) {
+            $viewRenderEventManager->addTemplate('shop::checkout.shipping');
+        });
     }
 
 
