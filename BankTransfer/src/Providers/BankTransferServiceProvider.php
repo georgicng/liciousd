@@ -3,6 +3,7 @@
 namespace Gaiproject\BankTransfer\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Event;
 
 class BankTransferServiceProvider extends ServiceProvider
 {
@@ -40,5 +41,10 @@ class BankTransferServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(
             dirname(__DIR__) . '/Config/system.php', 'core'
         );
+
+        $this->loadViewsFrom(__DIR__ . '/../Resources/views/shop', 'shop');
+        Event::listen('bagisto.shop.checkout.payment-method.after', function($viewRenderEventManager) {
+            $viewRenderEventManager->addTemplate('shop::checkout.payment');
+        });
     }
 }
