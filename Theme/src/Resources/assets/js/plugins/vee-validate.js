@@ -2,7 +2,7 @@
  * We are defining all the global rules here and configuring
  * all the `vee-validate` settings.
  */
-import { configure, defineRule, Field, Form, ErrorMessage } from "vee-validate";
+import { configure, defineRule, Field, FieldArray, Form, ErrorMessage } from "vee-validate";
 import { localize, setLocale } from "@vee-validate/i18n";
 import ar from "@vee-validate/i18n/dist/locale/ar.json";
 import bn from "@vee-validate/i18n/dist/locale/bn.json";
@@ -34,6 +34,7 @@ export default {
          */
         app.component("VForm", Form);
         app.component("VField", Field);
+        app.component("VFieldArray", FieldArray);
         app.component("VErrorMessage", ErrorMessage);
 
         window.addEventListener("load", () => setLocale(document.documentElement.attributes.lang.value));

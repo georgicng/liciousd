@@ -20,17 +20,16 @@ $optionList = $productOptionValueRepository->getConfigurableOptions();
                 v-text="option.name"
             ></h3>
 
-            <!-- Dropdown Options -->
-            <v-field
-                as="select"
-                v-if="['select', 'multiselect'].includes(option.type)"
-                :name="'options[' + option.id + ']'"
-                :rules="option.rules"
-                class="custom-select block w-full p-[14px] pr-[36px] bg-white border border-[#E9E9E9] rounded-lg text-[16px] text-[#6E6E6E] focus:ring-blue-500 focus:border-blue-500 max-md:border-0 max-md:outline-none max-md:w-[110px] cursor-pointer"
-                :label="option.name"
-                v-model="model[option.code]"
-                :multiple="option.type == 'multiselect'"
-            >
+                <!-- Dropdown Options -->
+                <v-field
+                    as="select"
+                    v-if="'select' == option.type"
+                    :rules="option.rules"
+                    :name="'options[' + option.id + ']'"
+                    class="custom-select block w-full p-[14px] pr-[36px] bg-white border border-[#E9E9E9] rounded-lg text-[16px] text-[#6E6E6E] focus:ring-blue-500 focus:border-blue-500 max-md:border-0 max-md:outline-none max-md:w-[110px] cursor-pointer"
+                    :label="option.name"
+                    v-model="model[option.code]"
+                >
                 <option
                     v-for='(_option, index) in option.value.toSorted((a, b) => a.position - b.position)'
                     :value="_option.id"
@@ -39,6 +38,23 @@ $optionList = $productOptionValueRepository->getConfigurableOptions();
                     @{{ option.nameById[_option.id] }}
                 </option>
             </v-field>
+            <v-field-array v-if="'multiselect' == option.type" :name="'options[' + option.id + ']'" v-model="model[option.code]" :rules="option.rules" v-slot="{ fields, replace }">
+                <multiselect
+                    track-by="id"
+                    label="label"
+                    selectLabel="Click to select"
+                    deselectLabel="Click to remove"
+                    :multiple="true"
+                    :taggable="true"
+                    :hideSelected="true"
+                    :options="option.value.map(item => ({ id: item.id, label: option.nameById[item.id] }))"
+                    :model-value="fields.map(entry => ({  id: entry.value, label: option.nameById[entry.value]}))"
+                    class="inline-block w-auto h-10 px-1 py-2 leading-normal gray-500 border border-gray-300 rounded"
+                    @update:model-value="update(option.code, $event, replace)"
+                >
+                </multiselect>
+                <input v-for="item in model[option.code]" :name="'options[' + option.id + '][]'" type="hidden" :key="item" :value="item" >
+            </v-field-array>
 
             <v-field
                 v-if="option.type == 'text'"
@@ -152,7 +168,7 @@ $optionList = $productOptionValueRepository->getConfigurableOptions();
                                 return max ? `max:${max}` : '';
                         }
                     }).filter(item => !!item).join('|');
-                    console.log({rules});
+                    //console.log({value, rules});
                     return {
                         id,
                         rules,
@@ -269,16 +285,20 @@ $optionList = $productOptionValueRepository->getConfigurableOptions();
                     [val[key]]: val
                 }), {});
             },
-            update(key, val) {
-                this.model[key] = val.map(item => item.id);
-                console.log(val, this.model[key]);
+            update(key, valist, callback) {
+                const val = valist.map(item => item.id);
+                this.model[key] = val;
+                if (callback && typeof callback === 'function') {
+                    callback(val);
+                }
+                console.log(valist, val, this.model[key]);
             }
         },
 
         watch: {
             model: {
                 handler(newVal) {
-                    console.log({ newVal})
+                    //console.log({ newVal})
                     this.$emitter.emit('update-price', this.increment(newVal));
                 },
                 deep: true
@@ -291,7 +311,7 @@ $optionList = $productOptionValueRepository->getConfigurableOptions();
                 ...acc,
                 [option.code]: ['multiselect', 'checkbox'].includes(option.type)? [] : ''
             }), {});
-            console.log(this.productOptions)
+            //console.log(this.productOptions)
         },
     });
 </script>
