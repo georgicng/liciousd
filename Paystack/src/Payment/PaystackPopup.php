@@ -34,8 +34,8 @@ class PaystackPopup extends Payment
     public function getPublicKey()
     {
         return $this->getConfigData('sandbox')
-            ? config('app.paystack_test_public_key')
-            : config('app.paystack_live_public_key');
+            ? config('services.paystack.test_public_key')
+            : config('services.paystack.live_public_key');
     }
 
     public function getFormFields()

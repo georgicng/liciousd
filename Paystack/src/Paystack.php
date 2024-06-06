@@ -80,7 +80,7 @@ class Paystack
      */
     public function setBaseUrl()
     {
-        $this->baseUrl = config('app.paystack_payment_url');
+        $this->baseUrl = config('services.paystack.payment_url');
     }
 
     /**
@@ -89,8 +89,8 @@ class Paystack
     public function setKey()
     {
         $this->secretKey = $this->getConfigData('sandbox')
-            ? config('app.paystack_test_secret_key')
-            : config('app.paystack_live_secret_key');
+            ? config('services.paystack.test_secret_key')
+            : config('services.paystack.live_secret_key');
     }
 
     /**

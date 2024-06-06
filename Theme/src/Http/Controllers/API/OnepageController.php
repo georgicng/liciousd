@@ -113,7 +113,12 @@ class OnepageController extends APIController
 
         Cart::collectTotals();
 
-        return response()->json(Payment::getSupportedPaymentMethods());
+        $paymentMethods = array_map(
+            fn ($item) => [...$item, 'additional_details' => \Webkul\Payment\Payment::getAdditionalDetails($item->method)],
+            Payment::getSupportedPaymentMethods()
+        );
+
+        return response()->json($paymentMethods);
     }
 
     /**
