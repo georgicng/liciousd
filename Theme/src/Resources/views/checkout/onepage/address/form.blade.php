@@ -169,10 +169,11 @@
                         @lang('shop::app.checkout.onepage.address.state')
                     </x-shop::form.control-group.label>
 
-                    <template v-if="haveStates(selectedCountry)">
+                    <template v-if="haveStates">
                         <x-shop::form.control-group.control
                             type="select"
                             ::name="controlName + '.state'"
+                            v-model="selectedState"
                             rules="{{ core()->isStateRequired() ? 'required' : '' }}"
                             :label="trans('shop::app.checkout.onepage.address.state')"
                             :placeholder="trans('shop::app.checkout.onepage.address.state')"
@@ -184,6 +185,7 @@
                             <option
                                 v-for='(state, index) in states[selectedCountry]'
                                 :value="state.code"
+                                :key="state.code"
                             >
                                 @{{ state.default_name }}
                             </option>
@@ -194,7 +196,7 @@
                         <x-shop::form.control-group.control
                             type="text"
                             ::name="controlName + '.state'"
-                            ::value="address.state"
+                            v-model="selectedState"
                             rules="{{ core()->isStateRequired() ? 'required' : '' }}"
                             :label="trans('shop::app.checkout.onepage.address.state')"
                             :placeholder="trans('shop::app.checkout.onepage.address.state')"
@@ -215,13 +217,34 @@
                     </x-shop::form.control-group.label>
 
                     <x-shop::form.control-group.control
+                        type="select"
+                        ::name="controlName + '.city'"
+                        class="py-2 mb-2"
+                        rules="required"
+                        :label="trans('shop::app.checkout.onepage.addresses.billing.city')"
+                        :placeholder="trans('shop::app.checkout.onepage.addresses.billing.city')"
+                        v-model="selectedCity"
+                        v-if="haveCities"
+                    >
+                        <option
+                            v-for='(city, index) in cities[selectedCountry][selectedState]'
+                            :value="city.name"
+                            :key="index"
+                        >
+                            @{{ city.name }}
+                        </option>
+                    </x-shop::form.control-group.control>
+
+                    <x-shop::form.control-group.control
+                        v-else
                         type="text"
                         ::name="controlName + '.city'"
-                        ::value="address.city"
+                        v-model="selectedCity"
                         rules="required"
                         :label="trans('shop::app.checkout.onepage.address.city')"
                         :placeholder="trans('shop::app.checkout.onepage.address.city')"
                     />
+
 
                     <x-shop::form.control-group.error ::name="controlName + '.city'" />
                 </x-shop::form.control-group>
@@ -271,6 +294,14 @@
         </div>
     </script>
 
+    @php
+        $countries = core()->countries()->map(fn ($country) => [
+            'id'   => $country->id,
+            'code' => $country->code,
+            'name' => $country->name,
+        ]);
+    @endphp
+
     <script type="module">
         app.component('v-checkout-address-form', {
             template: '#v-checkout-address-form-template',
@@ -301,19 +332,42 @@
             },
 
             data() {
+                const regionData = {
+                    countries: @json($countries),
+                    states: @json(core()->groupedStatesByCountries()),
+                    cities: @json(getGroupedCities()),
+                };
+                console.log({ regionData })
                 return {
                     selectedCountry: this.address.country,
-
-                    countries: [],
-
-                    states: [],
+                    selectedState: this.address.state,
+                    selectedCity: this.address.city,
+                    ...regionData,
                 }
+            },
+            computed: {
+                haveStates() {
+                    return !! this.states[this.selectedCountry]?.length;
+                },
+
+                haveCities() {
+                    if (
+                        ! (this.selectedCountry
+                        && this.selectedState)
+                    ) {
+                        return false;
+                    }
+                    console.log(this.cities, this.selectedState, this.selectedCountry);
+                    return (
+                        this.cities[this.selectedCountry][this.selectedState]
+                        && this.cities[this.selectedCountry][this.selectedState].length
+                    )
+                },
             },
 
             mounted() {
-                this.getCountries();
-
-                this.getStates();
+                //this.getCountries();
+                //this.getStates();
             },
 
             methods: {
@@ -331,10 +385,6 @@
                             this.states = response.data.data;
                         })
                         .catch(() => {});
-                },
-
-                haveStates(countryCode) {
-                    return !! this.states[countryCode]?.length;
                 },
             }
         });

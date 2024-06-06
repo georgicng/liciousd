@@ -131,7 +131,6 @@ class Optionable extends AbstractType
      */
     public function updateOptions(array $data)
     {
-        logger()->channel('custom')->info(json_encode(compact('data')));
         foreach ($data as $option) {
             $this->productOptionValueRepository->updateOrCreate([
                 'product_id' => $option['product_id'],
@@ -302,7 +301,7 @@ class Optionable extends AbstractType
         }, []);
         foreach ($data['options'] as $key => $value) {
             if (empty($value))  continue;
-            $values = is_array($value) ? $value : [$value];
+            $values = is_array($value) ? $value : [$value]; //&& array_is_list($value)
             $option = $optionMap[$key]['option'];
             $optionValue = array_map(
                 fn($val) => isset($optionMap[$key]['values']) ? $optionMap[$key]['values'][$val]['label'] : $val,

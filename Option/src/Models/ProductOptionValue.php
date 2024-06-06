@@ -51,9 +51,7 @@ class ProductOptionValue extends Model implements ProductOptionValueContract
     {
         return Attribute::make(
             get: function ($value) {
-                if (!is_array($value)) {
-                    $value = json_decode($value, true);
-                }
+                $value = is_array($value)?: json_decode($value, true);
                 if (array_is_list($value)) {
                     return array_map(function ($_value) {
                         $_value['base_increment'] = floatval("{$_value['prefix']}{$_value['price']}");

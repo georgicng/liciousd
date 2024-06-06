@@ -44,7 +44,7 @@
                                 {!! view_render_event('bagisto.shop.checkout.onepage.shipping.before') !!}
 
                                 <div v-for="rate in method.rates">
-                                    <input 
+                                    <input
                                         type="radio"
                                         name="shipping_method"
                                         :id="rate.method"
@@ -53,29 +53,28 @@
                                         @change="store(rate.method)"
                                     >
 
-                                    <label 
+                                    <label
                                         class="icon-radio-unselect absolute ltr:right-5 rtl:left-5 top-5 text-2xl text-navyBlue peer-checked:icon-radio-select cursor-pointer"
                                         :for="rate.method"
                                     >
-                                    </label>
+                                        <label
+                                            class="block p-5 border border-[#E9E9E9] rounded-xl cursor-pointer"
+                                            :for="rate.method"
+                                        >
+                                            <span class="icon-flate-rate text-6xl text-navyBlue"></span>
 
-                                    <label 
-                                        class="block p-5 border border-[#E9E9E9] rounded-xl cursor-pointer"
-                                        :for="rate.method"
-                                    >
-                                        <span class="icon-flate-rate text-6xl text-navyBlue"></span>
+                                            <p class="text-2xl mt-1.5 font-semibold max-sm:text-xl">
+                                                @{{ rate.base_formatted_price }}
+                                            </p>
 
-                                        <p class="text-2xl mt-1.5 font-semibold max-sm:text-xl">
-                                            @{{ rate.base_formatted_price }}
-                                        </p>
-                                        
-                                        <p class="text-xs mt-2.5 font-medium">
-                                            <span class="font-medium">@{{ rate.method_title }}</span> - @{{ rate.method_description }}
-                                        </p>
+                                            <p class="text-xs mt-2.5 font-medium">
+                                                <span class="font-medium">@{{ rate.method_title }}</span> - @{{ rate.method_description }}
+                                            </p>
+                                        </label>
                                     </label>
                                 </div>
 
-                                {!! view_render_event('bagisto.shop.checkout.onepage.shipping.after') !!}
+                                {!! view_render_event('bagisto.shop.checkout.shipping-method.after') !!}
                             </div>
                         </div>
                     </x-slot>
@@ -95,14 +94,20 @@
                     default: () => null,
                 },
             },
+            data() {
+                return {
+                    selectedMethod: null
+                }
+            },
 
             emits: ['processing', 'processed'],
 
             methods: {
                 store(selectedMethod) {
+                    this.selectedMethod = selectedMethod;
                     this.$emit('processing', 'payment');
 
-                    this.$axios.post("{{ route('shop.checkout.onepage.shipping_methods.store') }}", {    
+                    this.$axios.post("{{ route('shop.checkout.onepage.shipping_methods.store') }}", {
                             shipping_method: selectedMethod,
                         })
                         .then(response => {
