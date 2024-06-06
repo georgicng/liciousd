@@ -68,10 +68,13 @@
                                             </p>
 
                                             <p class="text-xs mt-2.5 font-medium">
-                                                <span class="font-medium">@{{ rate.method_title }}</span> - @{{ rate.method_description }}
+                                                <span class="font-medium">@{{ rate.method_title }}</span>
                                             </p>
                                         </label>
                                     </label>
+                                    <div v-if="rate.method == selectedMethod">
+                                        @{{ rate.method_description }}
+                                    </div>
                                 </div>
 
                                 {!! view_render_event('bagisto.shop.checkout.shipping-method.after') !!}

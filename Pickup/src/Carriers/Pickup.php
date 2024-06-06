@@ -58,9 +58,9 @@ class Pickup extends AbstractShipping
             $cartShippingRate = new CartShippingRate;
 
             $cartShippingRate->carrier = "{$this->getCode()}_{$record->id}";
-            $cartShippingRate->carrier_title = "{$this->getConfigData('title')}_{$record->city}";
-            $cartShippingRate->method = "{$this->getMethod()}_{$record->city}";
-            $cartShippingRate->method_title = "{$this->getConfigData('title')}_{$record->city}";
+            $cartShippingRate->carrier_title = "{$record->name} Pickup Centre";
+            $cartShippingRate->method = "Pickup Centre";
+            $cartShippingRate->method_title = "{$record->name} Pickup Centre";
             $cartShippingRate->method_description = "{$record->address}, {$record->city}";
             $cartShippingRate->price = core()->convertPrice($rate);
             $cartShippingRate->base_price = $rate;

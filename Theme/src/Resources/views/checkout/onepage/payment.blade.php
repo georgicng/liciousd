@@ -91,6 +91,9 @@
                                         {!! view_render_event('bagisto.shop.checkout.onepage.payment-method.description.after') !!}
                                     </label>
                                 </label>
+                                <div v-if="payment.method == selectedMethod && payment.additional_details ">
+                                        @{{ payment.additional_details }}
+                                    </div>
 
                                 {!! view_render_event('bagisto.shop.checkout.payment-method.after') !!}
 
