@@ -1,12 +1,12 @@
-<x-shop::layouts.account>
+<x-licious::layouts.account>
     <!-- Page Title -->
     <x-slot:title>
-        @lang('shop::app.customers.account.orders.view.page-title', ['order_id' => $order->increment_id])
+        @lang('licious::app.customers.account.orders.view.page-title', ['order_id' => $order->increment_id])
     </x-slot>
-    
+
     <!-- Breadcrumbs -->
     @section('breadcrumbs')
-        <x-shop::breadcrumbs
+        <x-licious::breadcrumbs
             name="orders.view"
             :entity="$order"
         />
@@ -15,7 +15,7 @@
     <div class="flex justify-between items-center">
         <div class="">
             <h2 class="text-2xl font-medium">
-                @lang('shop::app.customers.account.orders.view.page-title', ['order_id' => $order->increment_id])
+                @lang('licious::app.customers.account.orders.view.page-title', ['order_id' => $order->increment_id])
             </h2>
         </div>
 
@@ -39,7 +39,7 @@
                     }
                 })"
             >
-                @lang('shop::app.customers.account.orders.view.cancel-btn-title')
+                @lang('licious::app.customers.account.orders.view.cancel-btn-title')
             </a>
         @endif
     </div>
@@ -48,15 +48,15 @@
 
     <!-- Order view tabs -->
     <div class="mt-5">
-        <x-shop::tabs>
-            <x-shop::tabs.item
+        <x-licious::tabs>
+            <x-licious::tabs.item
                 class="!px-0"
                 :title="trans('shop::app.customers.account.orders.view.information.info')"
                 :is-selected="true"
             >
                 <div class="text-base font-medium">
                     <label>
-                        @lang('shop::app.customers.account.orders.view.information.placed-on')
+                        @lang('licious::app.customers.account.orders.view.information.placed-on')
                     </label>
 
                     <span>
@@ -72,56 +72,56 @@
                                     scope="col"
                                     class="px-6 py-4 font-medium"
                                 >
-                                    @lang('shop::app.customers.account.orders.view.information.sku')
+                                    @lang('licious::app.customers.account.orders.view.information.sku')
                                 </th>
 
                                 <th
                                     scope="col"
                                     class="px-6 py-4 font-medium"
                                 >
-                                    @lang('shop::app.customers.account.orders.view.information.product-name')
+                                    @lang('licious::app.customers.account.orders.view.information.product-name')
                                 </th>
 
                                 <th
                                     scope="col"
                                     class="px-6 py-4 font-medium"
                                 >
-                                    @lang('shop::app.customers.account.orders.view.information.price')
+                                    @lang('licious::app.customers.account.orders.view.information.price')
                                 </th>
 
                                 <th
                                     scope="col"
                                     class="px-6 py-4 font-medium"
                                 >
-                                    @lang('shop::app.customers.account.orders.view.information.item-status')
+                                    @lang('licious::app.customers.account.orders.view.information.item-status')
                                 </th>
 
                                 <th
                                     scope="col"
                                     class="px-6 py-4 font-medium"
                                 >
-                                    @lang('shop::app.customers.account.orders.view.information.subtotal')
+                                    @lang('licious::app.customers.account.orders.view.information.subtotal')
                                 </th>
 
                                 <th
                                     scope="col"
                                     class="px-6 py-4 font-medium"
                                 >
-                                    @lang('shop::app.customers.account.orders.view.information.tax-percent')
+                                    @lang('licious::app.customers.account.orders.view.information.tax-percent')
                                 </th>
 
                                 <th
                                     scope="col"
                                     class="px-6 py-4 font-medium"
                                 >
-                                    @lang('shop::app.customers.account.orders.view.information.tax-amount')
+                                    @lang('licious::app.customers.account.orders.view.information.tax-amount')
                                 </th>
 
                                 <th
                                     scope="col"
                                     class="px-6 py-4 font-medium"
                                 >
-                                    @lang('shop::app.customers.account.orders.view.information.grand-total')
+                                    @lang('licious::app.customers.account.orders.view.information.grand-total')
                                 </th>
                             </tr>
                         </thead>
@@ -164,31 +164,31 @@
                                     >
                                         <span>
                                             @if($item->qty_ordered)
-                                                @lang('shop::app.customers.account.orders.view.information.item-ordered', ['qty_ordered' => $item->qty_ordered])
+                                                @lang('licious::app.customers.account.orders.view.information.item-ordered', ['qty_ordered' => $item->qty_ordered])
                                             @endif
                                         </span>
 
                                         <span>
                                             @if($item->qty_invoiced)
-                                                @lang('shop::app.customers.account.orders.view.information.item-invoice', ['qty_invoiced' => $item->qty_invoiced])
+                                                @lang('licious::app.customers.account.orders.view.information.item-invoice', ['qty_invoiced' => $item->qty_invoiced])
                                             @endif
                                         </span>
 
                                         <span>
                                             @if($item->qty_shipped)
-                                                @lang('shop::app.customers.account.orders.view.information.item-shipped', ['qty_shipped' => $item->qty_shipped])
+                                                @lang('licious::app.customers.account.orders.view.information.item-shipped', ['qty_shipped' => $item->qty_shipped])
                                             @endif
                                         </span>
 
                                         <span>
                                             @if($item->qty_refunded)
-                                                @lang('shop::app.customers.account.orders.view.information.item-refunded', ['qty_refunded' => $item->qty_refunded])
+                                                @lang('licious::app.customers.account.orders.view.information.item-refunded', ['qty_refunded' => $item->qty_refunded])
                                             @endif
                                         </span>
 
                                         <span>
                                             @if($item->qty_canceled)
-                                                @lang('shop::app.customers.account.orders.view.information.item-canceled', ['qty_canceled' => $item->qty_canceled])
+                                                @lang('licious::app.customers.account.orders.view.information.item-canceled', ['qty_canceled' => $item->qty_canceled])
                                             @endif
                                         </span>
                                     </td>
@@ -232,7 +232,7 @@
                             <div class="grid gap-2 max-w-max">
                                 <div class="flex gap-x-5 justify-between w-full">
                                     <p class="text-sm">
-                                        @lang('shop::app.customers.account.orders.view.information.subtotal')
+                                        @lang('licious::app.customers.account.orders.view.information.subtotal')
                                     </p>
 
                                     <div class="flex gap-x-5">
@@ -247,7 +247,7 @@
                                 @if ($order->haveStockableItems())
                                     <div class="flex w-full gap-x-5 justify-between">
                                         <p class="text-sm">
-                                            @lang('shop::app.customers.account.orders.view.information.shipping-handling')
+                                            @lang('licious::app.customers.account.orders.view.information.shipping-handling')
                                         </p>
 
                                         <div class="flex gap-x-5">
@@ -263,7 +263,7 @@
                                 @if ($order->base_discount_amount > 0)
                                     <div class="flex gap-x-5 justify-between w-full">
                                         <p class="text-sm">
-                                            @lang('shop::app.customers.account.orders.view.information.discount')
+                                            @lang('licious::app.customers.account.orders.view.information.discount')
 
                                             @if ($order->coupon_code)
                                                 ({{ $order->coupon_code }})
@@ -282,7 +282,7 @@
 
                                 <div class="flex gap-x-5 justify-between w-full">
                                     <p class="text-sm">
-                                        @lang('shop::app.customers.account.orders.view.information.tax')
+                                        @lang('licious::app.customers.account.orders.view.information.tax')
                                     </p>
 
                                     <div class="flex gap-x-5">
@@ -296,7 +296,7 @@
 
                                 <div class="flex gap-x-5 justify-between w-full">
                                     <p class="text-sm">
-                                        @lang('shop::app.customers.account.orders.view.information.grand-total')
+                                        @lang('licious::app.customers.account.orders.view.information.grand-total')
                                     </p>
 
                                     <div class="flex gap-x-5">
@@ -310,7 +310,7 @@
 
                                 <div class="flex gap-x-5 justify-between w-full">
                                     <p class="text-sm">
-                                        @lang('shop::app.customers.account.orders.view.information.total-paid')
+                                        @lang('licious::app.customers.account.orders.view.information.total-paid')
                                     </p>
 
                                     <div class="flex gap-x-5">
@@ -324,7 +324,7 @@
 
                                 <div class="flex gap-x-5 justify-between w-full">
                                     <p class="text-sm">
-                                        @lang('shop::app.customers.account.orders.view.information.total-refunded')
+                                        @lang('licious::app.customers.account.orders.view.information.total-refunded')
                                     </p>
 
                                     <div class="flex gap-x-5">
@@ -337,7 +337,7 @@
                                 </div>
                                 <div class="flex gap-x-5 justify-between w-full">
                                     <p class="text-sm">
-                                        @lang('shop::app.customers.account.orders.view.information.total-due')
+                                        @lang('licious::app.customers.account.orders.view.information.total-due')
                                     </p>
 
                                     <div class="flex gap-x-5">
@@ -356,22 +356,22 @@
                         </div>
                     </div>
                 </div>
-            </x-shop::tabs.item>
+            </x-licious::tabs.item>
 
             @if ($order->invoices->count())
-                <x-shop::tabs.item  :title="trans('shop::app.customers.account.orders.view.invoices.invoices')">
-                    
+                <x-licious::tabs.item  :title="trans('shop::app.customers.account.orders.view.invoices.invoices')">
+
                     @foreach ($order->invoices as $invoice)
                         <div class="flex justify-between items-center">
                             <div class="">
                                 <p class="text-base font-medium">
-                                    @lang('shop::app.customers.account.orders.view.invoices.individual-invoice', ['invoice_id' => $invoice->increment_id ?? $invoice->id])
+                                    @lang('licious::app.customers.account.orders.view.invoices.individual-invoice', ['invoice_id' => $invoice->increment_id ?? $invoice->id])
                                 </p>
                             </div>
-                            
+
                             <a href="{{ route('shop.customers.account.orders.print-invoice', $invoice->id) }}">
                                 <div class="secondary-button flex gap-x-2.5 items-center py-3 px-5 border-[#E9E9E9] font-normal">
-                                    @lang('shop::app.customers.account.orders.view.invoices.print')
+                                    @lang('licious::app.customers.account.orders.view.invoices.print')
                                 </div>
                             </a>
                         </div>
@@ -384,49 +384,49 @@
                                             scope="col"
                                             class="px-6 py-4 font-medium"
                                         >
-                                            @lang('shop::app.customers.account.orders.view.invoices.sku')
+                                            @lang('licious::app.customers.account.orders.view.invoices.sku')
                                         </th>
 
                                         <th
                                             scope="col"
                                             class="px-6 py-4 font-medium"
                                         >
-                                            @lang('shop::app.customers.account.orders.view.invoices.product-name')
+                                            @lang('licious::app.customers.account.orders.view.invoices.product-name')
                                         </th>
 
                                         <th
                                             scope="col"
                                             class="px-6 py-4 font-medium"
                                         >
-                                            @lang('shop::app.customers.account.orders.view.invoices.price')
+                                            @lang('licious::app.customers.account.orders.view.invoices.price')
                                         </th>
 
                                         <th
                                             scope="col"
                                             class="px-6 py-4 font-medium"
                                         >
-                                            @lang('shop::app.customers.account.orders.view.invoices.qty')
+                                            @lang('licious::app.customers.account.orders.view.invoices.qty')
                                         </th>
 
                                         <th
                                             scope="col"
                                             class="px-6 py-4 font-medium"
                                         >
-                                            @lang('shop::app.customers.account.orders.view.invoices.subtotal')
+                                            @lang('licious::app.customers.account.orders.view.invoices.subtotal')
                                         </th>
 
                                         <th
                                             scope="col"
                                             class="px-6 py-4 font-medium"
                                         >
-                                            @lang('shop::app.customers.account.orders.view.invoices.tax-amount')
+                                            @lang('licious::app.customers.account.orders.view.invoices.tax-amount')
                                         </th>
 
                                         <th
                                             scope="col"
                                             class="px-6 py-4 font-medium"
                                         >
-                                            @lang('shop::app.customers.account.orders.view.invoices.grand-total')
+                                            @lang('licious::app.customers.account.orders.view.invoices.grand-total')
                                         </th>
                                     </tr>
                                 </thead>
@@ -494,7 +494,7 @@
                                     <div class="grid gap-2 max-w-max">
                                         <div class="flex gap-x-5 justify-between w-full">
                                             <p class="text-sm">
-                                                @lang('shop::app.customers.account.orders.view.invoices.subtotal')
+                                                @lang('licious::app.customers.account.orders.view.invoices.subtotal')
                                             </p>
 
                                             <div class="flex gap-x-5">
@@ -508,7 +508,7 @@
 
                                         <div class="flex gap-x-5 justify-between w-full">
                                             <p class="text-sm">
-                                                @lang('shop::app.customers.account.orders.view.invoices.shipping-handling')
+                                                @lang('licious::app.customers.account.orders.view.invoices.shipping-handling')
                                             </p>
 
                                             <div class="flex gap-x-5">
@@ -523,7 +523,7 @@
                                         @if ($invoice->base_discount_amount > 0)
                                             <div class="flex gap-x-5 justify-between w-full">
                                                 <p class="text-sm">
-                                                    @lang('shop::app.customers.account.orders.view.invoices.discount')
+                                                    @lang('licious::app.customers.account.orders.view.invoices.discount')
                                                 </p>
 
                                                 <div class="flex gap-x-5">
@@ -538,7 +538,7 @@
 
                                         <div class="flex gap-x-5 justify-between w-full">
                                             <p class="text-sm">
-                                                @lang('shop::app.customers.account.orders.view.invoices.tax')
+                                                @lang('licious::app.customers.account.orders.view.invoices.tax')
                                             </p>
 
                                             <div class="flex gap-x-5">
@@ -552,7 +552,7 @@
 
                                         <div class="flex gap-x-5 justify-between w-full">
                                             <p class="text-sm">
-                                                @lang('shop::app.customers.account.orders.view.invoices.grand-total')
+                                                @lang('licious::app.customers.account.orders.view.invoices.grand-total')
                                             </p>
 
                                             <div class="flex gap-x-5">
@@ -569,15 +569,15 @@
                         </div>
                     @endforeach
 
-                </x-shop::tabs.item >
+                </x-licious::tabs.item >
             @endif
 
             @if ($order->shipments->count())
-                <x-shop::tabs.item title="{{ trans('shop::app.customers.account.orders.view.shipments.shipments') }}">
+                <x-licious::tabs.item title="{{ trans('shop::app.customers.account.orders.view.shipments.shipments') }}">
                     @foreach ($order->shipments as $shipment)
                         <div>
                             <label class="text-base font-medium">
-                                @lang('shop::app.customers.account.orders.view.shipments.tracking-number')
+                                @lang('licious::app.customers.account.orders.view.shipments.tracking-number')
                             </label>
 
                             <span>
@@ -587,7 +587,7 @@
 
                         <div class="text-base font-medium">
                             <span>
-                                @lang('shop::app.customers.account.orders.view.shipments.individual-shipment', ['shipment_id' => $shipment->id])
+                                @lang('licious::app.customers.account.orders.view.shipments.individual-shipment', ['shipment_id' => $shipment->id])
                             </span>
                         </div>
 
@@ -599,21 +599,21 @@
                                             scope="col"
                                             class="px-6 py-4 font-medium"
                                         >
-                                            @lang('shop::app.customers.account.orders.view.shipments.sku')
+                                            @lang('licious::app.customers.account.orders.view.shipments.sku')
                                         </th>
 
                                         <th
                                             scope="col"
                                             class="px-6 py-4 font-medium"
                                         >
-                                            @lang('shop::app.customers.account.orders.view.shipments.product-name')
+                                            @lang('licious::app.customers.account.orders.view.shipments.product-name')
                                         </th>
 
                                         <th
                                             scope="col"
                                             class="px-6 py-4 font-medium"
                                         >
-                                            @lang('shop::app.customers.account.orders.view.shipments.qty')
+                                            @lang('licious::app.customers.account.orders.view.shipments.qty')
                                         </th>
                                     </tr>
                                 </thead>
@@ -647,16 +647,16 @@
                             </table>
                         </div>
                     @endforeach
-                </x-shop::tabs.item>
+                </x-licious::tabs.item>
             @endif
 
             @if ($order->refunds->count())
-                <x-shop::tabs.item :title="trans('shop::app.customers.account.orders.view.refunds.refunds')">
+                <x-licious::tabs.item :title="trans('shop::app.customers.account.orders.view.refunds.refunds')">
 
                     @foreach ($order->refunds as $refund)
                         <div class="text-base font-medium">
                             <span>
-                                @lang('shop::app.customers.account.orders.view.refunds.individual-refund', ['refund_id' => $refund->id])
+                                @lang('licious::app.customers.account.orders.view.refunds.individual-refund', ['refund_id' => $refund->id])
                             </span>
                         </div>
 
@@ -668,49 +668,49 @@
                                             scope="col"
                                             class="px-6 py-4 font-medium"
                                         >
-                                            @lang('shop::app.customers.account.orders.view.refunds.sku')
+                                            @lang('licious::app.customers.account.orders.view.refunds.sku')
                                         </th>
 
                                         <th
                                             scope="col"
                                             class="px-6 py-4 font-medium"
                                         >
-                                            @lang('shop::app.customers.account.orders.view.refunds.product-name')
+                                            @lang('licious::app.customers.account.orders.view.refunds.product-name')
                                         </th>
 
                                         <th
                                             scope="col"
                                             class="px-6 py-4 font-medium"
                                         >
-                                            @lang('shop::app.customers.account.orders.view.refunds.price')
+                                            @lang('licious::app.customers.account.orders.view.refunds.price')
                                         </th>
 
                                         <th
                                             scope="col"
                                             class="px-6 py-4 font-medium"
                                         >
-                                            @lang('shop::app.customers.account.orders.view.refunds.qty')
+                                            @lang('licious::app.customers.account.orders.view.refunds.qty')
                                         </th>
 
                                         <th
                                             scope="col"
                                             class="px-6 py-4 font-medium"
                                         >
-                                            @lang('shop::app.customers.account.orders.view.refunds.subtotal')
+                                            @lang('licious::app.customers.account.orders.view.refunds.subtotal')
                                         </th>
 
                                         <th
                                             scope="col"
                                             class="px-6 py-4 font-medium"
                                         >
-                                            @lang('shop::app.customers.account.orders.view.refunds.tax-amount')
+                                            @lang('licious::app.customers.account.orders.view.refunds.tax-amount')
                                         </th>
 
                                         <th
                                             scope="col"
                                             class="px-6 py-4 font-medium"
                                         >
-                                            @lang('shop::app.customers.account.orders.view.refunds.grand-total')
+                                            @lang('licious::app.customers.account.orders.view.refunds.grand-total')
                                         </th>
                                     </tr>
                                 </thead>
@@ -784,7 +784,7 @@
                                     <div class="grid gap-2 max-w-max">
                                         <div class="flex gap-x-5 justify-between w-full">
                                             <p class="text-sm">
-                                                @lang('shop::app.customers.account.orders.view.refunds.subtotal')
+                                                @lang('licious::app.customers.account.orders.view.refunds.subtotal')
                                             </p>
 
                                             <div class="flex gap-x-5">
@@ -798,7 +798,7 @@
 
                                         <div class="flex gap-x-5 justify-between w-full">
                                             <p class="text-sm">
-                                                @lang('shop::app.customers.account.orders.view.refunds.shipping-handling')
+                                                @lang('licious::app.customers.account.orders.view.refunds.shipping-handling')
                                             </p>
 
                                             <div class="flex gap-x-5">
@@ -813,7 +813,7 @@
                                         @if ($refund->discount_amount > 0)
                                             <div class="flex gap-x-5 justify-between w-full">
                                                 <p class="text-sm">
-                                                    @lang('shop::app.customers.account.orders.view.refunds.discount')
+                                                    @lang('licious::app.customers.account.orders.view.refunds.discount')
                                                 </p>
 
                                                 <div class="flex gap-x-5">
@@ -829,7 +829,7 @@
                                         @if ($refund->tax_amount > 0)
                                             <div class="flex gap-x-5 justify-between w-full">
                                                 <p class="text-sm">
-                                                    @lang('shop::app.customers.account.orders.view.refunds.tax')
+                                                    @lang('licious::app.customers.account.orders.view.refunds.tax')
                                                 </p>
 
                                                 <div class="flex gap-x-5">
@@ -844,7 +844,7 @@
 
                                         <div class="flex gap-x-5 justify-between w-full">
                                             <p class="text-sm">
-                                                @lang('shop::app.customers.account.orders.view.refunds.adjustment-refund')
+                                                @lang('licious::app.customers.account.orders.view.refunds.adjustment-refund')
                                             </p>
 
                                             <div class="flex gap-x-5">
@@ -858,7 +858,7 @@
 
                                         <div class="flex gap-x-5 justify-between w-full">
                                             <p class="text-sm">
-                                                @lang('shop::app.customers.account.orders.view.refunds.adjustment-fee')
+                                                @lang('licious::app.customers.account.orders.view.refunds.adjustment-fee')
                                             </p>
 
                                             <div class="flex gap-x-5">
@@ -872,7 +872,7 @@
 
                                         <div class="flex gap-x-5 justify-between w-full">
                                             <p class="text-sm">
-                                                @lang('shop::app.customers.account.orders.view.refunds.grand-total')
+                                                @lang('licious::app.customers.account.orders.view.refunds.grand-total')
                                             </p>
 
                                             <div class="flex gap-x-5">
@@ -889,16 +889,16 @@
                         </div>
                     @endforeach
 
-                </x-shop::tabs.item >
+                </x-licious::tabs.item >
             @endif
-        </x-shop::tabs>
+        </x-licious::tabs>
 
         <div class="flex flex-wrap gap-x-11 gap-y-8 justify-between mt-11 pt-7 border-t border-[#E9E9E9]">
             <!-- Biiling Address -->
             @if ($order->billing_address)
                 <div class="grid gap-4 max-w-[200px] max-868:w-full max-868:max-w-full max-md:max-w-[200px] max-sm:max-w-full">
                     <p class="text-base text-[#6E6E6E]">
-                        @lang('shop::app.customers.account.orders.view.billing-address')
+                        @lang('licious::app.customers.account.orders.view.billing-address')
                     </p>
 
                     <div class="grid gap-2.5">
@@ -915,7 +915,7 @@
             @if ($order->shipping_address)
                 <div class="grid gap-4 max-w-[200px] max-868:w-full max-868:max-w-full max-md:max-w-[200px] max-sm:max-w-full">
                     <p class="text-base text-[#6E6E6E]">
-                        @lang('shop::app.customers.account.orders.view.shipping-address')
+                        @lang('licious::app.customers.account.orders.view.shipping-address')
                     </p>
 
                     <div class="grid gap-2.5">
@@ -930,7 +930,7 @@
                 <!-- Shipping Method -->
                 <div class="grid gap-4 max-w-[200px] place-content-baseline max-868:w-full max-868:max-w-full max-md:max-w-[200px] max-sm:max-w-full">
                     <p class="text-base text-[#6E6E6E]">
-                        @lang('shop::app.customers.account.orders.view.shipping-method')
+                        @lang('licious::app.customers.account.orders.view.shipping-method')
                     </p>
 
                     <p class="text-sm">
@@ -945,7 +945,7 @@
             <!-- Billing Method -->
             <div class="grid gap-4 place-content-baseline max-w-[200px] max-868:w-full max-868:max-w-full max-md:max-w-[200px] max-sm:max-w-full">
                 <p class="text-base text-[#6E6E6E]">
-                    @lang('shop::app.customers.account.orders.view.payment-method')
+                    @lang('licious::app.customers.account.orders.view.payment-method')
                 </p>
 
                 <p class="text-sm">
@@ -964,4 +964,4 @@
     </div>
 
     {!! view_render_event('bagisto.shop.customers.account.orders.view.after', ['order' => $order]) !!}
-</x-shop::layouts.account>
+</x-licious::layouts.account>

@@ -73,7 +73,7 @@
         </v-field>
 
         @if ($attributes->get('tinymce', false) || $attributes->get(':tinymce', false))
-            <x-shop::tinymce :selector="'textarea#' . $attributes->get('id')" />
+            <x-licious::tinymce :selector="'textarea#' . $attributes->get('id')" />
         @endif
 
         @break
@@ -84,7 +84,7 @@
             {{ $attributes->only(['name', ':name', 'value', ':value', 'v-model', 'rules', ':rules', 'label', ':label']) }}
             name="{{ $name }}"
         >
-            <x-shop::flat-picker.date>
+            <x-licious::flat-picker.date>
                 <input
                     name="{{ $name }}"
                     v-bind="field"
@@ -92,7 +92,7 @@
                     {{ $attributes->except(['value', ':value', 'v-model', 'rules', ':rules', 'label', ':label'])->merge(['class' => 'w-full mb-3 py-3 px-5 shadow border rounded-lg text-sm text-gray-600 transition-all hover:border-gray-400 focus:border-gray-400']) }}
                     autocomplete="off"
                 >
-            </x-shop::flat-picker.date>
+            </x-licious::flat-picker.date>
         </v-field>
 
         @break
@@ -103,7 +103,7 @@
             {{ $attributes->only(['name', ':name', 'value', ':value', 'v-model', 'rules', ':rules', 'label', ':label']) }}
             name="{{ $name }}"
         >
-            <x-shop::flat-picker.datetime>
+            <x-licious::flat-picker.datetime>
                 <input
                     name="{{ $name }}"
                     v-bind="field"
@@ -111,7 +111,7 @@
                     {{ $attributes->except(['value', ':value', 'v-model', 'rules', ':rules', 'label', ':label'])->merge(['class' => 'w-full mb-3 py-3 px-5 shadow border rounded-lg text-sm text-gray-600 transition-all hover:border-gray-400 focus:border-gray-400']) }}
                     autocomplete="off"
                 >
-            </x-shop::flat-picker.datetime>
+            </x-licious::flat-picker.datetime>
         </v-field>
         @break
 
@@ -224,7 +224,7 @@
         @break
 
     @case('image')
-        <x-shop::media
+        <x-licious::media
             ::class="[errors && errors['{{ $name }}'] ? 'border !border-red-500' : '']"
             {{ $attributes }}
             name="{{ $name }}"

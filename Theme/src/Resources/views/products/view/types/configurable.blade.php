@@ -32,7 +32,7 @@
                             class="mb-4 text-xl max-sm:text-base"
                             v-text="attribute.label"
                         ></h2>
-                        
+
                         <!-- Dropdown Options -->
                         <v-field
                             as="select"
@@ -103,7 +103,7 @@
                                     </label>
 
                                     <!-- Image Swatch Options -->
-                                    <label 
+                                    <label
                                         class="group relative flex items-center justify-center w-[60px] bg-white overflow-hidden rounded-full border h-[60px] hover:bg-gray-50 focus:outline-none text-gray-900 font-medium uppercase shadow-sm max-sm:w-[35px] max-sm:h-[35px] sm:py-6 cursor-pointer"
                                         :class="{'ring-2 ring-navyBlue' : index == attribute.selectedIndex }"
                                         :title="option.label"
@@ -137,7 +137,7 @@
                                     </label>
 
                                     <!-- Text Swatch Options -->
-                                    <label 
+                                    <label
                                         class="group relative flex items-center justify-center min-w-[60px] bg-white py-3 px-4 rounded-full border h-[60px] hover:bg-gray-50 focus:outline-none text-gray-900 font-medium uppercase shadow-sm max-sm:w-[35px] max-sm:h-[35px] sm:py-6 cursor-pointer"
                                         :class="{'ring-2 ring-navyBlue' : index == attribute.selectedIndex }"
                                         :title="option.label"
@@ -178,7 +178,7 @@
                                 class="text-gray-600 text-sm max-sm:text-xs"
                                 v-if="! attribute.options.length"
                             >
-                                @lang('shop::app.products.view.type.configurable.select-above-options')
+                                @lang('licious::app.products.view.type.configurable.select-above-options')
                             </span>
                         </div>
                     </template>

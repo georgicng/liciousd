@@ -27,8 +27,8 @@ class ThemeServiceProvider extends ServiceProvider
         Route::middleware('web')->group(__DIR__.'/../Routes/api.php');
 
         $this->loadMigrationsFrom(__DIR__.'/../Database/Migrations');
-        $this->loadTranslationsFrom(__DIR__.'/../Resources/lang', 'shop');
-        $this->loadViewsFrom(__DIR__.'/../Resources/views', 'shop');
+        $this->loadTranslationsFrom(__DIR__.'/../Resources/lang', 'licious');
+        $this->loadViewsFrom(__DIR__.'/../Resources/views', 'licious');
 
         /* aliases */
         $router->aliasMiddleware('currency', Currency::class);
@@ -45,16 +45,15 @@ class ThemeServiceProvider extends ServiceProvider
 
         ]);
 
-        $this->loadViewsFrom(__DIR__ . '/../Resources/views', 'licious');
 
         /* View Composers */
         $this->composeView();
 
         /* Paginator */
-        Paginator::defaultView('shop::partials.pagination');
-        Paginator::defaultSimpleView('shop::partials.pagination');
+        Paginator::defaultView('licious::partials.pagination');
+        Paginator::defaultSimpleView('licious::partials.pagination');
 
-        Blade::anonymousComponentPath(__DIR__.'/../Resources/views/components', 'shop');
+        Blade::anonymousComponentPath(__DIR__.'/../Resources/views/components', 'licious');
 
         /* Breadcrumbs */
         require __DIR__.'/../Routes/breadcrumbs.php';

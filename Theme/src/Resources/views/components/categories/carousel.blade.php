@@ -3,7 +3,7 @@
     title="{{ $title }}"
     navigation-link="{{ $navigationLink ?? '' }}"
 >
-    <x-shop::shimmer.categories.carousel
+    <x-licious::shimmer.categories.carousel
         :count="8"
         :navigation-link="$navigationLink ?? false"
     />
@@ -33,7 +33,7 @@
                             :aria-label="category.name"
                         >
                             <template v-if="category.images.logo_url">
-                                <x-shop::media.images.lazy
+                                <x-licious::media.images.lazy
                                     ::src="category.images.logo_url"
                                     width="110"
                                     height="110"
@@ -78,7 +78,7 @@
 
         <!-- Category Carousel Shimmer -->
         <template v-if="isLoading">
-            <x-shop::shimmer.categories.carousel
+            <x-licious::shimmer.categories.carousel
                 :count="8"
                 :navigation-link="$navigationLink ?? false"
             />

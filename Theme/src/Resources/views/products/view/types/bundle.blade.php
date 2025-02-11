@@ -71,7 +71,7 @@
                                 value="0"
                                 v-if="! option.is_required"
                             >
-                                @lang('shop::app.products.view.type.bundle.none')
+                                @lang('licious::app.products.view.type.bundle.none')
                             </option>
 
                             <option
@@ -108,7 +108,7 @@
                                     class="text-[#6E6E6E] cursor-pointer"
                                     :for="'bundle_options[' + option.id + '][]'"
                                 >
-                                    @lang('shop::app.products.view.type.bundle.none')
+                                    @lang('licious::app.products.view.type.bundle.none')
                                 </label>
                             </span>
 
@@ -186,8 +186,8 @@
                                 >
                                 </label>
 
-                                <label 
-                                    class="text-[#6E6E6E] cursor-pointer" 
+                                <label
+                                    class="text-[#6E6E6E] cursor-pointer"
                                     :for="'bundle_options[' + option.id + '][' + index + ']'"
                                 >
                                     @{{ product.name }}
@@ -218,7 +218,7 @@
                                     value="0"
                                     v-if="! option.is_required"
                                 >
-                                    @lang('shop::app.products.view.type.bundle.none')
+                                    @lang('licious::app.products.view.type.bundle.none')
                                 </option>
 
                                 <option
@@ -248,7 +248,7 @@
                 </div>
 
                 <div v-if="option.type == 'select' || option.type == 'radio'">
-                    <x-shop::quantity-changer
+                    <x-licious::quantity-changer
                         ::name="'bundle_option_qty[' + option?.id + ']'"
                         ::value="productQty"
                         class="gap-x-4 w-max rounded-xl py-2.5 px-4 mt-5 !border-[#E9E9E9]"

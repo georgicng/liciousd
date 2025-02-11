@@ -1,41 +1,41 @@
 <!-- default product listing -->
-<x-shop::products.carousel
+<x-licious::products.carousel
     title="Men's Collections"
     :src="route('shop.api.products.index')"
     :navigation-link="route('shop.home.index')"
 />
 
 <!-- category product listing -->
-<x-shop::products.carousel
+<x-licious::products.carousel
     title="Men's Collections"
     :src="route('shop.api.products.index', ['category_id' => 1])"
     :navigation-link="route('shop.home.index')"
 />
 
 <!-- featured product listing -->
-<x-shop::products.carousel
+<x-licious::products.carousel
     title="Men's Collections"
     :src="route('shop.api.products.index', ['featured' => 1])"
     :navigation-link="route('shop.home.index')"
 />
 
 <!-- new product listing -->
-<x-shop::products.carousel
+<x-licious::products.carousel
     title="Men's Collections"
     :src="route('shop.api.products.index', ['new' => 1])"
     :navigation-link="route('shop.home.index')"
 />
 
 <!-- basic/traditional form  -->
-<x-shop::form action="">
-     
-    <!-- Type E-mail -->
-    <x-shop::form.control-group>
-        <x-shop::form.control-group.label>
-            Email
-        </x-shop::form.control-group.label>
+<x-licious::form action="">
 
-        <x-shop::form.control-group.control
+    <!-- Type E-mail -->
+    <x-licious::form.control-group>
+        <x-licious::form.control-group.label>
+            Email
+        </x-licious::form.control-group.label>
+
+        <x-licious::form.control-group.control
             type="email"
             name="email"
             rules="required|email"
@@ -44,34 +44,34 @@
             placeholder="email@example.com"
         />
 
-        <x-shop::form.control-group.error control-name="email" />
-    </x-shop::form.control-group>
+        <x-licious::form.control-group.error control-name="email" />
+    </x-licious::form.control-group>
 
     <!-- Type Date -->
-    <x-shop::form.control-group>
-        <x-shop::form.control-group.label>
+    <x-licious::form.control-group>
+        <x-licious::form.control-group.label>
             Date of Birth
-        </x-shop::form.control-group.label>
+        </x-licious::form.control-group.label>
 
-        <x-shop::form.control-group.control
+        <x-licious::form.control-group.control
             type="date"
             id="dob"
-            name="date_of_birth" 
+            name="date_of_birth"
             value=""
             label="Date of Birth"
             placeholder="Date of Birth"
         />
 
-        <x-shop::form.control-group.error control-name="date_of_birth" />
-    </x-shop::form.control-group>
+        <x-licious::form.control-group.error control-name="date_of_birth" />
+    </x-licious::form.control-group>
 
     <!-- Type Date Time -->
-    <x-shop::form.control-group>
-        <x-shop::form.control-group.label>
+    <x-licious::form.control-group>
+        <x-licious::form.control-group.label>
             Start Timing
-        </x-shop::form.control-group.label>
+        </x-licious::form.control-group.label>
 
-        <x-shop::form.control-group.control
+        <x-licious::form.control-group.control
             type="datetime"
             id="starts_from"
             name="starts_from"
@@ -80,16 +80,16 @@
             placeholder="Start Timing"
         />
 
-        <x-shop::form.control-group.error control-name="starts_from" />
-    </x-shop::form.control-group>
+        <x-licious::form.control-group.error control-name="starts_from" />
+    </x-licious::form.control-group>
 
     <!-- Type Text -->
-    <x-shop::form.control-group>
-        <x-shop::form.control-group.label class="required">
+    <x-licious::form.control-group>
+        <x-licious::form.control-group.label class="required">
             @lang('name')
-        </x-shop::form.control-group.label>
+        </x-licious::form.control-group.label>
 
-        <x-shop::form.control-group.control
+        <x-licious::form.control-group.control
             type="text"
             name="name"
             rules="required"
@@ -98,16 +98,16 @@
             placeholder="name"
         />
 
-        <x-shop::form.control-group.error control-name="name" />
-    </x-shop::form.control-group>
+        <x-licious::form.control-group.error control-name="name" />
+    </x-licious::form.control-group>
 
     <!-- Type Select -->
-    <x-shop::form.control-group>
-        <x-shop::form.control-group.label>
-            @lang('shop::app.catalog.families.create.column')
-        </x-shop::form.control-group.label>
+    <x-licious::form.control-group>
+        <x-licious::form.control-group.label>
+            @lang('licious::app.catalog.families.create.column')
+        </x-licious::form.control-group.label>
 
-        <x-shop::form.control-group.control
+        <x-licious::form.control-group.control
             type="select"
             name="column"
             rules="required"
@@ -115,24 +115,24 @@
         >
             <!-- Default Option -->
             <option value="">
-                @lang('shop::app.catalog.families.create.select-group')
+                @lang('licious::app.catalog.families.create.select-group')
             </option>
 
             <option value="1">
-                @lang('shop::app.catalog.families.create.main-column')
+                @lang('licious::app.catalog.families.create.main-column')
             </option>
 
             <option value="2">
-                @lang('shop::app.catalog.families.create.right-column')
+                @lang('licious::app.catalog.families.create.right-column')
             </option>
-        </x-shop::form.control-group.control>
+        </x-licious::form.control-group.control>
 
-        <x-shop::form.control-group.error control-name="column" />
-    </x-shop::form.control-group>
+        <x-licious::form.control-group.error control-name="column" />
+    </x-licious::form.control-group>
 
     <!--Type Checkbox -->
-    <x-shop::form.control-group>
-        <x-shop::form.control-group.control
+    <x-licious::form.control-group>
+        <x-licious::form.control-group.control
             type="checkbox"
             id="is_unique"
             name="is_unique"
@@ -140,14 +140,14 @@
             for="is_unique"
         />
 
-        <x-shop::form.control-group.label for="is_unique">
-            @lang('shop::app.catalog.attributes.edit.is-unique')
-        </x-shop::form.control-group.label>
-    </x-shop::form.control-group>
+        <x-licious::form.control-group.label for="is_unique">
+            @lang('licious::app.catalog.attributes.edit.is-unique')
+        </x-licious::form.control-group.label>
+    </x-licious::form.control-group>
 
     <!--Type Radio -->
-    <x-shop::form.control-group>
-        <x-shop::form.control-group.control
+    <x-licious::form.control-group>
+        <x-licious::form.control-group.control
             type="radio"
             id="is_unique"
             name="is_unique"
@@ -155,18 +155,18 @@
             for="is_unique"
         />
 
-        <x-shop::form.control-group.label for="is_unique" />
-            @lang('shop::app.catalog.attributes.edit.is-unique')
-        </x-shop::form.control-group.label>
-    </x-shop::form.control-group>
+        <x-licious::form.control-group.label for="is_unique" />
+            @lang('licious::app.catalog.attributes.edit.is-unique')
+        </x-licious::form.control-group.label>
+    </x-licious::form.control-group>
 
     <!-- Type Tinymce -->
-    <x-shop::form.control-group>
-        <x-shop::form.control-group.label>
+    <x-licious::form.control-group>
+        <x-licious::form.control-group.label>
             Description
-        </x-shop::form.control-group.label>
+        </x-licious::form.control-group.label>
 
-        <x-shop::form.control-group.control
+        <x-licious::form.control-group.control
             type="textarea"
             class="description"
             name="description"
@@ -176,22 +176,22 @@
             :tinymce="true"
         />
 
-        <x-shop::form.control-group.error control-name="description" />
-    </x-shop::form.control-group>
-</x-shop::form>
+        <x-licious::form.control-group.error control-name="description" />
+    </x-licious::form.control-group>
+</x-licious::form>
 
 <!-- customized/ajax form -->
-<x-shop::form
+<x-licious::form
     v-slot="{ meta, errors, handleSubmit }"
     as="div"
 >
     <form @submit="handleSubmit($event, callMethodInComponent)">
-        <x-shop::form.control-group>
-            <x-shop::form.control-group.label>
+        <x-licious::form.control-group>
+            <x-licious::form.control-group.label>
                 Email
-            </x-shop::form.control-group.label>
+            </x-licious::form.control-group.label>
 
-            <x-shop::form.control-group.control
+            <x-licious::form.control-group.control
                 type="email"
                 name="email"
                 rules="required"
@@ -200,33 +200,33 @@
                 placeholder="email@example.com"
             />
 
-            <x-shop::form.control-group.error control-name="email" />
-        </x-shop::form.control-group>
+            <x-licious::form.control-group.error control-name="email" />
+        </x-licious::form.control-group>
 
         <button>Submit</button>
     </form>
-</x-shop::form>
+</x-licious::form>
 
 <!-- Shimmer -->
-<x-shop::shimmer.checkout.onepage.payment-method />
+<x-licious::shimmer.checkout.onepage.payment-method />
 
 <!-- tabs -->
-<x-shop::tabs>
-    <x-shop::tabs.item
+<x-licious::tabs>
+    <x-licious::tabs.item
         title="Tab 1"
     >
         Tab 1 Content
-    </x-shop::tabs.item>
+    </x-licious::tabs.item>
 
-    <x-shop::tabs.item
+    <x-licious::tabs.item
         title="Tab 2"
     >
         Tab 2 Content
-    </x-shop::tabs.item>
-</x-shop::tabs>
+    </x-licious::tabs.item>
+</x-licious::tabs>
 
 <!-- accordion -->
-<x-shop::accordion>
+<x-licious::accordion>
     <x-slot:header>
         Accordion Header
     </x-slot>
@@ -234,10 +234,10 @@
     <x-slot:content>
         Accordion Content
     </x-slot>
-</x-shop::accordion>
+</x-licious::accordion>
 
 <!-- modal -->
-<x-shop::modal>
+<x-licious::modal>
     <x-slot:toggle>
         Modal Toggle
     </x-slot>
@@ -249,10 +249,10 @@
     <x-slot:content>
         Modal Content
     </x-slot>
-</x-shop::modal>
+</x-licious::modal>
 
 <!-- drawer -->
-<x-shop::drawer>
+<x-licious::drawer>
     <x-slot:toggle>
         Drawer Toggle
     </x-slot>
@@ -264,10 +264,10 @@
     <x-slot:content>
         Drawer Content
     </x-slot>
-</x-shop::drawer>
+</x-licious::drawer>
 
 <!-- dropdown -->
-<x-shop::dropdown>
+<x-licious::dropdown>
     <x-slot:toggle>
         Toogle
     </x-slot>
@@ -275,10 +275,10 @@
     <x-slot:content>
         Content
     </x-slot>
-</x-shop::dropdown>
+</x-licious::dropdown>
 
 <!--Range Slider -->
-<x-shop::range-slider
+<x-licious::range-slider
     ::key="refreshKey"
     default-type="price"
     ::default-allowed-max-range="allowedMaxPrice"
@@ -288,7 +288,7 @@
 />
 
 <!-- Image/Media -->
-<x-shop::media.images.lazy
+<x-licious::media.images.lazy
     class="min-w-[250px] relative after:content-[' '] after:block after:pb-[calc(100%+9px)] bg-[#F5F5F5] group-hover:scale-105 transition-all duration-300"
     ::src="product.base_image.medium_image_url"
     ::key="product.id"
@@ -304,9 +304,9 @@
 </x-slot>
 
 <!-- Page Layout -->
-<x-shop::layouts>
-   Page Content 
-</x-shop::layouts>
+<x-licious::layouts>
+   Page Content
+</x-licious::layouts>
 
 <!-- label class -->
 

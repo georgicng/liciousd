@@ -1,29 +1,29 @@
-<x-shop::layouts.account>
+<x-licious::layouts.account>
     <!-- Page Title -->
     <x-slot:title>
-        @lang('shop::app.customers.account.profile.edit-profile')
+        @lang('licious::app.customers.account.profile.edit-profile')
     </x-slot>
 
     <!-- Breadcrumbs -->
     @section('breadcrumbs')
-        <x-shop::breadcrumbs name="profile.edit" />
+        <x-licious::breadcrumbs name="profile.edit" />
     @endSection
 
     <h2 class="mb-8 text-2xl font-medium">
-        @lang('shop::app.customers.account.profile.edit-profile')
+        @lang('licious::app.customers.account.profile.edit-profile')
     </h2>
 
     {!! view_render_event('bagisto.shop.customers.account.profile.edit.before', ['customer' => $customer]) !!}
 
     <!-- Profile Edit Form -->
-    <x-shop::form
+    <x-licious::form
         :action="route('shop.customers.account.profile.update')"
         enctype="multipart/form-data"
     >
         {!! view_render_event('bagisto.shop.customers.account.profile.edit_form_controls.before', ['customer' => $customer]) !!}
 
-        <x-shop::form.control-group class="mt-4">
-            <x-shop::form.control-group.control
+        <x-licious::form.control-group class="mt-4">
+            <x-licious::form.control-group.control
                 type="image"
                 class="!p-0 rounded-xl text-gray-700 mb-0"
                 name="image[]"
@@ -33,17 +33,17 @@
                 :src="$customer->image_url"
             />
 
-            <x-shop::form.control-group.error control-name="image[]" />
-        </x-shop::form.control-group>
+            <x-licious::form.control-group.error control-name="image[]" />
+        </x-licious::form.control-group>
 
         {!! view_render_event('bagisto.shop.customers.account.profile.edit_form_controls.image.after') !!}
 
-        <x-shop::form.control-group>
-            <x-shop::form.control-group.label class="required">
-                @lang('shop::app.customers.account.profile.first-name')
-            </x-shop::form.control-group.label>
+        <x-licious::form.control-group>
+            <x-licious::form.control-group.label class="required">
+                @lang('licious::app.customers.account.profile.first-name')
+            </x-licious::form.control-group.label>
 
-            <x-shop::form.control-group.control
+            <x-licious::form.control-group.control
                 type="text"
                 name="first_name"
                 rules="required"
@@ -52,17 +52,17 @@
                 :placeholder="trans('shop::app.customers.account.profile.first-name')"
             />
 
-            <x-shop::form.control-group.error control-name="first_name" />
-        </x-shop::form.control-group>
+            <x-licious::form.control-group.error control-name="first_name" />
+        </x-licious::form.control-group>
 
         {!! view_render_event('bagisto.shop.customers.account.profile.edit_form_controls.first_name.after') !!}
 
-        <x-shop::form.control-group>
-            <x-shop::form.control-group.label class="required">
-                @lang('shop::app.customers.account.profile.last-name')
-            </x-shop::form.control-group.label>
+        <x-licious::form.control-group>
+            <x-licious::form.control-group.label class="required">
+                @lang('licious::app.customers.account.profile.last-name')
+            </x-licious::form.control-group.label>
 
-            <x-shop::form.control-group.control
+            <x-licious::form.control-group.control
                 type="text"
                 name="last_name"
                 rules="required"
@@ -71,17 +71,17 @@
                 :placeholder="trans('shop::app.customers.account.profile.last-name')"
             />
 
-            <x-shop::form.control-group.error control-name="last_name" />
-        </x-shop::form.control-group>
+            <x-licious::form.control-group.error control-name="last_name" />
+        </x-licious::form.control-group>
 
         {!! view_render_event('bagisto.shop.customers.account.profile.edit_form_controls.last_name.after') !!}
 
-        <x-shop::form.control-group>
-            <x-shop::form.control-group.label class="required">
-                @lang('shop::app.customers.account.profile.email')
-            </x-shop::form.control-group.label>
+        <x-licious::form.control-group>
+            <x-licious::form.control-group.label class="required">
+                @lang('licious::app.customers.account.profile.email')
+            </x-licious::form.control-group.label>
 
-            <x-shop::form.control-group.control
+            <x-licious::form.control-group.control
                 type="text"
                 name="email"
                 rules="required|email"
@@ -90,17 +90,17 @@
                 :placeholder="trans('shop::app.customers.account.profile.email')"
             />
 
-            <x-shop::form.control-group.error control-name="email" />
-        </x-shop::form.control-group>
+            <x-licious::form.control-group.error control-name="email" />
+        </x-licious::form.control-group>
 
         {!! view_render_event('bagisto.shop.customers.account.profile.edit_form_controls.email.after') !!}
 
-        <x-shop::form.control-group>
-            <x-shop::form.control-group.label class="required">
-                @lang('shop::app.customers.account.profile.phone')
-            </x-shop::form.control-group.label>
+        <x-licious::form.control-group>
+            <x-licious::form.control-group.label class="required">
+                @lang('licious::app.customers.account.profile.phone')
+            </x-licious::form.control-group.label>
 
-            <x-shop::form.control-group.control
+            <x-licious::form.control-group.control
                 type="text"
                 name="phone"
                 rules="required|phone"
@@ -109,17 +109,17 @@
                 :placeholder="trans('shop::app.customers.account.profile.phone')"
             />
 
-            <x-shop::form.control-group.error control-name="phone" />
-        </x-shop::form.control-group>
+            <x-licious::form.control-group.error control-name="phone" />
+        </x-licious::form.control-group>
 
         {!! view_render_event('bagisto.shop.customers.account.profile.edit_form_controls.phone.after') !!}
 
-        <x-shop::form.control-group>
-            <x-shop::form.control-group.label class="required">
-                @lang('shop::app.customers.account.profile.gender')
-            </x-shop::form.control-group.label>
+        <x-licious::form.control-group>
+            <x-licious::form.control-group.label class="required">
+                @lang('licious::app.customers.account.profile.gender')
+            </x-licious::form.control-group.label>
 
-            <x-shop::form.control-group.control
+            <x-licious::form.control-group.control
                 type="select"
                 class="mb-3"
                 name="gender"
@@ -129,29 +129,29 @@
                 :label="trans('shop::app.customers.account.profile.gender')"
             >
                 <option value="Other">
-                    @lang('shop::app.customers.account.profile.other')
+                    @lang('licious::app.customers.account.profile.other')
                 </option>
 
                 <option value="Male">
-                    @lang('shop::app.customers.account.profile.male')
+                    @lang('licious::app.customers.account.profile.male')
                 </option>
 
                 <option value="Female">
-                    @lang('shop::app.customers.account.profile.female')
+                    @lang('licious::app.customers.account.profile.female')
                 </option>
-            </x-shop::form.control-group.control>
+            </x-licious::form.control-group.control>
 
-            <x-shop::form.control-group.error control-name="gender" />
-        </x-shop::form.control-group>
+            <x-licious::form.control-group.error control-name="gender" />
+        </x-licious::form.control-group>
 
         {!! view_render_event('bagisto.shop.customers.account.profile.edit_form_controls.gender.after') !!}
 
-        <x-shop::form.control-group>
-            <x-shop::form.control-group.label>
-                @lang('shop::app.customers.account.profile.dob')
-            </x-shop::form.control-group.label>
+        <x-licious::form.control-group>
+            <x-licious::form.control-group.label>
+                @lang('licious::app.customers.account.profile.dob')
+            </x-licious::form.control-group.label>
 
-            <x-shop::form.control-group.control
+            <x-licious::form.control-group.control
                 type="date"
                 name="date_of_birth"
                 :value="old('date_of_birth') ?? $customer->date_of_birth"
@@ -159,17 +159,17 @@
                 :placeholder="trans('shop::app.customers.account.profile.dob')"
             />
 
-            <x-shop::form.control-group.error control-name="date_of_birth" />
-        </x-shop::form.control-group>
+            <x-licious::form.control-group.error control-name="date_of_birth" />
+        </x-licious::form.control-group>
 
         {!! view_render_event('bagisto.shop.customers.account.profile.edit_form_controls.date_of_birth.after') !!}
 
-        <x-shop::form.control-group>
-            <x-shop::form.control-group.label>
-                @lang('shop::app.customers.account.profile.current-password')
-            </x-shop::form.control-group.label>
+        <x-licious::form.control-group>
+            <x-licious::form.control-group.label>
+                @lang('licious::app.customers.account.profile.current-password')
+            </x-licious::form.control-group.label>
 
-            <x-shop::form.control-group.control
+            <x-licious::form.control-group.control
                 type="password"
                 name="current_password"
                 value=""
@@ -177,17 +177,17 @@
                 :placeholder="trans('shop::app.customers.account.profile.current-password')"
             />
 
-            <x-shop::form.control-group.error control-name="current_password" />
-        </x-shop::form.control-group>
+            <x-licious::form.control-group.error control-name="current_password" />
+        </x-licious::form.control-group>
 
         {!! view_render_event('bagisto.shop.customers.account.profile.edit_form_controls.old_password.after') !!}
 
-        <x-shop::form.control-group>
-            <x-shop::form.control-group.label>
-                @lang('shop::app.customers.account.profile.new-password')
-            </x-shop::form.control-group.label>
+        <x-licious::form.control-group>
+            <x-licious::form.control-group.label>
+                @lang('licious::app.customers.account.profile.new-password')
+            </x-licious::form.control-group.label>
 
-            <x-shop::form.control-group.control
+            <x-licious::form.control-group.control
                 type="password"
                 name="new_password"
                 value=""
@@ -195,17 +195,17 @@
                 :placeholder="trans('shop::app.customers.account.profile.new-password')"
             />
 
-            <x-shop::form.control-group.error control-name="new_password" />
-        </x-shop::form.control-group>
+            <x-licious::form.control-group.error control-name="new_password" />
+        </x-licious::form.control-group>
 
         {!! view_render_event('bagisto.shop.customers.account.profile.edit_form_controls.new_password.after') !!}
 
-        <x-shop::form.control-group>
-            <x-shop::form.control-group.label>
-                @lang('shop::app.customers.account.profile.confirm-password')
-            </x-shop::form.control-group.label>
+        <x-licious::form.control-group>
+            <x-licious::form.control-group.label>
+                @lang('licious::app.customers.account.profile.confirm-password')
+            </x-licious::form.control-group.label>
 
-            <x-shop::form.control-group.control
+            <x-licious::form.control-group.control
                 type="password"
                 name="new_password_confirmation"
                 rules="confirmed:@new_password"
@@ -214,8 +214,8 @@
                 :placeholder="trans('shop::app.customers.account.profile.confirm-password')"
             />
 
-            <x-shop::form.control-group.error control-name="new_password_confirmation" />
-        </x-shop::form.control-group>
+            <x-licious::form.control-group.error control-name="new_password_confirmation" />
+        </x-licious::form.control-group>
 
         {!! view_render_event('bagisto.shop.customers.account.profile.edit_form_controls.new_password_confirmation.after') !!}
 
@@ -237,7 +237,7 @@
                 class="text-base text-[#6E6E6E] max-sm:text-xs ltr:pl-0 rtl:pr-0 select-none cursor-pointer"
                 for="is-subscribed"
             >
-                @lang('shop::app.customers.account.profile.subscribe-to-newsletter')
+                @lang('licious::app.customers.account.profile.subscribe-to-newsletter')
             </label>
         </div>
 
@@ -245,13 +245,13 @@
             type="submit"
             class="primary-button block m-0 w-max py-3 px-11 rounded-2xl text-base text-center"
         >
-            @lang('shop::app.customers.account.profile.save')
+            @lang('licious::app.customers.account.profile.save')
         </button>
 
         {!! view_render_event('bagisto.shop.customers.account.profile.edit_form_controls.after', ['customer' => $customer]) !!}
 
-    </x-shop::form>
+    </x-licious::form>
 
     {!! view_render_event('bagisto.shop.customers.account.profile.edit.after', ['customer' => $customer]) !!}
-    
-</x-shop::layouts.account>
+
+</x-licious::layouts.account>

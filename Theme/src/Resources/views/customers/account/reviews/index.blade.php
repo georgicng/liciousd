@@ -1,18 +1,18 @@
-<x-shop::layouts.account>
+<x-licious::layouts.account>
     <!-- Page Title -->
     <x-slot:title>
-        @lang('shop::app.customers.account.reviews.title')
+        @lang('licious::app.customers.account.reviews.title')
     </x-slot>
 
     <!-- Breadcrumbs -->
     @section('breadcrumbs')
-        <x-shop::breadcrumbs name="reviews" />
+        <x-licious::breadcrumbs name="reviews" />
     @endSection
 
     <!-- Reviews Vue Component -->
     <v-product-reviews>
         <!-- Reviews Shimmer Effect -->
-        <x-shop::shimmer.customers.account.reviews :count="4" />
+        <x-licious::shimmer.customers.account.reviews :count="4" />
     </v-product-reviews>
 
     @pushOnce('scripts')
@@ -23,7 +23,7 @@
             <div>
                 <!-- Reviews Shimmer Effect -->
                 <template v-if="isLoading">
-                    <x-shop::shimmer.customers.account.reviews :count="4" />
+                    <x-licious::shimmer.customers.account.reviews :count="4" />
                 </template>
 
                 {!! view_render_event('bagisto.shop.customers.account.reviews.list.before', ['reviews' => $reviews]) !!}
@@ -33,9 +33,9 @@
                     <div class="flex-auto">
                         <div class="max-md:max-w-full">
                             <h2 class="text-2xl font-medium">
-                                @lang('shop::app.customers.account.reviews.title')
+                                @lang('licious::app.customers.account.reviews.title')
                             </h2>
-                
+
                             @if (! $reviews->isEmpty())
                                 <!-- Review Information -->
                                 <div class="grid gap-5 mt-14 max-1060:grid-cols-[1fr]">
@@ -47,14 +47,14 @@
                                             <div class="flex gap-5 p-6 border border-[#e5e5e5] rounded-xl max-sm:flex-wrap">
                                                 {!! view_render_event('bagisto.shop.customers.account.reviews.image.before', ['reviews' => $reviews]) !!}
 
-                                                <x-shop::media.images.lazy
-                                                    class="max-w-[128px] max-h-[146px] min-w-[128px] w-[128px] h-[146px] rounded-xl" 
+                                                <x-licious::media.images.lazy
+                                                    class="max-w-[128px] max-h-[146px] min-w-[128px] w-[128px] h-[146px] rounded-xl"
                                                     src="{{ $review->product->base_image_url ?? bagisto_asset('images/small-product-placeholder.webp') }}"
-                                                    alt="Review Image"                   
+                                                    alt="Review Image"
                                                 />
 
                                                 {!! view_render_event('bagisto.shop.customers.account.reviews.image.after', ['reviews' => $reviews]) !!}
-                
+
                                                 <div class="w-full">
                                                     <div class="flex justify-between">
                                                         {!! view_render_event('bagisto.shop.customers.account.reviews.title.before', ['reviews' => $reviews]) !!}
@@ -64,7 +64,7 @@
                                                         </p>
 
                                                         {!! view_render_event('bagisto.shop.customers.account.reviews.title.after', ['reviews' => $reviews]) !!}
-                
+
                                                         {!! view_render_event('bagisto.shop.customers.account.reviews.rating.before', ['reviews' => $reviews]) !!}
 
                                                         <div class="flex gap-0.5 items-center">
@@ -75,13 +75,13 @@
 
                                                         {!! view_render_event('bagisto.shop.customers.account.reviews.rating.after', ['reviews' => $reviews]) !!}
                                                     </div>
-                
+
                                                     {!! view_render_event('bagisto.shop.customers.account.reviews.created_at.before', ['reviews' => $reviews]) !!}
 
                                                     <p class="mt-2.5 text-sm font-medium max-sm:text-xs">
                                                         {{ $review->created_at }}
                                                     </p>
-                
+
                                                     {!! view_render_event('bagisto.shop.customers.account.reviews.created_at.after', ['reviews' => $reviews]) !!}
 
                                                     {!! view_render_event('bagisto.shop.customers.account.reviews.comment.before', ['reviews' => $reviews]) !!}
@@ -103,9 +103,9 @@
                                 <!-- Review Empty Page -->
                                 <div class="grid items-center justify-items-center place-content-center w-full m-auto h-[476px] text-center">
                                     <img class="" src="{{ bagisto_asset('images/review.png') }}" alt="" title="">
-                
+
                                     <p class="text-xl">
-                                        @lang('shop::app.customers.account.reviews.empty-review')
+                                        @lang('licious::app.customers.account.reviews.empty-review')
                                     </p>
                                 </div>
                             @endif
@@ -144,4 +144,4 @@
             });
         </script>
     @endpushOnce
-</x-shop::layouts.account>
+</x-licious::layouts.account>

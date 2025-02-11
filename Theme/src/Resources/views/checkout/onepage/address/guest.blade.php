@@ -17,7 +17,7 @@
         id="v-checkout-address-guest-template"
     >
         <!-- Address Form -->
-        <x-shop::form
+        <x-licious::form
             v-slot="{ meta, errors, handleSubmit }"
             as="div"
         >
@@ -29,10 +29,10 @@
                     <!-- Billing Address Header -->
                     <div class="flex justify-between items-center">
                         <h2 class="text-xl font-medium max-sm:text-xl">
-                            @lang('shop::app.checkout.onepage.address.billing-address')
+                            @lang('licious::app.checkout.onepage.address.billing-address')
                         </h2>
                     </div>
-                
+
                     <!-- Billing Address Form -->
                     <v-checkout-address-form
                         control-name="billing"
@@ -40,11 +40,11 @@
                     ></v-checkout-address-form>
 
                     <!-- Use for Shipping Checkbox -->
-                    <x-shop::form.control-group
+                    <x-licious::form.control-group
                         class="flex items-center gap-2.5 !mb-0"
                         v-if="cart.have_stockable_items"
                     >
-                        <x-shop::form.control-group.control
+                        <x-licious::form.control-group.control
                             type="checkbox"
                             name="billing.use_for_shipping"
                             id="use_for_shipping"
@@ -58,9 +58,9 @@
                             class="text-base text-[#6E6E6E] max-sm:text-xs ltr:pl-0 rtl:pr-0 select-none cursor-pointer"
                             for="use_for_shipping"
                         >
-                            @lang('shop::app.checkout.onepage.address.same-as-billing')
+                            @lang('licious::app.checkout.onepage.address.same-as-billing')
                         </label>
-                    </x-shop::form.control-group>
+                    </x-licious::form.control-group>
 
                     {!! view_render_event('bagisto.shop.checkout.onepage.address.guest.billing.after') !!}
                 </div>
@@ -76,10 +76,10 @@
                         <!-- Shipping Address Header -->
                         <div class="flex justify-between items-center">
                             <h2 class="text-xl font-medium max-sm:text-xl">
-                                @lang('shop::app.checkout.onepage.address.shipping-address')
+                                @lang('licious::app.checkout.onepage.address.shipping-address')
                             </h2>
                         </div>
-                    
+
                         <!-- Shipping Address Form -->
                         <v-checkout-address-form
                             control-name="shipping"
@@ -92,7 +92,7 @@
 
                 <!-- Proceed Button -->
                 <div class="flex justify-end mt-4">
-                    <x-shop::button
+                    <x-licious::button
                         class="primary-button py-3 px-11 rounded-2xl"
                         :title="trans('shop::app.checkout.onepage.address.proceed')"
                         ::loading="isStoring"
@@ -100,7 +100,7 @@
                     />
                 </div>
             </form>
-        </x-shop::form>
+        </x-licious::form>
     </script>
 
     <script type="module">

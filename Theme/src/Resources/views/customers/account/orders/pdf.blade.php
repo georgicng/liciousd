@@ -132,11 +132,11 @@
             }
 
             .invoice-text {
-                font-size: 40px; 
-                color: #3c41ff; 
+                font-size: 40px;
+                color: #3c41ff;
                 font-weight: bold;
-                position: absolute; 
-                width: 100%; 
+                position: absolute;
+                width: 100%;
                 left: 0;
                 text-align: center;
                 top: -6px;
@@ -146,7 +146,7 @@
                 height: 35px;
                 width: 35px;
             }
-            
+
             .header {
                 padding: 0px 2px;
                 width:100%;
@@ -182,7 +182,7 @@
                             <div class="merchant-details">
                                 <div class="row">
                                     <span class="label">
-                                        @lang('shop::app.customers.account.orders.invoice-pdf.invoice-id'): 
+                                        @lang('licious::app.customers.account.orders.invoice-pdf.invoice-id'):
                                     </span>
 
                                     <span class="value">
@@ -218,15 +218,15 @@
                             <div class="merchant-details">
                                 @if (core()->getConfigData('sales.shipping.origin.contact'))
                                     <span class="merchant-details-title">
-                                        @lang('shop::app.customers.account.orders.invoice-pdf.contact-number'): 
-                                    </span> 
-                                    
+                                        @lang('licious::app.customers.account.orders.invoice-pdf.contact-number'):
+                                    </span>
+
                                     {{ core()->getConfigData('sales.shipping.origin.contact') }}
                                 @endif
 
                                 @if (core()->getConfigData('sales.shipping.origin.vat_number'))
                                     <span class="merchant-details-title">
-                                        @lang('shop::app.customers.account.orders.invoice-pdf.vat-number'): 
+                                        @lang('licious::app.customers.account.orders.invoice-pdf.vat-number'):
 
                                     </span>
 
@@ -238,17 +238,17 @@
                         <div class="col-6" style="padding-left: 80px">
                             <div class="row">
                                 <span class="label">
-                                    @lang('shop::app.customers.account.orders.invoice-pdf.order-id'): 
+                                    @lang('licious::app.customers.account.orders.invoice-pdf.order-id'):
                                 </span>
 
                                 <span class="value">
                                     #{{ $invoice->order->increment_id }}
                                 </span>
                             </div>
-                           
+
                             <div class="row">
                                 <span class="label">
-                                    @lang('shop::app.customers.account.orders.invoice-pdf.order-date'): 
+                                    @lang('licious::app.customers.account.orders.invoice-pdf.order-date'):
                                 </span>
 
                                 <span class="value">
@@ -259,7 +259,7 @@
                             @if ($invoice->hasPaymentTerm())
                                 <div class="row">
                                     <span class="label">
-                                        @lang('shop::app.customers.account.orders.invoice-pdf.payment-terms') -
+                                        @lang('licious::app.customers.account.orders.invoice-pdf.payment-terms') -
                                     </span>
 
                                     <span class="value">
@@ -271,8 +271,8 @@
                             @if (core()->getConfigData('sales.shipping.origin.bank_details'))
                                 <div class="row" style="padding-top: 20px">
                                     <span class="merchant-details-title">
-                                        @lang('shop::app.customers.account.orders.invoice-pdf.bank-details'):
-                                    </span> 
+                                        @lang('licious::app.customers.account.orders.invoice-pdf.bank-details'):
+                                    </span>
                                     <div>{{ core()->getConfigData('sales.shipping.origin.bank_details') }}</div>
                                 </div>
                             @endif
@@ -306,7 +306,7 @@
                                             {{ core()->country_name($invoice->order->billing_address->country) }}
                                             {{ $invoice->order->billing_address->postcode }}
                                         </p>
-                                        @lang('shop::app.customers.account.orders.invoice-pdf.contact') : {{ $invoice->order->billing_address->phone }}
+                                        @lang('licious::app.customers.account.orders.invoice-pdf.contact') : {{ $invoice->order->billing_address->phone }}
                                     </td>
                                 @endif
 
@@ -318,7 +318,7 @@
                                         <p>{{ $invoice->order->shipping_address->city }}</p>
                                         <p>{{ $invoice->order->shipping_address->state }}</p>
                                         <p>{{ core()->country_name($invoice->order->shipping_address->country) }} {{ $invoice->order->shipping_address->postcode }}</p>
-                                        @lang('shop::app.customers.account.orders.invoice-pdf.contact') : {{ $invoice->order->shipping_address->phone }}
+                                        @lang('licious::app.customers.account.orders.invoice-pdf.contact') : {{ $invoice->order->shipping_address->phone }}
                                     </td>
                                 @endif
                             </tr>
@@ -331,12 +331,12 @@
                         <thead>
                             <tr>
                                 <th class="table-header align-left" style="width: 50%;">
-                                    @lang('shop::app.customers.account.orders.invoice-pdf.payment-method')
+                                    @lang('licious::app.customers.account.orders.invoice-pdf.payment-method')
                                 </th>
 
                                 @if ($invoice->order->shipping_address)
                                     <th class="table-header align-left">
-                                        @lang('shop::app.customers.account.orders.invoice-pdf.shipping-method')
+                                        @lang('licious::app.customers.account.orders.invoice-pdf.shipping-method')
                                     </th>
                                 @endif
                             </tr>
@@ -373,7 +373,7 @@
                             <tr>
                                 @foreach (['sku', 'product-name', 'price', 'qty', 'subtotal', 'tax-amount', 'grand-total'] as $item)
                                     <th class="text-center table-header">
-                                        @lang('shop::app.customers.account.orders.invoice-pdf.' . $item)
+                                        @lang('licious::app.customers.account.orders.invoice-pdf.' . $item)
                                     </th>
                                 @endforeach
                             </tr>
@@ -418,7 +418,7 @@
                 <table class="sale-summary">
                     <tr>
                         <td>
-                            @lang('shop::app.customers.account.orders.invoice-pdf.subtotal')
+                            @lang('licious::app.customers.account.orders.invoice-pdf.subtotal')
                         </td>
 
                         <td>-</td>
@@ -430,7 +430,7 @@
 
                     <tr>
                         <td>
-                            @lang('shop::app.customers.account.orders.invoice-pdf.shipping-handling')
+                            @lang('licious::app.customers.account.orders.invoice-pdf.shipping-handling')
                         </td>
 
                         <td>-</td>
@@ -443,7 +443,7 @@
                     @if ($invoice->base_discount_amount > 0)
                         <tr>
                             <td>
-                                @lang('shop::app.customers.account.orders.invoice-pdf.discount')
+                                @lang('licious::app.customers.account.orders.invoice-pdf.discount')
                             </td>
 
                             <td>-</td>
@@ -456,7 +456,7 @@
 
                     <tr>
                         <td>
-                            @lang('shop::app.customers.account.orders.invoice-pdf.tax')
+                            @lang('licious::app.customers.account.orders.invoice-pdf.tax')
                         </td>
 
                         <td>-</td>
@@ -474,7 +474,7 @@
 
                     <tr>
                         <td>
-                            @lang('shop::app.customers.account.orders.invoice-pdf.grand-total')
+                            @lang('licious::app.customers.account.orders.invoice-pdf.grand-total')
                         </td>
 
                         <td>-</td>

@@ -1,5 +1,5 @@
 <template v-if="isLoading">
-    <x-shop::shimmer.datagrid.toolbar />
+    <x-licious::shimmer.datagrid.toolbar />
 </template>
 
 <template v-else>
@@ -12,12 +12,12 @@
                 v-if="applied.massActions.indices.length"
             >
                 <!-- Mass Action Dropdown -->
-                <x-shop::dropdown position="bottom-left">
+                <x-licious::dropdown position="bottom-left">
                     <!-- Dropdown Toggler -->
                     <x-slot:toggle>
                         <button class="inline-flex w-full max-w-max cursor-pointer appearance-none items-center justify-between gap-x-2 rounded-md border border-gray-300 bg-white px-2.5 py-1.5 text-center leading-6 text-gray-600 transition-all marker:shadow hover:border-gray-400 focus:border-gray-400 focus:ring-black">
                             <span>
-                                @lang('shop::app.components.datagrid.toolbar.mass-actions.select-action')
+                                @lang('licious::app.components.datagrid.toolbar.mass-actions.select-action')
                             </span>
 
                             <span class="icon-sort-down text-2xl"></span>
@@ -80,7 +80,7 @@
                             </li>
                         </template>
                     </x-slot>
-                </x-shop::dropdown>
+                </x-licious::dropdown>
 
                 <div class="ltr:pl-2.5 rtl:pr-2.5">
                     <p class="text-sm font-light text-gray-800">
@@ -117,7 +117,7 @@
         <!-- Right Toolbar -->
         <div class="flex gap-x-4">
             <!-- Items Per Page Dropdown -->
-            <x-shop::dropdown position="bottom-left">
+            <x-licious::dropdown position="bottom-left">
                 <!-- Dropdown Toggler -->
                 <x-slot:toggle>
                     <button class="flex justify-between items-center gap-4 max-w-[200px] w-full ltr:pl-4 rtl:pr-4 ltr:pr-3 rtl:pl-3 py-2 rounded-lg bg-white border border-[#E9E9E9] text-sm transition-all hover:border-gray-400 focus:border-gray-400 max-md:ltr:pr-2.5 max-md:rtl:pl-2.5 max-md:ltr:pl-2.5 max-md:rtl:pr-2.5 max-md:border-0 max-md:w-[110px] cursor-pointer">
@@ -129,37 +129,37 @@
 
                 <!-- Dropdown Content -->
                 <x-slot:menu>
-                    <x-shop::dropdown.menu.item
+                    <x-licious::dropdown.menu.item
                         v-for="perPageOption in available.meta.per_page_options"
                         v-text="perPageOption"
                         @click="changePerPageOption(perPageOption)"
                     />
                 </x-slot>
-            </x-shop::dropdown>
+            </x-licious::dropdown>
 
             <!-- Filters Activation Button -->
-            <x-shop::drawer width="350px" ref="filterDrawer">
+            <x-licious::drawer width="350px" ref="filterDrawer">
                 <x-slot:toggle>
-                    <button 
+                    <button
                         class="flex justify-between items-center gap-4 max-w-[200px] w-full ltr:pl-3 rtl:pr-3 ltr:pr-4 rtl:pl-4 py-2 rounded-lg bg-white border border-[#E9E9E9] text-sm transition-all hover:border-gray-400 focus:border-gray-400 max-md:ltr:pr-2.5 max-md:rtl:pl-2.5 max-md:ltr:pl-2.5 max-md:rtl:pr-2.5 max-md:border-0 max-md:w-[110px] cursor-pointer"
                         :class="{'[&>*]:text-blue-600': applied.filters.columns.length > 1}"
                     >
                         <span class="flex justify-between items-center gap-1.5">
                             <span class="icon-filter text-2xl"></span>
 
-                            @lang('shop::app.components.datagrid.toolbar.filter.title')
+                            @lang('licious::app.components.datagrid.toolbar.filter.title')
                         </span>
                     </button>
                 </x-slot>
 
                 <x-slot:header class="border-b border-[#E9E9E9]">
-                    @lang('shop::app.components.datagrid.filters.title')
+                    @lang('licious::app.components.datagrid.filters.title')
                 </x-slot>
 
                 <x-slot:content>
-                    <x-shop::datagrid.filters />
+                    <x-licious::datagrid.filters />
                 </x-slot>
-            </x-shop::drawer>
+            </x-licious::drawer>
         </div>
     </div>
 </template>

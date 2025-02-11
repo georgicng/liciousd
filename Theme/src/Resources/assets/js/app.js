@@ -6,71 +6,81 @@ import.meta.glob(["../images/**", "../fonts/**"]);
 /**
  * Main vue bundler.
  */
-import { createApp } from "vue/dist/vue.esm-bundler";
+import { createApp, reactive } from "vue/dist/vue.esm-bundler";
 
 /**
  * Main root application registry.
  */
 window.app = createApp({
-    data() {
-        return {};
+  data() {
+    return {};
+  },
+
+  mounted() {
+    this.lazyImages();
+
+    this.animateBoxes();
+
+    this.$aos.init({
+      once: true,
+    });
+  },
+
+  methods: {
+    onSubmit() {},
+
+    onInvalidSubmit() {},
+
+    lazyImages() {
+      var lazyImages = [].slice.call(document.querySelectorAll("img.lazy"));
+
+      let lazyImageObserver = new IntersectionObserver(function (
+        entries,
+        observer
+      ) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            let lazyImage = entry.target;
+
+            lazyImage.src = lazyImage.dataset.src;
+
+            lazyImage.classList.remove("lazy");
+
+            lazyImageObserver.unobserve(lazyImage);
+          }
+        });
+      });
+
+      lazyImages.forEach(function (lazyImage) {
+        lazyImageObserver.observe(lazyImage);
+      });
     },
 
-    mounted() {
-        this.lazyImages();
+    animateBoxes() {
+      let animateBoxes = document.querySelectorAll(".scroll-trigger");
 
-        this.animateBoxes();
-    },
+      if (!animateBoxes.length) {
+        return;
+      }
 
-    methods: {
-        onSubmit() {},
+      animateBoxes.forEach((animateBox) => {
+        let animateBoxObserver = new IntersectionObserver(function (
+          entries,
+          observer
+        ) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              animateBox.classList.remove("scroll-trigger--offscreen");
 
-        onInvalidSubmit() {},
-
-        lazyImages() {
-            var lazyImages = [].slice.call(document.querySelectorAll('img.lazy'));
-
-            let lazyImageObserver = new IntersectionObserver(function(entries, observer) {
-                entries.forEach(function(entry) {
-                    if (entry.isIntersecting) {
-                        let lazyImage = entry.target;
-
-                        lazyImage.src = lazyImage.dataset.src;
-
-                        lazyImage.classList.remove('lazy');
-
-                        lazyImageObserver.unobserve(lazyImage);
-                    }
-                });
-            });
-
-            lazyImages.forEach(function(lazyImage) {
-                lazyImageObserver.observe(lazyImage);
-            });
-        },
-
-        animateBoxes() {
-            let animateBoxes = document.querySelectorAll('.scroll-trigger');
-
-            if (! animateBoxes.length) {
-                return;
+              animateBoxObserver.unobserve(animateBox);
             }
+          });
+        });
 
-            animateBoxes.forEach((animateBox) => {
-                let animateBoxObserver = new IntersectionObserver(function(entries, observer) {
-                    entries.forEach(function(entry) {
-                        if (entry.isIntersecting) {
-                            animateBox.classList.remove('scroll-trigger--offscreen');
-
-                            animateBoxObserver.unobserve(animateBox);
-                        }
-                    });
-                });
-
-                animateBoxObserver.observe(animateBox);
-            });
-        }
+        animateBoxObserver.observe(animateBox);
+      });
     },
+  },
 });
 
 /**
@@ -79,18 +89,13 @@ window.app = createApp({
 import Axios from "./plugins/axios";
 import Emitter from "./plugins/emitter";
 import Shop from "./plugins/shop";
+import AOS from "./plugins/aos";
 import VeeValidate from "./plugins/vee-validate";
 import Flatpickr from "./plugins/flatpickr";
-import VueMultiselect from "./plugins/vue-multiselect";
 
-[
-    Axios,
-    Emitter,
-    Shop,
-    VeeValidate,
-    Flatpickr,
-    VueMultiselect,
-].forEach((plugin) => app.use(plugin));
+[Axios, Emitter, Shop, VeeValidate, Flatpickr, AOS].forEach((plugin) =>
+  app.use(plugin)
+);
 
 /**
  * Load event, the purpose of using the event is to mount the application
@@ -99,5 +104,29 @@ import VueMultiselect from "./plugins/vue-multiselect";
  * called in the last.
  */
 window.addEventListener("load", function (event) {
-    app.mount("#app");
+  app.provide(
+    "store",
+    reactive({
+      categories: null,
+      loading: false,
+      getCategories(route) {
+        if (this.categories || this.loading) {
+          return;
+        }
+        this.loading = true;
+        axios
+          .get(route)
+          .then((response) => {
+            this.categories = response.data.data;
+          })
+          .catch((error) => {
+            console.log(error);
+          })
+          .finally(() => {
+            this.loading = false;
+          });
+      },
+    })
+  );
+  app.mount("#app");
 });

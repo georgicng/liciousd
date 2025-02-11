@@ -23,7 +23,7 @@
             </div>
 
             <div class="mb-2 mt-1.5">
-                <x-shop::dropdown>
+                <x-licious::dropdown>
                     <!-- Dropdown Toggler -->
                     <x-slot:toggle>
                         <button class="flex justify-between items-center gap-4 w-full ltr:pl-4 rtl:pr-4 ltr:pr-3 rtl:pl-3 py-2 rounded-lg bg-white border border-[#E9E9E9] text-sm transition-all hover:border-gray-400 focus:border-gray-400 max-md:ltr:pr-2.5 max-md:rtl:pl-2.5 max-md:ltr:pl-2.5 max-md:rtl:pr-2.5 max-md:border-0 max-md:w-[110px] cursor-pointer">
@@ -35,13 +35,13 @@
 
                     <!-- Dropdown Content -->
                     <x-slot:menu>
-                        <x-shop::dropdown.menu.item
+                        <x-licious::dropdown.menu.item
                             v-for="option in column.options"
                             v-text="option.label"
                             @click="filterPage(option.value, column)"
                         />
                     </x-slot>
-                </x-shop::dropdown>
+                </x-licious::dropdown>
             </div>
 
             <div class="mb-4 flex gap-2 flex-wrap">
@@ -86,7 +86,7 @@
                 </div>
 
                 <div class="mb-2 mt-1.5">
-                    <x-shop::dropdown>
+                    <x-licious::dropdown>
                         <!-- Dropdown Toggler -->
                         <x-slot:toggle>
                             <button class="flex justify-between items-center gap-4 w-full ltr:pl-4 rtl:pr-4 ltr:pr-3 rtl:pl-3 py-2 rounded-lg bg-white border border-[#E9E9E9] text-sm transition-all hover:border-gray-400 focus:border-gray-400 max-md:ltr:pr-2.5 max-md:rtl:pl-2.5 max-md:ltr:pl-2.5 max-md:rtl:pr-2.5 max-md:border-0 max-md:w-[110px] cursor-pointer">
@@ -98,13 +98,13 @@
 
                         <!-- Dropdown Content -->
                         <x-slot:menu>
-                            <x-shop::dropdown.menu.item
+                            <x-licious::dropdown.menu.item
                                 v-for="option in column.options.params.options"
                                 v-text="option.label"
                                 @click="filterPage(option.value, column)"
                             />
                         </x-slot>
-                    </x-shop::dropdown>
+                    </x-licious::dropdown>
                 </div>
 
                 <div class="mb-4 flex gap-2 flex-wrap">
@@ -189,7 +189,7 @@
                         class="cursor-pointer text-xs font-medium leading-6 text-blue-600"
                         v-if="hasAnyAppliedColumnValues(column.index)"
                     >
-                        @lang('shop::app.components.datagrid.filters.custom-filters.clear-all')
+                        @lang('licious::app.components.datagrid.filters.custom-filters.clear-all')
                     </p>
                 </div>
             </div>
@@ -207,7 +207,7 @@
                 >
                 </p>
 
-                <x-shop::flat-picker.date ::allow-input="false">
+                <x-licious::flat-picker.date ::allow-input="false">
                     <input
                         value=""
                         class="flex min-h-[39px] w-full rounded-md border px-3 py-2 text-sm text-gray-600 transition-all hover:border-gray-400"
@@ -221,9 +221,9 @@
                             { range: { name: 'from' }, quickFilter: { isActive: false } }
                         )"
                     />
-                </x-shop::flat-picker.date>
+                </x-licious::flat-picker.date>
 
-                <x-shop::flat-picker.date ::allow-input="false">
+                <x-licious::flat-picker.date ::allow-input="false">
                     <input
                         type="column.input_type"
                         value=""
@@ -237,7 +237,7 @@
                             { range: { name: 'to' }, quickFilter: { isActive: false } }
                         )"
                     />
-                </x-shop::flat-picker.date>
+                </x-licious::flat-picker.date>
 
                 <div class="mb-4 flex gap-2 flex-wrap">
                     <p
@@ -273,7 +273,7 @@
                         class="cursor-pointer text-xs font-medium leading-6 text-blue-600"
                         v-if="hasAnyAppliedColumnValues(column.index)"
                     >
-                        @lang('shop::app.components.datagrid.filters.custom-filters.clear-all')
+                        @lang('licious::app.components.datagrid.filters.custom-filters.clear-all')
                     </p>
                 </div>
             </div>
@@ -291,7 +291,7 @@
                 >
                 </p>
 
-                <x-shop::flat-picker.datetime ::allow-input="false">
+                <x-licious::flat-picker.datetime ::allow-input="false">
                     <input
                         value=""
                         class="flex min-h-[39px] w-full rounded-md border px-3 py-2 text-sm text-gray-600 transition-all hover:border-gray-400"
@@ -305,9 +305,9 @@
                             { range: { name: 'from' }, quickFilter: { isActive: false } }
                         )"
                     />
-                </x-shop::flat-picker.datetime>
+                </x-licious::flat-picker.datetime>
 
-                <x-shop::flat-picker.datetime ::allow-input="false">
+                <x-licious::flat-picker.datetime ::allow-input="false">
                     <input
                         type="column.input_type"
                         value=""
@@ -321,7 +321,7 @@
                             { range: { name: 'to' }, quickFilter: { isActive: false } }
                         )"
                     />
-                </x-shop::flat-picker.datetime>
+                </x-licious::flat-picker.datetime>
 
                 <div class="mb-4 flex gap-2 flex-wrap">
                     <p
@@ -357,7 +357,7 @@
                         class="cursor-pointer text-xs font-medium leading-6 text-blue-600"
                         v-if="hasAnyAppliedColumnValues(column.index)"
                     >
-                        @lang('shop::app.components.datagrid.filters.custom-filters.clear-all')
+                        @lang('licious::app.components.datagrid.filters.custom-filters.clear-all')
                     </p>
                 </div>
             </div>
@@ -392,7 +392,7 @@
 
 @pushOnce('scripts')
     <script type="text/x-template" id="v-datagrid-searchable-dropdown-template">
-        <x-shop::dropdown ::close-on-click="false">
+        <x-licious::dropdown ::close-on-click="false">
             <!-- Dropdown Toggler -->
             <x-slot:toggle>
                 <button class="flex justify-between items-center gap-4 w-full pl-4 pr-3 py-2 rounded-lg bg-white border border-[#E9E9E9] text-sm transition-all hover:border-gray-400 focus:border-gray-400 max-md:pr-2.5 max-md:pl-2.5 max-md:border-0 max-md:w-[110px] cursor-pointer">
@@ -447,7 +447,7 @@
                     </div>
                 </div>
             </x-slot>
-        </x-shop::dropdown>
+        </x-licious::dropdown>
     </script>
 
     <script type="module">

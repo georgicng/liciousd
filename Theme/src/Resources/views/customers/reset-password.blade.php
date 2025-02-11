@@ -5,19 +5,19 @@
     <meta name="keywords" content="@lang('shop::app.customers.reset-password.title')"/>
 @endPush
 
-<x-shop::layouts
+<x-licious::layouts
     :has-header="false"
     :has-feature="false"
     :has-footer="false"
 >
     <!-- Page Title -->
     <x-slot:title>
-        @lang('shop::app.customers.reset-password.title')
+        @lang('licious::app.customers.reset-password.title')
     </x-slot>
 
     <div class="container mt-20 max-1180:px-5">
         {!! view_render_event('bagisto.shop.customers.reset_password.logo.before') !!}
-        
+
         <!-- Company Logo -->
         <div class="flex gap-x-14 items-center max-[1180px]:gap-x-9">
             <a
@@ -41,14 +41,14 @@
             class="w-full max-w-[870px] m-auto px-[90px] p-16 border border-[#E9E9E9] rounded-xl max-md:px-8 max-md:py-8"
         >
             <h1 class="text-4xl font-dmserif max-sm:text-2xl">
-                @lang('shop::app.customers.reset-password.title')
+                @lang('licious::app.customers.reset-password.title')
             </h1>
 
             {!! view_render_event('bagisto.shop.customers.reset_password.before') !!}
 
             <div class="mt-14 rounded max-sm:mt-8">
-                <x-shop::form :action="route('shop.customers.reset_password.store')" >
-                    <x-shop::form.control-group.control
+                <x-licious::form :action="route('shop.customers.reset_password.store')" >
+                    <x-licious::form.control-group.control
                         type="hidden"
                         name="token"
                         :value="$token"
@@ -56,12 +56,12 @@
 
                     {!! view_render_event('bagisto.shop.customers.reset_password_form_controls.before') !!}
 
-                    <x-shop::form.control-group>
-                        <x-shop::form.control-group.label class="required">
-                            @lang('shop::app.customers.reset-password.email')
-                        </x-shop::form.control-group.label>
+                    <x-licious::form.control-group>
+                        <x-licious::form.control-group.label class="required">
+                            @lang('licious::app.customers.reset-password.email')
+                        </x-licious::form.control-group.label>
 
-                        <x-shop::form.control-group.control
+                        <x-licious::form.control-group.control
                             type="email"
                             class="!p-[20px_25px] rounded-lg"
                             id="email"
@@ -74,15 +74,15 @@
                             aria-required="true"
                         />
 
-                        <x-shop::form.control-group.error control-name="email" />
-                    </x-shop::form.control-group>
+                        <x-licious::form.control-group.error control-name="email" />
+                    </x-licious::form.control-group>
 
-                    <x-shop::form.control-group class="mb-6">
-                        <x-shop::form.control-group.label class="required">
-                            @lang('shop::app.customers.reset-password.password')
-                        </x-shop::form.control-group.label>
+                    <x-licious::form.control-group class="mb-6">
+                        <x-licious::form.control-group.label class="required">
+                            @lang('licious::app.customers.reset-password.password')
+                        </x-licious::form.control-group.label>
 
-                        <x-shop::form.control-group.control
+                        <x-licious::form.control-group.control
                             type="password"
                             class="!p-[20px_25px] rounded-lg"
                             name="password"
@@ -95,15 +95,15 @@
                             aria-required="true"
                         />
 
-                        <x-shop::form.control-group.error control-name="password" />
-                    </x-shop::form.control-group>
+                        <x-licious::form.control-group.error control-name="password" />
+                    </x-licious::form.control-group>
 
-                    <x-shop::form.control-group class="mb-6">
-                        <x-shop::form.control-group.label>
-                            @lang('shop::app.customers.reset-password.confirm-password')
-                        </x-shop::form.control-group.label>
+                    <x-licious::form.control-group class="mb-6">
+                        <x-licious::form.control-group.label>
+                            @lang('licious::app.customers.reset-password.confirm-password')
+                        </x-licious::form.control-group.label>
 
-                        <x-shop::form.control-group.control
+                        <x-licious::form.control-group.control
                             type="password"
                             class="!p-[20px_25px] rounded-lg"
                             name="password_confirmation"
@@ -115,8 +115,8 @@
                             aria-required="true"
                         />
 
-                        <x-shop::form.control-group.error control-name="password" />
-                    </x-shop::form.control-group>
+                        <x-licious::form.control-group.error control-name="password" />
+                    </x-licious::form.control-group>
 
                     {!! view_render_event('bagisto.shop.customers.reset_password_form_controls.after') !!}
 
@@ -127,12 +127,12 @@
                             class="primary-button block w-full max-w-[374px] py-4 px-11 m-0 ltr:ml-0 rtl:mr-0 mx-auto rounded-2xl text-base text-center"
                             type="submit"
                         >
-                            @lang('shop::app.customers.reset-password.submit-btn-title')
+                            @lang('licious::app.customers.reset-password.submit-btn-title')
                         </button>
                     </div>
 
                     {!! view_render_event('bagisto.shop.customers.reset_password.submit_button.after') !!}
-                </x-shop::form>
+                </x-licious::form>
             </div>
 
             {!! view_render_event('bagisto.shop.customers.reset_password.after') !!}
@@ -140,7 +140,7 @@
         </div>
 
         <p class="mt-8 mb-4 text-center text-[#6E6E6E] text-xs">
-            @lang('shop::app.customers.reset_password.footer', ['current_year'=> date('Y') ])
+            @lang('licious::app.customers.reset_password.footer', ['current_year'=> date('Y') ])
         </p>
     </div>
-</x-shop::layouts>
+</x-licious::layouts>

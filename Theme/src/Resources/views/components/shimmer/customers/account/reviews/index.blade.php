@@ -8,9 +8,9 @@
     @for ($i = 0;  $i < $count; $i++)
         <!-- Single card -->
         <div class="flex gap-5 p-6 border rounded-xl max-sm:flex-wrap">
-            <x-shop::media.images.lazy
-                class="max-w-[128px] max-h-[146px] min-w-[128px] w-[128px] h-[146px] rounded-xl" 
-                alt="Review Image"                   
+            <x-licious::media.images.lazy
+                class="max-w-[128px] max-h-[146px] min-w-[128px] w-[128px] h-[146px] rounded-xl"
+                alt="Review Image"
             />
 
             <div class="w-full">

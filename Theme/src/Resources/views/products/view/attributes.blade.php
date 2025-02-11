@@ -8,7 +8,7 @@
         :active="false"
     >
         <div slot="header">
-            @lang('shop::app.products.specification')
+            @lang('licious::app.products.specification')
 
             <i class="icon expand-icon right"></i>
         </div>

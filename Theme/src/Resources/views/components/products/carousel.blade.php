@@ -3,7 +3,7 @@
     title="{{ $title }}"
     navigation-link="{{ $navigationLink ?? '' }}"
 >
-    <x-shop::shimmer.products.carousel :navigation-link="$navigationLink ?? false" />
+    <x-licious::shimmer.products.carousel :navigation-link="$navigationLink ?? false" />
 </v-products-carousel>
 
 @pushOnce('scripts')
@@ -47,7 +47,7 @@
                 ref="swiperContainer"
                 class="flex gap-8 [&>*]:flex-[0] mt-10 overflow-auto scroll-smooth scrollbar-hide max-sm:mt-5"
             >
-                <x-shop::products.card
+                <x-licious::products.card
                     class="min-w-[291px]"
                     v-for="product in products"
                 />
@@ -58,13 +58,13 @@
                 class="secondary-button block w-max mt-14 mx-auto py-3 px-11 rounded-2xl text-base text-center"
                 v-if="navigationLink"
             >
-                @lang('shop::app.components.products.carousel.view-all')
+                @lang('licious::app.components.products.carousel.view-all')
             </a>
         </div>
 
         <!-- Product Card Listing -->
         <template v-if="isLoading">
-            <x-shop::shimmer.products.carousel :navigation-link="$navigationLink ?? false" />
+            <x-licious::shimmer.products.carousel :navigation-link="$navigationLink ?? false" />
         </template>
     </script>
 

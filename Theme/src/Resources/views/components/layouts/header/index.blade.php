@@ -1,15 +1,6 @@
 {!! view_render_event('bagisto.shop.layout.header.before') !!}
-
-@if(core()->getCurrentChannel()->locales()->count() > 1 || core()->getCurrentChannel()->currencies()->count() > 1 )
-    <div class="max-lg:hidden">
-        <x-shop::layouts.header.desktop.top />
-    </div>
-@endif
-
-<header class="sticky top-0 z-10 shadow-sm shadow-gray bg-white max-lg:shadow-none">
-    <x-shop::layouts.header.desktop />
-
-    <x-shop::layouts.header.mobile />
+<header class="h-[142px] max-[991px]:h-[133px] max-[575px]:h-[173px] bg-[#fff] border-b-[1px] border-solid border-[#e9e9e9]">
+    <x-licious::layouts.header.bar.top />
+    <x-licious::layouts.header.bar.bottom />
 </header>
-
 {!! view_render_event('bagisto.shop.layout.header.after') !!}

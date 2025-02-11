@@ -1,21 +1,21 @@
-<x-shop::layouts.account>
+<x-licious::layouts.account>
     <!-- Page Title -->
     <x-slot:title>
-        @lang('shop::app.customers.account.addresses.edit')
-        @lang('shop::app.customers.account.addresses.title') 
+        @lang('licious::app.customers.account.addresses.edit')
+        @lang('licious::app.customers.account.addresses.title')
     </x-slot>
 
     <!-- Breadcrumbs -->
     @section('breadcrumbs')
-        <x-shop::breadcrumbs
+        <x-licious::breadcrumbs
             name="addresses.edit"
             :entity="$address"
         />
     @endSection
 
     <h2 class="mb-8 text-2xl font-medium">
-        @lang('shop::app.customers.account.addresses.edit')
-        @lang('shop::app.customers.account.addresses.title')
+        @lang('licious::app.customers.account.addresses.edit')
+        @lang('licious::app.customers.account.addresses.title')
     </h2>
 
     {!! view_render_event('bagisto.shop.customers.account.address.edit.before', ['address' => $address]) !!}
@@ -23,25 +23,25 @@
     <!-- Customer Address edit Component-->
     <v-edit-customer-address>
         <!-- Address Shimmer -->
-        <x-shop::shimmer.form.control-group :count="10" />
+        <x-licious::shimmer.form.control-group :count="10" />
     </v-edit-customer-address>
 
     @push('scripts')
         <script type="text/x-template" id="v-edit-customer-address-template">
 
             <!-- Edit Address Form -->
-            <x-shop::form
+            <x-licious::form
                 method="PUT"
                 :action="route('shop.customers.account.addresses.update',  $address->id)"
             >
                 {!! view_render_event('bagisto.shop.customers.account.address.edit_form_controls.before', ['address' => $address]) !!}
 
-                <x-shop::form.control-group>
-                    <x-shop::form.control-group.label>
-                        @lang('shop::app.customers.account.addresses.company-name')
-                    </x-shop::form.control-group.label>
+                <x-licious::form.control-group>
+                    <x-licious::form.control-group.label>
+                        @lang('licious::app.customers.account.addresses.company-name')
+                    </x-licious::form.control-group.label>
 
-                    <x-shop::form.control-group.control
+                    <x-licious::form.control-group.control
                         type="text"
                         name="company_name"
                         :value="old('company_name') ?? $address->company_name"
@@ -49,17 +49,17 @@
                         :placeholder="trans('shop::app.customers.account.addresses.company-name')"
                     />
 
-                    <x-shop::form.control-group.error control-name="company_name" />
-                </x-shop::form.control-group>
+                    <x-licious::form.control-group.error control-name="company_name" />
+                </x-licious::form.control-group>
 
                 {!! view_render_event('bagisto.shop.customers.account.addresses.edit_form_controls.company_name.after', ['address' => $address]) !!}
 
-                <x-shop::form.control-group>
-                    <x-shop::form.control-group.label class="required">
-                        @lang('shop::app.customers.account.addresses.first-name')
-                    </x-shop::form.control-group.label>
+                <x-licious::form.control-group>
+                    <x-licious::form.control-group.label class="required">
+                        @lang('licious::app.customers.account.addresses.first-name')
+                    </x-licious::form.control-group.label>
 
-                    <x-shop::form.control-group.control
+                    <x-licious::form.control-group.control
                         type="text"
                         name="first_name"
                         rules="required"
@@ -68,17 +68,17 @@
                         :placeholder="trans('shop::app.customers.account.addresses.first-name')"
                     />
 
-                    <x-shop::form.control-group.error control-name="first_name" />
-                </x-shop::form.control-group>
+                    <x-licious::form.control-group.error control-name="first_name" />
+                </x-licious::form.control-group>
 
                 {!! view_render_event('bagisto.shop.customers.account.addresses.edit_form_controls.first_name.after', ['address' => $address]) !!}
 
-                <x-shop::form.control-group>
-                    <x-shop::form.control-group.label class="required">
-                        @lang('shop::app.customers.account.addresses.last-name')
-                    </x-shop::form.control-group.label>
+                <x-licious::form.control-group>
+                    <x-licious::form.control-group.label class="required">
+                        @lang('licious::app.customers.account.addresses.last-name')
+                    </x-licious::form.control-group.label>
 
-                    <x-shop::form.control-group.control
+                    <x-licious::form.control-group.control
                         type="text"
                         name="last_name"
                         rules="required"
@@ -87,18 +87,18 @@
                         :placeholder="trans('shop::app.customers.account.addresses.last-name')"
                     />
 
-                    <x-shop::form.control-group.error control-name="last_name" />
-                </x-shop::form.control-group>
+                    <x-licious::form.control-group.error control-name="last_name" />
+                </x-licious::form.control-group>
 
                 {!! view_render_event('bagisto.shop.customers.account.addresses.edit_form_controls.last_name.after', ['address' => $address]) !!}
 
                 <!-- E-mail -->
-                <x-shop::form.control-group>
-                    <x-shop::form.control-group.label class="required">
+                <x-licious::form.control-group>
+                    <x-licious::form.control-group.label class="required">
                         @lang('Email')
-                    </x-shop::form.control-group.label>
+                    </x-licious::form.control-group.label>
 
-                    <x-shop::form.control-group.control
+                    <x-licious::form.control-group.control
                         type="text"
                         name="email"
                         rules="required|email"
@@ -107,17 +107,17 @@
                         :placeholder="trans('Email')"
                     />
 
-                    <x-shop::form.control-group.error control-name="email" />
-                </x-shop::form.control-group>
+                    <x-licious::form.control-group.error control-name="email" />
+                </x-licious::form.control-group>
 
                 {!! view_render_event('bagisto.shop.customers.account.addresses.edit_form_controls.email.after', ['address' => $address]) !!}
 
-                <x-shop::form.control-group>
-                    <x-shop::form.control-group.label>
-                        @lang('shop::app.customers.account.addresses.vat-id')
-                    </x-shop::form.control-group.label>
+                <x-licious::form.control-group>
+                    <x-licious::form.control-group.label>
+                        @lang('licious::app.customers.account.addresses.vat-id')
+                    </x-licious::form.control-group.label>
 
-                    <x-shop::form.control-group.control
+                    <x-licious::form.control-group.control
                         type="text"
                         name="vat_id"
                         :value="old('vat_id') ?? $address->vat_id"
@@ -125,8 +125,8 @@
                         :placeholder="trans('shop::app.customers.account.addresses.vat-id')"
                     />
 
-                    <x-shop::form.control-group.error control-name="vat_id" />
-                </x-shop::form.control-group>
+                    <x-licious::form.control-group.error control-name="vat_id" />
+                </x-licious::form.control-group>
 
                 {!! view_render_event('bagisto.shop.customers.account.addresses.edit_form_controls.vat_id.after', ['address' => $address]) !!}
 
@@ -134,12 +134,12 @@
                     $addresses = explode(PHP_EOL, $address->address);
                 @endphp
 
-                <x-shop::form.control-group>
-                    <x-shop::form.control-group.label class="required">
-                        @lang('shop::app.customers.account.addresses.street-address')
-                    </x-shop::form.control-group.label>
+                <x-licious::form.control-group>
+                    <x-licious::form.control-group.label class="required">
+                        @lang('licious::app.customers.account.addresses.street-address')
+                    </x-licious::form.control-group.label>
 
-                    <x-shop::form.control-group.control
+                    <x-licious::form.control-group.control
                         type="text"
                         name="address[]"
                         :value="collect(old('address'))->first() ?? $addresses[0]"
@@ -148,15 +148,15 @@
                         :placeholder="trans('shop::app.customers.account.addresses.street-address')"
                     />
 
-                    <x-shop::form.control-group.error control-name="address[]" />
-                </x-shop::form.control-group>
+                    <x-licious::form.control-group.error control-name="address[]" />
+                </x-licious::form.control-group>
 
                 @if (
                     core()->getConfigData('customer.address.information.street_lines')
                     && core()->getConfigData('customer.address.information.street_lines') > 1
                 )
                     @for ($i = 1; $i < core()->getConfigData('customer.address.information.street_lines'); $i++)
-                        <x-shop::form.control-group.control
+                        <x-licious::form.control-group.control
                             type="text"
                             name="address[{{ $i }}]"
                             :value="old('address[{{$i}}]', $addresses[$i] ?? '')"
@@ -165,7 +165,7 @@
                             :placeholder="trans('shop::app.customers.account.addresses.street-address')"
                         />
 
-                        <x-shop::form.control-group.error
+                        <x-licious::form.control-group.error
                             class="mb-2"
                             name="address[{{ $i }}]"
                         />
@@ -175,12 +175,12 @@
                 {!! view_render_event('bagisto.shop.customers.account.addresses.edit_form_controls.street-addres.after', ['address' => $address]) !!}
 
                 <!-- Country Name -->
-                <x-shop::form.control-group>
-                    <x-shop::form.control-group.label class="{{ core()->isCountryRequired() ? 'required' : '' }}">
-                        @lang('shop::app.customers.account.addresses.country')
-                    </x-shop::form.control-group.label>
+                <x-licious::form.control-group>
+                    <x-licious::form.control-group.label class="{{ core()->isCountryRequired() ? 'required' : '' }}">
+                        @lang('licious::app.customers.account.addresses.country')
+                    </x-licious::form.control-group.label>
 
-                    <x-shop::form.control-group.control
+                    <x-licious::form.control-group.control
                         type="select"
                         name="country"
                         rules="{{ core()->isStateRequired() ? 'required' : '' }}"
@@ -189,27 +189,27 @@
                         :label="trans('shop::app.customers.account.addresses.country')"
                     >
                         @foreach (core()->countries() as $country)
-                            <option 
-                                {{ $country->code === config('app.default_country') ? 'selected' : '' }}  
+                            <option
+                                {{ $country->code === config('app.default_country') ? 'selected' : '' }}
                                 value="{{ $country->code }}"
                             >
                                 {{ $country->name }}
                             </option>
                         @endforeach
-                    </x-shop::form.control-group.control>
+                    </x-licious::form.control-group.control>
 
-                    <x-shop::form.control-group.error control-name="country" />
-                </x-shop::form.control-group>
+                    <x-licious::form.control-group.error control-name="country" />
+                </x-licious::form.control-group>
 
                 {!! view_render_event('bagisto.shop.customers.account.addresses.edit_form_controls.country.after', ['address' => $address]) !!}
 
                 <!-- State Name -->
-                <x-shop::form.control-group>
-                    <x-shop::form.control-group.label class="{{ core()->isStateRequired() ? 'required' : '' }}">
-                        @lang('shop::app.customers.account.addresses.state')
-                    </x-shop::form.control-group.label>
+                <x-licious::form.control-group>
+                    <x-licious::form.control-group.label class="{{ core()->isStateRequired() ? 'required' : '' }}">
+                        @lang('licious::app.customers.account.addresses.state')
+                    </x-licious::form.control-group.label>
                     <template v-if="haveStates()">
-                        <x-shop::form.control-group.control
+                        <x-licious::form.control-group.control
                             type="select"
                             name="state"
                             id="state"
@@ -218,17 +218,17 @@
                             :label="trans('shop::app.customers.account.addresses.state')"
                             :placeholder="trans('shop::app.customers.account.addresses.state')"
                         >
-                            <option 
+                            <option
                                 v-for='(state, index) in countryStates[addressData.country]'
                                 :value="state.code"
                                 v-text="state.default_name"
                             >
                             </option>
-                        </x-shop::form.control-group.control>
+                        </x-licious::form.control-group.control>
                     </template>
 
                     <template v-else>
-                        <x-shop::form.control-group.control
+                        <x-licious::form.control-group.control
                             type="text"
                             name="state"
                             rules="{{ core()->isStateRequired() ? 'required' : '' }}"
@@ -238,17 +238,17 @@
                         />
                     </template>
 
-                    <x-shop::form.control-group.error control-name="state" />
-                </x-shop::form.control-group>
+                    <x-licious::form.control-group.error control-name="state" />
+                </x-licious::form.control-group>
 
                 {!! view_render_event('bagisto.shop.customers.account.addresses.edit_form_controls.state.after', ['address' => $address]) !!}
 
-                <x-shop::form.control-group>
-                    <x-shop::form.control-group.label class="required">
-                        @lang('shop::app.customers.account.addresses.city')
-                    </x-shop::form.control-group.label>
+                <x-licious::form.control-group>
+                    <x-licious::form.control-group.label class="required">
+                        @lang('licious::app.customers.account.addresses.city')
+                    </x-licious::form.control-group.label>
 
-                    <x-shop::form.control-group.control
+                    <x-licious::form.control-group.control
                         type="text"
                         name="city"
                         rules="required"
@@ -257,17 +257,17 @@
                         :placeholder="trans('shop::app.customers.account.addresses.city')"
                     />
 
-                    <x-shop::form.control-group.error control-name="city" />
-                </x-shop::form.control-group>
+                    <x-licious::form.control-group.error control-name="city" />
+                </x-licious::form.control-group>
 
                 {!! view_render_event('bagisto.shop.customers.account.addresses.edit_form_controls.city.after', ['address' => $address]) !!}
 
-                <x-shop::form.control-group>
-                    <x-shop::form.control-group.label class="{{ core()->isPostCodeRequired() ? 'required' : '' }}">
-                        @lang('shop::app.customers.account.addresses.post-code')
-                    </x-shop::form.control-group.label>
+                <x-licious::form.control-group>
+                    <x-licious::form.control-group.label class="{{ core()->isPostCodeRequired() ? 'required' : '' }}">
+                        @lang('licious::app.customers.account.addresses.post-code')
+                    </x-licious::form.control-group.label>
 
-                    <x-shop::form.control-group.control
+                    <x-licious::form.control-group.control
                         type="text"
                         name="postcode"
                         rules="{{ core()->isPostCodeRequired() ? 'required' : '' }}|numeric "
@@ -276,17 +276,17 @@
                         :placeholder="trans('shop::app.customers.account.addresses.post-code')"
                     />
 
-                    <x-shop::form.control-group.error control-name="postcode" />
-                </x-shop::form.control-group>
+                    <x-licious::form.control-group.error control-name="postcode" />
+                </x-licious::form.control-group>
 
                 {!! view_render_event('bagisto.shop.customers.account.addresses.edit_form_controls.postcode.after', ['address' => $address]) !!}
 
-                <x-shop::form.control-group>
-                    <x-shop::form.control-group.label class="required">
-                        @lang('shop::app.customers.account.addresses.phone')
-                    </x-shop::form.control-group.label>
+                <x-licious::form.control-group>
+                    <x-licious::form.control-group.label class="required">
+                        @lang('licious::app.customers.account.addresses.phone')
+                    </x-licious::form.control-group.label>
 
-                    <x-shop::form.control-group.control
+                    <x-licious::form.control-group.control
                         type="text"
                         name="phone"
                         rules="required|integer"
@@ -295,8 +295,8 @@
                         :placeholder="trans('shop::app.customers.account.addresses.phone')"
                     />
 
-                    <x-shop::form.control-group.error control-name="phone" />
-                </x-shop::form.control-group>
+                    <x-licious::form.control-group.error control-name="phone" />
+                </x-licious::form.control-group>
 
                 {!! view_render_event('bagisto.shop.customers.account.addresses.edit_form_controls.phone.after', ['address' => $address]) !!}
 
@@ -304,12 +304,12 @@
                     type="submit"
                     class="primary-button m-0 block text-base w-max py-3 px-11 rounded-2xl text-center"
                 >
-                    @lang('shop::app.customers.account.addresses.save')
+                    @lang('licious::app.customers.account.addresses.save')
                 </button>
-                
+
                 {!! view_render_event('bagisto.shop.customers.account.address.edit_form_controls.after', ['address' => $address]) !!}
 
-            </x-shop::form>
+            </x-licious::form>
         </script>
 
         <script type="module">
@@ -327,7 +327,7 @@
                         countryStates: @json(core()->groupedStatesByCountries()),
                     };
                 },
-    
+
                 methods: {
                     haveStates() {
                         return !!this.countryStates[this.addressData.country]?.length;
@@ -338,4 +338,4 @@
     @endpush
     {!! view_render_event('bagisto.shop.customers.account.address.edit.after', ['address' => $address]) !!}
 
-</x-shop::layouts.account>
+</x-licious::layouts.account>

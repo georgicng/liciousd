@@ -13,7 +13,7 @@
                         <div class="flex gap-5 justify-between items-center">
                             <div class="text-sm font-medium">
                                 <p class="">
-                                    @lang('shop::app.products.view.type.grouped.name')
+                                    @lang('licious::app.products.view.type.grouped.name')
                                 </p>
 
                                 <p class="text-[#6E6E6E] mt-1.5">
@@ -22,7 +22,7 @@
 
                             </div>
 
-                            <x-shop::quantity-changer
+                            <x-licious::quantity-changer
                                 name="qty[{{$groupedProduct->associated_product_id}}]"
                                 :value="$groupedProduct->qty"
                                 class="gap-x-4 py-2.5 px-3 rounded-xl"
@@ -33,7 +33,7 @@
                 @endforeach
             </div>
         @endif
-        
+
     </div>
 
     {!! view_render_event('bagisto.shop.products.view.grouped_products.before', ['product' => $product]) !!}

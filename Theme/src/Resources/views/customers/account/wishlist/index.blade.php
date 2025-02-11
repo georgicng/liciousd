@@ -1,18 +1,18 @@
-<x-shop::layouts.account>
+<x-licious::layouts.account>
     <!-- Page Title -->
     <x-slot:title>
-        @lang('shop::app.customers.account.wishlist.page-title')
+        @lang('licious::app.customers.account.wishlist.page-title')
     </x-slot>
 
     <!-- Breadcrumbs -->
     @section('breadcrumbs')
-        <x-shop::breadcrumbs name="wishlist" />
+        <x-licious::breadcrumbs name="wishlist" />
     @endSection
 
     <!-- Wishlist Vue Component -->
     <v-wishlist-products>
         <!-- Wishlist Shimmer Effect -->
-        <x-shop::shimmer.customers.account.wishlist :count="4" />
+        <x-licious::shimmer.customers.account.wishlist :count="4" />
     </v-wishlist-products>
 
     @pushOnce('scripts')
@@ -23,7 +23,7 @@
             <div>
                 <!-- Wishlist Shimmer Effect -->
                 <template v-if="isLoading">
-                    <x-shop::shimmer.customers.account.wishlist :count="4" />
+                    <x-licious::shimmer.customers.account.wishlist :count="4" />
                 </template>
 
                 {!! view_render_event('bagisto.shop.customers.account.wishlist.list.before') !!}
@@ -32,7 +32,7 @@
                 <template v-else>
                     <div class="flex justify-between items-center overflow-auto journal-scroll">
                         <h2 class="text-2xl font-medium">
-                            @lang('shop::app.customers.account.wishlist.page-title')
+                            @lang('licious::app.customers.account.wishlist.page-title')
                         </h2>
 
                         {!! view_render_event('bagisto.shop.customers.account.wishlist.delete_all.before') !!}
@@ -43,14 +43,14 @@
                             v-if="wishlistItems.length"
                         >
                             <span class="icon-bin text-2xl"></span>
-                            @lang('shop::app.customers.account.wishlist.delete-all')
+                            @lang('licious::app.customers.account.wishlist.delete-all')
                         </div>
 
                         {!! view_render_event('bagisto.shop.customers.account.wishlist.delete_all.after') !!}
                     </div>
 
-                    <div 
-                        v-if="wishlistItems.length" 
+                    <div
+                        v-if="wishlistItems.length"
                         v-for="(item, index) in wishlistItems"
                         class="flex gap-20 flex-wrap mt-8 max-1060:flex-col"
                     >
@@ -64,24 +64,24 @@
 
                                             <a :href="`{{ route('shop.product_or_category.index', '') }}/${item.product.url_key}`">
                                                 <!-- Wishlist Item Image -->
-                                                <img 
+                                                <img
                                                     class="max-w-[110px] max-h-[110px] min-w-[110px] w-[110px] h-[110px] rounded-xl"
-                                                    :src="item.product.base_image.small_image_url" 
-                                                /> 
+                                                    :src="item.product.base_image.small_image_url"
+                                                />
                                             </a>
 
                                             {!! view_render_event('bagisto.shop.customers.account.wishlist.image.after') !!}
                                         </div>
 
                                         <div class="grid gap-y-2.5">
-                                            <p 
-                                                class="text-base font-medium" 
+                                            <p
+                                                class="text-base font-medium"
                                                 v-text="item.product.name"
                                             >
                                             </p>
 
                                             <!--Wishlist Item attributes -->
-                                            <div 
+                                            <div
                                                 class="flex gap-x-2.5 gap-y-1.5 flex-wrap"
                                                 v-if="item.options?.attributes"
                                             >
@@ -91,8 +91,8 @@
                                                             class="flex gap-x-4 text-base items-center cursor-pointer"
                                                             @click="item.option_show = ! item.option_show"
                                                         >
-                                                            @lang('shop::app.customers.account.wishlist.see-details')
-        
+                                                            @lang('licious::app.customers.account.wishlist.see-details')
+
                                                             <span
                                                                 class="text-2xl"
                                                                 :class="{'icon-arrow-up': item.option_show, 'icon-arrow-down': ! item.option_show}"
@@ -100,16 +100,16 @@
                                                             </span>
                                                         </p>
                                                     </div>
-        
-                                                    <div 
-                                                        class="grid gap-2" 
+
+                                                    <div
+                                                        class="grid gap-2"
                                                         v-show="item.option_show"
                                                     >
                                                         <div v-for="option in item.options?.attributes">
                                                             <p class="text-sm font-medium">
                                                                 @{{ option.attribute_name + ':' }}
                                                             </p>
-        
+
                                                             <p class="text-sm">
                                                                 @{{ option.option_label }}
                                                             </p>
@@ -119,8 +119,8 @@
                                             </div>
 
                                             <div class="sm:hidden">
-                                                <p 
-                                                    class="text-lg font-semibold" 
+                                                <p
+                                                    class="text-lg font-semibold"
                                                     v-html="item.product.min_price"
                                                 >
                                                 </p>
@@ -128,11 +128,11 @@
                                                 {!! view_render_event('bagisto.shop.customers.account.wishlist.remove_button.before') !!}
 
                                                 <!--Wishlist Item removed button-->
-                                                <a 
-                                                    class="flex justify-end text-base text-[#0A49A7] cursor-pointer" 
+                                                <a
+                                                    class="flex justify-end text-base text-[#0A49A7] cursor-pointer"
                                                     @click="remove(item.id)"
                                                 >
-                                                    @lang('shop::app.customers.account.wishlist.remove')
+                                                    @lang('licious::app.customers.account.wishlist.remove')
                                                 </a>
 
                                                 {!! view_render_event('bagisto.shop.customers.account.wishlist.remove_button.after') !!}
@@ -141,7 +141,7 @@
                                             {!! view_render_event('bagisto.shop.customers.account.wishlist.perform_actions.before') !!}
 
                                             <div class="flex gap-5 flex-wrap">
-                                                <x-shop::quantity-changer
+                                                <x-licious::quantity-changer
                                                     name="quantity"
                                                     ::value="item.options.quantity ?? 1"
                                                     class="flex gap-x-2.5 items-center max-h-10 py-1.5 px-3.5 border border-navyBlue  rounded-[54px]"
@@ -149,7 +149,7 @@
                                                 />
 
                                                 <!--Wishlist Item Move-to-cart-->
-                                                <x-shop::button
+                                                <x-licious::button
                                                     class="primary-button w-max max-h-10 py-1.5 px-6 rounded-2xl text-base text-center"
                                                     :title="trans('shop::app.customers.account.wishlist.move-to-cart')"
                                                     ::loading="isMovingToCart[item.id]"
@@ -163,17 +163,17 @@
                                     </div>
 
                                     <div class="max-sm:hidden">
-                                        <p 
-                                            class="text-lg font-semibold" 
+                                        <p
+                                            class="text-lg font-semibold"
                                             v-html="item.product.min_price"
                                         >
                                         </p>
 
-                                        <a 
-                                            class="flex justify-end text-base text-[#0A49A7] cursor-pointer" 
+                                        <a
+                                            class="flex justify-end text-base text-[#0A49A7] cursor-pointer"
                                             @click="remove(item.id)"
                                         >
-                                            @lang('shop::app.customers.account.wishlist.remove')
+                                            @lang('licious::app.customers.account.wishlist.remove')
                                         </a>
                                     </div>
                                 </div>
@@ -194,7 +194,7 @@
                         >
 
                         <p class="text-xl">
-                            @lang('shop::app.customers.account.wishlist.empty')
+                            @lang('licious::app.customers.account.wishlist.empty')
                         </p>
                     </div>
                 </template>
@@ -306,4 +306,4 @@
             });
         </script>
     @endpushOnce
-</x-shop::layouts.account>
+</x-licious::layouts.account>

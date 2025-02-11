@@ -13,7 +13,7 @@
     <meta name="keywords" content="{{ $title }}"/>
 @endPush
 
-<x-shop::layouts>
+<x-licious::layouts>
     <!-- Page Title -->
     <x-slot:title>
         {{ $title }}
@@ -30,15 +30,15 @@
             </h1>
         </div>
     </div>
-        
+
     <!-- Product Listing -->
     <v-search>
-        <x-shop::shimmer.categories.view />
+        <x-licious::shimmer.categories.view />
     </v-search>
 
     @pushOnce('scripts')
-        <script 
-            type="text/x-template" 
+        <script
+            type="text/x-template"
             id="v-search-template"
         >
             <div class="container px-[60px] max-lg:px-8 max-sm:px-4">
@@ -60,13 +60,13 @@
                         >
                             <!-- Product Card Shimmer Effect -->
                             <template v-if="isLoading">
-                                <x-shop::shimmer.products.cards.list count="12" />
+                                <x-licious::shimmer.products.cards.list count="12" />
                             </template>
 
                             <!-- Product Card Listing -->
                             <template v-else>
                                 <template v-if="products.length">
-                                    <x-shop::products.card
+                                    <x-licious::products.card
                                         ::mode="'list'"
                                         v-for="product in products"
                                     />
@@ -76,9 +76,9 @@
                                 <template v-else>
                                     <div class="grid items-center justify-items-center place-content-center w-full m-auto h-[476px] text-center">
                                         <img src="{{ bagisto_asset('images/thank-you.png') }}"/>
-                                  
+
                                         <p class="text-xl">
-                                            @lang('shop::app.categories.view.empty')
+                                            @lang('licious::app.categories.view.empty')
                                         </p>
                                     </div>
                                 </template>
@@ -90,7 +90,7 @@
                             <!-- Product Card Shimmer Effect -->
                             <template v-if="isLoading">
                                 <div class="grid grid-cols-3 gap-8 mt-8 max-sm:mt-5 max-1060:grid-cols-2 max-sm:justify-items-center max-sm:gap-4">
-                                    <x-shop::shimmer.products.cards.grid count="12" />
+                                    <x-licious::shimmer.products.cards.grid count="12" />
                                 </div>
                             </template>
 
@@ -98,7 +98,7 @@
                             <template v-else>
                                 <template v-if="products.length">
                                     <div class="grid grid-cols-3 gap-8 mt-8 max-sm:mt-5 max-1060:grid-cols-2 max-sm:justify-items-center max-sm:gap-4">
-                                        <x-shop::products.card
+                                        <x-licious::products.card
                                             ::mode="'grid'"
                                             v-for="product in products"
                                         />
@@ -109,9 +109,9 @@
                                 <template v-else>
                                     <div class="grid items-center justify-items-center place-content-center w-full m-auto h-[476px] text-center">
                                         <img src="{{ bagisto_asset('images/thank-you.png') }}"/>
-                                        
+
                                         <p class="text-xl">
-                                            @lang('shop::app.categories.view.empty')
+                                            @lang('licious::app.categories.view.empty')
                                         </p>
                                     </div>
                                 </template>
@@ -124,7 +124,7 @@
                             @click="loadMoreProducts"
                             v-if="links.next"
                         >
-                            @lang('shop::app.categories.view.load-more')
+                            @lang('licious::app.categories.view.load-more')
                         </button>
                     </div>
                 </div>
@@ -143,13 +143,13 @@
 
                         isDrawerActive: {
                             toolbar: false,
-                            
+
                             filter: false,
                         },
 
                         filters: {
                             toolbar: {},
-                            
+
                             filter: {},
                         },
 
@@ -193,12 +193,12 @@
                     getProducts() {
                         this.isDrawerActive = {
                             toolbar: false,
-                            
+
                             filter: false,
                         };
 
-                        this.$axios.get(("{{ route('shop.api.products.index') }}"), { 
-                            params: this.queryParams 
+                        this.$axios.get(("{{ route('shop.api.products.index') }}"), {
+                            params: this.queryParams
                         })
                             .then(response => {
                                 this.isLoading = false;
@@ -250,4 +250,4 @@
             });
         </script>
     @endPushOnce
-</x-shop::layouts>
+</x-licious::layouts>

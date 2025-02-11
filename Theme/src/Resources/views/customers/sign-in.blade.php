@@ -5,14 +5,14 @@
     <meta name="keywords" content="@lang('shop::app.customers.login-form.page-title')"/>
 @endPush
 
-<x-shop::layouts
+<x-licious::layouts
     :has-header="false"
     :has-feature="false"
     :has-footer="false"
 >
     <!-- Page Title -->
     <x-slot:title>
-        @lang('shop::app.customers.login-form.page-title')
+        @lang('licious::app.customers.login-form.page-title')
     </x-slot>
 
     <div class="container mt-20 max-1180:px-5">
@@ -41,27 +41,27 @@
             class="w-full max-w-[870px] m-auto px-[90px] p-16 border border-[#E9E9E9] rounded-xl max-md:px-8 max-md:py-8"
         >
             <h1 class="text-4xl font-dmserif max-sm:text-2xl">
-                @lang('shop::app.customers.login-form.page-title')
+                @lang('licious::app.customers.login-form.page-title')
             </h1>
 
             <p class="mt-4 text-[#6E6E6E] text-xl max-sm:text-base">
-                @lang('shop::app.customers.login-form.form-login-text')
+                @lang('licious::app.customers.login-form.form-login-text')
             </p>
 
             {!! view_render_event('bagisto.shop.customers.login.before') !!}
 
             <div class="mt-14 rounded max-sm:mt-8">
-                <x-shop::form :action="route('shop.customer.session.create')">
+                <x-licious::form :action="route('shop.customer.session.create')">
 
                     {!! view_render_event('bagisto.shop.customers.login_form_controls.before') !!}
 
                     <!-- Email -->
-                    <x-shop::form.control-group>
-                        <x-shop::form.control-group.label class="required">
-                            @lang('shop::app.customers.login-form.email')
-                        </x-shop::form.control-group.label>
+                    <x-licious::form.control-group>
+                        <x-licious::form.control-group.label class="required">
+                            @lang('licious::app.customers.login-form.email')
+                        </x-licious::form.control-group.label>
 
-                        <x-shop::form.control-group.control
+                        <x-licious::form.control-group.control
                             type="email"
                             class="!p-[20px_25px] rounded-lg"
                             name="email"
@@ -73,16 +73,16 @@
                             aria-required="true"
                         />
 
-                        <x-shop::form.control-group.error control-name="email" />
-                    </x-shop::form.control-group>
+                        <x-licious::form.control-group.error control-name="email" />
+                    </x-licious::form.control-group>
 
                     <!-- Password -->
-                    <x-shop::form.control-group>
-                        <x-shop::form.control-group.label class="required">
-                            @lang('shop::app.customers.login-form.password')
-                        </x-shop::form.control-group.label>
+                    <x-licious::form.control-group>
+                        <x-licious::form.control-group.label class="required">
+                            @lang('licious::app.customers.login-form.password')
+                        </x-licious::form.control-group.label>
 
-                        <x-shop::form.control-group.control
+                        <x-licious::form.control-group.control
                             type="password"
                             class="!p-[20px_25px] rounded-lg"
                             id="password"
@@ -95,8 +95,8 @@
                             aria-required="true"
                         />
 
-                        <x-shop::form.control-group.error control-name="password" />
-                    </x-shop::form.control-group>
+                        <x-licious::form.control-group.error control-name="password" />
+                    </x-licious::form.control-group>
 
                     <div class="flex justify-between">
                         <div class="select-none items-center flex gap-1.5">
@@ -116,7 +116,7 @@
                                 class="text-base text-[#6E6E6E] max-sm:text-xs ltr:pl-0 rtl:pr-0 select-none cursor-pointer"
                                 for="show-password"
                             >
-                                @lang('shop::app.customers.login-form.show-password')
+                                @lang('licious::app.customers.login-form.show-password')
                             </label>
                         </div>
 
@@ -126,7 +126,7 @@
                                 class="text-base cursor-pointer text-black max-sm:text-xs"
                             >
                                 <span>
-                                    @lang('shop::app.customers.login-form.forgot-pass')
+                                    @lang('licious::app.customers.login-form.forgot-pass')
                                 </span>
                             </a>
                         </div>
@@ -145,30 +145,30 @@
                             class="primary-button block w-full max-w-[374px] py-4 px-11 m-0 ltr:ml-0 rtl:mr-0 mx-auto rounded-2xl text-base text-center"
                             type="submit"
                         >
-                            @lang('shop::app.customers.login-form.button-title')
+                            @lang('licious::app.customers.login-form.button-title')
                         </button>
 
                         {!! view_render_event('bagisto.shop.customers.login_form_controls.after') !!}
                     </div>
-                </x-shop::form>
+                </x-licious::form>
             </div>
 
             {!! view_render_event('bagisto.shop.customers.login.after') !!}
 
             <p class="mt-5 text-[#6E6E6E] font-medium">
-                @lang('shop::app.customers.login-form.new-customer')
+                @lang('licious::app.customers.login-form.new-customer')
 
                 <a
                     class="text-navyBlue"
                     href="{{ route('shop.customers.register.index') }}"
                 >
-                    @lang('shop::app.customers.login-form.create-your-account')
+                    @lang('licious::app.customers.login-form.create-your-account')
                 </a>
             </p>
         </div>
 
         <p class="mt-8 mb-4 text-center text-[#6E6E6E] text-xs">
-            @lang('shop::app.customers.login-form.footer', ['current_year'=> date('Y') ])
+            @lang('licious::app.customers.login-form.footer', ['current_year'=> date('Y') ])
         </p>
     </div>
 
@@ -185,4 +185,4 @@
             }
         </script>
     @endpush
-</x-shop::layouts>
+</x-licious::layouts>

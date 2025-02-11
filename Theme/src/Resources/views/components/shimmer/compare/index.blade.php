@@ -14,7 +14,7 @@
         </div>
 
         <div class="flex gap-3 border-l-[1px] border-[#E9E9E9] max-sm:border-0">
-            <x-shop::shimmer.products.cards.grid
+            <x-licious::shimmer.products.cards.grid
                 class="min-w-[311px] max-w-[311px] pt-0 ltr:pr-0 rtl:pl-0 p-5 max-sm:ltr:pl-0 max-sm:rtl:pr-0"
                 count="3"
             />
@@ -22,7 +22,7 @@
     </div>
 
     <!-- Single row -->
-    <x-shop::shimmer.compare.attribute
+    <x-licious::shimmer.compare.attribute
         :attributeCount="$attributeCount"
         :productCount="$productCount"
     />

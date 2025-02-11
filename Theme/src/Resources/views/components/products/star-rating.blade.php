@@ -10,7 +10,7 @@
     value="{{ $value }}"
     disabled="{{ $disabled }}"
 >
-    <x-shop::shimmer.products.reviews.ratings />
+    <x-licious::shimmer.products.reviews.ratings />
 </v-star-rating>
 
 @pushOnce("scripts")
@@ -18,25 +18,25 @@
         type="text/x-template"
         id="v-star-rating-template"
     >
-        <div class="flex">
-            <span
-                class="icon-star-fill text-2xl cursor-pointer"
+        <div class="cr-star mr-[10px]">
+            <i
+                class="ri-star-fill text-[16px] cursor-pointer"
                 role="presentation"
                 v-for="rating in availableRatings"
                 v-if="! disabled"
-                :style="[`color: ${appliedRatings >= rating ? '#ffb600' : '#7d7d7d'}`]"
+                :style="[`color: ${appliedRatings >= rating ? 'text-[#f5885f]' : 'text-[##7d7d7d]'}`]"
                 @click="change(rating)"
             >
-            </span>
+            </i>
 
-            <span
-                class="icon-star-fill text-2xl"
+            <i
+                class="ri-star-fill text-[16px]"
                 role="presentation"
                 v-for="rating in availableRatings"
-                :style="[`color: ${appliedRatings >= rating ? '#ffb600' : '#7d7d7d'}`]"
+                :style="[`color: ${appliedRatings >= rating ? 'text-[#f5885f]' : 'text-[##7d7d7d]'}`]"
                 v-else
             >
-            </span>
+            </i>
 
             <v-field
                 type="hidden"

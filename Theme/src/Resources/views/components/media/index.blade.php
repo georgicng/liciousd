@@ -1,5 +1,5 @@
 <v-media {{ $attributes }} >
-    <x-shop::media.images.lazy
+    <x-licious::media.images.lazy
         class="w-[284px] h-[284px] mb-4 rounded-xl"
     />
 </v-media>
@@ -15,7 +15,7 @@
                     class="flex flex-col items-center justify-center w-[284px] h-[284px] bg-[#F5F5F5] rounded-xl cursor-pointer hover:bg-gray-100 dark:hover:gray-950"
                     v-if="uploadedFiles.isPicked"
                 >
-                    <div 
+                    <div
                         class="group flex justify-center relative w-[284px] h-[284px]"
                         @mouseenter="uploadedFiles.showDeleteButton = true"
                         @mouseleave="uploadedFiles.showDeleteButton = false"
@@ -28,7 +28,7 @@
                         >
 
                         <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity">
-                            <span 
+                            <span
                                 class="icon-bin text-2xl text-black cursor-pointer"
                                 @click="removeFile"
                             >
@@ -37,7 +37,7 @@
                     </div>
                 </div>
 
-                <label 
+                <label
                     for="file-input"
                     class="flex flex-col items-center justify-center w-[284px] h-[284px] bg-[#F5F5F5] rounded-xl hover:bg-gray-100 cursor-pointer"
                     v-show="! uploadedFiles.isPicked"
@@ -45,11 +45,11 @@
                     @dragleave="onDragLeave"
                     @drop="onDrop"
                 >
-                    <label 
+                    <label
                         for="file-input"
                         class="primary-button block w-max m-0 mx-auto py-3 px-11 rounded-2xl text-base text-center"
                     >
-                        @lang('shop::app.components.media.add-attachments')
+                        @lang('licious::app.components.media.add-attachments')
                     </label>
 
                     <input type="hidden" :name="name" v-if="! uploadedFiles.isPicked"/>
@@ -68,17 +68,17 @@
                 </label>
             </div>
 
-            <div 
+            <div
                 class="flex items-center"
                 v-if="isMultiple"
             >
                 <ul class="flex gap-2.5 flex-wrap justify-left mt-2">
-                    <li 
+                    <li
                         v-for="(file, index) in uploadedFiles"
                         :key="index"
                     >
                         <template v-if="isImage(file)">
-                            <div 
+                            <div
                                 class="relative group flex justify-center h-12 w-12"
                                 @mouseenter="file.showDeleteButton = true"
                                 @mouseleave="file.showDeleteButton = false"
@@ -91,7 +91,7 @@
                                 >
 
                                 <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity">
-                                    <span 
+                                    <span
                                         class="icon-bin text-2xl text-black cursor-pointer"
                                         @click="removeFile(index)"
                                     >
@@ -115,7 +115,7 @@
                                 </video>
 
                                 <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity">
-                                    <span 
+                                    <span
                                         class="icon-bin text-2xl text-black cursor-pointer"
                                         @click="removeFile(index)"
                                     >
@@ -135,28 +135,28 @@
 
             props: {
                 name: {
-                    type: String, 
+                    type: String,
                     default: 'attachments',
-                }, 
+                },
 
                 isMultiple: {
                     type: Boolean,
                     default: false,
-                }, 
+                },
 
                 rules: {
                     type: String,
                 },
 
                 acceptedTypes: {
-                    type: String, 
+                    type: String,
                     default: 'image/*, video/*,'
-                }, 
+                },
 
                 label: {
-                    type: String, 
+                    type: String,
                     default: 'Add attachments'
-                }, 
+                },
 
                 src: {
                     type: String,
@@ -183,7 +183,7 @@
                     this.uploadedFiles = {
                         isPicked: true,
                         url: this.src,
-                    }                        
+                    }
                 }
             },
 
@@ -223,7 +223,7 @@
                         let file = files[i];
 
                         let reader = new FileReader();
-                        
+
                         reader.onload = () => {
                             if (! this.isMultiple) {
                                 this.uploadedFiles = {
@@ -264,7 +264,7 @@
 
                     this.isDragOver = false;
                 },
-                
+
                 onDrop(event) {
                     event.preventDefault();
 
@@ -280,13 +280,13 @@
                         this.uploadedFiles = [];
 
                         this.appliedRules = this.rules;
-                        
+
                         return;
                     }
 
                     this.uploadedFiles.splice(index, 1);
                 },
-            },        
+            },
         });
     </script>
 @endpushOnce

@@ -8,7 +8,7 @@
 @endPush
 
 <!-- Page Layout -->
-<x-shop::layouts>
+<x-licious::layouts>
     <!-- Page Title -->
     <x-slot:title>
         {{ $page->meta_title }}
@@ -18,4 +18,4 @@
     <div class="container mt-8 px-[60px] max-lg:px-8">
         {!! $page->html_content !!}
     </div>
-</x-shop::layouts>
+</x-licious::layouts>

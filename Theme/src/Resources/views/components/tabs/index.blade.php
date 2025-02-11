@@ -1,10 +1,7 @@
-@props(['position' => 'left'])
+@props(['position' => 'left', 'name' => 'my'])
 
-<v-tabs
-    position="{{ $position }}"
-    {{ $attributes }}
->
-    <x-shop::shimmer.tabs />
+<v-tabs {{ $attributes }}>
+    <x-licious::shimmer.tabs />
 </v-tabs>
 
 @pushOnce('scripts')
@@ -12,24 +9,25 @@
         type="text/x-template"
         id="v-tabs-template"
     >
-        <div>
-            <div
-                class="flex gap-8 justify-center pt-5 bg-[#F5F5F5] max-1180:hidden"
-                :style="positionStyles"
-            >
-                <div
-                    role="button"
+        <div class="cr-paking-delivery mt-[40px] p-[24px] bg-[#fff] border-[1px] border-solid border-[#e9e9e9] rounded-[5px]">
+            <ul
+                class="nav nav-tabs border-b-[1px] border-solid border-[#dee2e6] flex flex-wrap justify-left"
+                id="{{$name}}Tab">
+                <li
                     tabindex="0"
                     v-for="tab in tabs"
-                    class="pb-5 px-8 text-xl font-medium text-[#6E6E6E] cursor-pointer"
-                    :class="{'text-black border-navyBlue border-b-2 transition': tab.isActive }"
-                    v-text="tab.title"
-                    @click="change(tab)"
-                >
-                </div>
-            </div>
+                    class="nav-item transition-all duration-[0.3s] ease-in-out mr-[30px] relative"
+                    :class="{'active': tab.isActive }">
+                    <a
+                        :href="`#${tab.title}`"
+                        role="button"
+                        class="mb-[25px] flex font-Poppins text-[17px] font-semibold leading-[1.5] tracking-[0] text-[#2b2b2d] text-left max-[1399px]:text-[18px] max-[767px]:text-[16px] max-[575px]:mb-[15px]"
+                        v-text="tab.title"
+                        @click="change(tab)"></a>
+                </li>
+            </ul>
 
-            <div>
+            <div class="tab-content" id="{{$name}}TabContent">
                 {{ $slot }}
             </div>
         </div>
@@ -45,14 +43,6 @@
                 return {
                     tabs: []
                 }
-            },
-
-            computed: {
-                positionStyles() {
-                    return [
-                        `justify-content: ${this.position}`
-                    ];
-                },
             },
 
             methods: {

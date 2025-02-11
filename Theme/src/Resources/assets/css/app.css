@@ -2,14 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-@font-face {
-    font-family: "bagisto-shop";
-    src: url("../fonts/bagisto-shop.woff") format("woff");
-    font-weight: normal;
-    font-style: normal;
-    font-display: block;
-}
-
 @layer components {
     ::selection {
         background-color: rgba(6, 12, 59, .2);
@@ -319,7 +311,7 @@
     .icon-users:before {
         content: "\e942";
     }
-      
+
 
     .journal-scroll::-webkit-scrollbar {
         width: 14px;
@@ -378,7 +370,7 @@
     .direction-rtl {
         direction: rtl;
     }
-    
+
     .label-pending,
     .label-processing,
     .label-closed,
@@ -417,7 +409,7 @@
     .primary-button {
         @apply flex gap-x-1.5 items-center place-content-center font-medium rounded-xl text-white bg-navyBlue border border-navyBlue px-8 py-4 max-w-max cursor-pointer transition-all hover:opacity-[0.9];
     }
-    
+
     .secondary-button {
         @apply flex gap-x-1.5 items-center place-content-center font-medium rounded-xl bg-white text-navyBlue border border-navyBlue px-8 py-4 max-w-max cursor-pointer transition-all hover:bg-[#050e3a0d];
     }
@@ -446,7 +438,7 @@
         0% {
             opacity: 0;
         }
-        
+
         100% {
             opacity: 1;
         }
@@ -494,7 +486,7 @@
     html {
         margin-top: 0px !important;
     }
-    
+
     .break-word-custom {
         word-break: break-word;
     }

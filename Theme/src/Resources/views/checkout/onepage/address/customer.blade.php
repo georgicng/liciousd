@@ -7,7 +7,7 @@
     @processed="stepProcessed"
 >
     <!-- Billing Address Shimmer -->
-    <x-shop::shimmer.checkout.onepage.address />
+    <x-licious::shimmer.checkout.onepage.address />
 </v-checkout-address-customer>
 
 {!! view_render_event('bagisto.shop.checkout.onepage.address.customer.after') !!}
@@ -19,13 +19,13 @@
     >
         <template v-if="isLoading">
             <!-- Billing Address Shimmer -->
-            <x-shop::shimmer.checkout.onepage.address />
+            <x-licious::shimmer.checkout.onepage.address />
         </template>
 
         <template v-else>
             <!-- Saved Addresses -->
             <template v-if="! activeAddressForm && customerSavedAddresses.billing.length">
-                <x-shop::form
+                <x-licious::form
                     v-slot="{ meta, errors, handleSubmit }"
                     as="div"
                 >
@@ -33,7 +33,7 @@
                         <!-- Billing Address Header -->
                         <div class="flex justify-between items-center mb-4">
                             <h2 class="text-xl font-medium max-sm:text-xl">
-                                @lang('shop::app.checkout.onepage.address.billing-address')
+                                @lang('licious::app.checkout.onepage.address.billing-address')
                             </h2>
                         </div>
 
@@ -45,8 +45,8 @@
                             >
                                 <!-- Actions -->
                                 <div class="flex gap-2 absolute top-5 ltr:right-5 rtl:left-5">
-                                    <x-shop::form.control-group class="flex items-center gap-2.5 !mb-0">
-                                        <x-shop::form.control-group.control
+                                    <x-licious::form.control-group class="flex items-center gap-2.5 !mb-0">
+                                        <x-licious::form.control-group.control
                                             type="radio"
                                             name="billing.id"
                                             ::id="`billing_address_id_${address.id}`"
@@ -56,7 +56,7 @@
                                             rules="required"
                                             label="{{ trans('shop::app.checkout.onepage.address.billing-address') }}"
                                         />
-                                    </x-shop::form.control-group>
+                                    </x-licious::form.control-group>
 
                                     <!-- Edit Icon -->
                                     <span
@@ -120,13 +120,13 @@
                         </div>
 
                         <!-- Error Message Block -->
-                        <x-shop::form.control-group.error name="billing.id" />
+                        <x-licious::form.control-group.error name="billing.id" />
 
                         <!-- Shipping Address Block if have stockable items -->
                         <template v-if="cart.have_stockable_items">
                             <!-- Use for Shipping Checkbox -->
-                            <x-shop::form.control-group class="flex items-center gap-2.5 mt-5 !mb-0">
-                                <x-shop::form.control-group.control
+                            <x-licious::form.control-group class="flex items-center gap-2.5 mt-5 !mb-0">
+                                <x-licious::form.control-group.control
                                     type="checkbox"
                                     name="billing.use_for_shipping"
                                     id="use_for_shipping"
@@ -140,9 +140,9 @@
                                     class="text-base text-[#6E6E6E] max-sm:text-xs ltr:pl-0 rtl:pr-0 select-none cursor-pointer"
                                     for="use_for_shipping"
                                 >
-                                    @lang('shop::app.checkout.onepage.address.same-as-billing')
+                                    @lang('licious::app.checkout.onepage.address.same-as-billing')
                                 </label>
-                            </x-shop::form.control-group>
+                            </x-licious::form.control-group>
 
 
                             <!-- Customer Shipping Address -->
@@ -153,7 +153,7 @@
                                 <!-- Shipping Address Header -->
                                 <div class="flex justify-between items-center mb-4">
                                     <h2 class="text-xl font-medium max-sm:text-xl">
-                                        @lang('shop::app.checkout.onepage.address.shipping-address')
+                                        @lang('licious::app.checkout.onepage.address.shipping-address')
                                     </h2>
                                 </div>
 
@@ -165,8 +165,8 @@
                                     >
                                         <!-- Actions -->
                                         <div class="flex gap-5 absolute top-5 ltr:right-5 rtl:left-5">
-                                            <x-shop::form.control-group class="flex items-center gap-2.5 !mb-0">
-                                                <x-shop::form.control-group.control
+                                            <x-licious::form.control-group class="flex items-center gap-2.5 !mb-0">
+                                                <x-licious::form.control-group.control
                                                     type="radio"
                                                     name="shipping.id"
                                                     ::id="`shipping_address_id_${address.id}`"
@@ -176,7 +176,7 @@
                                                     rules="required"
                                                     label="{{ trans('shop::app.checkout.onepage.address.shipping-address') }}"
                                                 />
-                                            </x-shop::form.control-group>
+                                            </x-licious::form.control-group>
 
                                             <!-- Edit Icon -->
                                             <span
@@ -239,13 +239,13 @@
                                     </div>
                                 </div>
 
-                                <x-shop::form.control-group.error name="shipping.id" />
+                                <x-licious::form.control-group.error name="shipping.id" />
                             </div>
                         </template>
 
                         <!-- Proceed Button -->
                         <div class="flex justify-end mt-4">
-                            <x-shop::button
+                            <x-licious::button
                                 class="primary-button py-3 px-11 rounded-2xl"
                                 :title="trans('shop::app.checkout.onepage.address.proceed')"
                                 ::loading="isStoring"
@@ -253,12 +253,12 @@
                             />
                         </div>
                     </form>
-                </x-shop::form>
+                </x-licious::form>
             </template>
 
             <!-- Create/Edit Address Form -->
             <template v-else>
-                <x-shop::form
+                <x-licious::form
                     v-slot="{ meta, errors, handleSubmit }"
                     as="div"
                 >
@@ -267,11 +267,11 @@
                         <div class="flex justify-between items-center mb-4">
                             <h2 class="text-xl font-medium max-sm:text-xl">
                                 <template v-if="activeAddressForm == 'billing'">
-                                    @lang('shop::app.checkout.onepage.address.billing-address')
+                                    @lang('licious::app.checkout.onepage.address.billing-address')
                                 </template>
 
                                 <template v-else>
-                                    @lang('shop::app.checkout.onepage.address.shipping-address')
+                                    @lang('licious::app.checkout.onepage.address.shipping-address')
                                 </template>
                             </h2>
 
@@ -282,10 +282,10 @@
                             >
                                 <span class="icon-arrow-left text-2xl"></span>
 
-                                @lang('shop::app.checkout.onepage.address.back')
+                                @lang('licious::app.checkout.onepage.address.back')
                             </span>
                         </div>
-                        
+
                         <!-- Address Form Vue Component -->
                         <v-checkout-address-form
                             :control-name="activeAddressForm"
@@ -293,8 +293,8 @@
                         ></v-checkout-address-form>
 
                         <!-- Save Address to Address Book Checkbox -->
-                        <x-shop::form.control-group class="flex items-center gap-2.5 !mb-0">
-                            <x-shop::form.control-group.control
+                        <x-licious::form.control-group class="flex items-center gap-2.5 !mb-0">
+                            <x-licious::form.control-group.control
                                 type="checkbox"
                                 ::name="activeAddressForm + '.save_address'"
                                 id="save_address"
@@ -308,13 +308,13 @@
                                 class="text-base text-[#6E6E6E] max-sm:text-xs ltr:pl-0 rtl:pr-0 select-none cursor-pointer"
                                 for="save_address"
                             >
-                                @lang('shop::app.checkout.onepage.address.save-address')
+                                @lang('licious::app.checkout.onepage.address.save-address')
                             </label>
-                        </x-shop::form.control-group>
+                        </x-licious::form.control-group>
 
                         <!-- Save Button -->
                         <div class="flex justify-end mt-4">
-                            <x-shop::button
+                            <x-licious::button
                                 class="primary-button py-3 px-11 rounded-2xl"
                                 :title="trans('shop::app.checkout.onepage.address.save')"
                                 ::loading="isStoring"
@@ -322,7 +322,7 @@
                             />
                         </div>
                     </form>
-                </x-shop::form>
+                </x-licious::form>
             </template>
         </template>
     </script>
@@ -339,7 +339,7 @@
                 return {
                     customerSavedAddresses: {
                         'billing': [],
-                        
+
                         'shipping': [],
                     },
 
@@ -415,7 +415,7 @@
                         });
                     } else {
                         this.selectedAddresses[type + '_address_id'] = cartAddress.id;
-                        
+
                         addresses.unshift(cartAddress);
                     }
 

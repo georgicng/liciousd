@@ -5,7 +5,7 @@
     @processing="stepForward"
     @processed="stepProcessed"
 >
-    <x-shop::shimmer.checkout.onepage.payment-method />
+    <x-licious::shimmer.checkout.onepage.payment-method />
 </v-payment-methods>
 
 {!! view_render_event('bagisto.shop.checkout.onepage.payment_methods.after') !!}
@@ -18,19 +18,19 @@
         <div class="mb-7">
             <template v-if="! methods">
                 <!-- Payment Method shimmer Effect -->
-                <x-shop::shimmer.checkout.onepage.payment-method />
+                <x-licious::shimmer.checkout.onepage.payment-method />
             </template>
 
             <template v-else>
                 {!! view_render_event('bagisto.shop.checkout.onepage.payment_method.accordion.before') !!}
 
                 <!-- Accordion Blade Component -->
-                <x-shop::accordion class="!border-b-0">
+                <x-licious::accordion class="!border-b-0">
                     <!-- Accordion Blade Component Header -->
                     <x-slot:header class="!p-0">
                         <div class="flex justify-between items-center">
                             <h2 class="text-2xl font-medium max-sm:text-xl">
-                                @lang('shop::app.checkout.onepage.payment.payment-method')
+                                @lang('licious::app.checkout.onepage.payment.payment-method')
                             </h2>
                         </div>
                     </x-slot>
@@ -102,7 +102,7 @@
                             </div>
                         </div>
                     </x-slot>
-                </x-shop::accordion>
+                </x-licious::accordion>
 
                 {!! view_render_event('bagisto.shop.checkout.onepage.index.payment_method.accordion.before') !!}
             </template>

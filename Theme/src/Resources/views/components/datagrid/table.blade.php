@@ -14,7 +14,7 @@
             <div class="table-responsive grid w-full box-shadow rounded bg-white overflow-hidden">
                 <slot name="header">
                     <template v-if="$parent.isLoading">
-                        <x-shop::shimmer.datagrid.table.head :isMultiRow="$isMultiRow" />
+                        <x-licious::shimmer.datagrid.table.head :isMultiRow="$isMultiRow" />
                     </template>
 
                     <template v-else>
@@ -68,7 +68,7 @@
                                 class="place-self-end"
                                 v-if="$parent.available.actions.length"
                             >
-                                @lang('shop::app.components.datagrid.table.actions')
+                                @lang('licious::app.components.datagrid.table.actions')
                             </p>
                         </div>
                     </template>
@@ -76,7 +76,7 @@
 
                 <slot name="body">
                     <template v-if="$parent.isLoading">
-                        <x-shop::shimmer.datagrid.table.body :isMultiRow="$isMultiRow" />
+                        <x-licious::shimmer.datagrid.table.body :isMultiRow="$isMultiRow" />
                     </template>
 
                     <template v-else>
@@ -141,7 +141,7 @@
                         <template v-else>
                             <div class="row grid px-4 py-4 border-b border-gray-300 text-gray-600 text-center">
                                 <p>
-                                    @lang('shop::app.components.datagrid.table.no-records-available')
+                                    @lang('licious::app.components.datagrid.table.no-records-available')
                                 </p>
                             </div>
                         </template>
@@ -150,7 +150,7 @@
 
                 <slot name="footer">
                     <template v-if="$parent.isLoading">
-                        <x-shop::shimmer.datagrid.table.footer/>
+                        <x-licious::shimmer.datagrid.table.footer/>
                     </template>
 
                     <template v-else>

@@ -10,7 +10,7 @@
     <script type="text/x-template" id="v-carousel-template">
         <div class="flex w-full relative m-auto overflow-hidden">
             <!-- Slider -->
-            <div 
+            <div
                 class="inline-flex translate-x-0 will-change-transform transition-transform duration-700 ease-out cursor-pointer"
                 ref="sliderContainer"
             >
@@ -20,7 +20,7 @@
                     @click="visitLink(image)"
                     ref="slide"
                 >
-                    <x-shop::media.images.lazy
+                    <x-licious::media.images.lazy
                         class="w-full max-w-full max-h-full transition-transform duration-300 ease-in-out select-none aspect-[2.743/1]"
                         ::lazy="false"
                         ::src="image.image"

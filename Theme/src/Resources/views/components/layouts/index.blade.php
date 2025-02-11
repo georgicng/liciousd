@@ -1,90 +1,103 @@
 @props([
-    'hasHeader'  => true,
-    'hasFeature' => true,
-    'hasFooter'  => true,
+'hasHeader' => true,
+'hasFeature' => true,
+'hasFooter' => true,
 ])
 
 <!DOCTYPE html>
 <html lang="{{ app()->getLocale() }}" dir="{{ core()->getCurrentLocale()->direction }}">
-    <head>
-        <title>{{ $title ?? '' }}</title>
 
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="base-url" content="{{ url()->to('/') }}">
-        <meta name="currency-code" content="{{ core()->getCurrentCurrencyCode() }}">
-        <meta http-equiv="content-language" content="{{ app()->getLocale() }}">
+<head>
+    <title>{{ $title ?? '' }}</title>
 
-        @stack('meta')
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="base-url" content="{{ url()->to('/') }}">
+    <meta name="currency-code" content="{{ core()->getCurrentCurrencyCode() }}">
+    <meta http-equiv="content-language" content="{{ app()->getLocale() }}">
 
-        <link
-            rel="icon"
-            sizes="16x16"
-            href="{{ core()->getCurrentChannel()->favicon_url ?? bagisto_asset('images/favicon.ico') }}"
-        />
+    @stack('meta')
 
-        @bagistoVite(['src/Resources/assets/css/app.css', 'src/Resources/assets/js/app.js'])
+    <link
+        rel="icon"
+        sizes="16x16"
+        href="{{ core()->getCurrentChannel()->favicon_url ?? bagisto_asset('images/favicon.png') }}" />
 
-        <link rel="preload" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" as="style">
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap">
+    <!-- Icon CSS -->
+    <link rel="stylesheet" href="{{ bagisto_asset('css/vendor/materialdesignicons.min.css') }}">
+    <link rel="stylesheet" href="{{ bagisto_asset('css/vendor/remixicon.css') }}">
 
-        <link rel="preload" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&display=swap" as="style">
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&display=swap">
+    <!-- Vendor -->
+    <link rel="stylesheet" href="{{ bagisto_asset('css/vendor/animate.css') }}">
+    <link rel="stylesheet" href="{{ bagisto_asset('css/vendor/range-slider.css') }}">
+    <link rel="stylesheet" href="{{ bagisto_asset('css/vendor/swiper-bundle.min.css') }}">
+    <link rel="stylesheet" href="{{ bagisto_asset('css/vendor/jquery.slick.css') }}">
+    <link rel="stylesheet" href="{{ bagisto_asset('css/vendor/slick-theme.css') }}">
 
-        @stack('styles')
+    @bagistoVite(['src/Resources/assets/css/app.css', 'src/Resources/assets/js/app.js'])
 
-        <style>
-            {!! core()->getConfigData('general.content.custom_scripts.custom_css') !!}
-        </style>
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="{{ bagisto_asset('css/style.css') }}">
 
-        {!! view_render_event('bagisto.shop.layout.head') !!}
-    </head>
+    @stack('styles')
 
-    <body>
-        {!! view_render_event('bagisto.shop.layout.body.before') !!}
+    <style>
+        {!! core()->getConfigData('general.content.custom_scripts.custom_css') !!}
+    </style>
 
-        <a href="#main" class="skip-to-main-content-link">Skip to main content</a>
+    {!! view_render_event('bagisto.shop.layout.head') !!}
+</head>
 
-        <div id="app">
-            <!-- Flash Message Blade Component -->
-            <x-shop::flash-group />
+<body>
+    {!! view_render_event('bagisto.shop.layout.body.before') !!}
+    <div id="app">
+        <!-- Flash Message Blade Component -->
+        <x-licious::flash-group />
 
-            <!-- Confirm Modal Blade Component -->
-            <x-shop::modal.confirm />
+        <!-- Confirm Modal Blade Component -->
+        <x-licious::modal.confirm />
 
-            <!-- Page Header Blade Component -->
-            @if ($hasHeader)
-                <x-shop::layouts.header />
-            @endif
+        <!-- Page Header Blade Component -->
+        @if ($hasHeader)
+        <x-licious::layouts.header />
+        @endif
 
-            {!! view_render_event('bagisto.shop.layout.content.before') !!}
+        {!! view_render_event('bagisto.shop.layout.content.before') !!}
 
-            <!-- Page Content Blade Component -->
-            <main id="main" class="bg-white">
-                {{ $slot }}
-            </main>
+        <!-- Page Content Blade Component -->
+        {{ $slot }}
 
-            {!! view_render_event('bagisto.shop.layout.content.after') !!}
+        {!! view_render_event('bagisto.shop.layout.content.after') !!}
 
-            
-            <!-- Page Services Blade Component -->
-            @if ($hasFeature)
-                <x-shop::layouts.services />
-            @endif
+        <!-- Page Services Blade Component -->
+        @if ($hasFeature)
+        <x-licious::layouts.services />
+        @endif
 
-            <!-- Page Footer Blade Component -->
-            @if ($hasFooter)
-                <x-shop::layouts.footer />
-            @endif
+        <!-- Page Footer Blade Component -->
+        @if ($hasFooter)
+        <x-licious::layouts.footer />
+        @endif
+    </div>
+
+    {!! view_render_event('bagisto.shop.layout.body.after') !!}
+
+    <!-- Tab to top -->
+    <a href="#Top" class="back-to-top result-placeholder h-[38px] w-[38px] hidden fixed right-[15px] bottom-[15px] z-[10] cursor-pointer rounded-[20px] bg-[#fff] text-[#64b496] border-[1px] border-solid border-[#64b496] text-center text-[22px] leading-[1.6] hover:transition-all hover:duration-[0.3s] hover:ease-in-out">
+        <i class="ri-arrow-up-line text-[20px]"></i>
+        <div class="back-to-top-wrap">
+            <svg viewBox="-1 -1 102 102" class="w-[36px] h-[36px] fixed right-[16px] bottom-[16px]">
+                <path d="M50,1 a49,49 0 0,1 0,98 a49,49 0 0,1 0,-98" class="fill-transparent stroke-[#64b496] stroke-[5px]" />
+            </svg>
         </div>
+    </a>
 
-        {!! view_render_event('bagisto.shop.layout.body.after') !!}
+    @stack('scripts')
 
-        @stack('scripts')
+    <script type="text/javascript">
+        {!! core()->getConfigData('general.content.custom_scripts.custom_javascript') !!}
+    </script>
+</body>
 
-        <script type="text/javascript">
-            {!! core()->getConfigData('general.content.custom_scripts.custom_javascript') !!}
-        </script>
-    </body>
 </html>

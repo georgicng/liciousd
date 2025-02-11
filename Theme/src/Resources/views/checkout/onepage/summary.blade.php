@@ -1,6 +1,6 @@
 <!-- Header -->
 <h1 class="text-2xl font-medium max-sm:text-xl">
-    @lang('shop::app.checkout.onepage.summary.cart-summary')
+    @lang('licious::app.checkout.onepage.summary.cart-summary')
 </h1>
 
 <!-- Cart Items -->
@@ -31,7 +31,7 @@
             {!! view_render_event('bagisto.shop.checkout.onepage.summary.item_name.after') !!}
 
             <p class="mt-2.5 text-lg font-medium max-sm:text-sm max-sm:font-normal">
-                @lang('shop::app.checkout.onepage.summary.price_&_qty', ['price' => '@{{ item.formatted_price }}', 'qty' => '@{{ item.quantity }}'])
+                @lang('licious::app.checkout.onepage.summary.price_&_qty', ['price' => '@{{ item.formatted_price }}', 'qty' => '@{{ item.quantity }}'])
             </p>
         </div>
     </div>
@@ -44,7 +44,7 @@
 
     <div class="flex text-right justify-between">
         <p class="text-base max-sm:text-sm max-sm:font-normal">
-            @lang('shop::app.checkout.onepage.summary.sub-total')
+            @lang('licious::app.checkout.onepage.summary.sub-total')
         </p>
 
         <p class="text-base font-medium max-sm:text-sm">
@@ -64,7 +64,7 @@
         v-if="parseFloat(cart.base_tax_total)"
     >
         <p class="text-base max-sm:text-sm max-sm:font-normal">
-            @lang('shop::app.checkout.onepage.summary.tax') (@{{ index }})%
+            @lang('licious::app.checkout.onepage.summary.tax') (@{{ index }})%
         </p>
 
         <p class="text-base font-medium max-sm:text-sm">
@@ -82,7 +82,7 @@
         v-if="cart.selected_shipping_rate"
     >
         <p class="text-base">
-            @lang('shop::app.checkout.onepage.summary.delivery-charges')
+            @lang('licious::app.checkout.onepage.summary.delivery-charges')
         </p>
 
         <p class="text-base font-medium">
@@ -100,7 +100,7 @@
         v-if="cart.base_discount_amount && parseFloat(cart.base_discount_amount) > 0"
     >
         <p class="text-base">
-            @lang('shop::app.checkout.onepage.summary.discount-amount')
+            @lang('licious::app.checkout.onepage.summary.discount-amount')
         </p>
 
         <p class="text-base font-medium">
@@ -122,7 +122,7 @@
 
     <div class="flex text-right justify-between">
         <p class="text-lg font-semibold">
-            @lang('shop::app.checkout.onepage.summary.grand-total')
+            @lang('licious::app.checkout.onepage.summary.grand-total')
         </p>
 
         <p class="text-lg font-semibold">

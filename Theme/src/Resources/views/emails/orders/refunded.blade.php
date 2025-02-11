@@ -1,15 +1,15 @@
 @component('shop::emails.layout')
     <div style="margin-bottom: 34px;">
         <span style="font-size: 22px;font-weight: 600;color: #121A26">
-            @lang('shop::app.emails.orders.refunded.title')
+            @lang('licious::app.emails.orders.refunded.title')
         </span> <br>
 
         <p style="font-size: 16px;color: #5E5E5E;line-height: 24px;">
-            @lang('shop::app.emails.dear', ['customer_name' => $refund->order->customer_full_name]),👋
+            @lang('licious::app.emails.dear', ['customer_name' => $refund->order->customer_full_name]),👋
         </p>
 
         <p style="font-size: 16px;color: #5E5E5E;line-height: 24px;">
-            @lang('shop::app.emails.orders.refunded.greeting', [
+            @lang('licious::app.emails.orders.refunded.greeting', [
                 'invoice_id' => $refund->increment_id,
                 'order_id'   => '<a href="' . route('shop.customers.account.orders.view', $refund->order_id) . '" style="color: #2969FF;">#' . $refund->order->increment_id . '</a>',
                 'created_at' => core()->formatDate($refund->order->created_at, 'Y-m-d H:i:s')
@@ -18,34 +18,34 @@
     </div>
 
     <div style="font-size: 20px;font-weight: 600;color: #121A26">
-        @lang('shop::app.emails.orders.refunded.summary')
+        @lang('licious::app.emails.orders.refunded.summary')
     </div>
 
     <div style="display: flex;flex-direction: row;margin-top: 20px;justify-content: space-between;margin-bottom: 40px;">
         @if ($refund->order->shipping_address)
             <div style="line-height: 25px;">
                 <div style="font-size: 16px;font-weight: 600;color: #121A26;">
-                    @lang('shop::app.emails.orders.shipping-address')
+                    @lang('licious::app.emails.orders.shipping-address')
                 </div>
 
                 <div style="font-size: 16px;font-weight: 400;color: #384860;margin-bottom: 40px;">
                     {{ $refund->order->shipping_address->company_name ?? '' }}<br/>
 
                     {{ $refund->order->shipping_address->name }}<br/>
-                    
+
                     {{ $refund->order->shipping_address->address }}<br/>
-                    
+
                     {{ $refund->order->shipping_address->postcode . " " . $refund->order->shipping_address->city }}<br/>
-                    
+
                     {{ $refund->order->shipping_address->state }}<br/>
 
                     ---<br/>
 
-                    @lang('shop::app.emails.orders.contact') : {{ $refund->order->billing_address->phone }}
+                    @lang('licious::app.emails.orders.contact') : {{ $refund->order->billing_address->phone }}
                 </div>
 
                 <div style="font-size: 16px;font-weight: 600;color: #121A26;">
-                    @lang('shop::app.emails.orders.shipping')
+                    @lang('licious::app.emails.orders.shipping')
                 </div>
 
                 <div style="font-size: 16px;font-weight: 400;color: #384860;">
@@ -57,27 +57,27 @@
         @if ($refund->order->billing_address)
             <div style="line-height: 25px;">
                 <div style="font-size: 16px;font-weight: 600;color: #121A26;">
-                    @lang('shop::app.emails.orders.billing-address')
+                    @lang('licious::app.emails.orders.billing-address')
                 </div>
 
                 <div style="font-size: 16px;font-weight: 400;color: #384860;margin-bottom: 40px;">
                     {{ $refund->order->billing_address->company_name ?? '' }}<br/>
 
                     {{ $refund->order->billing_address->name }}<br/>
-                    
+
                     {{ $refund->order->billing_address->address }}<br/>
-                    
+
                     {{ $refund->order->billing_address->postcode . " " . $refund->order->billing_address->city }}<br/>
-                    
+
                     {{ $refund->order->billing_address->state }}<br/>
 
                     ---<br/>
 
-                    @lang('shop::app.emails.orders.contact') : {{ $refund->order->billing_address->phone }}
+                    @lang('licious::app.emails.orders.contact') : {{ $refund->order->billing_address->phone }}
                 </div>
 
                 <div style="font-size: 16px;font-weight: 600;color: #121A26;">
-                    @lang('shop::app.emails.orders.payment')
+                    @lang('licious::app.emails.orders.payment')
                 </div>
 
                 <div style="font-size: 16px;font-weight: 400;color: #384860;">
@@ -103,8 +103,8 @@
                 <tr style="color: #121A26;border-top: 1px solid #CBD5E1;border-bottom: 1px solid #CBD5E1;">
                     @foreach (['name', 'price', 'qty'] as $item)
                         <th style="text-align: left;padding: 15px">
-                            @lang('shop::app.emails.orders.' . $item)
-                        </th>    
+                            @lang('licious::app.emails.orders.' . $item)
+                        </th>
                     @endforeach
                 </tr>
             </thead>
@@ -139,7 +139,7 @@
     <div style="display: grid;justify-content: end;font-size: 16px;color: #384860;line-height: 30px;padding-top: 20px;padding-bottom: 20px;">
         <div style="display: grid;gap: 100px;grid-template-columns: repeat(2, minmax(0, 1fr));">
             <span>
-                @lang('shop::app.emails.orders.subtotal')
+                @lang('licious::app.emails.orders.subtotal')
             </span>
 
             <span style="text-align: right;">
@@ -150,7 +150,7 @@
         @if ($refund->order->shipping_address)
             <div style="display: grid;gap: 100px;grid-template-columns: repeat(2, minmax(0, 1fr));">
                 <span>
-                    @lang('shop::app.emails.orders.shipping-handling')
+                    @lang('licious::app.emails.orders.shipping-handling')
                 </span>
 
                 <span style="text-align: right;">
@@ -162,7 +162,7 @@
         @foreach (Webkul\Tax\Helpers\Tax::getTaxRatesWithAmount($refund->order, false) as $taxRate => $taxAmount )
             <div style="display: grid;gap: 100px;grid-template-columns: repeat(2, minmax(0, 1fr));">
                 <span>
-                    @lang('shop::app.emails.orders.tax') {{ $taxRate }} %
+                    @lang('licious::app.emails.orders.tax') {{ $taxRate }} %
                 </span>
 
                 <span style="text-align: right;">
@@ -174,7 +174,7 @@
         @if ($refund->discount_amount > 0)
             <div style="display: grid;gap: 100px;grid-template-columns: repeat(2, minmax(0, 1fr));">
                 <span>
-                    @lang('shop::app.emails.orders.discount')
+                    @lang('licious::app.emails.orders.discount')
                 </span>
 
                 <span style="text-align: right;">
@@ -185,7 +185,7 @@
 
         <div style="display: grid;gap: 100px;grid-template-columns: repeat(2, minmax(0, 1fr));font-weight: bold">
             <span>
-                @lang('shop::app.emails.orders.grand-total')
+                @lang('licious::app.emails.orders.grand-total')
             </span>
 
             <span style="text-align: right;">

@@ -6,7 +6,6 @@
 <v-tab-item
     title="{{ $title }}"
     is-selected="{{ $isSelected }}"
-    {{ $attributes->merge(['class' => 'p-5 max-1180:px-5']) }}
 >
     <template v-slot>
         {{ $slot }}
@@ -18,11 +17,10 @@
         type="text/x-template"
         id="v-tab-item-template"
     >
-        <div
-            v-if="isActive"
-            class="animate-[on-fade_0.5s_ease-in-out]"
-        >
-            <slot></slot>
+        <div v-if="isActive" class="tab-delivery-pane" :id="title">
+            <div class="cr-tab-content">
+                <slot></slot>
+            </div>
         </div>
     </script>
 

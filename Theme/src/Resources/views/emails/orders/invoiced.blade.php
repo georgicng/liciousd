@@ -1,15 +1,15 @@
 @component('shop::emails.layout')
     <div style="margin-bottom: 34px;">
         <span style="font-size: 22px;font-weight: 600;color: #121A26">
-            @lang('shop::app.emails.orders.invoiced.title')
+            @lang('licious::app.emails.orders.invoiced.title')
         </span> <br>
 
         <p style="font-size: 16px;color: #5E5E5E;line-height: 24px;">
-            @lang('shop::app.emails.dear', ['customer_name' => $invoice->order->customer_full_name]),👋
+            @lang('licious::app.emails.dear', ['customer_name' => $invoice->order->customer_full_name]),👋
         </p>
 
         <p style="font-size: 16px;color: #5E5E5E;line-height: 24px;">
-            @lang('shop::app.emails.orders.invoiced.greeting', [
+            @lang('licious::app.emails.orders.invoiced.greeting', [
                 'invoice_id' => $invoice->increment_id,
                 'order_id'   => '<a href="' . route('shop.customers.account.orders.view', $invoice->order_id) . '" style="color: #2969FF;">#' . $invoice->order->increment_id . '</a>',
                 'created_at' => core()->formatDate($invoice->order->created_at, 'Y-m-d H:i:s')
@@ -18,34 +18,34 @@
     </div>
 
     <div style="font-size: 20px;font-weight: 600;color: #121A26">
-        @lang('shop::app.emails.orders.invoiced.summary')
+        @lang('licious::app.emails.orders.invoiced.summary')
     </div>
 
     <div style="display: flex;flex-direction: row;margin-top: 20px;justify-content: space-between;margin-bottom: 40px;">
         @if ($invoice->order->shipping_address)
             <div style="line-height: 25px;">
                 <div style="font-size: 16px;font-weight: 600;color: #121A26;">
-                    @lang('shop::app.emails.orders.shipping-address')
+                    @lang('licious::app.emails.orders.shipping-address')
                 </div>
 
                 <div style="font-size: 16px;font-weight: 400;color: #384860;margin-bottom: 40px;">
                     {{ $invoice->order->shipping_address->company_name ?? '' }}<br/>
 
                     {{ $invoice->order->shipping_address->name }}<br/>
-                    
+
                     {{ $invoice->order->shipping_address->address }}<br/>
-                    
+
                     {{ $invoice->order->shipping_address->postcode . " " . $invoice->order->shipping_address->city }}<br/>
-                    
+
                     {{ $invoice->order->shipping_address->state }}<br/>
 
                     ---<br/>
 
-                    @lang('shop::app.emails.orders.contact') : {{ $invoice->order->billing_address->phone }}
+                    @lang('licious::app.emails.orders.contact') : {{ $invoice->order->billing_address->phone }}
                 </div>
 
                 <div style="font-size: 16px;font-weight: 600;color: #121A26;">
-                    @lang('shop::app.emails.orders.shipping')
+                    @lang('licious::app.emails.orders.shipping')
                 </div>
 
                 <div style="font-size: 16px;font-weight: 400;color: #384860;">
@@ -57,27 +57,27 @@
         @if ($invoice->order->billing_address)
             <div style="line-height: 25px;">
                 <div style="font-size: 16px;font-weight: 600;color: #121A26;">
-                    @lang('shop::app.emails.orders.billing-address')
+                    @lang('licious::app.emails.orders.billing-address')
                 </div>
 
                 <div style="font-size: 16px;font-weight: 400;color: #384860;margin-bottom: 40px;">
                     {{ $invoice->order->billing_address->company_name ?? '' }}<br/>
 
                     {{ $invoice->order->billing_address->name }}<br/>
-                    
+
                     {{ $invoice->order->billing_address->address }}<br/>
-                    
+
                     {{ $invoice->order->billing_address->postcode . " " . $invoice->order->billing_address->city }}<br/>
-                    
+
                     {{ $invoice->order->billing_address->state }}<br/>
 
                     ---<br/>
 
-                    @lang('shop::app.emails.orders.contact') : {{ $invoice->order->billing_address->phone }}
+                    @lang('licious::app.emails.orders.contact') : {{ $invoice->order->billing_address->phone }}
                 </div>
 
                 <div style="font-size: 16px;font-weight: 600;color: #121A26;">
-                    @lang('shop::app.emails.orders.payment')
+                    @lang('licious::app.emails.orders.payment')
                 </div>
 
                 <div style="font-size: 16px;font-weight: 400;color: #384860;">
@@ -103,8 +103,8 @@
                 <tr style="color: #121A26;border-top: 1px solid #CBD5E1;border-bottom: 1px solid #CBD5E1;">
                     @foreach (['sku', 'name', 'price', 'qty'] as $item)
                         <th style="text-align: left;padding: 15px">
-                            @lang('shop::app.emails.orders.' .$item)
-                        </th>    
+                            @lang('licious::app.emails.orders.' .$item)
+                        </th>
                     @endforeach
                 </tr>
             </thead>
@@ -141,7 +141,7 @@
     <div style="display: grid;justify-content: end;font-size: 16px;color: #384860;line-height: 30px;padding-top: 20px;padding-bottom: 20px;">
         <div style="display: grid;gap: 100px;grid-template-columns: repeat(2, minmax(0, 1fr));">
             <span>
-                @lang('shop::app.emails.orders.subtotal')
+                @lang('licious::app.emails.orders.subtotal')
             </span>
 
             <span style="text-align: right;">
@@ -152,7 +152,7 @@
         @if ($invoice->order->shipping_address)
             <div style="display: grid;gap: 100px;grid-template-columns: repeat(2, minmax(0, 1fr));">
                 <span>
-                    @lang('shop::app.emails.orders.shipping-handling')
+                    @lang('licious::app.emails.orders.shipping-handling')
                 </span>
 
                 <span style="text-align: right;">
@@ -164,7 +164,7 @@
         @foreach (Webkul\Tax\Helpers\Tax::getTaxRatesWithAmount($invoice->order, false) as $taxRate => $taxAmount )
             <div style="display: grid;gap: 100px;grid-template-columns: repeat(2, minmax(0, 1fr));">
                 <span>
-                    @lang('shop::app.emails.orders.tax') {{ $taxRate }} %
+                    @lang('licious::app.emails.orders.tax') {{ $taxRate }} %
                 </span>
 
                 <span style="text-align: right;">
@@ -176,7 +176,7 @@
         @if ($invoice->discount_amount > 0)
             <div style="display: grid;gap: 100px;grid-template-columns: repeat(2, minmax(0, 1fr));">
                 <span>
-                    @lang('shop::app.emails.orders.discount')
+                    @lang('licious::app.emails.orders.discount')
                 </span>
 
                 <span style="text-align: right;">
@@ -187,7 +187,7 @@
 
         <div style="display: grid;gap: 100px;grid-template-columns: repeat(2, minmax(0, 1fr));font-weight: bold">
             <span>
-                @lang('shop::app.emails.orders.grand-total')
+                @lang('licious::app.emails.orders.grand-total')
             </span>
 
             <span style="text-align: right;">

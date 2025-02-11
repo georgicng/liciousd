@@ -12,7 +12,7 @@
         </div>
 
         <div class="z-10 bg-white rounded-lg">
-            <x-shop::shimmer.range-slider />
+            <x-licious::shimmer.range-slider />
         </div>
     </div>
 
@@ -26,7 +26,7 @@
         <div class="grid pb-3 z-10 bg-white rounded-lg">
             <div class="flex items-center gap-x-4 ltr:pl-2 rtl:pr-2">
                 <div class="shimmer w-5 h-5 rounded"></div>
-                
+
                 <div class="p-2 ltr:pl-0 rtl:pr-0">
                     <div class="shimmer w-[100px] h-5"></div>
                 </div>
@@ -76,7 +76,7 @@
         <div class="grid pb-3 z-10 bg-white rounded-lg">
             <div class="flex items-center gap-x-4 ltr:pl-2 rtl:pr-2 ">
                 <div class="shimmer w-5 h-5 rounded"></div>
-                
+
                 <div class="p-2 ltr:pl-0 rtl:pr-0">
                     <div class="shimmer w-[100px] h-5"></div>
                 </div>

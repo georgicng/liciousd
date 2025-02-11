@@ -8,7 +8,7 @@
         @filter-clear="clearFilters('filter', $event)"
     >
         <!-- Category Filter Shimmer Effect -->
-        <x-shop::shimmer.categories.filters />
+        <x-licious::shimmer.categories.filters />
     </v-filters>
 </div>
 
@@ -18,7 +18,7 @@
     v-if="isMobile"
 >
     <!-- Filter Drawer -->
-    <x-shop::drawer
+    <x-licious::drawer
         position="left"
         width="100%"
         ::is-active="isDrawerActive.filter"
@@ -31,7 +31,7 @@
             >
                 <span class="icon-filter-1 text-2xl"></span>
 
-                @lang('shop::app.categories.filters.filter')
+                @lang('licious::app.categories.filters.filter')
             </div>
         </x-slot>
 
@@ -39,14 +39,14 @@
         <x-slot:header>
             <div class="flex justify-between items-center pb-5 border-b border-[#E9E9E9]">
                 <p class="text-lg font-semibold">
-                    @lang('shop::app.categories.filters.filters')
+                    @lang('licious::app.categories.filters.filters')
                 </p>
 
                 <p
                     class="ltr:mr-[50px] rtl:ml-[50px] text-xs font-medium cursor-pointer"
                     @click="clearFilters('filter', '')"
                 >
-                    @lang('shop::app.categories.filters.clear-all')
+                    @lang('licious::app.categories.filters.clear-all')
                 </p>
             </div>
         </x-slot>
@@ -59,16 +59,16 @@
                 @filter-clear="clearFilters('filter', $event)"
             >
                 <!-- Category Filter Shimmer Effect -->
-                <x-shop::shimmer.categories.filters />
+                <x-licious::shimmer.categories.filters />
             </v-filters>
         </x-slot>
-    </x-shop::drawer>
+    </x-licious::drawer>
 
     <!-- Seperator -->
     <span class="h-5 w-0.5 bg-[#E9E9E9]"></span>
 
     <!-- Sort Drawer -->
-    <x-shop::drawer
+    <x-licious::drawer
         position="bottom"
         width="100%"
         ::is-active="isDrawerActive.toolbar"
@@ -81,7 +81,7 @@
             >
                 <span class="icon-sort-1 text-2xl"></span>
 
-                @lang('shop::app.categories.filters.sort')
+                @lang('licious::app.categories.filters.sort')
             </div>
         </x-slot>
 
@@ -89,7 +89,7 @@
         <x-slot:header>
             <div class="flex justify-between items-center pb-5 border-b border-[#E9E9E9]">
                 <p class="text-lg font-semibold">
-                    @lang('shop::app.categories.filters.sort')
+                    @lang('licious::app.categories.filters.sort')
                 </p>
             </div>
         </x-slot>
@@ -98,7 +98,7 @@
         <x-slot:content>
             @include('shop::categories.toolbar')
         </x-slot>
-    </x-shop::drawer>
+    </x-licious::drawer>
 </div>
 
 {!!view_render_event('bagisto.shop.categories.view.filters.after') !!}
@@ -108,7 +108,7 @@
     <script type="text/x-template" id="v-filters-template">
         <!-- Filter Shimmer Effect -->
         <template v-if="isLoading">
-            <x-shop::shimmer.categories.filters />
+            <x-licious::shimmer.categories.filters />
         </template>
 
         <!-- Filters Container -->
@@ -117,7 +117,7 @@
                 <!-- Filters Header Container -->
                 <div class="flex justify-between items-center h-[50px] pb-2.5 border-b border-[#E9E9E9] max-md:hidden">
                     <p class="text-lg font-semibold">
-                        @lang('shop::app.categories.filters.filters')
+                        @lang('licious::app.categories.filters.filters')
                     </p>
 
                     <p
@@ -125,7 +125,7 @@
                         tabindex="0"
                         @click="clear()"
                     >
-                        @lang('shop::app.categories.filters.clear-all')
+                        @lang('licious::app.categories.filters.clear-all')
                     </p>
                 </div>
 
@@ -145,7 +145,7 @@
     <!-- Filter Item Vue template -->
     <script type="text/x-template" id="v-filter-item-template">
         <template v-if="filter.type === 'price' || filter.options.length">
-            <x-shop::accordion class="last:border-b-0">
+            <x-licious::accordion class="last:border-b-0">
                 <!-- Filter Item Header -->
                 <x-slot:header class="px-0 py-2.5">
                     <div class="flex justify-between items-center">
@@ -211,7 +211,7 @@
                         </li>
                     </ul>
                 </x-slot>
-            </x-shop::accordion>
+            </x-licious::accordion>
         </template>
     </script>
 
@@ -220,11 +220,11 @@
 
             <!-- Price range filter shimmer -->
             <template v-if="isLoading">
-                <x-shop::shimmer.range-slider />
+                <x-licious::shimmer.range-slider />
             </template>
 
             <template v-else>
-                <x-shop::range-slider
+                <x-licious::range-slider
                     ::key="refreshKey"
                     default-type="price"
                     ::default-allowed-max-range="allowedMaxPrice"
@@ -261,7 +261,7 @@
             methods: {
                 getFilters() {
                     this.$axios.get('{{ route("shop.api.categories.attributes") }}', {
-                            params: { 
+                            params: {
                                 category_id: "{{ isset($category) ? $category->id : ''  }}",
                             }
                         })

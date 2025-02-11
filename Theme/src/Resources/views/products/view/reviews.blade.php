@@ -2,7 +2,7 @@
 
 <v-product-reviews :product-id="{{ $product->id }}">
     <div class="container max-1180:px-5">
-        <x-shop::shimmer.products.reviews />
+        <x-licious::shimmer.products.reviews />
     </div>
 </v-product-reviews>
 
@@ -16,11 +16,11 @@
     >
         <div class="container max-1180:px-5">
             <!-- Create Review Form Container -->
-            <div 
-                class="w-full" 
+            <div
+                class="w-full"
                 v-if="canReview"
             >
-                <x-shop::form
+                <x-licious::form
                     v-slot="{ meta, errors, handleSubmit }"
                     as="div"
                 >
@@ -31,8 +31,8 @@
                         enctype="multipart/form-data"
                     >
                         <div class="max-w-[286px]">
-                            <x-shop::form.control-group>
-                                <x-shop::form.control-group.control
+                            <x-licious::form.control-group>
+                                <x-licious::form.control-group.control
                                     type="image"
                                     class="!p-0 !mb-0"
                                     name="attachments"
@@ -41,20 +41,20 @@
                                     ref="reviewImages"
                                 />
 
-                                <x-shop::form.control-group.error
+                                <x-licious::form.control-group.error
                                     class="mt-4"
                                     control-name="attachments"
                                 />
-                            </x-shop::form.control-group>
+                            </x-licious::form.control-group>
                         </div>
-                        
-                        <div>
-                            <x-shop::form.control-group>
-                                <x-shop::form.control-group.label class="mt-0 required">
-                                    @lang('shop::app.products.view.reviews.rating')
-                                </x-shop::form.control-group.label>
 
-                                <x-shop::products.star-rating
+                        <div>
+                            <x-licious::form.control-group>
+                                <x-licious::form.control-group.label class="mt-0 required">
+                                    @lang('licious::app.products.view.reviews.rating')
+                                </x-licious::form.control-group.label>
+
+                                <x-licious::products.star-rating
                                     name="rating"
                                     rules="required"
                                     :value="old('rating') ?? 5"
@@ -62,19 +62,19 @@
                                     :disabled="false"
                                 />
 
-                                <x-shop::form.control-group.error control-name="rating" />
-                            </x-shop::form.control-group>
+                                <x-licious::form.control-group.error control-name="rating" />
+                            </x-licious::form.control-group>
 
                             @if (
                                 core()->getConfigData('catalog.products.review.guest_review')
                                 && ! auth()->guard('customer')->user()
                             )
-                                <x-shop::form.control-group>
-                                    <x-shop::form.control-group.label class="required">
-                                        @lang('shop::app.products.view.reviews.name')
-                                    </x-shop::form.control-group.label>
+                                <x-licious::form.control-group>
+                                    <x-licious::form.control-group.label class="required">
+                                        @lang('licious::app.products.view.reviews.name')
+                                    </x-licious::form.control-group.label>
 
-                                    <x-shop::form.control-group.control
+                                    <x-licious::form.control-group.control
                                         type="text"
                                         name="name"
                                         rules="required"
@@ -83,16 +83,16 @@
                                         :placeholder="trans('shop::app.products.view.reviews.name')"
                                     />
 
-                                    <x-shop::form.control-group.error control-name="name" />
-                                </x-shop::form.control-group>
+                                    <x-licious::form.control-group.error control-name="name" />
+                                </x-licious::form.control-group>
                             @endif
 
-                            <x-shop::form.control-group>
-                                <x-shop::form.control-group.label class="required">
-                                    @lang('shop::app.products.view.reviews.title')
-                                </x-shop::form.control-group.label>
+                            <x-licious::form.control-group>
+                                <x-licious::form.control-group.label class="required">
+                                    @lang('licious::app.products.view.reviews.title')
+                                </x-licious::form.control-group.label>
 
-                                <x-shop::form.control-group.control
+                                <x-licious::form.control-group.control
                                     type="text"
                                     name="title"
                                     rules="required"
@@ -101,15 +101,15 @@
                                     :placeholder="trans('shop::app.products.view.reviews.title')"
                                 />
 
-                                <x-shop::form.control-group.error control-name="title" />
-                            </x-shop::form.control-group>
+                                <x-licious::form.control-group.error control-name="title" />
+                            </x-licious::form.control-group>
 
-                            <x-shop::form.control-group>
-                                <x-shop::form.control-group.label class="required">
-                                    @lang('shop::app.products.view.reviews.comment')
-                                </x-shop::form.control-group.label>
+                            <x-licious::form.control-group>
+                                <x-licious::form.control-group.label class="required">
+                                    @lang('licious::app.products.view.reviews.comment')
+                                </x-licious::form.control-group.label>
 
-                                <x-shop::form.control-group.control
+                                <x-licious::form.control-group.control
                                     type="textarea"
                                     name="comment"
                                     rules="required"
@@ -119,8 +119,8 @@
                                     rows="12"
                                 />
 
-                                <x-shop::form.control-group.error control-name="comment" />
-                            </x-shop::form.control-group>
+                                <x-licious::form.control-group.error control-name="comment" />
+                            </x-licious::form.control-group>
 
 
                             <div class="flex gap-4 justify-start max-sm:flex-wrap mt-4 max-sm:justify-center max-sm:mb-5 max-xl:mb-5">
@@ -128,36 +128,36 @@
                                     class="primary-button w-full max-w-[374px] py-4 px-11 rounded-2xl text-center"
                                     type='submit'
                                 >
-                                    @lang('shop::app.products.view.reviews.submit-review')
+                                    @lang('licious::app.products.view.reviews.submit-review')
                                 </button>
-                                
+
                                 <button
                                     type="button"
                                     class="secondary-button items-center px-8 py-2.5 rounded-2xl max-sm:w-full max-sm:max-w-[374px]"
                                     @click="canReview = false"
                                 >
-                                    @lang('shop::app.products.view.reviews.cancel')
+                                    @lang('licious::app.products.view.reviews.cancel')
                                 </button>
                             </div>
                         </div>
                     </form>
-                </x-shop::form>
+                </x-licious::form>
             </div>
 
             <!-- Product Reviews Container -->
             <div v-else>
                 <!-- Review Container Shimmer Effect -->
                 <template v-if="isLoading">
-                    <x-shop::shimmer.products.reviews />
+                    <x-licious::shimmer.products.reviews />
                 </template>
 
                 <template v-else>
                     <!-- Review Section Header -->
                     <div class="flex gap-4 items-center justify-between  max-sm:flex-wrap">
                         <h3 class="font-dmserif text-3xl max-sm:text-xl">
-                            @lang('shop::app.products.view.reviews.customer-review')
+                            @lang('licious::app.products.view.reviews.customer-review')
                         </h3>
-                        
+
                         @if (
                             core()->getConfigData('catalog.products.review.guest_review')
                             || auth()->guard('customer')->user()
@@ -168,7 +168,7 @@
                             >
                                 <span class="icon-pen text-2xl"></span>
 
-                                @lang('shop::app.products.view.reviews.write-a-review')
+                                @lang('licious::app.products.view.reviews.write-a-review')
                             </div>
                         @endif
                     </div>
@@ -178,10 +178,10 @@
                         <div class="flex gap-4 justify-between items-center max-w-[365px] mt-8 max-sm:flex-wrap">
                             <p class="text-3xl font-medium max-sm:text-base">{{ number_format($avgRatings, 1) }}</p>
 
-                            <x-shop::products.star-rating :value="$avgRatings" />
+                            <x-licious::products.star-rating :value="$avgRatings" />
 
                             <p class="text-xs text-[#858585]">
-                                (@{{ meta.total }} @lang('shop::app.products.view.reviews.customer-review'))
+                                (@{{ meta.total }} @lang('licious::app.products.view.reviews.customer-review'))
                             </p>
                         </div>
 
@@ -213,7 +213,7 @@
                             v-if="links?.next"
                             @click="get()"
                         >
-                            @lang('shop::app.products.view.reviews.load-more')
+                            @lang('licious::app.products.view.reviews.load-more')
                         </button>
                     </template>
 
@@ -223,7 +223,7 @@
                             <img class="" src="{{ bagisto_asset('images/review.png') }}" alt="" title="">
 
                             <p class="text-xl">
-                                @lang('shop::app.products.view.reviews.empty-review')
+                                @lang('licious::app.products.view.reviews.empty-review')
                             </p>
                         </div>
                     </template>
@@ -266,8 +266,8 @@
                     </p>
 
                     <div class="flex items-center">
-                        <x-shop::products.star-rating 
-                            ::name="review.name" 
+                        <x-licious::products.star-rating
+                            ::name="review.name"
                             ::value="review.rating"
                         />
                     </div>
@@ -302,13 +302,13 @@
                             src="{{ bagisto_asset('images/spinner.svg') }}"
                         />
 
-                        @lang('shop::app.products.view.reviews.translating')
+                        @lang('licious::app.products.view.reviews.translating')
                     </template>
 
                     <template v-else>
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" role="presentation"> <g clip-path="url(#clip0_3148_2242)"> <path fill-rule="evenodd" clip-rule="evenodd" d="M12.1484 9.31989L9.31995 12.1483L19.9265 22.7549L22.755 19.9265L12.1484 9.31989ZM12.1484 10.7341L10.7342 12.1483L13.5626 14.9767L14.9768 13.5625L12.1484 10.7341Z" fill="#060C3B"/> <path d="M11.0877 3.30949L13.5625 4.44748L16.0374 3.30949L14.8994 5.78436L16.0374 8.25924L13.5625 7.12124L11.0877 8.25924L12.2257 5.78436L11.0877 3.30949Z" fill="#060C3B"/> <path d="M2.39219 2.39217L5.78438 3.95197L9.17656 2.39217L7.61677 5.78436L9.17656 9.17655L5.78438 7.61676L2.39219 9.17655L3.95198 5.78436L2.39219 2.39217Z" fill="#060C3B"/> <path d="M3.30947 11.0877L5.78434 12.2257L8.25922 11.0877L7.12122 13.5626L8.25922 16.0374L5.78434 14.8994L3.30947 16.0374L4.44746 13.5626L3.30947 11.0877Z" fill="#060C3B"/> </g> <defs> <clipPath id="clip0_3148_2242"> <rect width="24" height="24" fill="white"/> </clipPath> </defs> </svg>
-                        
-                        @lang('shop::app.products.view.reviews.translate')
+
+                        @lang('licious::app.products.view.reviews.translate')
                     </template>
                 </button>
 
@@ -399,7 +399,7 @@
                     let selectedFiles = this.$refs.reviewImages.uploadedFiles.filter(obj => obj.file instanceof File).map(obj => obj.file);
 
                     params.attachments = { ...params.attachments, ...selectedFiles };
-                    
+
                     this.$axios.post('{{ route('shop.api.products.reviews.store', $product->id) }}', params, {
                             headers: {
                                 'Content-Type': 'multipart/form-data'
@@ -428,7 +428,7 @@
                 },
             },
         });
-        
+
         app.component('v-product-review-item', {
             template: '#v-product-review-item-template',
 

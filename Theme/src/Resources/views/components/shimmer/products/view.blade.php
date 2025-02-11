@@ -8,8 +8,8 @@
             <div class="shimmer min-w-[450px] min-h-[487px] max-sm:h-[533px] max-sm:min-w-[490px]"></div>
             <div class="shimmer min-w-[450px] min-h-[487px] max-sm:h-[533px] max-sm:min-w-[490px]"></div>
         </div>
-    
-        <x-shop::shimmer.products.gallery />
+
+        <x-licious::shimmer.products.gallery />
 
         <div class="max-w-[590px] relative max-1180:w-full max-1180:max-w-full max-1180:px-5">
             <div class="flex justify-between gap-4">
@@ -73,7 +73,7 @@
 
                 <div class="flex gap-6 items-center max-sm:flex-wrap">
                     <div class="shimmer w-20 h-6"></div>
-                    
+
                     <div class="flex gap-3">
                         <span class="shimmer w-10 h-10 rounded-full"></span>
                         <span class="shimmer w-10 h-10 rounded-full"></span>

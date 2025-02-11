@@ -1,17 +1,17 @@
-<x-shop::layouts.account>
+<x-licious::layouts.account>
     <!-- Page Title -->
     <x-slot:title>
-        @lang('shop::app.customers.account.addresses.add-address')
+        @lang('licious::app.customers.account.addresses.add-address')
     </x-slot>
-    
+
     <!-- Breadcrumbs -->
     @section('breadcrumbs')
-        <x-shop::breadcrumbs name="addresses" />
+        <x-licious::breadcrumbs name="addresses" />
     @endSection
     <div class="flex justify-between items-center">
         <div class="">
             <h2 class="text-2xl font-medium">
-                @lang('shop::app.customers.account.addresses.title')
+                @lang('licious::app.customers.account.addresses.title')
             </h2>
         </div>
 
@@ -21,7 +21,7 @@
         >
             <span class="icon-location text-2xl"></span>
 
-            @lang('shop::app.customers.account.addresses.add-address') 
+            @lang('licious::app.customers.account.addresses.add-address')
         </a>
     </div>
 
@@ -46,26 +46,26 @@
 
                             @if ($address->default_address)
                                 <div class="label-pending block w-max px-1.5 py-1">
-                                    @lang('shop::app.customers.account.addresses.default-address') 
+                                    @lang('licious::app.customers.account.addresses.default-address')
                                 </div>
                             @endif
 
                             <!-- Dropdown Actions -->
-                            <x-shop::dropdown position="bottom-{{ core()->getCurrentLocale()->direction === 'ltr' ? 'right' : 'left' }}">
+                            <x-licious::dropdown position="bottom-{{ core()->getCurrentLocale()->direction === 'ltr' ? 'right' : 'left' }}">
                                 <x-slot:toggle>
                                     <button class="icon-more px-1.5 py-1 rounded-md text-2xl text-[#6E6E6E] cursor-pointer transition-all hover:bg-gray-100 hover:text-black focus:bg-gray-100 focus:text-black"></button>
                                 </x-slot>
 
                                 <x-slot:menu>
-                                    <x-shop::dropdown.menu.item>
+                                    <x-licious::dropdown.menu.item>
                                         <a href="{{ route('shop.customers.account.addresses.edit', $address->id) }}">
                                             <p class="w-full">
-                                                @lang('shop::app.customers.account.addresses.edit')
+                                                @lang('licious::app.customers.account.addresses.edit')
                                             </p>
-                                        </a>    
-                                    </x-shop::dropdown.menu.item>
+                                        </a>
+                                    </x-licious::dropdown.menu.item>
 
-                                    <x-shop::dropdown.menu.item>
+                                    <x-licious::dropdown.menu.item>
                                         <form
                                             method="POST"
                                             ref="addressDelete"
@@ -75,8 +75,8 @@
                                             @csrf
                                         </form>
 
-                                        <a 
-                                            href="javascript:void(0);"                                                
+                                        <a
+                                            href="javascript:void(0);"
                                             @click="$emitter.emit('open-confirm-modal', {
                                                 agree: () => {
                                                     $refs['addressDelete'].submit()
@@ -84,13 +84,13 @@
                                             })"
                                         >
                                             <p class="w-full">
-                                                @lang('shop::app.customers.account.addresses.delete')
+                                                @lang('licious::app.customers.account.addresses.delete')
                                             </p>
                                         </a>
-                                    </x-shop::dropdown.menu.item>
+                                    </x-licious::dropdown.menu.item>
 
                                     @if (! $address->default_address)
-                                        <x-shop::dropdown.menu.item>
+                                        <x-licious::dropdown.menu.item>
                                             <form
                                                 method="POST"
                                                 ref="setAsDefault"
@@ -101,8 +101,8 @@
 
                                             </form>
 
-                                            <a 
-                                                href="javascript:void(0);"                                                
+                                            <a
+                                                href="javascript:void(0);"
                                                 @click="$emitter.emit('open-confirm-modal', {
                                                     agree: () => {
                                                         $refs['setAsDefault'].submit()
@@ -110,24 +110,24 @@
                                                 })"
                                             >
                                                 <button>
-                                                    @lang('shop::app.customers.account.addresses.set-as-default')
+                                                    @lang('licious::app.customers.account.addresses.set-as-default')
                                                 </button>
                                             </a>
-                                        </x-shop::dropdown.menu.item>
+                                        </x-licious::dropdown.menu.item>
                                     @endif
                                 </x-slot>
-                            </x-shop::dropdown>
+                            </x-licious::dropdown>
                         </div>
                     </div>
 
                     <p class="text-[#6E6E6E] mt-6">
                         {{ $address->address }},
 
-                        {{ $address->city }}, 
-                        {{ $address->state }}, {{ $address->country }}, 
+                        {{ $address->city }},
+                        {{ $address->state }}, {{ $address->country }},
                         {{ $address->postcode }}
                     </p>
-                </div>    
+                </div>
             @endforeach
         </div>
 
@@ -136,16 +136,16 @@
     @else
         <!-- Address Empty Page -->
         <div class="grid items-center justify-items-center place-content-center w-full m-auto h-[476px] text-center">
-            <img 
-                class="" 
-                src="{{ bagisto_asset('images/no-address.png') }}" 
-                alt="" 
+            <img
+                class=""
+                src="{{ bagisto_asset('images/no-address.png') }}"
+                alt=""
                 title=""
             >
-            
+
             <p class="text-xl">
-                @lang('shop::app.customers.account.addresses.empty-address')
+                @lang('licious::app.customers.account.addresses.empty-address')
             </p>
-        </div>    
+        </div>
     @endif
-</x-shop::layouts.account>
+</x-licious::layouts.account>

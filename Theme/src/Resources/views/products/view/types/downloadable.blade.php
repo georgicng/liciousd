@@ -4,14 +4,14 @@
     @if ($product->downloadable_samples->count())
         <div class="sample-list mb-6 mt-8">
             <label class="flex mb-3 font-medium">
-                @lang('shop::app.products.view.type.downloadable.samples')
+                @lang('licious::app.products.view.type.downloadable.samples')
             </label>
 
             <ul>
                 @foreach ($product->downloadable_samples as $sample)
                     <li class="mb-2">
-                        <a 
-                            href="{{ route('shop.downloadable.download_sample', ['type' => 'sample', 'id' => $sample->id]) }}" 
+                        <a
+                            href="{{ route('shop.downloadable.download_sample', ['type' => 'sample', 'id' => $sample->id]) }}"
                             class="text-[#0A49A7]"
                             target="_blank"
                         >
@@ -25,7 +25,7 @@
 
     @if ($product->downloadable_links->count())
         <label class="flex mt-8 mb-4 font-medium">
-            @lang('shop::app.products.view.type.downloadable.links')
+            @lang('licious::app.products.view.type.downloadable.links')
         </label>
 
         <div class="grid gap-4">
@@ -42,12 +42,12 @@
                             label="@lang('shop::app.products.view.type.downloadable.links')"
                         >
                         </v-field>
-                        
+
                         <label
                             class="icon-uncheck text-2xl text-navyBlue peer-checked:icon-check-box peer-checked:text-navyBlue cursor-pointer"
                             for="{{ $link->id }}"
                         ></label>
-                        
+
                         <label
                             for="{{ $link->id }}"
                             class="ltr:ml-1 rtl:mr-1 cursor-pointer"
@@ -60,12 +60,12 @@
                         $link->sample_file
                         || $link->sample_url
                     )
-                        <a 
+                        <a
                             href="{{ route('shop.downloadable.download_sample', ['type' => 'link', 'id' => $link->id]) }}"
                             target="_blank"
                             class="text-[#0A49A7]"
                         >
-                            @lang('shop::app.products.view.type.downloadable.sample')
+                            @lang('licious::app.products.view.type.downloadable.sample')
                         </a>
                     @endif
                 </div>
