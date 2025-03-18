@@ -17,7 +17,7 @@
                     </a>
 
                     <!-- Mini cart -->
-                    <x-licious::drawer.cart type="mobile" />
+                    <x-licious::drawer.cart :type="'mobile'" />
                 </div>
 
 

@@ -1,4 +1,4 @@
-@props(['product', 'customAttributeValues'])
+@props(['product', 'customAttributeValues', 'avgRatings'])
 
 <v-product {{ $attributes}}>
     <x-licious::shimmer.products.view />
@@ -8,11 +8,11 @@
 @pushOnce('scripts')
     <script type="text/x-template" id="v-product-template">
         <div class="flex flex-wrap w-full mb-[-24px]" data-aos="fade-up" data-aos-duration="2000" data-aos-delay="600">
-            <div class="min-[1400px]:w-[33.33%] min-[1200px]:w-[41.66%] min-[768px]:w-[50%] w-full px-[12px] mb-[24px]">
+            <div class="min-[1400px]:w-[40%] min-[1200px]:w-[41.66%] min-[768px]:w-[50%] w-full px-[12px] mb-[24px]">
                 <!-- Gallery Blade Inclusion -->
-                <x-licious::products.gallery :product="$product" />
+                <x-licious::products.slider :product="$product" />
             </div>
-            <div class="min-[1400px]:w-[66.66%] min-[1200px]:w-[58.33%] min-[768px]:w-[50%] w-full px-[12px] mb-[24px]">
+            <div class="min-[1400px]:w-[60%] min-[1200px]:w-[58.33%] min-[768px]:w-[50%] w-full px-[12px] mb-[24px]">
                 <div class="cr-size-and-weight-contain border-b-[1px] border-solid border-[#e9e9e9] pb-[20px] max-[767px]:mt-[24px]">
                     {!! view_render_event('bagisto.shop.products.name.before', ['product' => $product]) !!}
                         <h2 class="heading mb-[15px] block text-[#2b2b2d] text-[22px] leading-[1.5] font-medium max-[1399px]:text-[26px] max-[991px]:text-[20px]">{{ $product->name }}</h2>
@@ -109,27 +109,36 @@
                                 v-model="is_buy_now"
                             >
 
-                            <input
+                            <!--input
                                 type="hidden"
                                 name="quantity"
                                 :value="qty"
-                            >
+                        -->
 
-                            @if (Webkul\Product\Helpers\ProductType::hasVariants($product->type))
-                                <x-licious::products.types.configurable :product="$product" />
-                            @endif
+                            {!! view_render_event('bagisto.shop.products.view.type.before', ['product' => $product]) !!}
 
-                            @if ($product->type == 'grouped')
-                                <x-licious::products.types.grouped :product="$product" />
-                            @endif
+                                @if (Webkul\Product\Helpers\ProductType::hasVariants($product->type))
+                                    <x-licious::products.types.configurable :product="$product" />
+                                @endif
 
-                            @if ($product->type == 'bundle')
-                                <x-licious::products.types.bundle :product="$product" />
-                            @endif
+                                @if ($product->type == 'grouped')
+                                    <x-licious::products.types.grouped :product="$product" />
+                                @endif
 
-                            @if ($product->type == 'downloadable')
-                                <x-licious::products.types.downloadable :product="$product" />
-                            @endif
+                                @if ($product->type == 'bundle')
+                                    <x-licious::products.types.bundle :product="$product" />
+                                @endif
+
+                                @if ($product->type == 'downloadable')
+                                    <x-licious::products.types.downloadable :product="$product" />
+                                @endif
+
+                                @if ($product->type == 'optionable')
+                                    <x-licious::products.types.optionable :product="$product" />
+                                @endif
+
+
+                            {!! view_render_event('bagisto.shop.products.view.type.after', ['product' => $product]) !!}
 
                             <!-- Product Actions and Qunatity Box -->
                             <div class="cr-add-card flex pt-[20px]">
@@ -138,7 +147,7 @@
 
                                 @if ($product->getTypeInstance()->showQuantityBox())
                                     <x-licious::quantity-changer
-                                        type="product"
+                                        :type="'product'"
                                         name="quantity"
                                         value="1"
                                         class="gap-x-4 py-4 px-7 rounded-xl"
@@ -171,10 +180,9 @@
                                             role="button"
                                             aria-label="@lang('shop::app.products.view.add-to-wishlist')"
                                             tabindex="0"
-                                            :class="isWishlist ? 'icon-heart-fill' : 'icon-heart'"
                                             @click="addToWishlist"
                                         >
-                                            <i class="ri-heart-line transition-all duration-[0.3s] ease-in-out h-[40px] w-[40px] mr-[10px] flex items-center justify-center text-[22px] bg-[#fff] border-[1px] border-solid border-[#e9e9e9] rounded-[5px] hover:bg-[#64b496] hover:text-[#fff]"></i>
+                                            <i :class="isWishlist ? 'ri-heart-fill' : 'ri-heart-line'" class="transition-all duration-[0.3s] ease-in-out h-[40px] w-[40px] mr-[10px] flex items-center justify-center text-[22px] bg-[#fff] border-[1px] border-solid border-[#e9e9e9] rounded-[5px] hover:bg-[#64b496] hover:text-[#fff]"></i>
                                         </a>
                                     @endif
 
@@ -256,6 +264,7 @@
                     this.isStoring[operation] = true;
 
                     let formData = new FormData(this.$refs.formData);
+                    console.log({ params, formData })
 
                     this.$axios.post('{{ route("shop.api.checkout.cart.store") }}', formData, {
                             headers: {

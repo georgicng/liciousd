@@ -4,11 +4,7 @@
     'type' => 'product',
 ])
 
-<v-quantity-changer
-    {{ $attributes->merge(['class' => 'flex border border-navyBlue items-center']) }}
-    name="{{ $name }}"
-    value="{{ $value }}"
->
+<v-quantity-changer  name="{{ $name }}" value="{{ $value }}">
 </v-quantity-changer>
 
 @pushOnce('scripts')
@@ -18,7 +14,7 @@
     >
         @if ($type === 'product')
             <div class="cr-qty-main h-full flex relative">
-                <input type="text" placeholder="." v-model="quantity" minlength="1" maxlength="20" class="quantity h-[40px] w-[40px] mr-[5px] text-center border-[1px] border-solid border-[#e9e9e9] rounded-[5px]">
+                <input type="text" :name="name" placeholder="." v-model="quantity" minlength="1" maxlength="20" class="quantity h-[40px] w-[40px] mr-[5px] text-center border-[1px] border-solid border-[#e9e9e9] rounded-[5px]">
                 <button type="button" class="plus w-[18px] h-[18px] p-[0] bg-[#fff] border-[1px] border-solid border-[#e9e9e9] rounded-[5px] leading-[0]" @click="increase">+</button>
                 <button type="button" class="minus w-[18px] h-[18px] p-[0] bg-[#fff] border-[1px] border-solid border-[#e9e9e9] rounded-[5px] leading-[0] absolute bottom-[0] right-[0]" @click="decrease">-</button>
             </div>

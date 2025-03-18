@@ -2,7 +2,15 @@
  * We are defining all the global rules here and configuring
  * all the `vee-validate` settings.
  */
-import { configure, defineRule, Field, Form, ErrorMessage } from "vee-validate";
+import {
+  configure,
+  defineRule,
+  Field,
+  Form,
+  FieldArray,
+  ErrorMessage,
+} from "vee-validate";
+import Multiselect from "vue-multiselect";
 import { localize, setLocale } from "@vee-validate/i18n";
 import ar from "@vee-validate/i18n/dist/locale/ar.json";
 import bn from "@vee-validate/i18n/dist/locale/bn.json";
@@ -24,264 +32,318 @@ import tr from "@vee-validate/i18n/dist/locale/tr.json";
 import uk from "@vee-validate/i18n/dist/locale/uk.json";
 import zh_CN from "@vee-validate/i18n/dist/locale/zh_CN.json";
 import * as AllRules from "@vee-validate/rules";
+import "vue-multiselect/dist/vue-multiselect.css";
+import { computed } from "vue";
 
 window.defineRule = defineRule;
 
 export default {
-    install: (app) => {
-        /**
-         * Global components registration;
-         */
-        app.component("VForm", Form);
-        app.component("VField", Field);
-        app.component("VErrorMessage", ErrorMessage);
+  install: (app) => {
+    /**
+     * Global components registration;
+     */
+    app.component("VForm", Form);
+    app.component("VField", Field);
+    app.component("VFieldArray", FieldArray);
+    app.component("multiselect", Multiselect);
+    app.component("Tags", {
+      template: `
+              <div class="cr-size-weight flex items-center pt-[20px] max-[380px]:flex-col max-[380px]:justify-start max-[380px]:items-start">
+                <h5 class="mb-[0] font-Poppins text-[16px] leading-[1.556] text-[#2b2b2d] font-medium max-[1199px]:min-w-[100px] max-[1199px]:text-[14px]">{{ label }} :</h5>
+                <div class="cr-kg pl-[10px] max-[380px]:pl-[0] max-[380px]:pt-[10px]">
+                    <ul class="w-full p-[0] m-[0] flex flex-wrap">
+                        <li
+                            v-for="option in options"
+                            :key="option.id"
+                            class="transition-all duration-[0.3s] ease-in-out m-[2px] py-[5px] px-[10px] font-Poppins text-[12px] leading-[1] bg-[#fff] text-[#777] border-[1px] border-solid border-[#e9e9e9] rounded-[5px] cursor-pointer max-[1199px]:mr-[5px]"
+                            :class="isActive(option)? 'active-color' : ''"
+                            :role="multiple? 'checkbox': 'radio'"
+                            @click="select(option)"
+                            v-text="option.name"></li>
 
-        window.addEventListener("load", () => setLocale(document.documentElement.attributes.lang.value));
+                    </ul>
+                </div>
+                <v-field v-if="!multiple" type="hidden" :name="name" :value="modelValue"></v-field>
+                <template v-else>
+                    <input v-for="item in modelValue" :name="name" type="hidden" :key="item" :value="item">
+                </template>
+            </div>
+        `,
+      props: {
+        options: { type: Array, required: true },
+        modelValue: { type: [String, Number, Array], required: true },
+        label: { type: String, default: "" },
+        name: { type: String, default: "" },
+        multiple: { type: Boolean, default: false },
+        placeholder: { type: String },
+      },
+      methods: {
+        select(option) {
+          if (!this.multiple) {
+            this.$emit("update:modelValue", option.id);
+            return;
+          }
+          this.$emit(
+            "update:modelValue", this.modelValue.includes(option.id)
+            ? this.modelValue.filter((i) => i !== option.id)
+            : [...this.modelValue, option.id]
+          );
+        },
+        isActive(option) {
+          if (!this.multiple) {
+            return this.modelValue == option.id;
+          }
+          return this.modelValue.includes(option.id);
+        },
+      },
+    });
+    app.component("VErrorMessage", ErrorMessage);
 
-        /**
-         * Registration of all global validators.
-         */
-        Object.keys(AllRules).forEach((rule) => {
-            defineRule(rule, AllRules[rule]);
-        });
+    window.addEventListener("load", () =>
+      setLocale(document.documentElement.attributes.lang.value)
+    );
 
-        /**
-         * This regular expression allows phone numbers with the following conditions:
-         * - The phone number can start with an optional "+" sign.
-         * - After the "+" sign, there should be one or more digits.
-         *
-         * This validation is sufficient for global-level phone number validation. If
-         * someone wants to customize it, they can override this rule.
-         */
-        defineRule("phone", (value) => {
-            if (!value || !value.length) {
-                return true;
-            }
+    /**
+     * Registration of all global validators.
+     */
+    Object.keys(AllRules).forEach((rule) => {
+      defineRule(rule, AllRules[rule]);
+    });
 
-            if (!/^\+?\d+$/.test(value)) {
-                return false;
-            }
+    /**
+     * This regular expression allows phone numbers with the following conditions:
+     * - The phone number can start with an optional "+" sign.
+     * - After the "+" sign, there should be one or more digits.
+     *
+     * This validation is sufficient for global-level phone number validation. If
+     * someone wants to customize it, they can override this rule.
+     */
+    defineRule("phone", (value) => {
+      if (!value || !value.length) {
+        return true;
+      }
 
-            return true;
-        });
+      if (!/^\+?\d+$/.test(value)) {
+        return false;
+      }
 
-        defineRule("address", (value) => {
-            if (!value || !value.length) {
-                return true;
-            }
+      return true;
+    });
 
-            if (
-                !/^[a-zA-Z0-9\s.\/*'\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\u0590-\u05FF\u3040-\u309F\u30A0-\u30FF\u0400-\u04FF\u0D80-\u0DFF\u3400-\u4DBF\u2000-\u2A6D\u00C0-\u017F\u0980-\u09FF\u0900-\u097F\u4E00-\u9FFF,\(\)-]{1,60}$/iu.test(
-                    value
-                )
-            ) {
-                return false;
-            }
+    defineRule("address", (value) => {
+      if (!value || !value.length) {
+        return true;
+      }
 
-            return true;
-        });
+      if (
+        !/^[a-zA-Z0-9\s.\/*'\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\u0590-\u05FF\u3040-\u309F\u30A0-\u30FF\u0400-\u04FF\u0D80-\u0DFF\u3400-\u4DBF\u2000-\u2A6D\u00C0-\u017F\u0980-\u09FF\u0900-\u097F\u4E00-\u9FFF,\(\)-]{1,60}$/iu.test(
+          value
+        )
+      ) {
+        return false;
+      }
 
-        defineRule(
-            "decimal",
-            (value, { decimals = "*", separator = "." } = {}) => {
-                if (value === null || value === undefined || value === "") {
-                    return true;
-                }
+      return true;
+    });
 
-                if (Number(decimals) === 0) {
-                    return /^-?\d*$/.test(value);
-                }
+    defineRule("decimal", (value, { decimals = "*", separator = "." } = {}) => {
+      if (value === null || value === undefined || value === "") {
+        return true;
+      }
 
-                const regexPart = decimals === "*" ? "+" : `{1,${decimals}}`;
-                const regex = new RegExp(
-                    `^[-+]?\\d*(\\${separator}\\d${regexPart})?([eE]{1}[-]?\\d+)?$`
-                );
+      if (Number(decimals) === 0) {
+        return /^-?\d*$/.test(value);
+      }
 
-                return regex.test(value);
-            }
-        );
+      const regexPart = decimals === "*" ? "+" : `{1,${decimals}}`;
+      const regex = new RegExp(
+        `^[-+]?\\d*(\\${separator}\\d${regexPart})?([eE]{1}[-]?\\d+)?$`
+      );
 
-        configure({
-            /**
-             * Built-in error messages and custom error messages are available. Multiple
-             * locales can be added in the same way.
-             */
-            generateMessage: localize({
-                en: {
-                    ...en,
-                    messages: {
-                        ...en.messages,
-                        phone: "This {field} must be a valid phone number",
-                        address: "This {field} must be a valid address",
-                    },
-                },
+      return regex.test(value);
+    });
 
-                ar: {
-                    ...ar,
-                    messages: {
-                        ...ar.messages,
-                        phone: "يجب أن يكون هذا {field} رقم هاتف صالح",
-                        address: "يجب أن يكون هذا {field} عنوانًا صالحًا",
-                    },
-                },
+    configure({
+      /**
+       * Built-in error messages and custom error messages are available. Multiple
+       * locales can be added in the same way.
+       */
+      generateMessage: localize({
+        en: {
+          ...en,
+          messages: {
+            ...en.messages,
+            phone: "This {field} must be a valid phone number",
+            address: "This {field} must be a valid address",
+          },
+        },
 
-                bn: {
-                    ...bn,
-                    messages: {
-                        ...bn.messages,
-                        phone: "এই {field} একটি বৈধ ফোন নম্বর হতে হবে",
-                        address: "এই {field} একটি বৈধ ঠিকানা হতে হবে",
-                    },
-                },
+        ar: {
+          ...ar,
+          messages: {
+            ...ar.messages,
+            phone: "يجب أن يكون هذا {field} رقم هاتف صالح",
+            address: "يجب أن يكون هذا {field} عنوانًا صالحًا",
+          },
+        },
 
-                de: {
-                    ...de,
-                    messages: {
-                        ...de.messages,
-                        phone: "Dieses {field} muss eine gültige Telefonnummer sein",
-                        address: "Diese {field} muss eine gültige Adresse sein",
-                    },
-                },
+        bn: {
+          ...bn,
+          messages: {
+            ...bn.messages,
+            phone: "এই {field} একটি বৈধ ফোন নম্বর হতে হবে",
+            address: "এই {field} একটি বৈধ ঠিকানা হতে হবে",
+          },
+        },
 
-                es: {
-                    ...es,
-                    messages: {
-                        ...es.messages,
-                        phone: "Este {field} debe ser un número de teléfono válido",
-                        address: "Esta {field} debe ser una dirección válida",
-                    },
-                },
+        de: {
+          ...de,
+          messages: {
+            ...de.messages,
+            phone: "Dieses {field} muss eine gültige Telefonnummer sein",
+            address: "Diese {field} muss eine gültige Adresse sein",
+          },
+        },
 
-                fa: {
-                    ...fa,
-                    messages: {
-                        ...fa.messages,
-                        phone: "این {field} باید یک شماره تلفن معتبر باشد",
-                        address: "این {field} باید یک آدرس معتبر باشد",
-                    },
-                },
+        es: {
+          ...es,
+          messages: {
+            ...es.messages,
+            phone: "Este {field} debe ser un número de teléfono válido",
+            address: "Esta {field} debe ser una dirección válida",
+          },
+        },
 
-                fr: {
-                    ...fr,
-                    messages: {
-                        ...fr.messages,
-                        phone: "Ce {field} doit être un numéro de téléphone valide",
-                        address: "Cette {field} doit être une adresse valide",
-                    },
-                },
+        fa: {
+          ...fa,
+          messages: {
+            ...fa.messages,
+            phone: "این {field} باید یک شماره تلفن معتبر باشد",
+            address: "این {field} باید یک آدرس معتبر باشد",
+          },
+        },
 
-                he: {
-                    ...he,
-                    messages: {
-                        ...he.messages,
-                        phone: "זה {field} חייב להיות מספר טלפון תקין",
-                        address: "זה {field} חייב להיות כתובת תקינה",
-                    },
-                },
+        fr: {
+          ...fr,
+          messages: {
+            ...fr.messages,
+            phone: "Ce {field} doit être un numéro de téléphone valide",
+            address: "Cette {field} doit être une adresse valide",
+          },
+        },
 
-                hi_IN: {
-                    ...hi_IN,
-                    messages: {
-                        ...hi_IN.messages,
-                        phone: "यह {field} कोई मान्य फ़ोन नंबर होना चाहिए",
-                        address: "यह {field} एक मान्य पता होना चाहिए",
-                    },
-                },
+        he: {
+          ...he,
+          messages: {
+            ...he.messages,
+            phone: "זה {field} חייב להיות מספר טלפון תקין",
+            address: "זה {field} חייב להיות כתובת תקינה",
+          },
+        },
 
-                it: {
-                    ...it,
-                    messages: {
-                        ...it.messages,
-                        phone: "Questo {field} deve essere un numero di telefono valido",
-                        address: "Questo {field} deve essere un indirizzo valido",
-                    },
-                },
+        hi_IN: {
+          ...hi_IN,
+          messages: {
+            ...hi_IN.messages,
+            phone: "यह {field} कोई मान्य फ़ोन नंबर होना चाहिए",
+            address: "यह {field} एक मान्य पता होना चाहिए",
+          },
+        },
 
-                ja: {
-                    ...ja,
-                    messages: {
-                        ...ja.messages,
-                        phone: "この{field}は有効な電話番号である必要があります",
-                        address: "この{field}は有効な住所である必要があります",
-                    },
-                },
+        it: {
+          ...it,
+          messages: {
+            ...it.messages,
+            phone: "Questo {field} deve essere un numero di telefono valido",
+            address: "Questo {field} deve essere un indirizzo valido",
+          },
+        },
 
-                nl: {
-                    ...nl,
-                    messages: {
-                        ...nl.messages,
-                        phone: "Dit {field} moet een geldig telefoonnummer zijn",
-                        address: "Dit {field} moet een geldig adres zijn",
-                    },
-                },
+        ja: {
+          ...ja,
+          messages: {
+            ...ja.messages,
+            phone: "この{field}は有効な電話番号である必要があります",
+            address: "この{field}は有効な住所である必要があります",
+          },
+        },
 
-                pl: {
-                    ...pl,
-                    messages: {
-                        ...pl.messages,
-                        phone: "To {field} musi być prawidłowy numer telefonu",
-                        address: "To {field} musi być prawidłowym adresem",
-                    },
-                },
+        nl: {
+          ...nl,
+          messages: {
+            ...nl.messages,
+            phone: "Dit {field} moet een geldig telefoonnummer zijn",
+            address: "Dit {field} moet een geldig adres zijn",
+          },
+        },
 
-                pt_BR: {
-                    ...pt_BR,
-                    messages: {
-                        ...pt_BR.messages,
-                        phone: "Este {field} deve ser um número de telefone válido",
-                        address: "Este {field} deve ser um endereço válido",
-                    },
-                },
+        pl: {
+          ...pl,
+          messages: {
+            ...pl.messages,
+            phone: "To {field} musi być prawidłowy numer telefonu",
+            address: "To {field} musi być prawidłowym adresem",
+          },
+        },
 
-                ru: {
-                    ...ru,
-                    messages: {
-                        ...ru.messages,
-                        phone: "Это {field} должно быть действительным номером телефона",
-                        address: "Это {field} должно быть действительным адресом",
-                    },
-                },
+        pt_BR: {
+          ...pt_BR,
+          messages: {
+            ...pt_BR.messages,
+            phone: "Este {field} deve ser um número de telefone válido",
+            address: "Este {field} deve ser um endereço válido",
+          },
+        },
 
-                sin: {
-                    ...sin,
-                    messages: {
-                        ...sin.messages,
-                        phone: "මෙම {field} වටේ වලංගු දුරකතන අංකය විය යුතුයි",
-                        address: "මෙම {field} වටේ වලංගු ලිපිනය විය යුතුයි",
-                    },
-                },
+        ru: {
+          ...ru,
+          messages: {
+            ...ru.messages,
+            phone: "Это {field} должно быть действительным номером телефона",
+            address: "Это {field} должно быть действительным адресом",
+          },
+        },
 
-                tr: {
-                    ...tr,
-                    messages: {
-                        ...tr.messages,
-                        phone: "Bu {field} geçerli bir telefon numarası olmalıdır",
-                        address: "Bu {field} geçerli bir adres olmalıdır",
-                    },
-                },
+        sin: {
+          ...sin,
+          messages: {
+            ...sin.messages,
+            phone: "මෙම {field} වටේ වලංගු දුරකතන අංකය විය යුතුයි",
+            address: "මෙම {field} වටේ වලංගු ලිපිනය විය යුතුයි",
+          },
+        },
 
-                uk: {
-                    ...uk,
-                    messages: {
-                        ...uk.messages,
-                        phone: "Це {field} повинно бути дійсним номером телефону",
-                        address: "Це {field} повинно бути дійсною адресою",
-                    },
-                },
+        tr: {
+          ...tr,
+          messages: {
+            ...tr.messages,
+            phone: "Bu {field} geçerli bir telefon numarası olmalıdır",
+            address: "Bu {field} geçerli bir adres olmalıdır",
+          },
+        },
 
-                zh_CN: {
-                    ...zh_CN,
-                    messages: {
-                        ...zh_CN.messages,
-                        phone: "这个 {field} 必须是一个有效的电话号码",
-                        address: "这个 {field} 必须是一个有效的地址",
-                    },
-                },
-            }),
+        uk: {
+          ...uk,
+          messages: {
+            ...uk.messages,
+            phone: "Це {field} повинно бути дійсним номером телефону",
+            address: "Це {field} повинно бути дійсною адресою",
+          },
+        },
 
-            validateOnBlur: true,
-            validateOnInput: true,
-            validateOnChange: true,
-        });
-    },
+        zh_CN: {
+          ...zh_CN,
+          messages: {
+            ...zh_CN.messages,
+            phone: "这个 {field} 必须是一个有效的电话号码",
+            address: "这个 {field} 必须是一个有效的地址",
+          },
+        },
+      }),
+
+      validateOnBlur: true,
+      validateOnInput: true,
+      validateOnChange: true,
+    });
+  },
 };

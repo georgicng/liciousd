@@ -1,4 +1,3 @@
-@if ($product->type == 'optionable')
 @inject('productOptionValueRepository','Gaiproject\Option\Repositories\ProductOptionValueRepository')
 @inject('optionRepository', 'Gaiproject\Option\Repositories\OptionRepository')
 
@@ -33,20 +32,25 @@ $optionList = $productOptionValueRepository->getConfigurableOptions();
             >
                 <Tags
                     :label="option.name"
+                    :name="'options[' + option.id + ']'"
                     :options="option.value.map(item => ({ id: item.id, name: option.nameById[item.id] }))"
                     :model-value="value"
                     @update:model-value="handleChange"
                 />
             </v-field>
-            <v-field-array v-if="'multiselect' == option.type" :name="'options[' + option.id + ']'" v-model="model[option.code]" :rules="option.rules" v-slot="{ fields, replace }">
+            <v-field-array 
+                v-if="'multiselect' == option.type" 
+                :name="'options[' + option.id + '][]'" 
+                :rules="option.rules"
+                v-slot="{ fields, replace }"
+            >
                 <Tags
                     :label="option.name"
+                    :name="'options[' + option.id + '][]'"
                     :multiple="true"
                     :options="option.value.map(item => ({ id: item.id, name: option.nameById[item.id] }))"
-                    :model-value="model[option.code]"
-                    @update:model-value="model[option.code] = $event"
+                    v-model="model[option.code]"
                 />
-                <input v-for="item in model[option.code]" :name="'options[' + option.id + '][]'" type="hidden" :key="item" :value="item" >
             </v-field-array>
 
             <v-field
@@ -70,7 +74,7 @@ $optionList = $productOptionValueRepository->getConfigurableOptions();
             />
 
             <v-error-message
-                :name="['options[' + option.id + ']']"
+                :name="'options[' + option.id + '][]'"
                 v-slot="{ message }"
             >
                 <p
@@ -309,5 +313,4 @@ $optionList = $productOptionValueRepository->getConfigurableOptions();
     });
 </script>
 @endpush
-@endif
 @endif

@@ -5,18 +5,18 @@
 @pushOnce('scripts')
 <script type="text/x-template" id="v-changeable-price-template">
     <template v-if="onSale">
-        <p class="font-medium text-[#6E6E6E] line-through">
+        <span class="new-price font-Poppins text-[24px] font-semibold leading-[1.167] text-[#64b496] max-[767px]:text-[22px] max-[575px]:text-[20px]">
             @{{ format(salePrice) }}
-        </p>
+        </span>
 
-        <p class="font-semibold">
+        <span class="old-price font-Poppins text-[16px] line-through leading-[1.75] text-[#7a7a7a]">
             @{{ format(regularPrice) }}
-        </p>
+        </span>
     </template>
     <template v-else>
-        <p class="font-semibold">
+        <span class="new-price font-Poppins text-[24px] font-semibold leading-[1.167] text-[#64b496] max-[767px]:text-[22px] max-[575px]:text-[20px]">
             @{{ format(regularPrice) }}
-        </p>
+        </span>
     </template>
 </script>
 

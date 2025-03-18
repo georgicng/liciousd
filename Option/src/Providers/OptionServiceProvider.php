@@ -45,9 +45,9 @@ class OptionServiceProvider extends ServiceProvider
         Event::listen('catalog.product.update.after', 'Gaiproject\Option\Listeners\Catalog@editProduct');
         Event::listen('catalog.product.delete.after', 'Gaiproject\Option\Listeners\Catalog@deleteProduct');
 
-        Event::listen('bagisto.shop.products.short_description.after', function($viewRenderEventManager) {
+       /*  Event::listen('bagisto.shop.products.type.after', function($viewRenderEventManager) {
             $viewRenderEventManager->addTemplate('shop::products.view.types.optionable');
-        });
+        }); */
 
     }
 

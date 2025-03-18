@@ -35,7 +35,7 @@
 
             <!-- Content -->
             <div
-                {{ $attributes }}
+                {{ $attributes->merge(['class' => 'fixed h-screen z-[25] top-[0] bg-[#fff] p-[0] m-[0] w-[350px] max-[575px]:w-[300px] max-[420px]:w-[250px] transition-all duration-[0.4s] ease overflow-x-auto']) }}
                 v-if="isOpen"
             >
                 <!-- Content Slot -->

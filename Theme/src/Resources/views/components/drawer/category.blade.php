@@ -1,4 +1,4 @@
-<x-licious::drawer isActive="false" id="cr_mobile_menu" class="cr-side-cart cr-mobile-menu transition-all duration-[0.5s] ease h-full p-[15px] fixed top-[0] bg-[#fff] z-[22] overflow-auto w-[400px] left-[-400px] max-[575px]:w-[300px] max-[575px]:left-[-300px] max-[420px]:w-[250px] max-[420px]:left-[-250px]">
+<x-licious::drawer isActive="false" id="cr_mobile_menu" class="cr-side-cart cr-mobile-menu">
     <x-slot:toggle>
         <a href="#" @click.prevent="open" class="navbar-toggler py-[7px] px-[14px] hidden text-[16px] leading-[1] max-[991px]:flex max-[991px]:p-[0] max-[991px]:border-[0]">
             <i class="ri-menu-3-line max-[991px]:text-[20px]"></i>
@@ -6,7 +6,7 @@
     </x-slot>
 
     <x-slot:overlay>
-        <div v-if="isOpen" class="cr-sidebar-overlay w-full h-screen hidden fixed top-[0] left-[0] bg-[#000000b3] z-[21]"></div>
+        <div v-if="isOpen" class="cr-sidebar-overlay w-full h-screen fixed z-[20] top-[0] left-[0] bg-[#000000b3]"></div>
     </x-slot>
 
     <div class="cr-menu-title w-full mb-[10px] pb-[10px] flex flex-wrap justify-between border-b-[2px] border-solid border-[#e9e9e9]">

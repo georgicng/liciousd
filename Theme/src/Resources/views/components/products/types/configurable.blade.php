@@ -1,5 +1,5 @@
-
 @props(['product' => null])
+
 {!! view_render_event('bagisto.shop.products.view.configurable-options.before', ['product' => $product]) !!}
 
 <v-product-configurable-options {{ $attributes }}></v-product-configurable-options>

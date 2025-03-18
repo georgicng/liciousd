@@ -55,7 +55,7 @@
                     {!! view_render_event('bagisto.shop.components.layouts.header.desktop.bottom.mini_cart.before') !!}
 
                     <!-- Mini cart -->
-                    <x-licious::drawer.cart type="desktop" />
+                    <x-licious::drawer.cart :type="'desktop'" />
 
                     {!! view_render_event('bagisto.shop.components.layouts.header.desktop.bottom.mini_cart.after') !!}
                 </div>

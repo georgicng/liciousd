@@ -19,8 +19,10 @@
     "@vitejs/plugin-vue": "^4.2.3",
     "aos": "^3.0.0-beta.6",
     "mitt": "^3.0.0",
+    "v-slick-carousel": "^0.6.3",
     "vee-validate": "^4.9.1",
     "vue-flatpickr": "^2.3.0",
+    "vue-image-zoomer": "^2.4.4",
     "vue-multiselect": "^3.0.0"
   }
 }

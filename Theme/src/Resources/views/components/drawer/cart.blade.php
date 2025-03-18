@@ -23,7 +23,7 @@
     >
         {!! view_render_event('bagisto.shop.checkout.mini-cart.drawer.before') !!}
 
-        <x-licious::drawer isActive="false" class="cr-cart-view h-full fixed top-[0] right-[-350px] z-[20] transition-all duration-[0.4s] ease text-[#000]">
+        <x-licious::drawer isActive="false" class="cr-cart-view right-[0]">
             <!-- Drawer Toggler -->
             <x-slot:toggle>
                 {!! view_render_event('bagisto.shop.checkout.mini-cart.drawer.toggle.before') !!}
@@ -58,20 +58,17 @@
             </x-slot>
 
             <x-slot:overlay>
-                <div v-if="isOpen" class="cr-cart-overlay w-full h-screen hidden fixed z-[10] top-[0] left-[0] bg-[#000000b3]"></div>
+                <div v-if="isOpen" class="cr-cart-overlay w-full h-screen fixed z-[20] top-[0] left-[0] bg-[#000000b3]"></div>
             </x-slot>
 
             <!-- Drawer Content -->
 
-            <div class="cr-cart-top">
+            <div class="cr-cart-top text-[#000]">
                 {!! view_render_event('bagisto.shop.checkout.mini-cart.drawer.header.before') !!}
                 <div class="cr-cart-title mb-[15px] py-[15px] flex flex-row justify-between items-center border-b-[1px] border-solid border-[#e9e9e9]">
                     <h6 class="m-[0] text-[17px] font-bold text-[#2b2b2d] leading-[1.2]">@lang('shop::app.checkout.cart.mini-cart.shopping-cart')</h6>
                     <button type="button" class="close-cart text-[#fb5555] text-[20px] font-extrabold bg-none border-[0]" @click="close">×</button>
                 </div>
-                <p class="text-base">
-                    @lang('licious::app.checkout.cart.mini-cart.offer-on-orders')
-                </p>
                 {!! view_render_event('bagisto.shop.checkout.mini-cart.drawer.header.after') !!}
 
                 {!! view_render_event('bagisto.shop.checkout.mini-cart.drawer.content.before') !!}
@@ -147,6 +144,7 @@
                                 <x-licious::quantity-changer
                                     class="gap-x-2.5 max-w-[150px] max-h-9 py-1.5 px-3.5 rounded-[54px]"
                                     name="quantity"
+                                    :type="'cart'"
                                     ::value="item?.quantity"
                                     @change="updateItem($event, item)"
                                 />

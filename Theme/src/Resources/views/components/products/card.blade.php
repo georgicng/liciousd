@@ -112,10 +112,7 @@
 
                     {!! view_render_event('bagisto.shop.components.products.card.price.before') !!}
 
-                    <p class="cr-price font-Poppins text-[16px] text-[#7a7a7a] leading-[1.75] max-[1199px]:text-[14px]" v-html="product.price_html">
-                        <span class="new-price font-Poppins text-[16px] leading-[1.75] max-[1199px]:text-[14px] font-bold text-[#64b496]">$145</span>
-                        <span class="old-price font-Poppins ml-[5px] leading-[1.75] text-[13px] line-through text-[#7a7a7a] max-[1199px]:text-[12px]">$150</span>
-                    </p>
+                    <p class="cr-price font-Poppins text-[16px] text-[#7a7a7a] leading-[1.75] max-[1199px]:text-[14px]" v-html="product.price_html"></p>
 
                     {!! view_render_event('bagisto.shop.components.products.card.price.before') !!}
                 </div>

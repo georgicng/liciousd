@@ -65,7 +65,7 @@
         <div class="flex flex-wrap justify-between relative items-center mx-auto min-[1600px]:max-w-[1500px] min-[1400px]:max-w-[1320px] min-[1200px]:max-w-[1140px] min-[992px]:max-w-[960px] min-[768px]:max-w-[720px] min-[576px]:max-w-[540px]">
 
             <!-- Product Information Vue Component -->
-            <x-licious::products.item ::product-id="{{ $product->id }}" :$product :$customAttributeValues>
+            <x-licious::products.item ::product-id="{{ $product->id }}" :$product :$customAttributeValues :$avgRatings>
                 <x-licious::shimmer.products.view />
             </x-licious::products.item>
 
@@ -78,9 +78,9 @@
 
                         <x-licious::tabs.item
                             :title="trans('shop::app.products.view.description')"
-                            :is-selected="true"
+                            :is-selected="false"
                         >
-                            <div class="container mt-[60px] max-1180:px-5">
+                            <div class="mt-[60px]">
                                 <p class="text-[#6E6E6E] text-lg max-1180:text-sm">
                                     {!! $product->description !!}
                                 </p>
@@ -135,9 +135,9 @@
                         <!-- Reviews Tab -->
                         <x-licious::tabs.item
                             :title="trans('shop::app.products.view.review')"
-                            :is-selected="false"
+                            :is-selected="true"
                         >
-                            <x-licious::products.reviews :product="$product" />
+                            <x-licious::products.review :$product :$avgRatings :$percentageRatings />
                         </x-licious::tabs.item>
                     </x-licious::tabs>
                 </div>
