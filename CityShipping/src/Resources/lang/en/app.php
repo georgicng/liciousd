@@ -27,6 +27,8 @@ return [
                         'name'      => 'Name',
                         'rate'      => 'Rate',
                         'status'        => 'Status',
+                        'state' => 'State',
+                        'country' => 'Country',
                         'inactive' => 'Disabled',
                         'active' => 'Enabled',
                         'draft' => 'Draft',

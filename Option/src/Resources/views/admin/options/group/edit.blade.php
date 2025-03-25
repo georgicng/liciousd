@@ -6,16 +6,16 @@
 $groups = $optionGroupRepository->getByFamily($attributeFamily)->groupBy('column');
 $customOptions = $optionRepository->all(['id', 'code', 'admin_name', 'type']);
 @endphp
-<div class="flex gap-[10px] mt-[14px]">
+<div class="flex gap-2.5 mt-3.5">
 
-    <div class="flex flex-col gap-[8px] flex-1 bg-white dark:bg-gray-900 rounded-[4px] box-shadow">
+    <div class="flex flex-col gap-2 flex-1 bg-white dark:bg-gray-900 rounded box-shadow">
         <v-family-options>
             <x-admin::shimmer.families.attributes-panel />
         </v-family-options>
     </div>
 
     {{-- Right Container --}}
-    <div class="flex flex-col gap-[8px] w-[360px] max-w-full">
+    <div class="flex flex-col gap-2 w-[360px] max-w-full">
     </div>
 
 
@@ -24,46 +24,46 @@ $customOptions = $optionRepository->all(['id', 'code', 'admin_name', 'type']);
 @pushOnce('scripts')
 <script type="text/x-template" id="v-family-options-template">
     <div class="">
-                <!-- Panel Header -->
-                <div class="flex gap-[10px] justify-between flex-wrap mb-[10px] p-[16px]">
-                    <!-- Panel Header -->
-                    <div class="flex flex-col gap-[8px]">
-                        <p class=" text-[16px] text-gray-800 dark:text-white font-semibold">
-                            @lang('admin::app.catalog.families.edit.groups')
-                        </p>
+        <!-- Panel Header -->
+        <div class="flex gap-2.5 justify-between flex-wrap mb-2.5 p-4">
+            <!-- Panel Header -->
+            <div class="flex flex-col gap-2">
+                <p class=" text-base text-gray-800 dark:text-white font-semibold">
+                    @lang('admin::app.catalog.families.edit.groups')
+                </p>
 
-                        <p class=" text-[12px] text-gray-500 dark:text-gray-300 font-medium">
-                            @lang('admin::app.catalog.families.edit.groups-info')
-                        </p>
-                    </div>
+                <p class=" text-xs text-gray-500 dark:text-gray-300 font-medium">
+                    @lang('admin::app.catalog.families.edit.groups-info')
+                </p>
+            </div>
 
-                    <!-- Panel Content -->
-                    <div class="flex gap-x-[4px] items-center">
-                        <!-- Delete Group Button -->
-                        <div
-                            class="transparent-button text-red-600"
-                            @click="deleteGroup"
-                        >
-                            @lang('admin::app.catalog.families.edit.delete-group-btn')
-                        </div>
-
-                        <!-- Add Group Button -->
-                        <div
-                            class="secondary-button"
-                            @click="$refs.addGroupModal.open()"
-                        >
-                            @lang('admin::app.catalog.families.edit.add-group-btn')
-                        </div>
-                    </div>
+            <!-- Panel Content -->
+            <div class="flex gap-x-1 items-center">
+                <!-- Delete Group Button -->
+                <div
+                    class="transparent-button text-red-600"
+                    @click="deleteGroup"
+                >
+                    @lang('admin::app.catalog.families.edit.delete-group-btn')
                 </div>
 
+                <!-- Add Group Button -->
+                <div
+                    class="secondary-button"
+                    @click="$refs.addGroupModal.open()"
+                >
+                    @lang('admin::app.catalog.families.edit.add-group-btn')
+                </div>
+            </div>
+        </div>
+
                 <!-- Panel Content -->
-                <div class="flex [&>*]:flex-1 gap-[20px] justify-between px-[16px]">
+                <div class="flex [&>*]:flex-1 gap-5 justify-between px-4">
                     <!-- Attributes Groups Container -->
                     <div v-for="(groups, column) in columnGroups">
                         <!-- Attributes Groups Header -->
-                        <div class="flex flex-col mb-[16px]">
-                            <p class="text-gray-600 dark:text-gray-300 font-semibold leading-[24px]">
+                        <div class="flex flex-col mb-4">
+                            <p class="text-gray-600 dark:text-gray-300 font-semibold leading-6">
                                 @{{
                                     column == 1
                                     ? "@lang('admin::app.catalog.families.edit.main-column')"
@@ -71,45 +71,46 @@ $customOptions = $optionRepository->all(['id', 'code', 'admin_name', 'type']);
                                 }}
                             </p>
 
-                            <p class="text-[12px] text-gray-800 dark:text-white font-medium ">
+                            <p class="text-xs text-gray-800 dark:text-white font-medium ">
                                 @lang('admin::app.catalog.families.edit.edit-group-info')
                             </p>
                         </div>
 
                         <!-- Draggable Attribute Groups -->
                         <draggable
-                            class="h-[calc(100vh-285px)] pb-[16px] overflow-auto ltr:border-r-[1px] rtl:border-l-[1px] border-gray-200"
+                            class="h-[calc(100vh-285px)] pb-4 overflow-auto ltr:border-r rtl:border-l border-gray-200"
                             ghost-class="draggable-ghost"
                             v-bind="{animation: 200}"
                             :list="groups"
                             item-key="id"
                             group="groups"
                         >
+
                             <template #item="{ element, index }">
                                 <div class="">
                                     <!-- Group Container -->
                                     <div class="flex items-center group">
                                         <!-- Toggle -->
                                         <i
-                                            class="icon-sort-down text-[20px] rounded-[6px] cursor-pointer transition-all hover:bg-gray-100 dark:hover:bg-gray-950 group-hover:text-gray-800"
+                                            class="icon-sort-down text-xl rounded-md cursor-pointer transition-all hover:bg-gray-100 dark:hover:bg-gray-950 group-hover:text-gray-800"
                                             @click="element.hide = ! element.hide"
                                         ></i>
 
                                         <!-- Group Name -->
                                         <div
-                                            class="group_node flex gap-[6px] max-w-max py-[6px] ltr:pr-[6px] rtl:pl-[6px] rounded-[4px] transition-all text-gray-600 dark:text-gray-300 group cursor-pointer"
+                                            class="group_node flex gap-1.5 max-w-max py-1.5 ltr:pr-1.5 rtl:pl-1.5 rounded-[4px] transition-all text-gray-600 dark:text-gray-300 group cursor-pointer"
                                             :class="{'bg-blue-600 text-white group-hover:[&>*]:text-white': selectedGroup.id == element.id}"
                                             @click="groupSelected(element)"
                                         >
-                                            <i class="icon-drag text-[20px] text-inherit pointer-events-none transition-all group-hover:text-gray-800"></i>
+                                            <i class="icon-drag text-zl text-inherit pointer-events-none transition-all group-hover:text-gray-800"></i>
 
                                             <i
-                                                class="text-[20px] text-inherit pointer-events-none transition-all group-hover:text-gray-800"
+                                                class="text-xl text-inherit pointer-events-none transition-all group-hover:text-gray-800"
                                                 :class="[element.is_user_defined ? 'icon-folder' : 'icon-folder-block']"
                                             ></i>
 
                                             <span
-                                                class="text-[14px] text-inherit font-regular pointer-events-none transition-all group-hover:text-gray-800"
+                                                class="text-sm text-inherit font-regular pointer-events-none transition-all group-hover:text-gray-800"
                                                 v-show="editableGroup.id != element.id"
                                             >
                                                 @{{ element.name }}
@@ -118,7 +119,7 @@ $customOptions = $optionRepository->all(['id', 'code', 'admin_name', 'type']);
                                             <input
                                                 type="text"
                                                 :name="'option_groups[' + element.id + '][name]'"
-                                                class="group_node text-[14px] !text-gray-600 dark:text-gray-300"
+                                                class="group_node text-sm !text-gray-600 dark:text-gray-300"
                                                 v-model="element.name"
                                                 v-show="editableGroup.id == element.id"
                                             />
@@ -139,7 +140,7 @@ $customOptions = $optionRepository->all(['id', 'code', 'admin_name', 'type']);
 
                                     <!-- Group Attributes -->
                                     <draggable
-                                        class="ltr:ml-[43px] rtl:mr-[43px]"
+                                        class="ltr:ml-11 rtl:mr-11"
                                         ghost-class="draggable-ghost"
                                         v-bind="{animation: 200}"
                                         :list="getGroupAttributes(element)"
@@ -150,30 +151,30 @@ $customOptions = $optionRepository->all(['id', 'code', 'admin_name', 'type']);
                                         v-show="! element.hide"
                                     >
                                         <template #item="{ element, index }">
-                                            <div class="flex gap-[6px] max-w-max py-[6px] ltr:pr-[6px] rtl:pl-[6px] rounded-[4px] text-gray-600 dark:text-gray-300 group cursor-pointer">
-                                                <i class="icon-drag text-[20px] transition-all group-hover:text-gray-700"></i>
+                                            <div class="flex gap-1.5 max-w-max py-1.5 ltr:pr-1.5 rtl:pl-1.5 rounded text-gray-600 dark:text-gray-300 group cursor-pointer">
+                                                <i class="icon-drag text-xl transition-all group-hover:text-gray-700"></i>
 
                                                 <i
-                                                    class="text-[20px] transition-all group-hover:text-gray-700"
+                                                    class="text-xl transition-all group-hover:text-gray-700"
                                                     :class="[parseInt(element.is_user_defined) ? 'icon-attribute' : 'icon-attribute-block']"
                                                 ></i>
 
 
-                                                <span class="text-[14px] font-regular transition-all group-hover:text-gray-800 max-xl:text-[12px]">
+                                                <span class="text-sm font-regular transition-all group-hover:text-gray-800 max-xl:text-[12px]">
                                                     @{{ element.admin_name }}
                                                 </span>
 
                                                 <input
                                                     type="hidden"
                                                     :name="'option_groups[' + element.group_id + '][custom_options][' + index + '][id]'"
-                                                    class="text-[14px] text-gray-600 dark:text-gray-300"
+                                                    class="text-sm text-gray-600 dark:text-gray-300"
                                                     v-model="element.id"
                                                 />
 
                                                 <input
                                                     type="hidden"
                                                     :name="'option_groups[' + element.group_id + '][custom_options][' + index + '][position]'"
-                                                    class="text-[14px] text-gray-600 dark:text-gray-300"
+                                                    class="text-sm text-gray-600 dark:text-gray-300"
                                                     :value="index + 1"
                                                 />
                                             </div>
@@ -188,11 +189,11 @@ $customOptions = $optionRepository->all(['id', 'code', 'admin_name', 'type']);
                     <div class="">
                         <!-- Unassigned Attributes Header -->
                         <div class="flex flex-col mb-[16px]">
-                            <p class="text-gray-600 dark:text-gray-300 font-semibold leading-[24px]">
+                            <p class="text-gray-600 dark:text-gray-300 font-semibold leading-6">
                                 @lang('admin::app.catalog.families.edit.unassigned-attributes')
                             </p>
 
-                            <p class="text-[12px] text-gray-800 dark:text-white font-medium ">
+                            <p class="text-xs text-gray-800 dark:text-white font-medium ">
                                 @lang('admin::app.catalog.families.edit.unassigned-attributes-info')
                             </p>
                         </div>
@@ -200,7 +201,7 @@ $customOptions = $optionRepository->all(['id', 'code', 'admin_name', 'type']);
                         <!-- Draggable Unassigned Attributes -->
                         <draggable
                             id="unassigned-attributes"
-                            class="h-[calc(100vh-285px)] pb-[16px] overflow-auto"
+                            class="h-[calc(100vh-285px)] pb-4 overflow-auto"
                             ghost-class="draggable-ghost"
                             v-bind="{animation: 200}"
                             :list="unassignedAttributes"
@@ -208,12 +209,12 @@ $customOptions = $optionRepository->all(['id', 'code', 'admin_name', 'type']);
                             group="attributes"
                         >
                             <template #item="{ element }">
-                                <div class="flex gap-[6px] max-w-max py-[6px] ltr:pr-[6px] rtl:pl-[6px] rounded-[4px] text-gray-600 dark:text-gray-300 group cursor-pointer">
-                                    <i class="icon-drag text-[20px] transition-all group-hover:text-gray-700"></i>
+                                <div class="flex gap-1.5 max-w-max py-1.5 ltr:pr-1.5 rtl:pl-1.5 rounded text-gray-600 dark:text-gray-300 group cursor-pointer">
+                                    <i class="icon-drag text-xl transition-all group-hover:text-gray-700"></i>
 
-                                    <i class="icon-attribute text-[20px] transition-all group-hover:text-gray-700"></i>
+                                    <i class="icon-attribute text-xl transition-all group-hover:text-gray-700"></i>
 
-                                    <span class="text-[14px] font-regular transition-all group-hover:text-gray-800 max-xl:text-[12px]">
+                                    <span class="text-sm font-regular transition-all group-hover:text-gray-800 max-xl:text-xs">
                                         @{{ element.admin_name }}
                                     </span>
                                 </div>
@@ -229,15 +230,30 @@ $customOptions = $optionRepository->all(['id', 'code', 'admin_name', 'type']);
                     <form @submit="handleSubmit($event, addGroup)">
                         <x-admin::modal ref="addGroupModal">
                             <x-slot:header>
-                                <p class="text-[18px] text-gray-800 dark:text-white font-bold">
+                                <p class="text-lg text-gray-800 dark:text-white font-bold">
                                     @lang('admin::app.catalog.families.edit.add-group-title')
                                 </p>
                             </x-slot:header>
 
                             <x-slot:content>
-                                <div class="px-[16px] py-[10px] border-b-[1px] dark:border-gray-800  ">
-                                    <x-admin::form.control-group class="mb-[10px]">
-                                        <x-admin::form.control-group.label>
+                                <x-admin::form.control-group>
+                                    <x-admin::form.control-group.label class="required">
+                                        @lang('admin::app.catalog.families.edit.code')
+                                    </x-admin::form.control-group.label>
+
+                                    <x-admin::form.control-group.control
+                                        type="text"
+                                        name="code"
+                                        rules="required"
+                                        :label="trans('admin::app.catalog.families.edit.code')"
+                                        :placeholder="trans('option::app.catalog.families.edit.code')"
+                                    />
+
+                                <x-admin::form.control-group.error control-name="code" />
+                                </x-admin::form.control-group>
+
+                                    <x-admin::form.control-group>
+                                        <x-admin::form.control-group.label  class="required">
                                             @lang('admin::app.catalog.families.edit.name')
                                         </x-admin::form.control-group.label>
 
@@ -254,7 +270,7 @@ $customOptions = $optionRepository->all(['id', 'code', 'admin_name', 'type']);
                                     </x-admin::form.control-group>
 
                                     <x-admin::form.control-group class="mb-4">
-                                        <x-admin::form.control-group.label class="!text-gray-800 font-medium">
+                                        <x-admin::form.control-group.label class="required">
                                             @lang('admin::app.catalog.families.edit.column')
                                         </x-admin::form.control-group.label>
 
@@ -280,7 +296,6 @@ $customOptions = $optionRepository->all(['id', 'code', 'admin_name', 'type']);
 
                                         <x-admin::form.control-group.error control-name="column"></x-admin::form.control-group.error>
                                     </x-admin::form.control-group>
-                                </div>
                             </x-slot:content>
 
                             <x-slot:footer>

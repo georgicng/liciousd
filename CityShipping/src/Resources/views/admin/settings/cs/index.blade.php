@@ -1,3 +1,11 @@
+@php
+    $countryCode = request('country', config('app.default_country'));
+    $countries = core()->countries();
+    $setCountry = $countries->firstWhere('code', $countryCode);
+
+    $states = core()->states(request('country', config('app.default_country')));
+    $setState = request('state') ? $states->firstWhere('code', request('state')) : $states->first();
+@endphp
 <x-admin::layouts>
     <x-slot:title>
         @lang('cs::app.admin.settings.cs.index.title')
@@ -6,12 +14,12 @@
     {!! view_render_event('bagisto.admin.settings.cs.create.before') !!}
 
     <v-cities>
-        <div class="flex  gap-[16px] justify-between items-center max-sm:flex-wrap">
-            <p class="text-[20px] text-gray-800 dark:text-white font-bold">
+        <div class="flex gap-4 justify-between items-center max-sm:flex-wrap">
+            <p class="text-xl text-gray-800 dark:text-white font-bold">
                 @lang('cs::app.admin.settings.cs.index.title')
             </p>
 
-            <div class="flex gap-x-[10px] items-center">
+            <div class="flex gap-x-2.5 items-center">
                 <!-- Craete currency Button -->
                 @if (bouncer()->hasPermission('settings.cs.create'))
                     <button
@@ -35,12 +43,12 @@
             type="text/x-template"
             id="v-cities-template"
         >
-            <div class="flex gap-[16px] justify-between items-center max-sm:flex-wrap">
-                <p class="text-[20px] text-gray-800 dark:text-white font-bold">
+            <div class="flex gap-4 justify-between items-center max-sm:flex-wrap">
+                <p class="text-xl text-gray-800 dark:text-white font-bold">
                     @lang('cs::app.admin.settings.cs.index.title')
                 </p>
 
-                <div class="flex gap-x-[10px] items-center">
+                <div class="flex gap-x-2.5 items-center">
                     <!-- Craete currency Button -->
                     @if (bouncer()->hasPermission('settings.cs.create'))
                         <button
@@ -54,130 +62,38 @@
                 </div>
             </div>
 
-            <div class="flex  gap-[16px] items-center mt-[28px] max-md:flex-wrap">
-                <div class="flex gap-x-[4px] items-center">
-                    @php
-                        $countryCode = request('country', config('app.default_country'));
-                        $countries = core()->countries();
-                        $setCountry = $countries->firstWhere('code', $countryCode);
-                    @endphp
-                    {{-- Country Switcher --}}
-                    <x-admin::dropdown>
-                        {{-- Dropdown Toggler --}}
-                        <x-slot:toggle>
-                            <button
-                                type="button"
-                                class="transparent-button px-[4px] py-[6px] hover:bg-gray-200 dark:hover:bg-gray-800 focus:bg-gray-200 dark:focus:bg-gray-800 dark:text-white"
-                            >
-                                <span class="icon-language text-[24px] "></span>
-
-                                {{ $setCountry->name }}
-
-                                <input type="hidden" name="country" value="{{ $setCountry->code }}"/>
-
-                                <span class="icon-sort-down text-[24px]"></span>
-                            </button>
-                        </x-slot:toggle>
-
-                        {{-- Dropdown Content --}}
-                        <x-slot:content class="!p-[0px] overflow-auto h-[120px] relative">
-                            @foreach ($countries as $country)
-                                <a
-                                    href="?{{ Arr::query(['country' => $country->code]) }}"
-                                    class="flex gap-[10px] px-5 py-2 text-[16px] cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-950 dark:text-white"
-                                >
-                                    {{ $country->name }}
-                                </a>
-                            @endforeach
-                        </x-slot:content>
-                    </x-admin::dropdown>
-                </div>
-                <div class="flex gap-x-[4px] items-center">
-                    @php
-                        $states = core()->states($countryCode);
-                        $setState = request('state') ? $states->firstWhere('code', request('state')) : $states->first();
-                    @endphp
-                    {{-- State Switcher --}}
-                    <x-admin::dropdown>
-                        {{-- Dropdown Toggler --}}
-                        <x-slot:toggle>
-                            <button
-                                type="button"
-                                class="transparent-button px-[4px] py-[6px] hover:bg-gray-200 dark:hover:bg-gray-800 focus:bg-gray-200 dark:focus:bg-gray-800 dark:text-white"
-                            >
-                                <span class="icon-language text-[24px] "></span>
-
-                                {{ $setState->default_name ?? '' }}
-
-                                <input type="hidden" name="state" value="{{ $setState->code ?? '' }}"/>
-
-                                <span class="icon-sort-down text-[24px]"></span>
-                            </button>
-                        </x-slot:toggle>
-
-                        {{-- Dropdown Content --}}
-                        <x-slot:content class="!p-[0px] overflow-auto h-[120px] relative">
-                            @foreach ($states as $state)
-                                <a
-                                    href="?{{ Arr::query(['state' => $state->code, 'country' => $countryCode]) }}"
-                                    class="flex gap-[10px] px-5 py-2 text-[16px] cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-950 dark:text-white"
-                                >
-                                    {{ $state->default_name }}
-                                </a>
-                            @endforeach
-                        </x-slot:content>
-                    </x-admin::dropdown>
-                </div>
-            </div>
-
             <x-admin::datagrid
-                :src="route('admin.settings.cs.index', empty($setState) ? [] : ['state' => $setState->code, 'country' => $countryCode])"
+                :src="route('admin.settings.cs.index')"
                 ref="datagrid"
             >
-                @php
-                    $hasPermission = bouncer()->hasPermission('settings.cs.edit') || bouncer()->hasPermission('settings.cs.delete');
-                @endphp
-
-                <!-- DataGrid Header -->
-                <template #header="{ columns, records, sortPage, applied}">
+                <template #header="{ available, applied, sortPage, columns, records, performAction }">
                     <div
-                        :style="'grid-template-columns: repeat(' + {{ $hasPermission ? '5' : '4' }} + ', 1fr);'"
-                        class="row grid grid-rows-1 gap-[10px] items-center px-[16px] py-[10px] border-b-[1px] dark:border-gray-800 text-gray-600 dark:text-gray-300 bg-gray-50 dark:bg-gray-900 font-semibold">
-                        <div
-                            class="flex cursor-pointer"
-                            v-for="(columnGroup, index) in ['id', 'name', 'rate', 'status']"
+                        class="row grid gap-2.5 min-h-[47px] px-4 py-2.5 border-b dark:border-gray-800 text-gray-600 dark:text-gray-300 bg-gray-50 dark:bg-gray-900 font-semibold items-center"
+                        :style="`grid-template-columns: repeat(5, 1fr)`"
+                    >
+                        <!-- Columns -->
+                        <p
+                            v-for="column in columns.filter((column) => !['country_code', 'state_code'].includes(column.index))"
+                            class="flex gap-1.5 items-center break-words"
+                            :class="{'cursor-pointer select-none hover:text-gray-800 dark:hover:text-white': column.sortable}"
+                            @click="sortPage(column)"
                         >
-                            <p class="text-gray-600 dark:text-gray-300">
-                                <span class="[&>*]:after:content-['_/_']">
-                                    <span
-                                        class="after:content-['/'] last:after:content-['']"
-                                        :class="{
-                                            'text-gray-800 dark:text-white font-medium': applied.sort.column == columnGroup,
-                                            'cursor-pointer hover:text-gray-800 dark:hover:text-white': columns.find(columnTemp => columnTemp.index === columnGroup)?.sortable,
-                                        }"
-                                        @click="
-                                            columns.find(columnTemp => columnTemp.index === columnGroup)?.sortable ? sortPage(columns.find(columnTemp => columnTemp.index === columnGroup)): {}
-                                        "
-                                    >
-                                        @{{ columns.find(columnTemp => columnTemp.index === columnGroup)?.label }}
-                                    </span>
-                                </span>
+                            @{{ column.label }}
 
-                                <!-- Filter Arrow Icon -->
-                                <i
-                                    class="ltr:ml-[5px] rtl:mr-[5px] text-[16px] text-gray-800 dark:text-white align-text-bottom"
-                                    :class="[applied.sort.order === 'asc' ? 'icon-down-stat': 'icon-up-stat']"
-                                    v-if="columnGroup.includes(applied.sort.column)"
-                                ></i>
-                            </p>
-                        </div>
+                            <i
+                                class="text-base  text-gray-600 dark:text-gray-300 align-text-bottom"
+                                :class="[applied.sort.order === 'asc' ? 'icon-down-stat': 'icon-up-stat']"
+                                v-if="column.index == applied.sort.column"
+                            ></i>
+                        </p>
 
                         <!-- Actions -->
-                        @if ($hasPermission)
-                            <p class="flex justify-end">
-                                @lang('admin::app.components.datagrid.table.actions')
-                            </p>
-                        @endif
+                        <p
+                            class="place-self-end"
+                            v-if="available.actions.length"
+                        >
+                            @lang('admin::app.components.datagrid.table.actions')
+                        </p>
                     </div>
                 </template>
 
@@ -185,7 +101,7 @@
                 <template #body="{ columns, records, performAction }">
                     <div
                         v-for="record in records"
-                        class="row grid gap-[10px] items-center px-[16px] py-[16px] border-b-[1px] dark:border-gray-800 text-gray-600 dark:text-gray-300 transition-all hover:bg-gray-50 dark:hover:bg-gray-950"
+                        class="row grid gap-2.5 items-center px-4 py-4 border-b dark:border-gray-800 text-gray-600 dark:text-gray-300 transition-all hover:bg-gray-50 dark:hover:bg-gray-950"
                         :style="'grid-template-columns: repeat(' + (record.actions.length ? 5 : 4) + ', 1fr);'"
                     >
                         <!-- Id -->
@@ -202,21 +118,24 @@
 
                         <!-- Actions -->
                         <div class="flex justify-end">
-                            <a @click="id=1; editModal(record.actions.find(action => action.title === 'Edit')?.url)">
-                                <span
-                                    :class="record.actions.find(action => action.title === 'Edit')?.icon"
-                                    class="cursor-pointer rounded-[6px] p-[6px] text-[24px] transition-all hover:bg-gray-200 dark:hover:bg-gray-800 max-sm:place-self-center"
-                                >
-                                </span>
-                            </a>
-
-                            <a @click="performAction(record.actions.find(action => action.method === 'DELETE'))">
-                                <span
-                                    :class="record.actions.find(action => action.method === 'DELETE')?.icon"
-                                    class="cursor-pointer rounded-[6px] p-[6px] text-[24px] transition-all hover:bg-gray-200 dark:hover:bg-gray-800 max-sm:place-self-center"
-                                >
-                                </span>
-                            </a>
+                            @if (bouncer()->hasPermission('settings.cs.edit'))
+                                <a @click="id=1; editModal(record.actions.find(action => action.title === 'Edit')?.url)">
+                                    <span
+                                        :class="record.actions.find(action => action.title === 'Edit')?.icon"
+                                        class="cursor-pointer rounded-md p-1.5 text-2xl transition-all hover:bg-gray-200 dark:hover:bg-gray-800 max-sm:place-self-center"
+                                    >
+                                    </span>
+                                </a>
+                            @endif
+                            @if (bouncer()->hasPermission('settings.cs.delete'))
+                                <a @click="performAction(record.actions.find(action => action.method === 'DELETE'))">
+                                    <span
+                                        :class="record.actions.find(action => action.method === 'DELETE')?.icon"
+                                        class="cursor-pointer rounded-md p-1.5 text-2xl transition-all hover:bg-gray-200 dark:hover:bg-gray-800 max-sm:place-self-center"
+                                    >
+                                    </span>
+                                </a>
+                            @endif
                         </div>
                     </div>
                 </template>
@@ -235,14 +154,14 @@
                     <x-admin::modal ref="cityUpdateOrCreateModal">
                         <x-slot:header>
                             <p
-                                class="text-[18px] text-gray-800 dark:text-white font-bold"
+                                class="text-lg text-gray-800 dark:text-white font-bold"
                                 v-if="id"
                             >
                                 @lang('cs::app.admin.settings.cs.index.edit.title')
                             </p>
 
                             <p
-                                class="text-[18px] text-gray-800 dark:text-white font-bold"
+                                class="text-lg text-gray-800 dark:text-white font-bold"
                                 v-else
                             >
                                 @lang('cs::app.admin.settings.cs.index.create.title')
@@ -250,7 +169,7 @@
                         </x-slot:header>
 
                         <x-slot:content>
-                            <div class="px-[16px] py-[10px] border-b-[1px] dark:border-gray-800">
+                            <div class="px-4 py-1.5 border-b dark:border-gray-800">
                                 {!! view_render_event('bagisto.admin.settings.cs.create.before') !!}
 
                                 <x-admin::form.control-group.control
@@ -260,7 +179,7 @@
                                 >
                                 </x-admin::form.control-group.control>
 
-                                <x-admin::form.control-group class="mb-[10px]">
+                                <x-admin::form.control-group>
                                     <x-admin::form.control-group.label class="required">
                                         @lang('cs::app.admin.settings.cs.index.create.name')
                                     </x-admin::form.control-group.label>
@@ -281,7 +200,7 @@
                                     </x-admin::form.control-group.error>
                                 </x-admin::form.control-group>
 
-                                <x-admin::form.control-group class="mb-[10px]">
+                                <x-admin::form.control-group>
                                     <x-admin::form.control-group.label class="required">
                                         @lang('cs::app.admin.settings.cs.index.create.rate')
                                     </x-admin::form.control-group.label>
@@ -303,7 +222,7 @@
                                 </x-admin::form.control-group>
 
                                 <!-- Status -->
-                                <x-admin::form.control-group class="mb-[10px]">
+                                <x-admin::form.control-group>
                                     <x-admin::form.control-group.label>
                                         @lang('cs::app.admin.settings.cs.index.create.status')
                                     </x-admin::form.control-group.label>
@@ -336,7 +255,7 @@
                         </x-slot:content>
 
                         <x-slot:footer>
-                            <div class="flex gap-x-[10px] items-center">
+                            <div class="flex gap-x-2.5 items-center">
                                <button
                                     type="submit"
                                     class="primary-button"
@@ -400,6 +319,31 @@
                                 this.$emitter.emit('add-flash', { type: 'error', message: error.response.data.message })
                             });
                     },
+
+                    setFilters({ available, applied }) {                        
+                        const filterColumns = applied.filters.columns;
+                        const isSet = (key) => Array.isArray(filterColumns) && filterColumns.find(item => item.index == key)
+                        
+                        
+                        const columns = available.columns;
+                        const country_code = columns.find(item => item.databaseColumnName == 'country_code');
+                        
+                        if (country_code && !isSet('country_code')) {
+                            this.$refs.datagrid.applyFilter(country_code, `{{ config('app.default_country') }}`);
+                        }
+                        
+                        const state_code = columns.find(item => item.databaseColumnName == 'state_code')
+                        if (state_code && !isSet('state_code')) {
+                            this.$refs.datagrid.applyFilter(state_code, `{{ config('app.default_state') }}`)
+                        }                          
+                    },
+
+                    registerEvents() {
+                        this.$emitter.on('change-datagrid', this.setFilters);
+                    },
+                },
+                mounted() {
+                    this.registerEvents();
                 }
             })
         </script>

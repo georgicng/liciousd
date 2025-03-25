@@ -16,8 +16,7 @@ class Catalog
     public function __construct(
         protected OptionGroupRepository $optionGroupRepository,
         protected ProductOptionValueRepository $productOptionValueRepository,
-    ) {
-    }
+    ) {}
 
     /**
      * Create option groups.
@@ -27,6 +26,7 @@ class Catalog
      */
     public function createFamily($attributeFamily)
     {
+        logger()->channel('custom')->info(json_encode(['request' => request('option_groups'), 'attribute' => $attributeFamily]));
         $this->optionGroupRepository->createMany(request('option_groups'), $attributeFamily);
     }
 

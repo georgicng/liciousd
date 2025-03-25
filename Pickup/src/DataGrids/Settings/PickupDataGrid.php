@@ -14,9 +14,7 @@ class PickupDataGrid extends DataGrid
      */
     public function prepareQueryBuilder()
     {
-        $country = request('country');
-        $state = request('state');
-        $queryBuilder = DB::table('pickup_centres')->addSelect('id', 'name', 'address', 'city', 'rate', 'status')->where('country_code', $country)->where('state_code', $state);
+        $queryBuilder = DB::table('pickup_centres')->addSelect('id', 'name', 'address', 'city', 'rate', 'status', 'country_code', 'state_code');
         return $queryBuilder;
     }
 
@@ -79,6 +77,42 @@ class PickupDataGrid extends DataGrid
 
                 return trans('pickup::app.admin.settings.pickup.index.datagrid.draft');
             },
+        ]);
+
+        $this->addColumn([
+            'index'      => 'country_code',
+            'label'      => trans('cs::app.admin.settings.cs.index.datagrid.country'),
+            'type'       => 'dropdown',
+            'options'    => [
+                'type' => 'basic',
+
+                'params' => [
+                    'options' => core()->countries()->map(fn($item) => ['label' => $item->name, 'value' => $item->code])->toArray(),
+                ],
+            ],
+            'searchable' => false,
+            'filterable' => true,
+            'sortable'   => true,
+            'visibility' => false
+        ]);
+
+        $country = request()->has('filters') && is_array(request()->query('filters')['country_code']) ? request()->query('filters')['country_code'][0] : config('app.default_country');
+
+        $this->addColumn([
+            'index'      => 'state_code',
+            'label'      => trans('cs::app.admin.settings.cs.index.datagrid.state'),
+            'type'       => 'dropdown',
+            'options'    => [
+                'type' => 'basic',
+
+                'params' => [
+                    'options' => core()->states($country)->map(fn($item) => ['label' => $item->default_name, 'value' => $item->code])->toArray(),
+                ],
+            ],
+            'searchable' => false,
+            'filterable' => true,
+            'sortable'   => true,
+            'visibility' => false
         ]);
     }
 
