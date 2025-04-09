@@ -1,10 +1,11 @@
 @php
-    $countryCode = request('country', config('app.default_country'));
+    $countryCode = config('app.default_country');
     $countries = core()->countries();
     $setCountry = $countries->firstWhere('code', $countryCode);
 
-    $states = core()->states(request('country', config('app.default_country')));
-    $setState = request('state') ? $states->firstWhere('code', request('state')) : $states->first();
+    $stateCode = config('app.default_state');
+    $states = core()->states($countryCode);
+    $setState = $stateCode ? $states->firstWhere('code', $stateCode) : $states->first();
 @endphp
 <x-admin::layouts>
     <x-slot:title>
@@ -169,7 +170,7 @@
                         </x-slot:header>
 
                         <x-slot:content>
-                            <div class="px-4 py-1.5 border-b dark:border-gray-800">
+                            <div class="px-4 py-1.5 dark:border-gray-800">
                                 {!! view_render_event('bagisto.admin.settings.cs.create.before') !!}
 
                                 <x-admin::form.control-group.control
@@ -221,6 +222,67 @@
                                     </x-admin::form.control-group.error>
                                 </x-admin::form.control-group>
 
+                                <x-admin::form.control-group>
+                                    <x-admin::form.control-group.label class="required">
+                                        @lang('cs::app.admin.settings.cs.index.create.country')
+                                    </x-admin::form.control-group.label>
+
+                                    <x-admin::form.control-group.control
+                                        type="select"
+                                        id="country_code"
+                                        name="country_code"
+                                        rules="required"
+                                        v-model="selectedCity.country_code"
+                                        :label="trans('cs::app.admin.settings.cs.index.create.country')"
+                                    >
+                                        <!-- Default Option -->
+                                        <option value="">
+                                            @lang('cs::app.admin.settings.cs.index.create.select-country')
+                                        </option>
+
+                                        <option
+                                            v-for="country in countries"
+                                            :value="country.code"
+                                        >
+                                            @{{ country.name }}
+                                        </option>
+                                    </x-admin::form.control-group.control>
+
+                                    <x-admin::form.control-group.error control-name="country_code" />
+                                    <input type="hidden" name="country_id" :value="country_id" />
+                                </x-admin::form.control-group>
+
+
+                                <x-admin::form.control-group>
+                                    <x-admin::form.control-group.label class="required">
+                                        @lang('cs::app.admin.settings.cs.index.create.state')
+                                    </x-admin::form.control-group.label>
+
+                                    <x-admin::form.control-group.control
+                                        type="select"
+                                        id="state_code"
+                                        name="state_code"
+                                        rules="required"
+                                        v-model="selectedCity.state_code"
+                                        :label="trans('cs::app.admin.settings.cs.index.create.state')"
+                                    >
+                                        <!-- Default Option -->
+                                        <option value="">
+                                            @lang('cs::app.admin.settings.cs.index.create.select-state')
+                                        </option>
+
+                                        <option
+                                            v-for="state in statesByCountry[selectedCity.country_code]"
+                                            :value="state.code"
+                                        >
+                                            @{{ state.default_name }}
+                                        </option>
+                                    </x-admin::form.control-group.control>
+
+                                    <x-admin::form.control-group.error control-name="state_code" />
+                                    <input type="hidden" name="state_id" :value="state_id" />
+                                </x-admin::form.control-group>
+
                                 <!-- Status -->
                                 <x-admin::form.control-group>
                                     <x-admin::form.control-group.label>
@@ -244,10 +306,6 @@
                                     >
                                     </x-admin::form.control-group.error>
                                 </x-admin::form.control-group>
-                                <x-admin::form.control-group.control type="hidden" name="country_id" :value="$setCountry->id"> </x-admin::form.control-group.control>
-                                <x-admin::form.control-group.control type="hidden" name="country_code" :value="$setCountry->code"> </x-admin::form.control-group.control>
-                                <x-admin::form.control-group.control type="hidden" name="state_id" :value="$setState?->id"> </x-admin::form.control-group.control>
-                                <x-admin::form.control-group.control type="hidden" name="state_code" :value="$setState?->code"> </x-admin::form.control-group.control>
 
 
                                 {!! view_render_event('bagisto.admin.settings.cs.create.after') !!}
@@ -276,10 +334,29 @@
                 data() {
                     return {
                         selectedCity: {
-                            name: {{ old('name') ?? "null" }},
-                            rate: {{ old('rate') ?? "null" }},
-                            status: {{ old('status') ?? "null" }},
+                            name: `{{ old('name') ?? "null" }}`,
+                            rate: `{{ old('rate') ?? "null" }}`,
+                            status: `{{ old('status') ?? "null" }}`,
+                            state_code: "{{ old('state_code') ?? $setState?->code }}",
+                            country_code: "{{ old('country_code') ?? $setCountry->code }}",
                         },
+                    }
+                },
+
+                computed: {
+                    statesByCountry() {
+                        return @json(core()->groupedStatesByCountries());
+                    },
+                    countries() {
+                        const countries =  @json($countries);
+                        const supported = Object.keys(this.statesByCountry);
+                        return countries.filter(item => supported.includes(item.code));
+                    },
+                    country_id() {
+                        return this.countries?.find(item => item.code == this.selectedCity.country_code)?.id;
+                    },
+                    state_id() {
+                        return this.statesByCountry[this.selectedCity.country_code]?.find(item => item.code == this.selectedCity.state_code)?.id;
                     }
                 },
 
@@ -320,22 +397,22 @@
                             });
                     },
 
-                    setFilters({ available, applied }) {                        
+                    setFilters({ available, applied }) {
                         const filterColumns = applied.filters.columns;
                         const isSet = (key) => Array.isArray(filterColumns) && filterColumns.find(item => item.index == key)
-                        
-                        
+
+
                         const columns = available.columns;
                         const country_code = columns.find(item => item.databaseColumnName == 'country_code');
-                        
+
                         if (country_code && !isSet('country_code')) {
-                            this.$refs.datagrid.applyFilter(country_code, `{{ config('app.default_country') }}`);
+                            this.$refs.datagrid.applyFilter(country_code, `{{ $countryCode }}`);
                         }
-                        
+
                         const state_code = columns.find(item => item.databaseColumnName == 'state_code')
                         if (state_code && !isSet('state_code')) {
-                            this.$refs.datagrid.applyFilter(state_code, `{{ config('app.default_state') }}`)
-                        }                          
+                            this.$refs.datagrid.applyFilter(state_code, `{{ $stateCode }}`)
+                        }
                     },
 
                     registerEvents() {
@@ -343,6 +420,13 @@
                     },
                 },
                 mounted() {
+                    this.selectedCity = {
+                            name: `{{ old('name') ?? "null" }}`,
+                            rate: `{{ old('rate') ?? "null" }}`,
+                            status: `{{ old('status') ?? "null" }}`,
+                            state_code: "{{ old('state_code') ?? $setState?->code }}",
+                            country_code: "{{ old('country_code') ?? $setCountry->code }}",
+                        };
                     this.registerEvents();
                 }
             })

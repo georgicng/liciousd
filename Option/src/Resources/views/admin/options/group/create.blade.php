@@ -115,13 +115,13 @@ $customOptions = $optionRepository->all(['id', 'code', 'admin_name', 'type']);
 
                                         <input
                                             type="hidden"
-                                            :name="'attribute_groups[' + element.id + '][code]'"
+                                            :name="'option_groups[' + element.id + '][code]'"
                                             :value="element.code"
                                         />
 
                                         <input
                                             type="text"
-                                            :name="'attribute_groups[' + element.id + '][name]'"
+                                            :name="'option_groups[' + element.id + '][name]'"
                                             class="group_node text-sm !text-gray-600 dark:!text-gray-300"
                                             v-model="element.name"
                                             v-show="editableGroup.id == element.id"
@@ -129,13 +129,13 @@ $customOptions = $optionRepository->all(['id', 'code', 'admin_name', 'type']);
 
                                         <input
                                             type="hidden"
-                                            :name="'attribute_groups[' + element.id + '][position]'"
+                                            :name="'option_groups[' + element.id + '][position]'"
                                             :value="index + 1"
                                         />
 
                                         <input
                                             type="hidden"
-                                            :name="'attribute_groups[' + element.id + '][column]'"
+                                            :name="'option_groups[' + element.id + '][column]'"
                                             :value="column"
                                         />
                                     </div>
@@ -173,13 +173,13 @@ $customOptions = $optionRepository->all(['id', 'code', 'admin_name', 'type']);
 
                                             <input
                                                 type="hidden"
-                                                :name="'attribute_groups[' + element.group_id + '][custom_attributes][' + index + '][id]'"
+                                                :name="'option_groups[' + element.group_id + '][custom_options][' + index + '][id]'"
                                                 v-model="element.id"
                                             />
 
                                             <input
                                                 type="hidden"
-                                                :name="'attribute_groups[' + element.group_id + '][custom_attributes][' + index + '][position]'"
+                                                :name="'option_groups[' + element.group_id + '][custom_options][' + index + '][position]'"
                                                 :value="index + 1"
                                             />
                                         </div>
@@ -195,11 +195,11 @@ $customOptions = $optionRepository->all(['id', 'code', 'admin_name', 'type']);
                         <!-- Unassigned Attributes Header -->
                         <div class="flex flex-col mb-4">
                             <p class="text-gray-600 dark:text-gray-300 font-semibold leading-6">
-                                @lang('option::app.catalog.families.create.unassigned-attributes')
+                                @lang('option::app.admin.catalog.families.create.unassigned-options')
                             </p>
 
                             <p class="text-xs text-gray-800 dark:text-white font-medium ">
-                                @lang('option::app.catalog.families.create.unassigned-attributes-info')
+                                @lang('option::app.admin.catalog.families.create.unassigned-options-info')
                             </p>
                         </div>
 
@@ -250,7 +250,7 @@ $customOptions = $optionRepository->all(['id', 'code', 'admin_name', 'type']);
                                 <!-- Group Code -->
                                 <x-admin::form.control-group>
                                     <x-admin::form.control-group.label class="required">
-                                        @lang('option::app.catalog.families.create.code')
+                                        @lang('option::app.admin.catalog.families.create.code')
                                     </x-admin::form.control-group.label>
 
                                     <x-admin::form.control-group.control

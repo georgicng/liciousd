@@ -1,10 +1,11 @@
 @php
-    $countryCode = request('country', config('app.default_country'));
+    $countryCode = config('app.default_country');
     $countries = core()->countries();
     $setCountry = $countries->firstWhere('code', $countryCode);
 
-    $states = core()->states(request('country', config('app.default_country')));
-    $setState = request('state') ? $states->firstWhere('code', request('state')) : $states->first();
+    $stateCode = config('app.default_state');
+    $states = core()->states($countryCode);
+    $setState = $stateCode ? $states->firstWhere('code', $stateCode) : $states->first();
 @endphp
 <x-admin::layouts>
     <x-slot:title>
@@ -46,7 +47,7 @@
                     <!-- Craete currency Button -->
                     @if (bouncer()->hasPermission('settings.pickup.create'))
                     <!-- Filters Activation Button -->
-                        <x-admin::drawer width="350px">
+                        <x-admin::drawer width="350px" ref="centreUpdateOrCreateDrawer">
                             <x-slot:toggle>
                                 <button
                                     type="button"
@@ -58,7 +59,7 @@
                             </x-slot>
 
                             <!-- Drawer Header -->
-                            <x-slot:header>                                
+                            <x-slot:header>
                                 <div class="flex justify-between items-center p-3">
                                     <p
                                         class="text-base text-gray-800 dark:text-white font-bold"
@@ -178,6 +179,67 @@
                                                     control-name="city"
                                                 >
                                                 </x-admin::form.control-group.error>
+                                            </x-admin::form.control-group>
+
+                                            <x-admin::form.control-group>
+                                                <x-admin::form.control-group.label class="required">
+                                                    @lang('pickup::app.admin.settings.pickup.index.create.country')
+                                                </x-admin::form.control-group.label>
+
+                                                <x-admin::form.control-group.control
+                                                    type="select"
+                                                    id="country_code"
+                                                    name="country_code"
+                                                    rules="required"
+                                                    v-model="selectedCentre.country_code"
+                                                    :label="trans('pickup::app.admin.settings.pickup.index.create.country')"
+                                                >
+                                                    <!-- Default Option -->
+                                                    <option value="">
+                                                        @lang('pickup::app.admin.settings.pickup.index.create.select-country')
+                                                    </option>
+
+                                                    <option
+                                                        v-for="country in countries"
+                                                        :value="country.code"
+                                                    >
+                                                        @{{ country.name }}
+                                                    </option>
+                                                </x-admin::form.control-group.control>
+
+                                                <x-admin::form.control-group.error control-name="country_code" />
+                                                <input type="hidden" name="country_id" :value="country_id" />
+                                            </x-admin::form.control-group>
+
+
+                                            <x-admin::form.control-group>
+                                                <x-admin::form.control-group.label class="required">
+                                                    @lang('pickup::app.admin.settings.pickup.index.create.state')
+                                                </x-admin::form.control-group.label>
+
+                                                <x-admin::form.control-group.control
+                                                    type="select"
+                                                    id="state_code"
+                                                    name="state_code"
+                                                    rules="required"
+                                                    v-model="selectedCentre.state_code"
+                                                    :label="trans('pickup::app.admin.settings.pickup.index.edit.state')"
+                                                >
+                                                    <!-- Default Option -->
+                                                    <option value="">
+                                                        @lang('pickup::app.admin.settings.pickup.index.create.select-state')
+                                                    </option>
+
+                                                    <option
+                                                        v-for="state in statesByCountry[selectedCentre.country_code]"
+                                                        :value="state.code"
+                                                    >
+                                                        @{{ state.default_name }}
+                                                    </option>
+                                                </x-admin::form.control-group.control>
+
+                                                <x-admin::form.control-group.error control-name="state_code" />
+                                                <input type="hidden" name="state_id" :value="state_id" />
                                             </x-admin::form.control-group>
 
                                             <x-admin::form.control-group class="mb-[10px]">
@@ -303,10 +365,6 @@
                                                 >
                                                 </x-admin::form.control-group.error>
                                             </x-admin::form.control-group>
-                                            <x-admin::form.control-group.control type="hidden" name="country_id" :value="$setCountry->id"> </x-admin::form.control-group.control>
-                                            <x-admin::form.control-group.control type="hidden" name="country_code" :value="$setCountry->code"> </x-admin::form.control-group.control>
-                                            <x-admin::form.control-group.control type="hidden" name="state_id" :value="$setState->id"> </x-admin::form.control-group.control>
-                                            <x-admin::form.control-group.control type="hidden" name="state_code" :value="$setState->code"> </x-admin::form.control-group.control>
 
                                             {!! view_render_event('bagisto.admin.settings.pickup.create.after') !!}
                                         </div>
@@ -321,7 +379,7 @@
                                     >
                                         @lang('pickup::app.admin.settings.pickup.index.create.save-btn')
                                     </button>
-                                </div>                                    
+                                </div>
                             </x-slot:footer>
                         </x-admin::drawer>
                     @endif
@@ -332,6 +390,37 @@
                 :src="route('admin.settings.pickup.index')"
                 ref="datagrid"
             >
+                <template #header="{ available, applied, sortPage, columns, records, performAction }">
+                    <div
+                        class="row grid gap-2.5 min-h-[47px] px-4 py-2.5 border-b dark:border-gray-800 text-gray-600 dark:text-gray-300 bg-gray-50 dark:bg-gray-900 font-semibold items-center"
+                        :style="`grid-template-columns: repeat(6, 1fr)`"
+                    >
+                        <!-- Columns -->
+                        <p
+                            v-for="column in columns.filter((column) => !['country_code', 'state_code'].includes(column.index))"
+                            class="flex gap-1.5 items-center break-words"
+                            :class="{'cursor-pointer select-none hover:text-gray-800 dark:hover:text-white': column.sortable}"
+                            @click="sortPage(column)"
+                        >
+                            @{{ column.label }}
+
+                            <i
+                                class="text-base  text-gray-600 dark:text-gray-300 align-text-bottom"
+                                :class="[applied.sort.order === 'asc' ? 'icon-down-stat': 'icon-up-stat']"
+                                v-if="column.index == applied.sort.column"
+                            ></i>
+                        </p>
+
+                        <!-- Actions -->
+                        <p
+                            class="place-self-end"
+                            v-if="available.actions.length"
+                        >
+                            @lang('admin::app.components.datagrid.table.actions')
+                        </p>
+                    </div>
+                </template>
+
                 <!-- DataGrid Body -->
                 <template #body="{ columns, records, performAction }">
                     <div
@@ -377,7 +466,7 @@
                         </div>
                     </div>
                 </template>
-            </x-admin::datagrid>               
+            </x-admin::datagrid>
         </script>
 
         <script type="text/x-template" id="v-business-hours-template">
@@ -427,17 +516,36 @@
             data() {
                 return {
                     selectedCentre: {
-                        name: {{ old('name') ?? "null" }},
-                        city: {{ old('city') ?? "null" }},
-                        phone: {{ old('phone') ?? "null" }},
-                        address: {{ old('address') ?? "null"}},
-                        landmark: {{ old('landmark') ?? "null" }},
-                        rate: {{ old('rate') ?? "null" }},
-                        location: {{ old('location') ?? "null" }},
-                        whatsapp: {{ old('whatsapp') ?? "null" }},
-                        status: {{ old('status') ?? "null" }},
-                        additional: {{ old('additional') ?? "null" }},
+                        name: `{{ old('name') ?? "null" }}`,
+                        city: `{{ old('city') ?? "null" }}`,
+                        phone: `{{ old('phone') ?? "null" }}`,
+                        address: `{{ old('address') ?? "null"}}`,
+                        landmark: `{{ old('landmark') ?? "null" }}`,
+                        rate: `{{ old('rate') ?? "null" }}`,
+                        location: `{{ old('location') ?? "null" }}`,
+                        whatsapp: `{{ old('whatsapp') ?? "null" }}`,
+                        status: `{{ old('status') ?? "null" }}`,
+                        additional: `{{ old('additional') ?? "null" }}`,
+                        state_code: `{{ old('state_code') ?? $setState?->code }}`,
+                        country_code: `{{ old('country_code') ?? $setCountry->code }}`,
                     },
+                }
+            },
+
+            computed: {
+                statesByCountry() {
+                    return @json(core()->groupedStatesByCountries());
+                },
+                countries() {
+                    const countries =  @json($countries);
+                    const supported = Object.keys(this.statesByCountry);
+                    return countries.filter(item => supported.includes(item.code));
+                },
+                country_id() {
+                    return this.countries?.find(item => item.code == this.selectedCentre.country_code)?.id;
+                },
+                state_id() {
+                    return this.statesByCountry[this.selectedCentre.country_code]?.find(item => item.code == this.selectedCentre.state_code)?.id;
                 }
             },
 
@@ -477,7 +585,7 @@
                         .then((response) => {
                             this.selectedCentre = response.data;
 
-                            //this.$refs.centreUpdateOrCreateModal.toggle();
+                            this.$refs.centreUpdateOrCreateDrawer.toggle();
                         })
                         .catch(error => {
                             this.$emitter.emit('add-flash', {
@@ -486,22 +594,22 @@
                             })
                         });
                 },
-                
+
                 setFilters({ available, applied }) {
                     const filterColumns = applied.filters.columns;
                     const isSet = (key) => Array.isArray(filterColumns) && filterColumns.find(item => item.index == key)
-                    
+
                     const columns = available.columns;
                     const country_code = columns.find(item => item.databaseColumnName == 'country_code');
 
                     if (country_code && !isSet('country_code')) {
-                        this.$refs.datagrid.applyFilter(country_code, `{{ config('app.default_country') }}`);
+                        this.$refs.datagrid.applyFilter(country_code, `{{ $countryCode }}`);
                     }
 
                     const state_code = columns.find(item => item.databaseColumnName == 'state_code')
                     if (state_code && !isSet('state_code')) {
-                        this.$refs.datagrid.applyFilter(state_code, `{{ config('app.default_state') }}`)
-                    }                        
+                        this.$refs.datagrid.applyFilter(state_code, `{{ $stateCode }}`)
+                    }
                 },
 
                 registerEvents() {

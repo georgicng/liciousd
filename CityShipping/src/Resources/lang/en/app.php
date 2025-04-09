@@ -39,6 +39,10 @@ return [
                     'create' => [
                         'rate'             => 'Rate',
                         'name'             => 'Name',
+                        'state'          => "State",
+                        'select-state'           =>  "Select state",
+                        'country'          => "Country",
+                        'select-country'          => "Select country",
                         'status'        => 'Status',
                         'locale-logo'      => 'City Logo',
                         'title'            => 'Add City',
@@ -47,7 +51,7 @@ return [
                     ],
 
                     'edit' => [
-                        'title' => 'Edit Citys',
+                        'title' => 'Edit Cities',
                     ],
 
                     'create-success'    => 'City created successfully.',

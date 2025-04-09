@@ -26,7 +26,6 @@ class Catalog
      */
     public function createFamily($attributeFamily)
     {
-        logger()->channel('custom')->info(json_encode(['request' => request('option_groups'), 'attribute' => $attributeFamily]));
         $this->optionGroupRepository->createMany(request('option_groups'), $attributeFamily);
     }
 

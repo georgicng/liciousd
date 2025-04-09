@@ -15,126 +15,118 @@ $optionList = $productOptionValueRepository->getConfigurableOptions();
 @pushOnce('scripts')
 {{-- Variations Template --}}
 <script type="text/x-template" id="v-product-options-template">
-    <div class="relative bg-white dark:bg-gray-900  rounded-[4px] box-shadow">
-            <!-- Panel Header -->
-            <div class="flex flex-wrap gap-[10px] justify-between mb-[10px] p-[16px]">
-                <div class="flex flex-col gap-[8px]">
-                    <p class="text-[16px] text-gray-800 dark:text-white font-semibold">
-                        @lang('option::app.admin.catalog.products.edit.types.optionable.title')
-                    </p>
+    <div class="relative p-4 bg-white dark:bg-gray-900 rounded box-shadow">
+        <!-- Panel Header -->
+        <div class="flex gap-5 justify-between mb-4">
+            <div class="flex flex-col gap-2">
+                <p class="text-base text-gray-800 dark:text-white font-semibold">
+                    @lang('option::app.admin.catalog.products.edit.types.optionable.title')
+                </p>
 
-                    <p class="text-[12px] text-gray-500 dark:text-gray-300 font-medium">
-                        @lang('option::app.admin.catalog.products.edit.types.optionable.info')
-                    </p>
-                </div>
-            </div>
-
-
-            <div>
-                <div class="flex gap-[10px] w-max !mb-0 p-[6px] cursor-pointer select-none">
-                    <input
-                        type="checkbox"
-                        id="pricing_type"
-                        :name="`options[${configIndex}][value][dynamic]`"
-                        for="pricing_type"
-                        class="hidden peer"
-                        v-model="dynamic"
-                        @click="togglePricing()"
-                    />
-
-                    <label
-                        for="pricing_type"
-                        class="icon-uncheckbox text-[24px] rounded-[6px] cursor-pointer peer-checked:icon-checked peer-checked:text-blue-600"
-                    >
-                    </label>
-
-                    <label
-                        for="pricing_type"
-                        class="text-[14px] text-gray-600 dark:text-gray-300 font-semibold cursor-pointer"
-                    >
-                        @lang('option::app.admin.catalog.options.create.dynamic-pricing')
-                    </label>
-                </div>
-            </div>
-            <div class="flex flex-row">
-                <draggable
-                    tag="ul"
-                    ghost-class="draggable-ghost"
-                    class="flex-none w-32 flex-column space-y space-y-4 text-sm font-medium text-gray-500 dark:text-gray-400 md:me-4 mb-4 md:mb-0"
-                    v-bind="{animation: 200}"
-                    v-model="sort"
-                    item-key="option_id"
-                >
-                    <template #item="{ element, index }">
-                        <li>
-                            <button
-                                type="button"
-                                class="py-2 px-3 w-full flex items-center focus:outline-none focus-visible:underline"
-                                :class="{ 'bg-gray-50 dark:bg-gray-800':  element.option_id === selectedOption.id }"
-                                @click="select(element.option_id)"
-                            >
-                                <i class="icon-drag text-[20px] transition-all group-hover:text-gray-700"></i><span>@{{optionMap[element.option_id].name}}</span>
-                            </button>
-                        </li>
-                    </template>
-                    <template #footer>
-                        <li>
-                            <v-autocomplete :items="availableOptions" @add="addOption($event)"/>
-                        </li>
-                    </template>
-
-                </draggable>
-
-                <div class="flex-1 p-6 bg-gray-50 text-medium text-gray-500 dark:text-gray-400 dark:bg-gray-800 rounded-lg">
-                    <template v-if="model.length">
-                        <v-product-option-item
-                            v-for="(option, index) in model"
-                            v-show="selectedOption.id == option.option_id"
-                            :option="optionListMap[option.option_id]"
-                            :value="model[index]"
-                            :index="index"
-                            :dynamic-pricing="dynamic"
-                            :errors="errors"
-                            :key="option.option_id"
-                            @update-value="updateOption(index, $event)"
-                        ></v-product-option-item>
-                    </template>
-                </div>
+                <p class="text-xs text-gray-500 dark:text-gray-300 font-medium">
+                    @lang('option::app.admin.catalog.products.edit.types.optionable.info')
+                </p>
             </div>
         </div>
-        <div v-if="dynamic" class="relative bg-white dark:bg-gray-900  rounded-[4px] box-shadow">
-            <!-- Panel Header -->
-            <div class="flex flex-wrap gap-[10px] justify-between mb-[10px] p-[16px]">
-                <div class="flex flex-col gap-[8px]">
-                    <p class="text-[16px] text-gray-800 dark:text-white font-semibold">
-                        @lang('option::app.admin.catalog.options.create.dynamic-pricing-title')
-                    </p>
 
-                    <p class="text-[12px] text-gray-500 dark:text-gray-300 font-medium">
-                        @lang('option::app.admin.catalog.options.create.dynamic-pricing-description')
-                    </p>
-                </div>
+        <label
+            :for="pricing_type"
+            class="inline-flex gap-2.5 w-max p-1.5 items-center cursor-pointer select-none group mb-4"
+        >
+            <input
+                type="checkbox"
+                id="pricing_type"
+                :name="`options[${configIndex}][value][dynamic]`"
+                for="pricing_type"
+                class="hidden peer"
+                v-model="dynamic"
+                @click="togglePricing()"
+            >
+
+            <span class="icon-uncheckbox rounded-md text-2xl cursor-pointer peer-checked:icon-checked peer-checked:text-blue-600">
+            </span>
+
+            <div
+                class="text-sm text-gray-600 dark:text-gray-300 cursor-pointer hover:text-gray-800 dark:hover:text-white"
+            >@lang('option::app.admin.catalog.options.create.dynamic-pricing')
             </div>
+        </label>
 
+        <div class="flex justify-end mb-4"><v-autocomplete :items="availableOptions" @add="addOption($event)"/></div>
+        <div class="flex flex-row">
+            <draggable
+                tag="ul"
+                ghost-class="draggable-ghost"
+                class="flex-none w-32 flex-column space-y space-y-4 text-sm font-medium text-gray-500 dark:text-gray-400 md:me-4 mb-4 md:mb-0"
+                v-bind="{animation: 200}"
+                v-model="sort"
+                item-key="option_id"
+            >
+                <template #item="{ element, index }">
+                    <li>
+                        <button
+                            type="button"
+                            class="py-2 px-3 w-full flex items-center focus:outline-none focus-visible:underline"
+                            :class="{ 'bg-gray-50 dark:bg-gray-800':  element.option_id === selectedOption.id }"
+                            @click="select(element.option_id)"
+                        >
+                            <i class="icon-drag text-xl transition-all group-hover:text-gray-700"></i><span>@{{optionMap[element.option_id].name}}</span>
+                        </button>
+                    </li>
+                </template>
+            </draggable>
 
-            <div class="flex flex-col gap-[3px] mb-[30px] px-4">
-                <v-rules
-                    :control-name="`options[${configIndex}][value]`"
-                    :optionMap="optionListMap"
-                    :valueList="model"
-                    :initial-rules="config.value.rules"
-                ></v-rules>
-                <input type="hidden" :name="`options[${configIndex}][option_id]`" :value="config.option_id" />
-                <input type="hidden" :name="`options[${configIndex}][product_id]`" :value="config.product_id" />
+            <div class="flex-1 p-6 bg-gray-50 text-medium text-gray-500 dark:text-gray-400 dark:bg-gray-800 rounded-lg">
+                <template v-if="model.length">
+                    <v-product-option-item
+                        v-for="(option, index) in model"
+                        v-show="selectedOption.id == option.option_id"
+                        :option="optionListMap[option.option_id]"
+                        :value="model[index]"
+                        :index="index"
+                        :dynamic-pricing="dynamic"
+                        :errors="errors"
+                        :key="option.option_id"
+                        @update-value="updateOption(index, $event)"
+                    ></v-product-option-item>
+                </template>
             </div>
         </div>
-    </script>
+    </div>
+
+    <div v-if="dynamic" class="relative p-4 bg-white dark:bg-gray-900 rounded box-shadow">
+        <!-- Panel Header -->
+        <div class="flex gap-5 justify-between mb-4">
+            <div class="flex flex-col gap-2">
+                <p class="text-base text-gray-800 dark:text-white font-semibold">
+                    @lang('option::app.admin.catalog.options.create.dynamic-pricing-title')
+                </p>
+
+                <p class="text-xs text-gray-500 dark:text-gray-300 font-medium">
+                    @lang('option::app.admin.catalog.options.create.dynamic-pricing-description')
+                </p>
+            </div>
+        </div>
+
+
+        <div class="flex flex-col gap-[3px] mb-[30px] px-4">
+            <v-rules
+                :control-name="`options[${configIndex}][value]`"
+                :optionMap="optionListMap"
+                :valueList="model"
+                :initial-rules="config.value.rules"
+            ></v-rules>
+            <input type="hidden" :name="`options[${configIndex}][option_id]`" :value="config.option_id" />
+            <input type="hidden" :name="`options[${configIndex}][product_id]`" :value="config.product_id" />
+        </div>
+    </div>
+</script>
 
 
 {{-- Variation Item Template --}}
 <script type="text/x-template" id="v-product-option-item-template">
     <div class="animate-[on-fade_0.5s_ease-in-out]">
-            <div class="flex-column gap-[10px] justify-between px-[16px] py-[24px] border-b-[1px] border-slate-300 dark:border-gray-800">
+            <div class="flex-column gap-2.5 justify-between px-4 py-6 border-b border-slate-300 dark:border-gray-800">
                 <x-admin::form.control-group>
                     <x-admin::form.control-group.label class="required">
                         Required
@@ -143,7 +135,7 @@ $optionList = $productOptionValueRepository->getConfigurableOptions();
                             @change="$event => update('required', $event.target.value)"
                             :value="model.required"
                             :name="`options[${index}][required]`"
-                            class="custom-select flex w-full min-h-[39px] py-[6px] px-[12px] bg-white dark:bg-gray-900 border dark:border-gray-800 rounded-[6px] text-[14px] text-gray-600 dark:text-gray-300 font-normal transition-all hover:border-gray-400"
+                            class="custom-select flex w-full min-h-10 py-2.5 px-3.5 bg-white dark:bg-gray-900 border dark:border-gray-800 rounded-2.5 text-6 text-gray-600 dark:text-gray-300 font-normal transition-all hover:border-gray-400"
                         >
                             <option value="0" >
                                 No
@@ -199,8 +191,11 @@ $optionList = $productOptionValueRepository->getConfigurableOptions();
                             Min
                         </x-admin::form.control-group.label>
 
-                        <input :name="`options[${index}][min]`"
-                            type="text" @change="$event => update('min', $event.target.value)" :value="model.min" />
+                        <input
+                            :name="`options[${index}][min]`"
+                            class="w-full py-2.5 px-3 border rounded-md text-sm text-gray-600 dark:text-gray-300 transition-all hover:border-gray-400 dark:hover:border-gray-400 focus:border-gray-400 dark:focus:border-gray-400 dark:bg-gray-900 dark:border-gray-800"
+                            type="text"
+                            @change="$event => update('min', $event.target.value)" :value="model.min" />
 
 
                         <v-error-message
@@ -219,8 +214,11 @@ $optionList = $productOptionValueRepository->getConfigurableOptions();
                             Max
                         </x-admin::form.control-group.label>
 
-                        <input :name="`options[${index}][max]`"
-                            type="text" @change="$event => update('max', $event.target.value)" :value="model.max" />
+                        <input
+                            :name="`options[${index}][max]`"
+                            type="text"
+                            class="w-full py-2.5 px-3 border rounded-md text-sm text-gray-600 dark:text-gray-300 transition-all hover:border-gray-400 dark:hover:border-gray-400 focus:border-gray-400 dark:focus:border-gray-400 dark:bg-gray-900 dark:border-gray-800"
+                            @change="$event => update('max', $event.target.value)" :value="model.max" />
 
 
                         <v-error-message
@@ -253,6 +251,7 @@ $optionList = $productOptionValueRepository->getConfigurableOptions();
                 <input
                     :type="type"
                     :name="`${controlName}[${type == 'boolean' ? 'label' : 'default'}]`"
+                    class="w-full py-2.5 px-3 border rounded-md text-sm text-gray-600 dark:text-gray-300 transition-all hover:border-gray-400 dark:hover:border-gray-400 focus:border-gray-400 dark:focus:border-gray-400 dark:bg-gray-900 dark:border-gray-800"
                     v-model="model.default"
                 />
             </x-admin::form.control-group>
@@ -260,22 +259,26 @@ $optionList = $productOptionValueRepository->getConfigurableOptions();
                 <x-admin::form.control-group.label>
                     Price
                 </x-admin::form.control-group.label>
-                <select
-                    :name="`${controlName}[prefix]`"
-                    v-model="model.prefix"
-                >
-                    <option value="+" >
-                        +
-                    </option>
-                    <option value="-" >
-                        -
-                    </option>
-                </select>
-                <input
-                    type="text"
-                    :name="`${controlName}[price]`"
-                    v-model="model.price"
-                />
+                <div class="flex">
+                    <select
+                        :name="`${controlName}[prefix]`"
+                        class="w-[20%] flex min-h-10 py-2.5 px-3.5 bg-white dark:bg-gray-900 border dark:border-gray-800 rounded-2.5 text-6 text-gray-600 dark:text-gray-300 font-normal transition-all hover:border-gray-400 mr-4"
+                        v-model="model.prefix"
+                    >
+                        <option value="+" >
+                            +
+                        </option>
+                        <option value="-" >
+                            -
+                        </option>
+                    </select>
+                    <input
+                        type="text"
+                        class="w-[60%] py-2.5 px-3 border text-sm text-gray-600 dark:text-gray-300 transition-all hover:border-gray-400 dark:hover:border-gray-400 focus:border-gray-400 dark:focus:border-gray-400 dark:bg-gray-900 dark:border-gray-800"
+                        :name="`${controlName}[price]`"
+                        v-model="model.price"
+                    />
+                </div>
             </x-admin::form.control-group>
         </div>
     </script>
@@ -283,12 +286,13 @@ $optionList = $productOptionValueRepository->getConfigurableOptions();
 {{-- Option Pricing Template --}}
 <script type="text/x-template" id="v-product-option-select-template">
     <div>
-            <table>
+            <table class="table-auto">
                 <thead>
                     <tr>
-                        <th scope="col">Option Value</th>
-                        <th scope="col" v-show="!dynamicPricing">Price</th>
                         <th scope="col"></th>
+                        <th scope="col" class="px-6 py-4">Option Value</th>
+                        <th scope="col" class="px-6 py-4" v-show="!dynamicPricing">Price</th>
+                        <th scope="col" class="px-6 py-4"></th>
                     </tr>
                 </thead>
                 <draggable
@@ -300,33 +304,37 @@ $optionList = $productOptionValueRepository->getConfigurableOptions();
                 >
                     <template #item="{ element: value, index }">
                         <tr>
-                            <th scope="row">
-                                <i class="icon-drag text-[20px] transition-all group-hover:text-gray-700"></i> @{{ nameById[value.id] }}
+                            <th scope="row"> <i class="icon-drag text-[20px] transition-all group-hover:text-gray-700"></i> </th>
+                            <td class="px-6 py-4">
+                                 @{{ nameById[value.id] }}
                                 <input type="hidden" :name="`${controlName}[${index}][id]`" :value="value.id" />
                                 <input type="hidden" :name="`${controlName}[${index}][position]`" :value="index" />
-                            </th>
-                            <td v-show="!dynamicPricing">
-                                <select
-                                    as="select"
-                                    :name="`${controlName}[${index}][prefix]`"
-                                    :value="value.prefix"
-                                    @change="edit({ key: 'prefix', value: $event.target.value, id: value.id })"
-                                >
-                                    <option value="+" >
-                                        +
-                                    </option>
-                                    <option value="-" >
-                                        -
-                                    </option>
-                                </select>
-                                <input
-                                    type="text"
-                                    :name="`${controlName}[${index}][price]`"
-                                    :value="value.price"
-                                    @input="edit({ key: 'price', value: $event.target.value, id: value.id })"
-                                />
                             </td>
-                            <td><button type="button" @click="remove(value.id)">remove</button></td>
+                            <td v-show="!dynamicPricing" class="px-6 py-4">
+                                <div class="flex">
+                                    <select
+                                        class="flex w-1/2 min-h-10 py-2.5 px-3.5 bg-white dark:bg-gray-900 border dark:border-gray-800 rounded-2.5 text-6 text-gray-600 dark:text-gray-300 font-normal transition-all hover:border-gray-400"
+                                        :name="`${controlName}[${index}][prefix]`"
+                                        :value="value.prefix"
+                                        @change="edit({ key: 'prefix', value: $event.target.value, id: value.id })"
+                                    >
+                                        <option value="+" >
+                                            +
+                                        </option>
+                                        <option value="-" >
+                                            -
+                                        </option>
+                                    </select>
+                                    <input
+                                        type="text"
+                                        class="w-1/2 py-2.5 px-3 border text-sm text-gray-600 dark:text-gray-300 transition-all hover:border-gray-400 dark:hover:border-gray-400 focus:border-gray-400 dark:focus:border-gray-400 dark:bg-gray-900 dark:border-gray-800"
+                                        :name="`${controlName}[${index}][price]`"
+                                        :value="value.price"
+                                        @input="edit({ key: 'price', value: $event.target.value, id: value.id })"
+                                    />
+                                </div>
+                            </td>
+                            <td class="px-6 py-4"><button type="button" @click="remove(value.id)"><span class="icon-cross text-xl cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-950 hover:rounded-md"></span></button></td>
                         </tr>
                     </template>
 
@@ -338,7 +346,6 @@ $optionList = $productOptionValueRepository->getConfigurableOptions();
                     <tr>
                         <th scope="row" colspan="2">
                             <select
-                                as="select"
                                 v-model="option"
                                 class="custom-select flex w-full min-h-[39px] py-[6px] px-[12px] bg-white dark:bg-gray-900 border dark:border-gray-800 rounded-[6px] text-[14px] text-gray-600 dark:text-gray-300 font-normal transition-all hover:border-gray-400"
                                 label="required"
@@ -348,7 +355,7 @@ $optionList = $productOptionValueRepository->getConfigurableOptions();
                                 </option>
                             </select>
                         </th>
-                        <td><button type="button" @click="add">add</button> <button v-if="unassignedOptions.length > 1" type="button" @click="addAll">add all</button></td>
+                        <td class="px-6 py-4"><button class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700" type="button" @click="add">Add</button> <button v-if="unassignedOptions.length > 1" type="button" @click="addAll">add all</button></td>
                     </tr>
                 </tfoot>
             </table>
@@ -357,15 +364,34 @@ $optionList = $productOptionValueRepository->getConfigurableOptions();
 
 {{-- Autocomplete --}}
 <script type="text/x-template" id="v-autocomplete-template">
-    <div v-if="items.length" class="relative w-[130px]">
-            <input type="text" v-model="search" @keyup.down="onArrowDown" @keyup.up="onArrowUp" @keyup.enter="onEnter" />
-            <ul v-if="candidates.length"  id="autocomplete-results" class="p-0 m-0 border-[1px] border-[solid] border-[#eeeeee] h-[120px] overflow-auto w-full">
-                <li v-for="(item, i) in candidates" :key="item.id" class="[list-style:none] text-left px-[2px] py-[4px] cursor-pointer" :class="{ 'hover:bg-[#4aae9b] hover:text-[white]': i === index }" @click="selected(item.id)">
-                    @{{ item.admin_name }}
-                </li>
-            </ul>
+    <div v-if="items.length" class="relative">
+        <div class="select-none flex">
+            <input type="text" placeholder="Search options" v-model="search" @keyup.down="onArrowDown" @keyup.up="onArrowUp" @keyup.enter="onEnter" />
         </div>
-    </script>
+        <transition
+            tag="div"
+            name="dropdown"
+            enter-active-class="transition ease-out duration-100"
+            enter-from-class="transform opacity-0 scale-95"
+            enter-to-class="transform opacity-100 scale-100"
+            leave-active-class="transition ease-in duration-75"
+            leave-from-class="transform opacity-100 scale-100"
+            leave-to-class="transform opacity-0 scale-95"
+        >
+            <div
+                class="absolute bg-white dark:bg-gray-900 shadow-[0px_8px_10px_0px_rgba(0,0,0,0.20),0px_6px_30px_0px_rgba(0,0,0,0.12),0px_16px_24px_0px_rgba(0,0,0,0.14)] rounded w-full z-10"
+                v-if="candidates.length"
+            >
+                <ul  id="autocomplete-results" class="p-0 m-0 border-[1px] border-[solid] border-[#eeeeee] w-full">
+                    <li v-for="(item, i) in candidates" :key="item.id" class="[list-style:none] text-left p-2 cursor-pointer" :class="{ 'hover:bg-[#4aae9b] hover:text-[white]': i === index }" @click="selected(item.id)">
+                        @{{ item.admin_name }}
+                    </li>
+                </ul>
+            </div>
+        </transition>
+
+    </div>
+</script>
 
 {{-- Condition --}}
 <script type="text/x-template" id="v-condition-template">

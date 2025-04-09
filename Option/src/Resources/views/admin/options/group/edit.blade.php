@@ -29,11 +29,11 @@ $customOptions = $optionRepository->all(['id', 'code', 'admin_name', 'type']);
             <!-- Panel Header -->
             <div class="flex flex-col gap-2">
                 <p class=" text-base text-gray-800 dark:text-white font-semibold">
-                    @lang('admin::app.catalog.families.edit.groups')
+                    @lang('option::app.admin.catalog.families.edit.groups')
                 </p>
 
                 <p class=" text-xs text-gray-500 dark:text-gray-300 font-medium">
-                    @lang('admin::app.catalog.families.edit.groups-info')
+                    @lang('option::app.admin.catalog.families.edit.groups-info')
                 </p>
             </div>
 
@@ -44,7 +44,7 @@ $customOptions = $optionRepository->all(['id', 'code', 'admin_name', 'type']);
                     class="transparent-button text-red-600"
                     @click="deleteGroup"
                 >
-                    @lang('admin::app.catalog.families.edit.delete-group-btn')
+                    @lang('option::app.admin.catalog.families.edit.delete-group-btn')
                 </div>
 
                 <!-- Add Group Button -->
@@ -52,7 +52,7 @@ $customOptions = $optionRepository->all(['id', 'code', 'admin_name', 'type']);
                     class="secondary-button"
                     @click="$refs.addGroupModal.open()"
                 >
-                    @lang('admin::app.catalog.families.edit.add-group-btn')
+                    @lang('option::app.admin.catalog.families.edit.add-group-btn')
                 </div>
             </div>
         </div>
@@ -66,13 +66,13 @@ $customOptions = $optionRepository->all(['id', 'code', 'admin_name', 'type']);
                             <p class="text-gray-600 dark:text-gray-300 font-semibold leading-6">
                                 @{{
                                     column == 1
-                                    ? "@lang('admin::app.catalog.families.edit.main-column')"
-                                    : "@lang('admin::app.catalog.families.edit.right-column')"
+                                    ? "@lang('option::app.admin.catalog.families.edit.main-column')"
+                                    : "@lang('option::app.admin.catalog.families.edit.right-column')"
                                 }}
                             </p>
 
                             <p class="text-xs text-gray-800 dark:text-white font-medium ">
-                                @lang('admin::app.catalog.families.edit.edit-group-info')
+                                @lang('option::app.admin.catalog.families.edit.edit-group-info')
                             </p>
                         </div>
 
@@ -190,11 +190,11 @@ $customOptions = $optionRepository->all(['id', 'code', 'admin_name', 'type']);
                         <!-- Unassigned Attributes Header -->
                         <div class="flex flex-col mb-[16px]">
                             <p class="text-gray-600 dark:text-gray-300 font-semibold leading-6">
-                                @lang('admin::app.catalog.families.edit.unassigned-attributes')
+                                @lang('option::app.admin.catalog.families.edit.unassigned-options')
                             </p>
 
                             <p class="text-xs text-gray-800 dark:text-white font-medium ">
-                                @lang('admin::app.catalog.families.edit.unassigned-attributes-info')
+                                @lang('option::app.admin.catalog.families.edit.unassigned-options-info')
                             </p>
                         </div>
 
@@ -231,22 +231,22 @@ $customOptions = $optionRepository->all(['id', 'code', 'admin_name', 'type']);
                         <x-admin::modal ref="addGroupModal">
                             <x-slot:header>
                                 <p class="text-lg text-gray-800 dark:text-white font-bold">
-                                    @lang('admin::app.catalog.families.edit.add-group-title')
+                                    @lang('option::app.admin.catalog.families.edit.add-group-title')
                                 </p>
                             </x-slot:header>
 
                             <x-slot:content>
                                 <x-admin::form.control-group>
                                     <x-admin::form.control-group.label class="required">
-                                        @lang('admin::app.catalog.families.edit.code')
+                                        @lang('option::app.admin.catalog.families.edit.code')
                                     </x-admin::form.control-group.label>
 
                                     <x-admin::form.control-group.control
                                         type="text"
                                         name="code"
                                         rules="required"
-                                        :label="trans('admin::app.catalog.families.edit.code')"
-                                        :placeholder="trans('option::app.catalog.families.edit.code')"
+                                        :label="trans('option::app.admin.catalog.families.edit.code')"
+                                        :placeholder="trans('option::app.admin.catalog.families.edit.code')"
                                     />
 
                                 <x-admin::form.control-group.error control-name="code" />
@@ -254,15 +254,15 @@ $customOptions = $optionRepository->all(['id', 'code', 'admin_name', 'type']);
 
                                     <x-admin::form.control-group>
                                         <x-admin::form.control-group.label  class="required">
-                                            @lang('admin::app.catalog.families.edit.name')
+                                            @lang('option::app.admin.catalog.families.edit.name')
                                         </x-admin::form.control-group.label>
 
                                         <x-admin::form.control-group.control
                                             type="text"
                                             name="name"
                                             rules="required"
-                                            :label="trans('admin::app.catalog.families.edit.name')"
-                                            :placeholder="trans('admin::app.catalog.families.edit.name')"
+                                            :label="trans('option::app.admin.catalog.families.edit.name')"
+                                            :placeholder="trans('option::app.admin.catalog.families.edit.name')"
                                         >
                                         </x-admin::form.control-group.control>
 
@@ -271,26 +271,26 @@ $customOptions = $optionRepository->all(['id', 'code', 'admin_name', 'type']);
 
                                     <x-admin::form.control-group class="mb-4">
                                         <x-admin::form.control-group.label class="required">
-                                            @lang('admin::app.catalog.families.edit.column')
+                                            @lang('option::app.admin.catalog.families.edit.column')
                                         </x-admin::form.control-group.label>
 
                                         <x-admin::form.control-group.control
                                             type="select"
                                             name="column"
                                             rules="required"
-                                            :label="trans('admin::app.catalog.families.edit.column')"
+                                            :label="trans('option::app.admin.catalog.families.edit.column')"
                                         >
                                             <!-- Default Option -->
                                             <option value="">
-                                                @lang('admin::app.catalog.families.create.select-group')
+                                                @lang('option::app.admin.catalog.families.create.select-group')
                                             </option>
 
                                             <option value="1">
-                                                @lang('admin::app.catalog.families.edit.main-column')
+                                                @lang('option::app.admin.catalog.families.edit.main-column')
                                             </option>
 
                                             <option value="2">
-                                                @lang('admin::app.catalog.families.edit.right-column')
+                                                @lang('option::app.admin.catalog.families.edit.right-column')
                                             </option>
                                         </x-admin::form.control-group.control>
 
@@ -304,7 +304,7 @@ $customOptions = $optionRepository->all(['id', 'code', 'admin_name', 'type']);
                                         type="submit"
                                         class="primary-button"
                                     >
-                                        @lang('admin::app.catalog.families.edit.add-group-btn')
+                                        @lang('option::app.admin.catalog.families.edit.add-group-btn')
                                     </button>
                                 </div>
                             </x-slot:footer>
@@ -369,7 +369,7 @@ $customOptions = $optionRepository->all(['id', 'code', 'admin_name', 'type']);
                 if (this.dropReverted) {
                     this.$emitter.emit('add-flash', {
                         type: 'warning',
-                        message: "@lang('admin::app.catalog.families.create.removal-not-possible')"
+                        message: "@lang('option::app.admin.catalog.families.create.removal-not-possible')"
                     });
                 }
             },
@@ -401,7 +401,7 @@ $customOptions = $optionRepository->all(['id', 'code', 'admin_name', 'type']);
             }) {
                 if (this.isGroupAlreadyExists(params.name)) {
                     setErrors({
-                        'name': ["@lang('admin::app.catalog.families.edit.group-already-exists')"]
+                        'name': ["@lang('option::app.admin.catalog.families.edit.group-already-exists')"]
                     });
 
                     return;
@@ -433,7 +433,7 @@ $customOptions = $optionRepository->all(['id', 'code', 'admin_name', 'type']);
                         if (!this.selectedGroup.id) {
                             this.$emitter.emit('add-flash', {
                                 type: 'warning',
-                                message: "@lang('admin::app.catalog.families.edit.select-group')"
+                                message: "@lang('option::app.admin.catalog.families.edit.select-group')"
                             });
 
                             return;
@@ -442,7 +442,7 @@ $customOptions = $optionRepository->all(['id', 'code', 'admin_name', 'type']);
                         if (this.isGroupContainsSystemAttributes(this.selectedGroup)) {
                             this.$emitter.emit('add-flash', {
                                 type: 'warning',
-                                message: "@lang('admin::app.catalog.families.edit.group-contains-system-attributes')"
+                                message: "@lang('option::app.admin.catalog.families.edit.group-contains-system-attributes')"
                             });
 
                             return;
