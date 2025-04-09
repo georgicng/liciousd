@@ -1,5 +1,5 @@
 
-@inject('optionGroupRepository','Gaiproject\Option\Repositories\optionGroupRepository')
+@inject('optionGroupRepository','Gaiproject\Option\Repositories\OptionGroupRepository')
 @inject('optionRepository', 'Gaiproject\Option\Repositories\OptionRepository')
 
 @php
