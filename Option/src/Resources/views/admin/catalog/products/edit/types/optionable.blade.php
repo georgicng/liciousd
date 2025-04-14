@@ -52,7 +52,7 @@ $optionList = $productOptionValueRepository->getConfigurableOptions();
             </div>
         </label>
 
-        <div class="flex justify-end mb-4"><v-autocomplete :items="availableOptions" @add="addOption($event)"/></div>
+        <!--div class="flex justify-end mb-4"><v-autocomplete :items="availableOptions" @add="addOption($event)"/></div-->
         <div class="flex flex-row">
             <draggable
                 tag="ul"
@@ -66,7 +66,7 @@ $optionList = $productOptionValueRepository->getConfigurableOptions();
                     <li>
                         <button
                             type="button"
-                            class="py-2 px-3 w-full flex items-center focus:outline-none focus-visible:underline"
+                            class="py-3 px-3 w-full flex items-center focus:outline-none focus-visible:underline"
                             :class="{ 'bg-gray-50 dark:bg-gray-800':  element.option_id === selectedOption.id }"
                             @click="select(element.option_id)"
                         >
@@ -334,7 +334,7 @@ $optionList = $productOptionValueRepository->getConfigurableOptions();
                                     />
                                 </div>
                             </td>
-                            <td class="px-6 py-4"><button type="button" @click="remove(value.id)"><span class="icon-cross text-xl cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-950 hover:rounded-md"></span></button></td>
+                            <td class="px-6 py-4"><button type="button" @click="remove(value.id)"><span class="icon-delete text-xl cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-950 hover:rounded-md"></span></button></td>
                         </tr>
                     </template>
 
@@ -355,7 +355,10 @@ $optionList = $productOptionValueRepository->getConfigurableOptions();
                                 </option>
                             </select>
                         </th>
-                        <td class="px-6 py-4"><button class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700" type="button" @click="add">Add</button> <button v-if="unassignedOptions.length > 1" type="button" @click="addAll">add all</button></td>
+                        <td class="px-6 py-4">
+                            <button class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700" type="button" @click="add">Add</button>
+                            <button v-if="unassignedOptions.length > 1" class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700" type="button" @click="addAll">Add all</button>
+                        </td>
                     </tr>
                 </tfoot>
             </table>
@@ -395,13 +398,12 @@ $optionList = $productOptionValueRepository->getConfigurableOptions();
 
 {{-- Condition --}}
 <script type="text/x-template" id="v-condition-template">
-    <div class="relative mb-4">
-            <div class="flex flex-row bg-white items-center content-between">
-                <div class="flex p-4">
+    <div class="flex p-3 gap-4 justify-between mt-4">
+            <div class="flex gap-4 flex-1 max-sm:flex-wrap max-sm:flex-1">
                     <select
                         v-model="model.field"
                         :name="`${controlName}[rules][${ruleIndex}][conditions][${conditionIndex}][field]`"
-                        class="inline-block w-auto h-10 px-1 py-2 leading-normal gray-500 border border-gray-300 rounded"
+                        class="custom-select flex w-1/3 min:w-1/3 h-10 py-2.5 px-3 bg-white dark:bg-gray-900 border dark:border-gray-800 rounded-md text-sm text-gray-600 dark:text-gray-300 font-normal transition-all hover:border-gray-400 dark:hover:border-gray-400 max-sm:flex-auto max-sm:max-w-full"
                     >
                         <option value="" >
                             Selection field
@@ -410,13 +412,11 @@ $optionList = $productOptionValueRepository->getConfigurableOptions();
                             @{{item.name}}
                         </option>
                     </select>
-                </div>
 
-                <div class="flex  p-4">
                     <select
                         v-model="model.operator"
                         :name="`${controlName}[rules][${ruleIndex}][conditions][${conditionIndex}][operator]`"
-                        class="inline-block w-auto h-10 px-1 py-2 leading-normal gray-500 border border-gray-300 rounded"
+                        class="custom-select inline-flex gap-x-1 justify-between items-center h-10 w-full max-w-[196px] py-2.5 px-3 bg-white dark:bg-gray-900 border dark:border-gray-800 rounded-md text-sm text-gray-600 dark:text-gray-300 font-normal transition-all hover:border-gray-400 dark:hover:border-gray-400 max-sm:flex-auto max-sm:max-w-full"
                     >
                         <option value="" >
                             Selection operator
@@ -424,23 +424,22 @@ $optionList = $productOptionValueRepository->getConfigurableOptions();
                         <option v-for="item in context.operators[field.type]" :key="item" :value="item" >
                             @{{item}}
                         </option>
-            </select>
-                </div>
+                    </select>
 
-                <div class="flex p-4">
+                <div>
                     <input
                         v-if="linearOperators.includes(model.operator) && textGroup.includes(field.type)"
                         :name="`${controlName}[rules][${ruleIndex}][conditions][${conditionIndex}][value]`"
                         type="text"
                         v-model="model.value"
                         placeholder="input"
-                        class="inline-block w-auto h-10 px-1 py-2 leading-normal gray-500 border border-gray-300 rounded"
+                        class="flex w-[289px] min:w-1/3 h-10 py-2.5 px-3 border rounded-md text-sm text-gray-600 dark:text-gray-300 transition-all hover:border-gray-400 dark:hover:border-gray-400 focus:border-gray-400 dark:focus:border-gray-400 dark:bg-gray-900 dark:border-gray-800"
                     />
                     <select
                         v-if="linearOperators.includes(model.operator) && selectGroup.includes(field.type)"
                         :name="`${controlName}[rules][${ruleIndex}][conditions][${conditionIndex}][value]`"
                         v-model="model.value"
-                        class="inline-block w-auto h-10 px-1 py-2 leading-normal gray-500 border border-gray-300 rounded"
+                        class="custom-select inline-flex gap-x-1 justify-between items-center h-10 w-[196px] max-w-[196px] py-2.5 px-3 bg-white dark:bg-gray-900 border dark:border-gray-800 rounded-md text-sm text-gray-600 dark:text-gray-300 font-normal transition-all hover:border-gray-400 dark:hover:border-gray-400"
                     >
                         <option v-for="item in field.options" :key="item.id" :value="item.id" >
                             @{{item.label}}
@@ -450,7 +449,7 @@ $optionList = $productOptionValueRepository->getConfigurableOptions();
                         v-if="selectionOperators.includes(model.operator) && selectGroup.includes(field.type)"
                         :name="`${controlName}[rules][${ruleIndex}][conditions][${conditionIndex}][value][]`"
                         v-model="model.value"
-                        class="inline-block w-auto h-10 px-1 py-2 leading-normal gray-500 border border-gray-300 rounded"
+                        class="custom-select inline-flex gap-x-1 justify-between items-center h-10 w-[196px] max-w-[196px] py-2.5 px-3 bg-white dark:bg-gray-900 border dark:border-gray-800 rounded-md text-sm text-gray-600 dark:text-gray-300 font-normal transition-all hover:border-gray-400 dark:hover:border-gray-400"
                         multiple
                     >
                         <option v-for="item in field.options" :key="item.id" :value="item.id" :selected="Array.isArray(model.value) && model.value.includes(item.id)">
@@ -458,44 +457,49 @@ $optionList = $productOptionValueRepository->getConfigurableOptions();
                         </option>
                     </select>
                 </div>
-                <div class="flex">
-                    <button
-                        type="button"
-                        class="close ml-auto"
-                        @click="$emit('delete')"
-                    >
-                        <span class="icon-cross text-[30px] cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-950 hover:rounded-[6px]">
-                        </span>
-                    </button>
-                </div>
             </div>
+            <span
+                class="icon-delete max-h-9 max-w-9 text-2xl p-1.5 rounded-md cursor-pointer transition-all hover:bg-gray-100 dark:hover:bg-gray-950 max-sm:place-self-center"
+                @click="$emit('delete')"
+            >
+            </span>
             <input type="hidden" :name="`${controlName}[rules][${ruleIndex}][conditions][${conditionIndex}][id]`" v-model="model.id"/>
         </div>
     </script>
 
 <script type="text/x-template" id="v-accordion-template">
-    <div class="bg-white dark:bg-gray-900 rounded-[4px] box-shadow">
-            <div :class="`p-[6px] ${isOpen ? 'active' : ''}`" @click="toggle">
+    <div class="bg-white dark:bg-gray-900 rounded box-shadow">
+        <div :class="`flex items-center justify-between p-1.5 ${isOpen ? 'active' : ''}`">
+            <div class="flex items-center">
+                <span
+                    :class="`text-2xl p-1.5 rounded-md cursor-pointer transition-all hover:bg-gray-100 dark:hover:bg-gray-950 ${isOpen ? 'icon-arrow-up' : 'icon-arrow-down'}`"
+                    @click="toggle"
+                ></span>
+
                 <slot name="header">
                     Default Header
                 </slot>
             </div>
-
-            <div class="px-[16px] pb-[16px]" v-show="isOpen">
-                <slot name="content">
-                    Default Content
-                </slot>
-            </div>
+            <slot name="header_action">
+                Close button
+            </slot>
         </div>
-    </script>
+
+        <div class="px-4 pb-4" v-show="isOpen">
+            <slot name="content">
+                Default Content
+            </slot>
+        </div>
+    </div>
+</script>
 
 {{-- Rules --}}
 <script type="text/x-template" id="v-rules-template">
 
-    <div class="grid gap-[10px]">
-        <div class="flex gap-[16px] justify-between items-center max-sm:flex-wrap">
-            <div class="grid gap-[6px]"><h3>All Rules</h3></div>
-            <div class="flex gap-x-[10px] items-center">
+    <div class="flex gap-2.5 mb-4">
+        <div class="flex gap-4 justify-between w-full items-center max-sm:flex-wrap">
+            <div class="flex gap-1.5"><h3>All Rules</h3></div>
+            <div class="flex gap-x-2.5 items-center">
                 <button
                     type="button"
                     class="secondary-button"
@@ -509,86 +513,95 @@ $optionList = $productOptionValueRepository->getConfigurableOptions();
     <v-accordion :is-active="false" v-for="(rule, index) in rules" :key="rule.id" class="mb-5 flex flex-col">
 
         <template v-slot:header>
-            <div class="form-group flex items-center justify-between flex-none">
-                <div>
-                <span
-                    :class="`text-[24px] p-[6px] rounded-[6px] cursor-pointer transition-all hover:bg-gray-100 dark:hover:bg-gray-950 ${isOpen ? 'icon-arrow-up' : 'icon-arrow-down'}`"
-                ></span>
-                <input type="text" :name="`${controlName}[rules][${index}][name]`"  v-model="rule.name" placeholder="Add rule name" />
-            </div>
-            <div>
-                <span v-show="rule.result">@{{ rule.result }}</span>
-                <button
-                    type="button"
-                    class="text-white px-3 py-2 rounded bg-gray-600"
-                    @click="deleteRule(index)"
-                >x</button></div>
-                <input type="hidden" :name="`${controlName}[rules][${index}][logic]`"  :value="rule.logic" />
-                <input type="hidden" :name="`${controlName}[rules][${index}][id]`"  :value="rule.id" />
-            </div>
+            <p class="p-2.5 text-gray-800 dark:text-white text-base font-semibold">
+                @{{ rule.name ? rule.name : 'Un-named Ruleset' }}
+            </p>
+        </template>
+        <template v-slot:header_action>
+                <div class="flex items-center">
+                    <span class="mr-2" v-show="rule.result">@{{ rule.result }}</span>
+                    <span class="icon-delete max-h-9 max-w-9 text-2xl p-1.5 rounded-md cursor-pointer transition-all hover:bg-gray-100 dark:hover:bg-gray-950 max-sm:place-self-center" @click="deleteRule(index)"></span>
+                </div>
         </template>
         <template v-slot:content>
-            <button
-                type="button"
-                class="text-white px-3 py-2 rounded bg-gray-600 mr-2"
-                @click="addRuleCondition(index)"
-            >Add Condition</button>
-            <button
-                type="button"
-                class="text-white px-3 py-2 rounded bg-gray-600 mr-2"
-                @click="duplicateRule(index)"
-            >Duplicate Ruleset</button>
-            <div v-if="rule.conditions && rule.conditions.length" class="flex flex-col flex-auto p-5 mb-px">
-                <div class="inline-flex rounded-md shadow-sm" role="group">
-                    <button
-                        type="button"
-                        class="px-4 py-2 text-sm font-medium text-gray-900 border border-gray-200 rounded-s-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:ring-blue-500 dark:focus:text-white"
-                        :class="{ 'bg-gray bg-gray-100' : rule.logic == 'and', 'bg-white' : rule.logic != 'and' }"
-                        @click="setRuleLogic(index, 'and')"
-                    >
-                        And
-                    </button>
-                    <button
-                        type="button"
-                        class="px-4 py-2 text-sm font-medium text-gray-900 border border-gray-200 rounded-e-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:ring-blue-500 dark:focus:text-white"
-                        :class="{ 'bg-gray bg-gray-100' : rule.logic == 'or', 'bg-white' : rule.logic != 'or' }"
-                        @click="setRuleLogic(index, 'or')"
-                    >
-                        Or
-                    </button>
+            <div>
+                <div class="flex items-center justify-between">
+                    <div class="text-base text-gray-800 dark:text-white font-semibold">Conditions</div>
+                    <div>
+                        <button
+                            type="button"
+                            class="text-white px-3 py-2 rounded bg-gray-600 mr-2"
+                            @click="addRuleCondition(index)"
+                        >Add Condition</button>
+                        <button
+                            type="button"
+                            class="text-white px-3 py-2 rounded bg-gray-600 mr-2"
+                            @click="duplicateRule(index)"
+                        >Duplicate Ruleset</button>
+                    </div>
                 </div>
-                <div class="rounded-[4px] box-shadow mb-4">
-                    <v-condition
-                        v-for="(condition, _index) in rule.conditions"
-                        :condition="condition"
-                        :context="context"
-                        :key="condition.id"
-                        :rule-index="index"
-                        :condition-index="_index"
-                        :control-name="controlName"
-                        @delete="deleteRuleCondition(index, condition.id)"
-                    ></v-condition>
+                <div v-if="rule.conditions && rule.conditions.length" class="flex flex-col flex-auto p-5 mb-px">
+                    <div class="inline-flex rounded-md shadow-sm" role="group">
+                        <button
+                            type="button"
+                            class="px-4 py-2 text-sm font-medium text-gray-900 border border-gray-200 rounded-s-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:ring-blue-500 dark:focus:text-white"
+                            :class="{ 'bg-gray bg-gray-100' : rule.logic == 'and', 'bg-white' : rule.logic != 'and' }"
+                            @click="setRuleLogic(index, 'and')"
+                        >
+                            And
+                        </button>
+                        <button
+                            type="button"
+                            class="px-4 py-2 text-sm font-medium text-gray-900 border border-gray-200 rounded-e-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:ring-blue-500 dark:focus:text-white"
+                            :class="{ 'bg-gray bg-gray-100' : rule.logic == 'or', 'bg-white' : rule.logic != 'or' }"
+                            @click="setRuleLogic(index, 'or')"
+                        >
+                            Or
+                        </button>
+                    </div>
+                    <div class="rounded box-shadow mb-4">
+                        <v-condition
+                            v-for="(condition, _index) in rule.conditions"
+                            :condition="condition"
+                            :context="context"
+                            :key="condition.id"
+                            :rule-index="index"
+                            :condition-index="_index"
+                            :control-name="controlName"
+                            @delete="deleteRuleCondition(index, condition.id)"
+                        ></v-condition>
+                    </div>
+                    <div class="mb-4">
+                        <label
+                            class="px-4 py-2 text-sm font-medium text-gray-900 bg-gray bg-gray-100 border border-gray-200 rounded-s-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:ring-blue-500 dark:focus:text-white"
+                        >Price</label>
+                        <input
+                            :name="`${controlName}[rules][${index}][result]`"
+                            class="flex w-full min-h-[39px] py-2 px-3 border rounded-[6px] text-[14px] text-gray-600 dark:text-gray-300 transition-all hover:border-gray-400 dark:hover:border-gray-400 focus:border-gray-400 dark:focus:border-gray-400 dark:bg-gray-900 dark:border-gray-800"
+                            label="Value"
+                            type="text"
+                            v-model="rule.result"
+                            placeholder="result"
+                        />
+                    </div>
+                    <div>
+                        <label
+                            class="px-4 py-2 text-sm font-medium text-gray-900 bg-gray bg-gray-100 border border-gray-200 rounded-s-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:ring-blue-500 dark:focus:text-white"
+                        >Name</label>
+                        <input
+                            class="flex w-full min-h-[39px] py-2 px-3 border rounded-[6px] text-[14px] text-gray-600 dark:text-gray-300 transition-all hover:border-gray-400 dark:hover:border-gray-400 focus:border-gray-400 dark:focus:border-gray-400 dark:bg-gray-900 dark:border-gray-800"
+                            type="text"
+                            :name="`${controlName}[rules][${index}][name]`"
+                            v-model="rule.name"
+                            placeholder="Add rule name"
+                        />
+                        <input type="hidden" :name="`${controlName}[rules][${index}][logic]`"  :value="rule.logic" />
+                        <input type="hidden" :name="`${controlName}[rules][${index}][id]`"  :value="rule.id" />
+                    </div>
                 </div>
-                <div>
-
-                    <label
-                        class="px-4 py-2 text-sm font-medium text-gray-900 bg-gray bg-gray-100 border border-gray-200 rounded-s-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:ring-blue-500 dark:focus:text-white"
-
-                    >
-                        Result
-                    </label>
-                    <input
-                        :name="`${controlName}[rules][${index}][result]`"
-                        class="flex w-full min-h-[39px] py-2 px-3 border rounded-[6px] text-[14px] text-gray-600 dark:text-gray-300 transition-all hover:border-gray-400 dark:hover:border-gray-400 focus:border-gray-400 dark:focus:border-gray-400 dark:bg-gray-900 dark:border-gray-800"
-                        label="Value"
-                        type="text"
-                        v-model="rule.result"
-                        placeholder="result"
-                    />
+                <div v-else>
+                    Add a rule to begin
                 </div>
-            </div>
-            <div v-else>
-                Add a rule to begin
             </div>
         </template>
     </v-accordion>
