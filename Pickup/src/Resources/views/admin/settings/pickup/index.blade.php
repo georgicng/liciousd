@@ -88,7 +88,7 @@
                                 <!-- Drawer Content -->
                                 <x-slot:content class="!p-5">
                                     
-                                            <div class="px-[16px] py-[10px] border-b-[1px] dark:border-gray-800">
+                                            <div class="px-[16px] py-[10px] dark:border-gray-800">
                                                 {!! view_render_event('bagisto.admin.settings.pickup.create.before') !!}
 
                                                 <x-admin::form.control-group.control
@@ -97,49 +97,47 @@
                                                     v-model="selectedCentre.id"
                                                 >
                                                 </x-admin::form.control-group.control>
-                                                <div class="flex gap-6 mb-[10px]">
-                                                    <x-admin::form.control-group class="w-full">
-                                                        <x-admin::form.control-group.label class="required">
-                                                            @lang('pickup::app.admin.settings.pickup.index.create.name')
-                                                        </x-admin::form.control-group.label>
+                                                <x-admin::form.control-group class="w-full">
+                                                    <x-admin::form.control-group.label class="required">
+                                                        @lang('pickup::app.admin.settings.pickup.index.create.name')
+                                                    </x-admin::form.control-group.label>
 
-                                                        <x-admin::form.control-group.control
-                                                            type="text"
-                                                            name="name"
-                                                            rules="required"
-                                                            v-model="selectedCentre.name"
-                                                            :label="trans('pickup::app.admin.settings.pickup.index.create.name')"
-                                                            :placeholder="trans('pickup::app.admin.settings.pickup.index.create.name')"
-                                                        >
-                                                        </x-admin::form.control-group.control>
+                                                    <x-admin::form.control-group.control
+                                                        type="text"
+                                                        name="name"
+                                                        rules="required"
+                                                        v-model="selectedCentre.name"
+                                                        :label="trans('pickup::app.admin.settings.pickup.index.create.name')"
+                                                        :placeholder="trans('pickup::app.admin.settings.pickup.index.create.name')"
+                                                    >
+                                                    </x-admin::form.control-group.control>
 
-                                                        <x-admin::form.control-group.error
-                                                            control-name="name"
-                                                        >
-                                                        </x-admin::form.control-group.error>
-                                                    </x-admin::form.control-group>
+                                                    <x-admin::form.control-group.error
+                                                        control-name="name"
+                                                    >
+                                                    </x-admin::form.control-group.error>
+                                                </x-admin::form.control-group>
 
-                                                    <x-admin::form.control-group class="w-full">
-                                                        <x-admin::form.control-group.label class="required">
-                                                            @lang('pickup::app.admin.settings.pickup.index.create.address')
-                                                        </x-admin::form.control-group.label>
+                                                <x-admin::form.control-group class="w-full">
+                                                    <x-admin::form.control-group.label class="required">
+                                                        @lang('pickup::app.admin.settings.pickup.index.create.address')
+                                                    </x-admin::form.control-group.label>
 
-                                                        <x-admin::form.control-group.control
-                                                            as="textarea"
-                                                            name="address"
-                                                            rules="required"
-                                                            v-model="selectedCentre.address"
-                                                            :label="trans('pickup::app.admin.settings.pickup.index.create.address')"
-                                                            :placeholder="trans('pickup::app.admin.settings.pickup.index.create.address')"
-                                                        >
-                                                        </x-admin::form.control-group.control>
+                                                    <x-admin::form.control-group.control
+                                                        as="textarea"
+                                                        name="address"
+                                                        rules="required"
+                                                        v-model="selectedCentre.address"
+                                                        :label="trans('pickup::app.admin.settings.pickup.index.create.address')"
+                                                        :placeholder="trans('pickup::app.admin.settings.pickup.index.create.address')"
+                                                    >
+                                                    </x-admin::form.control-group.control>
 
-                                                        <x-admin::form.control-group.error
-                                                            control-name="address"
-                                                        >
-                                                        </x-admin::form.control-group.error>
-                                                    </x-admin::form.control-group>
-                                                </div>
+                                                    <x-admin::form.control-group.error
+                                                        control-name="address"
+                                                    >
+                                                    </x-admin::form.control-group.error>
+                                                </x-admin::form.control-group>
 
                                                 <div class="flex gap-6 mb-[10px]">
                                                     <x-admin::form.control-group class="w-full">
@@ -374,7 +372,7 @@
                                                 {!! view_render_event('bagisto.admin.settings.pickup.create.after') !!}
                                             </div>
                                 </x-slot>
-                                <x-slot:footer>
+                                <x-slot:footer class="border-t-[1px]">
                                     <div class="flex p-4 gap-2 items-center">
                                                 <button
                                                     type="submit"
