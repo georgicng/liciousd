@@ -123,9 +123,6 @@ class PickupController extends Controller
             'additional'
         ]);
 
-        logger()->channel('custom')->info(json_encode(compact('data')));
-
-
         $this->pickupCentreRepository->update($data, $id);
 
         return new JsonResponse([

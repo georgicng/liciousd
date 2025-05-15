@@ -46,350 +46,353 @@
                 <div class="flex gap-x-2.5 items-center">
                     <!-- Craete currency Button -->
                     @if (bouncer()->hasPermission('settings.pickup.create'))
-                    <!-- Filters Activation Button -->
-                        <x-admin::drawer width="500px" ref="centreUpdateOrCreateDrawer">
-                            <x-slot:toggle>
-                                <button
-                                    type="button"
-                                    class="primary-button"
-                                    @click="id=0; selectedCentre={};"
-                                >
-                                    @lang('pickup::app.admin.settings.pickup.index.create-btn')
-                                </button>
-                            </x-slot>
-
-                            <!-- Drawer Header -->
-                            <x-slot:header>
-                                <div class="flex justify-between items-center p-3">
-                                    <p
-                                        class="text-base text-gray-800 dark:text-white font-bold"
-                                        v-if="id"
+                    <x-admin::form
+                        v-slot="{ meta, errors, handleSubmit }"
+                        as="div"
+                    >
+                        <form
+                            @submit="handleSubmit($event, updateOrCreate)"
+                            ref="pickupCreateForm"
+                        >
+                        <!-- Filters Activation Button -->
+                            <x-admin::drawer width="500px" ref="centreUpdateOrCreateDrawer">
+                                <x-slot:toggle>
+                                    <button
+                                        type="button"
+                                        class="primary-button"
+                                        @click="id=0; selectedCentre={};"
                                     >
-                                        @lang('pickup::app.admin.settings.pickup.index.edit.title')
-                                    </p>
+                                        @lang('pickup::app.admin.settings.pickup.index.create-btn')
+                                    </button>
+                                </x-slot>
 
-                                    <p
-                                        class="text-base text-gray-800 dark:text-white font-bold"
-                                        v-else
-                                    >
-                                        @lang('pickup::app.admin.settings.pickup.index.create.title')
-                                    </p>
-                                </div>
-                            </x-slot>
+                                <!-- Drawer Header -->
+                                <x-slot:header>
+                                    <div class="flex justify-between items-center p-3">
+                                        <p
+                                            class="text-base text-gray-800 dark:text-white font-bold"
+                                            v-if="id"
+                                        >
+                                            @lang('pickup::app.admin.settings.pickup.index.edit.title')
+                                        </p>
 
-                            <!-- Drawer Content -->
-                            <x-slot:content class="!p-5">
-                                <x-admin::form
-                                    v-slot="{ meta, errors, handleSubmit }"
-                                    as="div"
-                                >
-                                    <form
-                                        @submit="handleSubmit($event, updateOrCreate)"
-                                        ref="pickupCreateForm"
-                                    >
-                                        <div class="px-[16px] py-[10px] border-b-[1px] dark:border-gray-800">
-                                            {!! view_render_event('bagisto.admin.settings.pickup.create.before') !!}
+                                        <p
+                                            class="text-base text-gray-800 dark:text-white font-bold"
+                                            v-else
+                                        >
+                                            @lang('pickup::app.admin.settings.pickup.index.create.title')
+                                        </p>
+                                    </div>
+                                </x-slot>
 
-                                            <x-admin::form.control-group.control
-                                                type="hidden"
-                                                name="id"
-                                                v-model="selectedCentre.id"
-                                            >
-                                            </x-admin::form.control-group.control>
-                                            <div class="flex gap-6 mb-[10px]">
-                                                <x-admin::form.control-group class="w-full">
-                                                    <x-admin::form.control-group.label class="required">
-                                                        @lang('pickup::app.admin.settings.pickup.index.create.name')
-                                                    </x-admin::form.control-group.label>
+                                <!-- Drawer Content -->
+                                <x-slot:content class="!p-5">
+                                    
+                                            <div class="px-[16px] py-[10px] border-b-[1px] dark:border-gray-800">
+                                                {!! view_render_event('bagisto.admin.settings.pickup.create.before') !!}
 
-                                                    <x-admin::form.control-group.control
-                                                        type="text"
-                                                        name="name"
-                                                        rules="required"
-                                                        v-model="selectedCentre.name"
-                                                        :label="trans('pickup::app.admin.settings.pickup.index.create.name')"
-                                                        :placeholder="trans('pickup::app.admin.settings.pickup.index.create.name')"
-                                                    >
-                                                    </x-admin::form.control-group.control>
+                                                <x-admin::form.control-group.control
+                                                    type="hidden"
+                                                    name="id"
+                                                    v-model="selectedCentre.id"
+                                                >
+                                                </x-admin::form.control-group.control>
+                                                <div class="flex gap-6 mb-[10px]">
+                                                    <x-admin::form.control-group class="w-full">
+                                                        <x-admin::form.control-group.label class="required">
+                                                            @lang('pickup::app.admin.settings.pickup.index.create.name')
+                                                        </x-admin::form.control-group.label>
 
-                                                    <x-admin::form.control-group.error
-                                                        control-name="name"
-                                                    >
-                                                    </x-admin::form.control-group.error>
-                                                </x-admin::form.control-group>
-
-                                                <x-admin::form.control-group class="w-full">
-                                                    <x-admin::form.control-group.label class="required">
-                                                        @lang('pickup::app.admin.settings.pickup.index.create.address')
-                                                    </x-admin::form.control-group.label>
-
-                                                    <x-admin::form.control-group.control
-                                                        as="textarea"
-                                                        name="address"
-                                                        rules="required"
-                                                        v-model="selectedCentre.address"
-                                                        :label="trans('pickup::app.admin.settings.pickup.index.create.address')"
-                                                        :placeholder="trans('pickup::app.admin.settings.pickup.index.create.address')"
-                                                    >
-                                                    </x-admin::form.control-group.control>
-
-                                                    <x-admin::form.control-group.error
-                                                        control-name="address"
-                                                    >
-                                                    </x-admin::form.control-group.error>
-                                                </x-admin::form.control-group>
-                                            </div>
-
-                                            <div class="flex gap-6 mb-[10px]">
-                                                <x-admin::form.control-group class="w-full">
-                                                    <x-admin::form.control-group.label class="required">
-                                                        @lang('pickup::app.admin.settings.pickup.index.create.landmark')
-                                                    </x-admin::form.control-group.label>
-
-                                                    <x-admin::form.control-group.control
-                                                        type="text"
-                                                        name="landmark"
-                                                        rules="required"
-                                                        v-model="selectedCentre.landmark"
-                                                        :label="trans('pickup::app.admin.settings.pickup.index.create.landmark')"
-                                                        :placeholder="trans('pickup::app.admin.settings.pickup.index.create.landmark')"
-                                                    >
-                                                    </x-admin::form.control-group.control>
-
-                                                    <x-admin::form.control-group.error
-                                                        control-name="landmark"
-                                                    >
-                                                    </x-admin::form.control-group.error>
-                                                </x-admin::form.control-group>
-
-                                                <x-admin::form.control-group class="w-full">
-                                                    <x-admin::form.control-group.label class="required">
-                                                        @lang('pickup::app.admin.settings.pickup.index.create.city')
-                                                    </x-admin::form.control-group.label>
-
-                                                    <x-admin::form.control-group.control
-                                                        type="text"
-                                                        name="city"
-                                                        rules="required"
-                                                        v-model="selectedCentre.city"
-                                                        :label="trans('pickup::app.admin.settings.pickup.index.create.city')"
-                                                        :placeholder="trans('pickup::app.admin.settings.pickup.index.create.city')"
-                                                    >
-                                                    </x-admin::form.control-group.control>
-
-                                                    <x-admin::form.control-group.error
-                                                        control-name="city"
-                                                    >
-                                                    </x-admin::form.control-group.error>
-                                                </x-admin::form.control-group>
-                                            </div>
-                                            <div class="flex gap-6 mb-[10px]">
-                                                <x-admin::form.control-group class="w-full">
-                                                    <x-admin::form.control-group.label class="required">
-                                                        @lang('pickup::app.admin.settings.pickup.index.create.country')
-                                                    </x-admin::form.control-group.label>
-
-                                                    <x-admin::form.control-group.control
-                                                        type="select"
-                                                        id="country_code"
-                                                        name="country_code"
-                                                        rules="required"
-                                                        v-model="selectedCentre.country_code"
-                                                        :label="trans('pickup::app.admin.settings.pickup.index.create.country')"
-                                                    >
-                                                        <!-- Default Option -->
-                                                        <option value="">
-                                                            @lang('pickup::app.admin.settings.pickup.index.create.select-country')
-                                                        </option>
-
-                                                        <option
-                                                            v-for="country in countries"
-                                                            :value="country.code"
+                                                        <x-admin::form.control-group.control
+                                                            type="text"
+                                                            name="name"
+                                                            rules="required"
+                                                            v-model="selectedCentre.name"
+                                                            :label="trans('pickup::app.admin.settings.pickup.index.create.name')"
+                                                            :placeholder="trans('pickup::app.admin.settings.pickup.index.create.name')"
                                                         >
-                                                            @{{ country.name }}
-                                                        </option>
-                                                    </x-admin::form.control-group.control>
+                                                        </x-admin::form.control-group.control>
 
-                                                    <x-admin::form.control-group.error control-name="country_code" />
-                                                    <input type="hidden" name="country_id" :value="country_id" />
-                                                </x-admin::form.control-group>
-
-
-                                                <x-admin::form.control-group class="w-full">
-                                                    <x-admin::form.control-group.label class="required">
-                                                        @lang('pickup::app.admin.settings.pickup.index.create.state')
-                                                    </x-admin::form.control-group.label>
-
-                                                    <x-admin::form.control-group.control
-                                                        type="select"
-                                                        id="state_code"
-                                                        name="state_code"
-                                                        rules="required"
-                                                        v-model="selectedCentre.state_code"
-                                                        :label="trans('pickup::app.admin.settings.pickup.index.edit.state')"
-                                                    >
-                                                        <!-- Default Option -->
-                                                        <option value="">
-                                                            @lang('pickup::app.admin.settings.pickup.index.create.select-state')
-                                                        </option>
-
-                                                        <option
-                                                            v-for="state in statesByCountry[selectedCentre.country_code]"
-                                                            :value="state.code"
+                                                        <x-admin::form.control-group.error
+                                                            control-name="name"
                                                         >
-                                                            @{{ state.default_name }}
-                                                        </option>
-                                                    </x-admin::form.control-group.control>
+                                                        </x-admin::form.control-group.error>
+                                                    </x-admin::form.control-group>
 
-                                                    <x-admin::form.control-group.error control-name="state_code" />
-                                                    <input type="hidden" name="state_id" :value="state_id" />
-                                                </x-admin::form.control-group>
-                                            </div>
-                                            <div class="flex gap-6 mb-[10px]">
+                                                    <x-admin::form.control-group class="w-full">
+                                                        <x-admin::form.control-group.label class="required">
+                                                            @lang('pickup::app.admin.settings.pickup.index.create.address')
+                                                        </x-admin::form.control-group.label>
+
+                                                        <x-admin::form.control-group.control
+                                                            as="textarea"
+                                                            name="address"
+                                                            rules="required"
+                                                            v-model="selectedCentre.address"
+                                                            :label="trans('pickup::app.admin.settings.pickup.index.create.address')"
+                                                            :placeholder="trans('pickup::app.admin.settings.pickup.index.create.address')"
+                                                        >
+                                                        </x-admin::form.control-group.control>
+
+                                                        <x-admin::form.control-group.error
+                                                            control-name="address"
+                                                        >
+                                                        </x-admin::form.control-group.error>
+                                                    </x-admin::form.control-group>
+                                                </div>
+
+                                                <div class="flex gap-6 mb-[10px]">
+                                                    <x-admin::form.control-group class="w-full">
+                                                        <x-admin::form.control-group.label class="required">
+                                                            @lang('pickup::app.admin.settings.pickup.index.create.landmark')
+                                                        </x-admin::form.control-group.label>
+
+                                                        <x-admin::form.control-group.control
+                                                            type="text"
+                                                            name="landmark"
+                                                            rules="required"
+                                                            v-model="selectedCentre.landmark"
+                                                            :label="trans('pickup::app.admin.settings.pickup.index.create.landmark')"
+                                                            :placeholder="trans('pickup::app.admin.settings.pickup.index.create.landmark')"
+                                                        >
+                                                        </x-admin::form.control-group.control>
+
+                                                        <x-admin::form.control-group.error
+                                                            control-name="landmark"
+                                                        >
+                                                        </x-admin::form.control-group.error>
+                                                    </x-admin::form.control-group>
+
+                                                    <x-admin::form.control-group class="w-full">
+                                                        <x-admin::form.control-group.label class="required">
+                                                            @lang('pickup::app.admin.settings.pickup.index.create.city')
+                                                        </x-admin::form.control-group.label>
+
+                                                        <x-admin::form.control-group.control
+                                                            type="text"
+                                                            name="city"
+                                                            rules="required"
+                                                            v-model="selectedCentre.city"
+                                                            :label="trans('pickup::app.admin.settings.pickup.index.create.city')"
+                                                            :placeholder="trans('pickup::app.admin.settings.pickup.index.create.city')"
+                                                        >
+                                                        </x-admin::form.control-group.control>
+
+                                                        <x-admin::form.control-group.error
+                                                            control-name="city"
+                                                        >
+                                                        </x-admin::form.control-group.error>
+                                                    </x-admin::form.control-group>
+                                                </div>
+                                                <div class="flex gap-6 mb-[10px]">
+                                                    <x-admin::form.control-group class="w-full">
+                                                        <x-admin::form.control-group.label class="required">
+                                                            @lang('pickup::app.admin.settings.pickup.index.create.country')
+                                                        </x-admin::form.control-group.label>
+
+                                                        <x-admin::form.control-group.control
+                                                            type="select"
+                                                            id="country_code"
+                                                            name="country_code"
+                                                            rules="required"
+                                                            v-model="selectedCentre.country_code"
+                                                            :label="trans('pickup::app.admin.settings.pickup.index.create.country')"
+                                                        >
+                                                            <!-- Default Option -->
+                                                            <option value="">
+                                                                @lang('pickup::app.admin.settings.pickup.index.create.select-country')
+                                                            </option>
+
+                                                            <option
+                                                                v-for="country in countries"
+                                                                :value="country.code"
+                                                            >
+                                                                @{{ country.name }}
+                                                            </option>
+                                                        </x-admin::form.control-group.control>
+
+                                                        <x-admin::form.control-group.error control-name="country_code" />
+                                                        <input type="hidden" name="country_id" :value="country_id" />
+                                                    </x-admin::form.control-group>
+
+
+                                                    <x-admin::form.control-group class="w-full">
+                                                        <x-admin::form.control-group.label class="required">
+                                                            @lang('pickup::app.admin.settings.pickup.index.create.state')
+                                                        </x-admin::form.control-group.label>
+
+                                                        <x-admin::form.control-group.control
+                                                            type="select"
+                                                            id="state_code"
+                                                            name="state_code"
+                                                            rules="required"
+                                                            v-model="selectedCentre.state_code"
+                                                            :label="trans('pickup::app.admin.settings.pickup.index.edit.state')"
+                                                        >
+                                                            <!-- Default Option -->
+                                                            <option value="">
+                                                                @lang('pickup::app.admin.settings.pickup.index.create.select-state')
+                                                            </option>
+
+                                                            <option
+                                                                v-for="state in statesByCountry[selectedCentre.country_code]"
+                                                                :value="state.code"
+                                                            >
+                                                                @{{ state.default_name }}
+                                                            </option>
+                                                        </x-admin::form.control-group.control>
+
+                                                        <x-admin::form.control-group.error control-name="state_code" />
+                                                        <input type="hidden" name="state_id" :value="state_id" />
+                                                    </x-admin::form.control-group>
+                                                </div>
+                                                <div class="flex gap-6 mb-[10px]">
+                                                    <x-admin::form.control-group class="w-full">
+                                                        <x-admin::form.control-group.label class="required">
+                                                            @lang('pickup::app.admin.settings.pickup.index.create.phone')
+                                                        </x-admin::form.control-group.label>
+
+                                                        <x-admin::form.control-group.control
+                                                            type="text"
+                                                            name="phone"
+                                                            rules="required"
+                                                            v-model="selectedCentre.phone"
+                                                            :label="trans('pickup::app.admin.settings.pickup.index.create.phone')"
+                                                            :placeholder="trans('pickup::app.admin.settings.pickup.index.create.phone')"
+                                                        >
+                                                        </x-admin::form.control-group.control>
+
+                                                        <x-admin::form.control-group.error
+                                                            control-name="phone"
+                                                        >
+                                                        </x-admin::form.control-group.error>
+                                                    </x-admin::form.control-group>
+
+                                                    <x-admin::form.control-group class="w-full">
+                                                        <x-admin::form.control-group.label>
+                                                            @lang('pickup::app.admin.settings.pickup.index.create.whatsapp')
+                                                        </x-admin::form.control-group.label>
+
+                                                        <x-admin::form.control-group.control
+                                                            type="text"
+                                                            name="whatsapp"
+                                                            v-model="selectedCentre.whatsapp"
+                                                            :label="trans('pickup::app.admin.settings.pickup.index.create.whatsappy')"
+                                                            :placeholder="trans('pickup::app.admin.settings.pickup.index.create.whatsapp')"
+                                                        >
+                                                        </x-admin::form.control-group.control>
+
+                                                        <x-admin::form.control-group.error
+                                                            control-name="whatsapp"
+                                                        >
+                                                        </x-admin::form.control-group.error>
+                                                    </x-admin::form.control-group>
+                                                </div>
                                                 <x-admin::form.control-group class="w-full">
                                                     <x-admin::form.control-group.label class="required">
-                                                        @lang('pickup::app.admin.settings.pickup.index.create.phone')
+                                                        @lang('pickup::app.admin.settings.pickup.index.create.rate')
                                                     </x-admin::form.control-group.label>
 
                                                     <x-admin::form.control-group.control
-                                                        type="text"
-                                                        name="phone"
+                                                        type="number"
+                                                        name="rate"
                                                         rules="required"
-                                                        v-model="selectedCentre.phone"
-                                                        :label="trans('pickup::app.admin.settings.pickup.index.create.phone')"
-                                                        :placeholder="trans('pickup::app.admin.settings.pickup.index.create.phone')"
+                                                        v-model="selectedCentre.rate"
+                                                        :label="trans('pickup::app.admin.settings.pickup.index.create.rate')"
+                                                        :placeholder="trans('pickup::app.admin.settings.pickup.index.create.rate')"
                                                     >
                                                     </x-admin::form.control-group.control>
 
                                                     <x-admin::form.control-group.error
-                                                        control-name="phone"
+                                                        control-name="rate"
                                                     >
                                                     </x-admin::form.control-group.error>
                                                 </x-admin::form.control-group>
 
                                                 <x-admin::form.control-group class="w-full">
                                                     <x-admin::form.control-group.label>
-                                                        @lang('pickup::app.admin.settings.pickup.index.create.whatsapp')
+                                                        @lang('pickup::app.admin.settings.pickup.index.create.location')
                                                     </x-admin::form.control-group.label>
 
                                                     <x-admin::form.control-group.control
                                                         type="text"
-                                                        name="whatsapp"
-                                                        v-model="selectedCentre.whatsapp"
-                                                        :label="trans('pickup::app.admin.settings.pickup.index.create.whatsappy')"
-                                                        :placeholder="trans('pickup::app.admin.settings.pickup.index.create.whatsapp')"
+                                                        name="location"
+                                                        v-model="selectedCentre.location"
+                                                        :label="trans('pickup::app.admin.settings.pickup.index.create.location')"
+                                                        :placeholder="trans('pickup::app.admin.settings.pickup.index.create.location')"
                                                     >
                                                     </x-admin::form.control-group.control>
 
                                                     <x-admin::form.control-group.error
-                                                        control-name="whatsapp"
+                                                        control-name="location"
                                                     >
                                                     </x-admin::form.control-group.error>
                                                 </x-admin::form.control-group>
+                                                <x-admin::form.control-group>
+                                                    <x-admin::form.control-group.label class="required">
+                                                        @lang('pickup::app.admin.settings.pickup.index.create.additional')
+                                                    </x-admin::form.control-group.label>
+
+
+                                                    <v-business-hours
+                                                        name="additional"
+                                                        rules="required"
+                                                        v-model="selectedCentre.additional"
+                                                    >
+                                                    </v-business-hours>
+
+                                                    <x-admin::form.control-group.error
+                                                        control-name="additional"
+                                                    >
+                                                    </x-admin::form.control-group.error>
+                                                </x-admin::form.control-group>
+
+                                                <!-- Status -->
+                                                <x-admin::form.control-group>
+                                                    <x-admin::form.control-group.label>
+                                                        @lang('pickup::app.admin.settings.pickup.index.create.status')
+                                                    </x-admin::form.control-group.label>
+
+                                                    @php $selectedValue = old('status', 0); @endphp
+
+                                                    <x-admin::form.control-group.control
+                                                        type="switch"
+                                                        name="status"
+                                                        v-model="selectedCentre.status"
+                                                        :label="trans('pickup::app.admin.settings.pickup.index.create.status')"
+                                                        :placeholder="trans('pickup::app.admin.settings.pickup.index.create.status')"
+                                                        ::checked="selectedCentre.status"
+                                                    >
+                                                    </x-admin::form.control-group.control>
+
+                                                    <x-admin::form.control-group.error
+                                                        control-name="status"
+                                                    >
+                                                    </x-admin::form.control-group.error>
+                                                </x-admin::form.control-group>
+
+                                                {!! view_render_event('bagisto.admin.settings.pickup.create.after') !!}
                                             </div>
-                                            <x-admin::form.control-group class="w-full">
-                                                <x-admin::form.control-group.label class="required">
-                                                    @lang('pickup::app.admin.settings.pickup.index.create.rate')
-                                                </x-admin::form.control-group.label>
-
-                                                <x-admin::form.control-group.control
-                                                    type="number"
-                                                    name="rate"
-                                                    rules="required"
-                                                    v-model="selectedCentre.rate"
-                                                    :label="trans('pickup::app.admin.settings.pickup.index.create.rate')"
-                                                    :placeholder="trans('pickup::app.admin.settings.pickup.index.create.rate')"
+                                </x-slot>
+                                <x-slot:footer>
+                                    <div class="flex p-4 gap-2 items-center">
+                                                <button
+                                                    type="submit"
+                                                    class="primary-button justify-center w-1/2"
                                                 >
-                                                </x-admin::form.control-group.control>
-
-                                                <x-admin::form.control-group.error
-                                                    control-name="rate"
-                                                >
-                                                </x-admin::form.control-group.error>
-                                            </x-admin::form.control-group>
-
-                                            <x-admin::form.control-group class="w-full">
-                                                <x-admin::form.control-group.label>
-                                                    @lang('pickup::app.admin.settings.pickup.index.create.location')
-                                                </x-admin::form.control-group.label>
-
-                                                <x-admin::form.control-group.control
-                                                    type="text"
-                                                    name="location"
-                                                    v-model="selectedCentre.location"
-                                                    :label="trans('pickup::app.admin.settings.pickup.index.create.location')"
-                                                    :placeholder="trans('pickup::app.admin.settings.pickup.index.create.location')"
-                                                >
-                                                </x-admin::form.control-group.control>
-
-                                                <x-admin::form.control-group.error
-                                                    control-name="location"
-                                                >
-                                                </x-admin::form.control-group.error>
-                                            </x-admin::form.control-group>
-                                            <x-admin::form.control-group>
-                                                <x-admin::form.control-group.label class="required">
-                                                    @lang('pickup::app.admin.settings.pickup.index.create.additional')
-                                                </x-admin::form.control-group.label>
-
-
-                                                <v-business-hours
-                                                    name="additional"
-                                                    rules="required"
-                                                    v-model="selectedCentre.additional"
-                                                >
-                                                </v-business-hours>
-
-                                                <x-admin::form.control-group.error
-                                                    control-name="additional"
-                                                >
-                                                </x-admin::form.control-group.error>
-                                            </x-admin::form.control-group>
-
-                                            <!-- Status -->
-                                            <x-admin::form.control-group>
-                                                <x-admin::form.control-group.label>
-                                                    @lang('pickup::app.admin.settings.pickup.index.create.status')
-                                                </x-admin::form.control-group.label>
-
-                                                @php $selectedValue = old('status', 0); @endphp
-
-                                                <x-admin::form.control-group.control
-                                                    type="switch"
-                                                    name="status"
-                                                    v-model="selectedCentre.status"
-                                                    :label="trans('pickup::app.admin.settings.pickup.index.create.status')"
-                                                    :placeholder="trans('pickup::app.admin.settings.pickup.index.create.status')"
-                                                    ::checked="selectedCentre.status"
-                                                >
-                                                </x-admin::form.control-group.control>
-
-                                                <x-admin::form.control-group.error
-                                                    control-name="status"
-                                                >
-                                                </x-admin::form.control-group.error>
-                                            </x-admin::form.control-group>
-
-                                            {!! view_render_event('bagisto.admin.settings.pickup.create.after') !!}
-                                        </div>
-                                        <div class="flex p-4 gap-2 items-center">
-                                            <button
-                                                type="submit"
-                                                class="primary-button justify-center w-1/2"
-                                            >
-                                                @lang('pickup::app.admin.settings.pickup.index.create.save-btn')
-                                            </button>
-                                            <button 
-                                                type="button" 
-                                                class="secondary-button justify-center w-1/2" 
-                                                @click="id=0; selectedCentre={}; $refs.centreUpdateOrCreateDrawer.toggle()">
-                                                @lang('pickup::app.admin.settings.pickup.index.create.cancel-btn')
-                                            </button>
-                                        </div>
-                                    </form>
-                                </x-admin::form>
-                            </x-slot>
-                        </x-admin::drawer>
+                                                    @lang('pickup::app.admin.settings.pickup.index.create.save-btn')
+                                                </button>
+                                                <button 
+                                                    type="button" 
+                                                    class="secondary-button justify-center w-1/2" 
+                                                    @click="id=0; selectedCentre={}; $refs.centreUpdateOrCreateDrawer.toggle()">
+                                                    @lang('pickup::app.admin.settings.pickup.index.create.cancel-btn')
+                                                </button>
+                                            </div>
+                                </x-slot:footer>
+                            </x-admin::drawer>
+                         </form>
+                    </x-admin::form>
                     @endif
                 </div>
             </div>
@@ -574,8 +577,6 @@
                     } else if (status == 'on') {
                         formData.set('status', 1)
                     }
-
-                    console.log({ params, formData, model: this.selectedCentre })
 
                     this.$axios.post(params.id ? "{{ route('admin.settings.pickup.update') }}" : "{{ route('admin.settings.pickup.store') }}", formData)
                         .then((response) => {
