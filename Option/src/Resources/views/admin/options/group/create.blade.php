@@ -3,7 +3,7 @@
 
 @php
 $groups = $optionGroupRepository->getByFamily()->groupBy('column');
-$customOptions = $optionRepository->all(['id', 'code', 'admin_name', 'type']);
+$customOptions = $optionRepository->findWhere(['is_sys_defined' => false]);
 @endphp
 <div class="flex gap-2.5 mt-3.5">
     {{-- Left Container --}}
@@ -34,8 +34,7 @@ $customOptions = $optionRepository->all(['id', 'code', 'admin_name', 'type']);
                 </div>
 
                 <!-- Panel Content -->
-                <div class="flex gap-x-1 items-center">
-                    <!-- Delete Group Button -->
+                <!--div class="flex gap-x-1 items-center">
                     <div
                         class="px-3 py-1.5 border-2 border-transparent rounded-md text-red-600 font-semibold whitespace-nowrap transition-all hover:bg-gray-100 dark:hover:bg-gray-950 cursor-pointer"
                         @click="deleteGroup"
@@ -43,14 +42,13 @@ $customOptions = $optionRepository->all(['id', 'code', 'admin_name', 'type']);
                         @lang('option::app.admin.catalog.families.create.delete-group-btn')
                     </div>
 
-                    <!-- Add Group Button -->
                     <div
                         class="secondary-button"
                         @click="$refs.addGroupModal.open()"
                     >
                         @lang('option::app.admin.catalog.families.create.add-group-btn')
                     </div>
-                </div>
+                </div-->
             </div>
 
             <!-- Panel Content -->
@@ -102,7 +100,7 @@ $customOptions = $optionRepository->all(['id', 'code', 'admin_name', 'type']);
 
                                         <i
                                             class="text-xl text-inherit transition-all group-hover:text-gray-800 dark:group-hover:text-white"
-                                            :class="[element.is_user_defined ? 'icon-folder' : 'icon-folder-block']"
+                                            :class="[element.is_sys_defined ? 'icon-folder-block' : 'icon-folder']"
                                         >
                                         </i>
 
@@ -160,7 +158,7 @@ $customOptions = $optionRepository->all(['id', 'code', 'admin_name', 'type']);
 
                                             <i
                                                 class="text-xl transition-all group-hover:text-gray-800 dark:group-hover:text-white"
-                                                :class="[element.is_user_defined ? 'icon-attribute' : 'icon-attribute-block']"
+                                                :class="[element.is_sys_defined ? 'icon-attribute-block' : 'icon-attribute']"
                                             >
                                             </i>
 
@@ -371,7 +369,7 @@ $customOptions = $optionRepository->all(['id', 'code', 'admin_name', 'type']);
             onMove: function(e) {
                 if (
                     e.to.id === 'unassigned-attributes' &&
-                    !e.draggedContext.element.is_user_defined
+                    e.draggedContext.element.is_sys_defined
                 ) {
                     this.dropReverted = true;
 
@@ -429,7 +427,7 @@ $customOptions = $optionRepository->all(['id', 'code', 'admin_name', 'type']);
                 this.columnGroups[params.column].push({
                     'id': 'group_' + params.column + '_' + this.columnGroups[params.column].length,
                     'name': params.name,
-                    'is_user_defined': 1,
+                    'is_sys_defined': 0,
                     'custom_options': [],
                 });
 
@@ -443,7 +441,7 @@ $customOptions = $optionRepository->all(['id', 'code', 'admin_name', 'type']);
             },
 
             isGroupContainsSystemAttributes(group) {
-                return group.custom_options.find(attribute => !attribute.is_user_defined);
+                return group.custom_options.find(attribute => attribute.is_sys_defined);
             },
 
             deleteGroup() {
