@@ -297,7 +297,7 @@
                                         v-model="selectedCity.status"
                                         :label="trans('cs::app.admin.settings.cs.index.create.status')"
                                         :placeholder="trans('cs::app.admin.settings.cs.index.create.status')"
-                                        :checked="(boolean) $selectedValue"
+                                        ::checked="selectedCity.status"
                                     >
                                     </x-admin::form.control-group.control>
 
@@ -366,6 +366,14 @@
 
                         if (params.id) {
                             formData.append('_method', 'put');
+                        }
+                        
+                        const status = formData.get('status');
+
+                        if (!status) {
+                            formData.append('status', 0);                        
+                        } else if (status == 'on') {
+                            formData.set('status', 1)
                         }
 
                         this.$axios.post(params.id ? "{{ route('admin.settings.cs.update') }}" : "{{ route('admin.settings.cs.store') }}", formData)

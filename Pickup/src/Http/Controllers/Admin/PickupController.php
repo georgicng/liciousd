@@ -43,6 +43,10 @@ class PickupController extends Controller
         $this->validate(request(), [
             'city' => 'required',
             'name' => 'required',
+            'phone' => 'required',
+            'address' => 'required',
+            'landmark' => 'required',
+            'rate' => 'required',
         ]);
 
         $data = request()->only([
@@ -95,6 +99,10 @@ class PickupController extends Controller
         $this->validate(request(), [
             'city' => 'required',
             'name' => 'required',
+            'phone' => 'required',
+            'address' => 'required',
+            'landmark' => 'required',
+            'rate' => 'required',
         ]);
 
         $data = request()->only([
@@ -114,6 +122,9 @@ class PickupController extends Controller
             'state_code',
             'additional'
         ]);
+
+        logger()->channel('custom')->info(json_encode(compact('data')));
+
 
         $this->pickupCentreRepository->update($data, $id);
 

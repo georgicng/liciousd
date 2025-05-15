@@ -58,7 +58,8 @@ return [
                         'additional'          => "Opening Times",
                         'city'          => "City",
                         'title'            => 'Create Centre',
-                        'save-btn'         => 'Save Centre',
+                        'save-btn'         => 'Save',
+                        'cancel-btn'         => 'Cancel',
                         'select-direction' => 'Select Direction',
                     ],
 
