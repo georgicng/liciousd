@@ -37,7 +37,7 @@ class PickupServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(dirname(__DIR__) . '/Config/system.php', 'core');
         $this->mergeConfigFrom(dirname(__DIR__) . '/Config/carriers.php', 'carriers');
         $this->loadViewsFrom(__DIR__ . '/../Resources/views/shop', 'shop');
-        Event::listen('bagisto.shop.checkout.onepage.summary.grand_total.after', function($viewRenderEventManager) {
+        Event::listen('bagisto.shop.checkout.onepage.summary.after', function($viewRenderEventManager) {
             $viewRenderEventManager->addTemplate('shop::checkout.shipping');
         });
     }
