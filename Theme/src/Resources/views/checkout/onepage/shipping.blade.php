@@ -54,7 +54,7 @@
                                     >
 
                                     <label
-                                        class="icon-radio-unselect absolute ltr:right-5 rtl:left-5 top-5 text-2xl text-navyBlue peer-checked:icon-radio-select cursor-pointer"
+                                        class="icon-radio-unselect text-2xl text-navyBlue peer-checked:icon-radio-select cursor-pointer"
                                         :for="rate.method"
                                     >
                                         <label

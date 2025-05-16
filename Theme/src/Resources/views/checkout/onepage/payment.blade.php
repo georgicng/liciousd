@@ -55,7 +55,7 @@
 
                                 <label
                                     :for="payment.method"
-                                    class="absolute ltr:right-5 rtl:left-5 top-5 icon-radio-unselect text-2xl text-navyBlue peer-checked:icon-radio-select cursor-pointer"
+                                    class="icon-radio-unselect text-2xl text-navyBlue peer-checked:icon-radio-select cursor-pointer"
                                 >
                                     <label
                                         :for="payment.method"

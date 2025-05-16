@@ -43,7 +43,7 @@ class BankTransferServiceProvider extends ServiceProvider
         );
 
         $this->loadViewsFrom(__DIR__ . '/../Resources/views/shop', 'shop');
-        Event::listen('bagisto.shop.checkout.payment-method.after', function($viewRenderEventManager) {
+        Event::listen('bagisto.shop.checkout.onepage.summary.grand_total.after', function($viewRenderEventManager) {
             $viewRenderEventManager->addTemplate('shop::checkout.payment');
         });
     }

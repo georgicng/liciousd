@@ -102,6 +102,7 @@
                             this.isCartLoading = false;
 
                             this.scrollToCurrentStep();
+                            console.log({ cart: this.cart, shippingMethods: this.shippingMethods, paymentMethods: this.paymentMethods });
                         })
                         .catch(error => {});
                 },

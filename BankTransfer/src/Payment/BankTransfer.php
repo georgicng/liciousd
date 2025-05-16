@@ -44,8 +44,8 @@ class BankTransfer extends Payment
         }
 
         return [
-            'title' => trans('admin::app.configuration.bank-account'),
-            'value' => $this->getConfigData('account'),
+            'title' => trans('admin::app.admin.system.additional'),
+            'value' => [ 'account' => $this->getConfigData('account'), 'note' => $this->getConfigData('additional') ],
         ];
     }
 }
