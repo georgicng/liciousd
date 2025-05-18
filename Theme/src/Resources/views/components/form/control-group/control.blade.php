@@ -164,7 +164,7 @@
         </v-field>
 
         <label
-            class="icon-uncheck text-2xl peer-checked:icon-check-box peer-checked:text-navyBlue cursor-pointer"
+            class="ri-checkbox-blank-line text-2xl peer-checked:ri-checkbox-line peer-checked:text-navyBlue cursor-pointer"
             {{ $attributes->except(['value', ':value', 'v-model', 'rules', ':rules', 'label', ':label']) }}
         >
         </label>

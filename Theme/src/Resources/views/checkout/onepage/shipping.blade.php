@@ -2,6 +2,7 @@
 
 <v-shipping-methods
     :methods="shippingMethods"
+    :active="cart?.selected_shipping_rate_method"
     @processing="stepForward"
     @processed="stepProcessed"
 >
@@ -54,14 +55,15 @@
                                     >
 
                                     <label
-                                        class="icon-radio-unselect text-2xl text-navyBlue peer-checked:icon-radio-select cursor-pointer"
+                                        class=" text-2xl text-navyBlue  cursor-pointer"
+                                        :class="{ 'ri-checkbox-circle-line': rate.method === selectedMethod, 'ri-checkbox-blank-circle-line': rate.method !== selectedMethod }"
                                         :for="rate.method"
                                     >
                                         <label
                                             class="block p-5 border border-[#E9E9E9] rounded-xl cursor-pointer"
                                             :for="rate.method"
                                         >
-                                            <span class="icon-flate-rate text-6xl text-navyBlue"></span>
+                                            <span class="ri-hand-coin-line text-6xl text-navyBlue"></span>
 
                                             <p class="text-2xl mt-1.5 font-semibold max-sm:text-xl">
                                                 @{{ rate.base_formatted_price }}
@@ -72,9 +74,6 @@
                                             </p>
                                         </label>
                                     </label>
-                                    <div v-if="rate.method == selectedMethod">
-                                        @{{ rate.method_description }}
-                                    </div>
                                 </div>
 
                                 {!! view_render_event('bagisto.shop.checkout.shipping-method.after') !!}
@@ -96,10 +95,27 @@
                     required: true,
                     default: () => null,
                 },
+                active: {
+                    type: String,
+                    default: null,
+                },
             },
             data() {
                 return {
                     selectedMethod: null
+                }
+            },
+            computed: {
+                methodMap() {
+                    return this.methods.reduce((acc, item) => ({ ...acc, [item.method_title]: item.method  }), {})
+                }
+            },
+            watch: {
+                active(newVal) {
+                    if (!newVal) {
+                        return;
+                    }
+                    this.selectedMethod = this.methodMap[newVal];
                 }
             },
 

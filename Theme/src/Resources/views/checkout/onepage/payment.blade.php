@@ -55,7 +55,8 @@
 
                                 <label
                                     :for="payment.method"
-                                    class="icon-radio-unselect text-2xl text-navyBlue peer-checked:icon-radio-select cursor-pointer"
+                                    class="text-2xl text-navyBlue  cursor-pointer"
+                                    :class="{ 'ri-checkbox-circle-line': payment.method == selectedMethod, 'ri-checkbox-blank-circle-line': payment.method !== selectedMethod }"
                                 >
                                     <label
                                         :for="payment.method"
@@ -91,14 +92,8 @@
                                         {!! view_render_event('bagisto.shop.checkout.onepage.payment-method.description.after') !!}
                                     </label>
                                 </label>
-                                <div v-if="payment.method == selectedMethod && payment.additional_details ">
-                                        @{{ payment.additional_details }}
-                                    </div>
 
                                 {!! view_render_event('bagisto.shop.checkout.payment-method.after') !!}
-
-                                <!-- Todo implement the additionalDetails -->
-                                {{-- \Webkul\Payment\Payment::getAdditionalDetails($payment['method'] --}}
                             </div>
                         </div>
                     </x-slot>

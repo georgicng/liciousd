@@ -4,7 +4,7 @@ import laravel from "laravel-vite-plugin";
 import path from "path";
 import fs from "fs";
 
-const hotUpdateReport = () => ({
+const hotReloadViews = () => ({
   name: "hot-update-report",
   handleHotUpdate({ file }) {
     if (file.endsWith(".blade.php")) {
@@ -47,7 +47,7 @@ export default defineConfig(({ mode }) => {
         ],
         refresh: true,
       }),
-      hotUpdateReport(),
+      hotReloadViews(),
     ],
 
     experimental: {
