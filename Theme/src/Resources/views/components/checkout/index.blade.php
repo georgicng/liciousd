@@ -54,7 +54,7 @@
                         <template v-else>
                             <x-licious::button
                                 type="button"
-                                class="primary-button w-max py-3 px-11 bg-navyBlue rounded-2xl max-sm:text-sm max-sm:px-6 max-sm:mb-10"
+                                class="btn btn-primary m-[10px] rounded-[5px] transition-all duration-[0.3s] ease-in-out h-[45px] p-[0] px-[25px] border-[0] text-[14px] font-medium leading-[45px] uppercase bg-[#3474d4] text-[#fff]"
                                 :title="trans('shop::app.checkout.onepage.summary.place-order')"
                                 ::disabled="isPlacingOrder"
                                 ::loading="isPlacingOrder"

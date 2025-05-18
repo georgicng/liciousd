@@ -17,12 +17,12 @@
                 >
                     {{ $header }}
 
-                    <span
-                        :class="`text-2xl ${isOpen ? 'icon-arrow-up' : 'icon-arrow-down'}`"
+                    <i
+                        :class="`text-2xl ${isOpen ? 'ri-arrow-up-s-line' : 'ri-arrow-down-s-line'}`"
                         role="button"
                         aria-label="Toggle accordion"
                         tabindex="0"
-                    ></span>
+                    ></i>
                 </div>
             </template>
         @endisset
