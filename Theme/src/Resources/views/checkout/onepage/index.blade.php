@@ -18,36 +18,39 @@
     {!! view_render_event('bagisto.shop.checkout.onepage.header.before') !!}
 
     <!-- Page Header -->
-    <div class="flex-wrap">
-        <div class="w-full flex justify-between px-[60px] py-4 border border-t-0 border-b border-l-0 border-r-0 max-lg:px-8 max-sm:px-4">
-            <div class="flex items-center gap-x-14 max-[1180px]:gap-x-9">
-                <a
-                    href="{{ route('shop.home.index') }}"
-                    class="flex min-h-[30px]"
-                    aria-label="@lang('shop::checkout.onepage.index.bagisto')"
-                >
-                    <img
-                        src="{{ core()->getCurrentChannel()->logo_url ?? bagisto_asset('images/logo.svg') }}"
-                        alt="{{ config('app.name') }}"
-                        width="131"
-                        height="29"
+    <header class="py-4 bg-[#fff]">
+        <div class="flex flex-wrap justify-between relative items-center mx-auto min-[1600px]:max-w-[1500px] min-[1400px]:max-w-[1320px] min-[1200px]:max-w-[1140px] min-[992px]:max-w-[960px] min-[768px]:max-w-[720px] min-[576px]:max-w-[540px]">
+            <div class="flex flex-wrap w-full justify-between">
+                <div class="w-full px-[12px]">
+                    <a
+                        href="{{ route('shop.home.index') }}"
+                        class="flex min-h-[30px]"
+                        aria-label="@lang('shop::checkout.onepage.index.bagisto')"
                     >
-                </a>
+                        <img
+                            src="{{ core()->getCurrentChannel()->logo_url ?? bagisto_asset('images/logo.svg') }}"
+                            alt="{{ config('app.name') }}"
+                            width="131"
+                            height="29"
+                        >
+                    </a>
+                </div>
+                <div><div class="flex items-center"><span class="cursor-pointer text-base font-medium text-blue-700" role="button"> Sign In </span></div></div>
             </div>
         </div>
-    </div>
+     </header>
 
     {!! view_render_event('bagisto.shop.checkout.onepage.header.after') !!}
 
-    <!-- Page Content -->
-    <div class="container px-[60px] max-lg:px-8 max-sm:px-4">
-
-        {!! view_render_event('bagisto.shop.checkout.onepage.breadcrumbs.before') !!}
+    {!! view_render_event('bagisto.shop.checkout.onepage.breadcrumbs.before') !!}
 
         <!-- Breadcrumbs -->
         <x-licious::breadcrumbs name="checkout" />
 
-        {!! view_render_event('bagisto.shop.checkout.onepage.breadcrumbs.after') !!}
+    {!! view_render_event('bagisto.shop.checkout.onepage.breadcrumbs.after') !!}
+
+    <!-- Page Content -->
+    <div class="container px-[60px] max-lg:px-8 max-sm:px-4">
 
         <!-- Checkout Vue Component -->
         <x-licious::checkout />

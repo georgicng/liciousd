@@ -12,11 +12,11 @@
                     class="cr-logo max-[575px]:mb-[15px] max-[575px]:flex max-[575px]:justify-center"
                 >
                     <img
-                        src="{{ core()->getCurrentChannel()->logo_url ?? bagisto_asset('images/logo.svg') }}"
+                        src="{{ core()->getCurrentChannel(env('APP_HOST'))->logo_url ?? bagisto_asset('images/logo.svg') }}"
                         alt="{{ config('app.name') }}"
                         class="logo block h-[35px] w-[115px] max-[575px]:w-[100px]"
                     >
-                    <img src="{{ core()->getCurrentChannel()->dark_logo_url ?? bagisto_asset('images/dark-logo.svg') }}" alt="{{ config('app.name') }}" class="dark-logo hidden h-[35px] w-[115px] max-[575px]:w-[100px]">
+                    <img src="{{ core()->getCurrentChannel(env('APP_HOST'))->dark_logo_url ?? bagisto_asset('images/dark-logo.svg') }}" alt="{{ config('app.name') }}" class="dark-logo hidden h-[35px] w-[115px] max-[575px]:w-[100px]">
                 </a>
 
                 {!! view_render_event('bagisto.shop.components.layouts.header.desktop.bottom.logo.after') !!}

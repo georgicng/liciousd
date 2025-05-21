@@ -9,10 +9,6 @@ module.exports = {
             screens: {
                 "2xl": "1440px",
             },
-
-            padding: {
-                DEFAULT: "90px",
-            },
         },
 
         screens: {

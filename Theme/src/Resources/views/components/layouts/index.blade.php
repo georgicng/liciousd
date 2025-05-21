@@ -22,7 +22,7 @@
     <link
         rel="icon"
         sizes="16x16"
-        href="{{ core()->getCurrentChannel()->favicon_url ?? bagisto_asset('images/favicon.png') }}" />
+        href="{{ core()->getCurrentChannel(env('APP_HOST'))->favicon_url ?? bagisto_asset('images/favicon.png') }}" />
 
     <!-- Icon CSS -->
     <link rel="stylesheet" href="{{ bagisto_asset('css/vendor/materialdesignicons.min.css') }}">

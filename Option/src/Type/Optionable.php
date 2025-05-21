@@ -104,7 +104,9 @@ class Optionable extends AbstractType
     //Maybe add this as an attribute
     private function getConfigOptionId()
     {
-        return $this->optionRepository->Where('code', 'config')->first()->id;
+        $id = $this->optionRepository->Where('code', 'config')->first()->id;
+        logger()->channel('custom')->info("id: $id");
+        return $id;
     }
 
 
@@ -198,6 +200,10 @@ class Optionable extends AbstractType
         $indexer = $this->getPriceIndexer()
             ->setCustomerGroup($customerGroup)
             ->setProduct($this->product);
+            logger()->channel('custom')->info('suspect');
+
+            logger()->channel('custom')->info(json_encode($indexer->getMinimalPrice($qty)));
+            logger()->channel('custom')->info('bus stop');
 
         return $indexer->getMinimalPrice($qty);
     }
@@ -210,6 +216,7 @@ class Optionable extends AbstractType
      */
     public function validateCartItem(CartItem $item): CartItemValidationResult
     {
+        logger()->channel('custom')->info('start');
         $result = new CartItemValidationResult();
 
         if ($this->isCartItemInactive($item)) {
@@ -218,11 +225,17 @@ class Optionable extends AbstractType
             return $result;
         }
 
+        logger()->channel('custom')->info('mid');
+
         $price = round($this->getFinalPrice($item->quantity), 4) + round($this->getPriceIncrement($item->additional['options']), 4);
+        logger()->channel('custom')->info("price: $price");
 
         if ($price == $item->base_price) {
+            logger()->channel('custom')->info('cut short');
             return $result;
         }
+
+        logger()->channel('custom')->info('still running');
 
         $item->base_price = $price;
         $item->price = core()->convertPrice($price);
@@ -231,6 +244,7 @@ class Optionable extends AbstractType
         $item->total = core()->convertPrice($price * $item->quantity);
 
         $item->save();
+        logger()->channel('custom')->info('end');
 
         return $result;
     }
@@ -251,7 +265,8 @@ class Optionable extends AbstractType
         $optionMap = $productOptions->reduce(function (array $carry, ProductOptionValue $item) {
             $key = $item->option_id;
             $value = $item->value;
-            if (is_array($value) && array_is_list($value)) {
+             logger()->channel('custom')->info(json_encode(compact('key', 'value')));
+            if (!empty($value) && is_array($value) && array_is_list($value)) {
                 $value = array_reduce($value, function ($acc, $val) {
                     $acc[$val['id']] = $val;
                     return $acc;
@@ -260,6 +275,7 @@ class Optionable extends AbstractType
             $carry[$key] = $value;
             return $carry;
         }, []);
+        logger()->channel('custom')->info(json_encode(compact('optionMap')));
         $config = $optionMap[$this->getConfigOptionId()];
         if (!empty($config['dynamic']) && $config['dynamic'] === "on") {
             return PriceIncrementEvaluator::getResult($config['rules'], $options);
@@ -274,6 +290,7 @@ class Optionable extends AbstractType
             }, 0);
             $increment += $sub;
         }
+        logger()->channel('custom')->info("increment: $increment");
         return $increment;
     }
 

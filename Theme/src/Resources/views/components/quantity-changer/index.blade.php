@@ -1,10 +1,8 @@
 @props([
-    'name'  => '',
-    'value' => 1,
     'type' => 'product',
 ])
 
-<v-quantity-changer  name="{{ $name }}" value="{{ $value }}">
+<v-quantity-changer {{ $attributes->except(['type']) }}>
 </v-quantity-changer>
 
 @pushOnce('scripts')
@@ -49,7 +47,7 @@
         app.component("v-quantity-changer", {
             template: '#v-quantity-changer-template',
 
-            props:['name', 'value'],
+            props:{'name': { type: String, default: ''}, 'value': { type: Number, default: 1}},
 
             data() {
                 return  {

@@ -11,7 +11,7 @@
         <section class="section-blog-Classic">
             <div class="flex-wrap justify-between relative items-center mx-auto min-[1600px]:max-w-[1500px] min-[1400px]:max-w-[1320px] min-[1200px]:max-w-[1140px] min-[992px]:max-w-[960px] min-[768px]:max-w-[720px] min-[576px]:max-w-[540px]">
                 <div class="flex flex-wrap w-full mb-[-24px]">
-                
+
                     <!-- Cart Shimmer Effect -->
                     <template v-if="isLoading">
                         <x-licious::shimmer.checkout.cart :count="3" />
@@ -23,7 +23,7 @@
                             <div class="cr-cart-content min-[992px]:w-[75%] w-full px-[12px] mb-[30px]" data-aos="fade-up" data-aos-duration="2000" data-aos-delay="400">
                                 <div
                                     class="flex flex-wrap w-full max-[767px]:w-[700px]"
-                                    
+
                                 >
                                     <form action="#" class="w-full">
 
@@ -31,12 +31,12 @@
 
                                         <!-- Cart Item Listing Container -->
                                         <div class="cr-table-content">
-                                            <table class="w-full border-[1px] border-solid border-[#e9e9e9] rounded-[5px] overflow-hidden">
+                                            <table class="w-full border-[1px] border-solid border-[#e9e9e9] rounded-[5px]">
                                                 <thead>
                                                     <tr class="border-[1px] border-solid border-[#e9e9e9]">
                                                         <th class="p-[15px] text-[#444] text-[15px] font-semibold text-left capitalize align-middle whitespace-nowrap leading-[1] tracking-[0] bg-[#e9e9e9]">Product</th>
                                                         <th class="p-[15px] text-[#444] text-[15px] font-semibold text-left capitalize align-middle whitespace-nowrap leading-[1] tracking-[0] bg-[#e9e9e9]">price</th>
-                                                        <th class="p-[15px] text-[#444] text-[15px] font-semibold text-center capitalize align-middle whitespace-nowrap leading-[1] tracking-[0] bg-[#e9e9e9]">Quantity</th>
+                                                        <th class="p-[15px] text-[#444] text-[15px] font-semibold text-left capitalize align-middle whitespace-nowrap leading-[1] tracking-[0] bg-[#e9e9e9]">Quantity</th>
                                                         <th class="p-[15px] text-[#444] text-[15px] font-semibold text-left capitalize align-middle whitespace-nowrap leading-[1] tracking-[0] bg-[#e9e9e9]">Total</th>
                                                         <th class="p-[15px] text-[#444] text-[15px] font-semibold text-left capitalize align-middle whitespace-nowrap leading-[1] tracking-[0] bg-[#e9e9e9]">Action</th>
                                                     </tr>
@@ -44,76 +44,76 @@
                                                 <tbody>
                                                     <tr
                                                         class="border-b-[1px] border-solid border-[#e9e9e9]"
-                                                        v-for="item in cart?.items"
+                                                        v-for="(item, index) in cart?.items"
                                                     >
                                                         <!-- Cart Item Image -->
                                                         <td class="cr-cart-name w-[40%] py-[25px] px-[14px] text-[#444] text-[16px] text-left bg-[#f7f7f8]">
-                                                            <a :href="`{{ route('shop.product_or_category.index', '') }}/${item.product_url_key}`" class="text-[#444] font-medium text-[14px] flex leading-[1.5] tracking-[0.6px] items-center">
-                                                                {!! view_render_event('bagisto.shop.checkout.cart.item_image.before') !!}
-                                                                <x-licious::media.images.lazy
-                                                                    class="cr-cart-img mr-[20px] w-[60px] border-[1px] border-solid border-[#e9e9e9] rounded-[5px]"
-                                                                    ::src="item.base_image.small_image_url"
-                                                                    ::alt="item.name"
-                                                                    width="110"
-                                                                    height="110"
-                                                                    ::key="item.id"
-                                                                    ::index="item.id"
-                                                                />
-                                                                {!! view_render_event('bagisto.shop.checkout.cart.item_image.after') !!}
-
-                                                                {!! view_render_event('bagisto.shop.checkout.cart.item_name.before') !!}
-                                                                <span
-                                                                    v-text="item.name"
-                                                                >
-                                                                </span>
-                                                                <!-- Cart Item Options Container -->
-                                                                <div class="grid place-content-start gap-y-2.5">
-
-                                                                    {!! view_render_event('bagisto.shop.checkout.cart.item_details.before') !!}
-
-                                                                    <!-- Cart Item Options Container -->
-                                                                    <div
-                                                                        class="grid gap-x-2.5 gap-y-1.5 select-none"
-                                                                        v-if="item.options.length"
+                                                            <div class="text-[#444] font-medium text-[14px] flex leading-[1.5] tracking-[0.6px] items-center">
+                                                                <a :href="`{{ route('shop.product_or_category.index', '') }}/${item.product_url_key}`">
+                                                                    {!! view_render_event('bagisto.shop.checkout.cart.item_image.before') !!}
+                                                                    <x-licious::media.images.lazy
+                                                                        class="cr-cart-img mr-[20px] w-[60px] border-[1px] border-solid border-[#e9e9e9] rounded-[5px]"
+                                                                        ::src="item.base_image.small_image_url"
+                                                                        ::alt="item.name"
+                                                                        width="110"
+                                                                        height="110"
+                                                                        ::key="item.id"
+                                                                        ::index="item.id"
+                                                                    />
+                                                                    {!! view_render_event('bagisto.shop.checkout.cart.item_image.after') !!}
+                                                                </a>
+                                                                <div class="flex flex-col">
+                                                                    {!! view_render_event('bagisto.shop.checkout.cart.item_name.before') !!}
+                                                                    <span
+                                                                        v-text="item.name"
                                                                     >
-                                                                        <!-- Details Toggler -->
-                                                                        <div class="">
-                                                                            <p
-                                                                                class="flex gap-x-1.5 text-base items-center cursor-pointer whitespace-nowrap"
-                                                                                @click="item.option_show = ! item.option_show"
-                                                                            >
-                                                                                @lang('licious::app.checkout.cart.index.see-details')
+                                                                    </span>
+                                                                    <!-- Cart Item Options Container -->
+                                                                    <div class="gap-y-2.5 relative" v-if="item.options.length">
 
-                                                                                <span
-                                                                                    class="text-2xl"
-                                                                                    :class="{'icon-arrow-up': item.option_show, 'icon-arrow-down': ! item.option_show}"
-                                                                                ></span>
-                                                                            </p>
+                                                                        {!! view_render_event('bagisto.shop.checkout.cart.item_details.before') !!}
+
+                                                                        <button
+                                                                            class="font-medium text-sm items-center inline-flex"
+                                                                            type="button"
+                                                                            @click="toggleItemOptions(item.id)">
+                                                                            @lang('licious::app.checkout.cart.index.see-details')
+
+                                                                            <span
+                                                                                class="text-2xl"
+                                                                                :class="{'ri-arrow-up-s-line': toggle[item.id], 'ri-arrow-down-s-line': !toggle[item.id]}"
+                                                                            ></span>
+                                                                        </button>
+
+                                                                        <div
+                                                                            class="bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-60 dark:bg-gray-700 dark:divide-gray-600"
+                                                                            :class="{ 'hidden': !toggle[item.id], 'absolute z-1000': toggle[item.id] }">
+                                                                            <ul class="p-3 space-y-1 text-sm text-gray-700 dark:text-gray-200">
+                                                                                <li v-for="option in item.options">
+                                                                                    <div class="flex p-2 rounded-sm">
+                                                                                        <div class="ms-2 text-sm">
+                                                                                            <div class="font-medium text-gray-900 dark:text-gray-300">
+                                                                                                <div> @{{ option.attribute_name + ':' }}</div>
+                                                                                                <p class="text-xs font-normal text-gray-500 dark:text-gray-300">@{{ option.option_label }}</p>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </li>
+                                                                            </ul>
                                                                         </div>
+                                                                        <!-- Cart Item Options Container -->
 
-                                                                        <!-- Option Details -->
-                                                                        <div class="grid gap-2" v-show="item.option_show">
-                                                                            <div class="" v-for="option in item.options">
-                                                                                <p class="text-sm font-medium">
-                                                                                    @{{ option.attribute_name + ':' }}
-                                                                                </p>
 
-                                                                                <p class="text-sm">
-                                                                                    @{{ option.option_label }}
-                                                                                </p>
-                                                                            </div>
-                                                                        </div>
+                                                                        {!! view_render_event('bagisto.shop.checkout.cart.item_details.after') !!}
                                                                     </div>
-
-                                                                    {!! view_render_event('bagisto.shop.checkout.cart.item_details.after') !!}
+                                                                    {!! view_render_event('bagisto.shop.checkout.cart.item_name.after') !!}
                                                                 </div>
-                                                                {!! view_render_event('bagisto.shop.checkout.cart.item_name.after') !!}
-                                                            </a>
+                                                            </div>
 
                                                         </td>
 
                                                         <td class="cr-cart-price py-[25px] px-[14px] text-[#555] text-[15px] font-medium text-left bg-[#f7f7f8]">
-                                                            <span class="amount text-[#555] text-[15px] font-medium text-left" v-text="item.formatted_total"></span>
+                                                            <span class="amount text-[#555] text-[15px] font-medium text-left" v-text="item.formatted_price"></span>
                                                         </td>
 
                                                         <td class="cr-cart-qty py-[25px] px-[14px] text-[#444] text-[16px] text-left bg-[#f7f7f8]">
@@ -131,22 +131,7 @@
                                                         </td>
                                                         <td class="cr-cart-subtotal py-[25px] px-[14px] text-[#555] font-medium text-[15px] text-left bg-[#f7f7f8]">
                                                             {!! view_render_event('bagisto.shop.checkout.cart.formatted_total.before') !!}
-
-                                                            <div class="sm:hidden">
-                                                                <p
-                                                                    class="text-lg font-semibold"
-                                                                    v-text="item.formatted_total"
-                                                                >
-                                                                </p>
-
-                                                                <span
-                                                                    class="text-base text-[#0A49A7] cursor-pointer"
-
-                                                                >
-                                                                    @lang('licious::app.checkout.cart.index.remove')
-                                                                </span>
-                                                            </div>
-
+                                                            <span class="amount text-[#555] text-[15px] font-medium text-left" v-text="item.formatted_total"></span>
                                                             {!! view_render_event('bagisto.shop.checkout.cart.formatted_total.after') !!}
                                                         </td>
                                                         <td class="cr-cart-remove py-[25px] px-[14px] w-[90px] text-[#555] font-medium text-[15px] text-right bg-[#f7f7f8]">
@@ -171,7 +156,7 @@
                                         <!-- Cart Item Actions -->
                                         <div class="flex flex-wrap w-full">
                                             <div class="w-full">
-                                                <div class="cr-cart-update-bottom pt-[30px] flex justify-between">
+                                                <div class="cr-cart-update-bottom pt-[30px] flex justify-between items-center">
                                                     {!! view_render_event('bagisto.shop.checkout.cart.continue_shopping.before') !!}
                                                     <a
                                                         class="cr-links text-[#444] inline-block underline-[1px] text-[15px] leading-[20px] font-medium tracking-[0.8px]"
@@ -198,12 +183,12 @@
                                         </div>
 
                                         {!! view_render_event('bagisto.shop.checkout.cart.controls.after') !!}
-                                    </form>  
+                                    </form>
                                 </div>
-                            
+
                             </div>
                             <div class="min-[992px]:w-[25%] w-full px-[12px] mb-[30px]" data-aos="fade-up" data-aos-duration="2000" data-aos-delay="600">
-                                <div class="cr-blog-sideview p-[24px] bg-[#fff] border-[1px] border-solid border-[#e9e9e9] rounded-[5px] sticky top-[30px]">
+                                <div class="cr-blog-sideview bg-[#fff] sticky top-[30px]">
                                     {!! view_render_event('bagisto.shop.checkout.cart.summary.before') !!}
 
                                     <!-- Cart Summary -->
@@ -253,6 +238,7 @@
                     isLoading: true,
 
                     isStoring: false,
+                    toggle: null
                 }
             },
 
@@ -271,6 +257,7 @@
                     this.$axios.get('{{ route('shop.api.checkout.cart.index') }}')
                         .then(response => {
                             this.cart = response.data.data;
+                            this.toggle = this.cart.items.reduce((acc, item) => ({...acc, [item.id]: false }), {})
 
                             this.isLoading = false;
 
@@ -309,6 +296,7 @@
                 },
 
                 setItemQuantity(itemId, quantity) {
+                    console.log(itemId, quantity)
                     this.applied.quantity[itemId] = quantity;
                 },
 
@@ -375,6 +363,9 @@
                         }
                     });
                 },
+                toggleItemOptions(id) {
+                    this.toggle[id] = !this.toggle[id];
+                }
             }
         });
     </script>
