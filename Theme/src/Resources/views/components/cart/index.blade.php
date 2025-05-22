@@ -257,7 +257,7 @@
                     this.$axios.get('{{ route('shop.api.checkout.cart.index') }}')
                         .then(response => {
                             this.cart = response.data.data;
-                            this.toggle = this.cart.items.reduce((acc, item) => ({...acc, [item.id]: false }), {})
+                            this.toggle = this.cart?.items.reduce((acc, item) => ({...acc, [item.id]: false }), {})
 
                             this.isLoading = false;
 

@@ -35,7 +35,10 @@
                         >
                     </a>
                 </div>
-                <div><div class="flex items-center"><span class="cursor-pointer text-base font-medium text-blue-700" role="button"> Sign In </span></div></div>
+                <div class="cr-calling flex justify-end items-center max-[1199px]:hidden">
+                    <i class="ri-phone-line pr-[5px] text-[20px]"></i>
+                    <a href="javascript:void(0)" class="text-[15px] font-medium">+123 ( 456 ) ( 7890 )</a>
+                </div>
             </div>
         </div>
      </header>

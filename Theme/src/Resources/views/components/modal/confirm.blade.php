@@ -17,7 +17,7 @@
                 leave-to-class="opacity-0"
             >
                 <div
-                    class="fixed inset-0 bg-gray-500 bg-opacity-50 transition-opacity z-20"
+                    class="cr-modal-overlay w-full h-screen fixed top-0 left-0 z-[10] bg-[#000000b3]"
                     v-show="isOpen"
                 ></div>
             </transition>
@@ -33,34 +33,38 @@
                 leave-to-class="opacity-0 translate-y-4 md:translate-y-0 md:scale-95"
             >
                 <div
-                    class="fixed inset-0 z-20 transform transition overflow-y-auto" v-show="isOpen"
+                    class="cr-modal max-[575px]:w-full fixed top-[50%] left-[50%] z-[30] max-[767px]:w-full max-[767px]:max-h-full max-[767px]:overflow-y-auto transition" v-show="isOpen"
                 >
                     <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
-                        <div class="w-full max-w-[475px] z-[999] absolute left-1/2 top-1/2 p-5 rounded-xl bg-white overflow-hidden max-md:w-[90%] -translate-x-1/2 -translate-y-1/2">
-                            <div class="flex gap-2.5">
-                                <div>
-                                    <span class="flex p-2.5 border border-[rgba(6,12,59,0.20)] rounded-full">
-                                        <i class="icon-error text-3xl"></i>
-                                    </span>
-                                </div>
-
-                                <div>
-                                    <div class="flex gap-5 justify-between items-center text-xl">
-                                        @{{ title }}
+                        <div class="cr-modal-dialog max-w-[475px] max-md:w-[90%] transition-transform duration-[0.3s] ease-out cr-fadeOutUp">
+                            <div class="modal-content p-[30px] relative bg-[#fff] rounded-xl">
+                                <div class="flex gap-2.5">
+                                    <div>
+                                        <span class="flex p-2.5 border border-[rgba(6,12,59,0.20)] rounded-full">
+                                            <i class="ri-alert-line text-3xl"></i>
+                                        </span>
                                     </div>
 
-                                    <div class="pt-1.5 pb-5 text-sm text-[#727272] text-left">
-                                        @{{ message }}
-                                    </div>
+                                    <div>
+                                        <div class="cr-size-and-weight-contain pb-[20px] max-[767px]:mt-[24px]">
+                                            <h2 class="heading mb-[15px] block text-left text-[#2b2b2d] text-[22px] leading-[1.5] font-medium max-[1399px]:text-[26px] max-[991px]:text-[20px]">
+                                                @{{ title }}
+                                            </h2>
 
-                                    <div class="flex gap-2.5 justify-end">
-                                        <button type="button" class="secondary-button" @click="disagree">
-                                            @{{ options.btnDisagree }}
-                                        </button>
+                                            <p class="mb-[0] font-Poppins text-[#7a7a7a] text-[14px] leading-[1.75]">
+                                                @{{ message }}
+                                            </p>
+                                        </div>
 
-                                        <button type="button" class="primary-button" @click="agree">
-                                            @{{ options.btnAgree }} 
-                                        </button>
+                                        <div class="flex gap-2.5 justify-end">
+                                            <button type="button" class="btn m-[10px] rounded-[5px] transition-all duration-[0.3s] ease-in-out h-[45px] p-[0] px-[25px] border-[0] text-[14px] font-medium leading-[45px] uppercase" @click="disagree">
+                                                @{{ options.btnDisagree }}
+                                            </button>
+
+                                            <button type="button" class="btn btn-success m-[10px] rounded-[5px] transition-all duration-[0.3s] ease-in-out h-[45px] p-[0] px-[25px] border-[0] text-[14px] font-medium leading-[45px] uppercase bg-[#64b496] text-[#fff]" @click="agree">
+                                                @{{ options.btnAgree }} 
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

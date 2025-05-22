@@ -7,14 +7,14 @@
         type="text/x-template"
         id="v-coupon-template"
     >
-        <div class="flex justify-between text-right">
-            <p class="text-base max-sm:text-sm max-sm:font-normal">
+        <div class="flex justify-between items-center mb-[10px]">
+            <span class="text-left text-[#7a7a7a] text-[14px] leading-[24px] tracking-[0]">
                 @{{ cart.coupon_code ? "@lang('shop::app.checkout.cart.coupon.applied')" : "@lang('shop::app.checkout.cart.coupon.discount')" }}
-            </p>
+            </span>
 
             {!! view_render_event('bagisto.shop.checkout.cart.coupon.before') !!}
 
-            <p class="text-base font-medium max-sm:text-sm">
+            <p class="text-right text-[#000] text-[15px] leading-[24px] font-medium">
                 <!-- Apply Coupon Form -->
                 <x-licious::form
                     v-slot="{ meta, errors, handleSubmit }"
@@ -29,7 +29,7 @@
                             <!-- Modal Toggler -->
                             <x-slot:toggle>
                                 <span
-                                    class="text-[#0A49A7] cursor-pointer"
+                                    class="text-right text-[#000] text-[15px] leading-[24px] font-medium"
                                     role="button"
                                     tabindex="0"
                                     v-if="! cart.coupon_code"
@@ -104,7 +104,7 @@
                     </p>
 
                     <span
-                        class="icon-cancel text-2xl cursor-pointer"
+                        class="ri-close-line text-2xl cursor-pointer"
                         title="@lang('shop::app.checkout.cart.coupon.remove')"
                         @click="destroyCoupon"
                     >

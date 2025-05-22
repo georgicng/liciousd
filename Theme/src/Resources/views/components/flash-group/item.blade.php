@@ -19,7 +19,7 @@
                 :style="typeStyles[flash.type]['message']"
             >
                 <span
-                    class="icon-toast-done ltr:mr-2.5 rtl:ml-2.5 text-2xl"
+                    class="ri-checkbox-circle-line ltr:mr-2.5 rtl:ml-2.5 text-2xl"
                     :class="iconClasses[flash.type]"
                     :style="typeStyles[flash.type]['icon']"
                 ></span>
@@ -28,7 +28,7 @@
             </p>
 
 			<span
-                class="icon-cancel max-h-4 max-w-4 cursor-pointer"
+                class="ri-close-line max-h-4 max-w-4 cursor-pointer"
                 :style="typeStyles[flash.type]['icon']"
                 @click="remove"
             ></span>
@@ -44,13 +44,13 @@
             data() {
                 return {
                     iconClasses: {
-                        success: 'icon-toast-done',
+                        success: 'ri-checkbox-circle-line',
 
-                        error: 'icon-toast-error',
+                        error: 'ri-alert-line',
 
-                        warning: 'icon-toast-exclamation-mark',
+                        warning: 'ri-error-warning-line',
 
-                        info: 'icon-toast-info',
+                        info: 'ri-information-line',
                     },
 
                     typeStyles: {
