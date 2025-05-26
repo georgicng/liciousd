@@ -32,7 +32,15 @@ return [
                 'type'          => 'boolean',
                 'channel_based' => true,
                 'locale_based'  => false,
-            ],
+            ], [
+                'name'          => 'image',
+                'title'         => 'paystack::app.admin.system.logo',
+                'type'          => 'image',
+                'info'          => 'paystack::app.admin.system.logo-information',
+                'channel_based' => true,
+                'locale_based'  => false,
+                'validation'    => 'mimes:bmp,jpeg,jpg,png,webp',
+            ]
         ]
     ],
     [
@@ -66,7 +74,15 @@ return [
                 'type'          => 'boolean',
                 'channel_based' => true,
                 'locale_based'  => false,
-            ],
+            ], [
+                'name'          => 'image',
+                'title'         => 'paystack::app.admin.system.logo',
+                'type'          => 'image',
+                'info'          => 'paystack::app.admin.system.logo-information',
+                'channel_based' => true,
+                'locale_based'  => false,
+                'validation'    => 'mimes:bmp,jpeg,jpg,png,webp',
+            ]
         ]
     ]
 ];

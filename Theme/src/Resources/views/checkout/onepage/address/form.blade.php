@@ -216,34 +216,38 @@
                         @lang('licious::app.checkout.onepage.address.city')
                     </x-licious::form.control-group.label>
 
-                    <x-licious::form.control-group.control
-                        type="select"
-                        ::name="controlName + '.city'"
-                        class="py-2 mb-2"
-                        rules="required"
-                        :label="trans('shop::app.checkout.onepage.addresses.billing.city')"
-                        :placeholder="trans('shop::app.checkout.onepage.addresses.billing.city')"
-                        v-model="selectedCity"
-                        v-if="haveCities"
-                    >
-                        <option
-                            v-for='(city, index) in cities[selectedCountry][selectedState]'
-                            :value="city.name"
-                            :key="index"
+                    <template v-if="haveCities">
+                        <x-licious::form.control-group.control
+                            type="select"
+                            ::name="controlName + '.city'"
+                            class="py-2 mb-2"
+                            rules="required"
+                            :label="trans('shop::app.checkout.onepage.addresses.billing.city')"
+                            :placeholder="trans('shop::app.checkout.onepage.addresses.billing.city')"
+                            v-model="selectedCity"
+                            
                         >
-                            @{{ city.name }}
-                        </option>
-                    </x-licious::form.control-group.control>
-
-                    <x-licious::form.control-group.control
-                        v-else
-                        type="text"
-                        ::name="controlName + '.city'"
-                        v-model="selectedCity"
-                        rules="required"
-                        :label="trans('shop::app.checkout.onepage.address.city')"
-                        :placeholder="trans('shop::app.checkout.onepage.address.city')"
-                    />
+                            <option
+                                v-for='(city, index) in cities[selectedCountry][selectedState]'
+                                :value="city.name"
+                                :key="index"
+                            >
+                                @{{ city.name }}
+                            </option>
+                        </x-licious::form.control-group.control>
+                    </template>
+                    
+                    <template v-else>
+                        <x-licious::form.control-group.control
+                            v-else
+                            type="text"
+                            ::name="controlName + '.city'"
+                            v-model="selectedCity"
+                            rules="required"
+                            :label="trans('shop::app.checkout.onepage.address.city')"
+                            :placeholder="trans('shop::app.checkout.onepage.address.city')"
+                        />
+                    </template>
 
 
                     <x-licious::form.control-group.error ::name="controlName + '.city'" />

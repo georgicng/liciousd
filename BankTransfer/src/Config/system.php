@@ -38,6 +38,14 @@ return [
                 'type'          => 'textarea',
                 'channel_based' => false,
                 'locale_based'  => true,
+            ], [
+                'name'          => 'image',
+                'title'         => 'bank::app.admin.system.logo',
+                'type'          => 'image',
+                'info'          => 'bank::app.admin.system.logo-information',
+                'channel_based' => true,
+                'locale_based'  => false,
+                'validation'    => 'mimes:bmp,jpeg,jpg,png,webp',
             ]
         ]
     ]

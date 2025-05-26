@@ -7,7 +7,9 @@ return [
             'title' => 'Title',
             'description' => 'Description',
             'status' => 'Status',
-            'sandbox' => 'Sandbox',
+            'sandbox' => 'Sandbox',            
+            'logo' => 'Logo',
+            'logo-information' => 'Image size should be 100px * 50px'
         ],
     ]
 ];

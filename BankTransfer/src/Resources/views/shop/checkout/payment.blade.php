@@ -1,5 +1,5 @@
 
-<v-bank-details v-if="cart?.payment_method == 'bank_transfer'"></v-bank-details>
+<v-bank-details v-if="canPlaceOrder && cart?.payment_method == 'bank_transfer'"></v-bank-details>
 
 @pushOnce('scripts')
     <script type="text/x-template" id="v-bank-details-template">

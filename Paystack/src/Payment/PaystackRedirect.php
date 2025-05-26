@@ -3,6 +3,7 @@
 namespace Gaiproject\Paystack\Payment;
 
 use Webkul\Payment\Payment\Payment;
+use Illuminate\Support\Facades\Storage;
 
 class PaystackRedirect extends Payment
 {
@@ -29,5 +30,17 @@ class PaystackRedirect extends Payment
     public function getRedirectUrl()
     {
         return route('paystack.redirect');
+    }
+
+     /**
+     * Get payment method image.
+     *
+     * @return array
+     */
+    public function getImage()
+    {
+        $url = $this->getConfigData('image');
+
+        return $url ? Storage::url($url) : bagisto_asset('images/cash-on-delivery.png', 'shop');
     }
 }

@@ -125,7 +125,7 @@
                 name="{{ $name }}"
                 v-bind="field"
                 :class="[errors.length ? 'border !border-red-500' : '']"
-                {{ $attributes->except(['value', ':value', 'v-model', 'rules', ':rules', 'label', ':label'])->merge(['class' => 'cr-bill-select appearance-none outline-[0] border-[0] bg-[#fff] flex-[1] px-[10px] text-[#7a7a7a] cursor-pointer rounded-[5px]']) }}
+                {{ $attributes->except(['value', ':value', 'v-model', 'rules', ':rules', 'label', ':label'])->merge(['class' => 'custom-select w-full px-[10px] h-[50px] bg-white border border-[#E9E9E9] rounded-[5px] text-[14px] text-gray-600 transition-all hover:border-gray-400 focus-visible:outline-none']) }}
             >
                 {{ $slot }}
             </select>
@@ -164,7 +164,7 @@
         </v-field>
 
         <label
-            class="ri-checkbox-blank-line text-2xl peer-checked:ri-checkbox-line peer-checked:text-navyBlue cursor-pointer"
+            class="ri-checkbox-blank-line peer-checked:ri-checkbox-line  text-2xl cursor-pointer peer-checked:text-navyBlue"
             {{ $attributes->except(['value', ':value', 'v-model', 'rules', ':rules', 'label', ':label']) }}
         >
         </label>

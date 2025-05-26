@@ -8,13 +8,13 @@
         type="text/x-template"
         id="v-cart-template"
     >
-        <section class="section-blog-Classic">
-            <!-- Cart Shimmer Effect -->
-            <template v-if="isLoading">
-                <x-licious::shimmer.checkout.cart   :count="3" />
-            </template>
+        <!-- Cart Shimmer Effect -->
+        <template v-if="isLoading">
+            <x-licious::shimmer.checkout.cart :count="3" />
+        </template>
 
-            <div  v-else class="flex-wrap justify-between relative items-center mx-auto min-[1600px]:max-w-[1500px] min-[1400px]:max-w-[1320px] min-[1200px]:max-w-[1140px] min-[992px]:max-w-[960px] min-[768px]:max-w-[720px] min-[576px]:max-w-[540px]">
+        <section v-else class="section-blog-Classic">
+            <div  class="flex-wrap justify-between relative items-center mx-auto min-[1600px]:max-w-[1500px] min-[1400px]:max-w-[1320px] min-[1200px]:max-w-[1140px] min-[992px]:max-w-[960px] min-[768px]:max-w-[720px] min-[576px]:max-w-[540px]">
                 <div class="flex flex-wrap w-full mb-[-24px]">
                     <!-- Cart Information -->
                     <template v-if="cart?.items?.length">

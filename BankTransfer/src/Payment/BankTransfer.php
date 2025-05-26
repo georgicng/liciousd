@@ -3,6 +3,8 @@
 namespace Gaiproject\BankTransfer\Payment;
 
 use Webkul\Payment\Payment\Payment;
+use Illuminate\Support\Facades\Storage;
+
 
 class BankTransfer extends Payment
 {
@@ -30,6 +32,18 @@ class BankTransfer extends Payment
     public function isAvailable()
     {
         return $this->getConfigData('active') && $this->getConfigData('account');
+    }
+
+    /**
+     * Get payment method image.
+     *
+     * @return array
+     */
+    public function getImage()
+    {
+        $url = $this->getConfigData('image');
+
+        return $url ? Storage::url($url) : bagisto_asset('images/cash-on-delivery.png', 'shop');
     }
 
     /**

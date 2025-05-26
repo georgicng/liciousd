@@ -55,42 +55,43 @@
 
                                 <label
                                     :for="payment.method"
-                                    class="text-2xl text-navyBlue  cursor-pointer"
-                                    :class="{ 'ri-checkbox-circle-line': payment.method == selectedMethod, 'ri-checkbox-blank-circle-line': payment.method !== selectedMethod }"
+                                    class="ri-checkbox-blank-circle-line absolute ltr:right-5 rtl:left-5 top-5 text-2xl text-navyBlue peer-checked:ri-checkbox-circle-line cursor-pointer"
                                 >
-                                    <label
-                                        :for="payment.method"
-                                        class="w-[190px] p-5 block border border-[#E9E9E9] rounded-xl max-sm:w-full cursor-pointer"
-                                    >
-                                        {!! view_render_event('bagisto.shop.checkout.onepage.payment-method.image.before') !!}
+                                
+                                </label>
+                                
+                                <label
+                                    :for="payment.method"
+                                    class="w-[190px] p-5 block border border-[#E9E9E9] rounded-xl max-sm:w-full cursor-pointer"
+                                >
+                                    {!! view_render_event('bagisto.shop.checkout.onepage.payment-method.image.before') !!}
 
-                                        <img
-                                            class="max-w-[55px] max-h-[45px]"
-                                            :src="payment.image"
-                                            width="55"
-                                            height="55"
-                                            :alt="payment.method_title"
-                                            :title="payment.method_title"
-                                        />
+                                    <img
+                                        class="max-w-[55px] max-h-[45px]"
+                                        :src="payment.image"
+                                        width="55"
+                                        height="55"
+                                        :alt="payment.method_title"
+                                        :title="payment.method_title"
+                                    />
 
-                                        {!! view_render_event('bagisto.shop.checkout.onepage.payment-method.image.after') !!}
+                                    {!! view_render_event('bagisto.shop.checkout.onepage.payment-method.image.after') !!}
 
-                                        {!! view_render_event('bagisto.shop.checkout.onepage.payment-method.title.before') !!}
+                                    {!! view_render_event('bagisto.shop.checkout.onepage.payment-method.title.before') !!}
 
-                                        <p class="text-sm font-semibold mt-1.5">
-                                            @{{ payment.method_title }}
-                                        </p>
+                                    <p class="text-sm font-semibold mt-1.5">
+                                        @{{ payment.method_title }}
+                                    </p>
 
-                                        {!! view_render_event('bagisto.shop.checkout.onepage.payment-method.title.after') !!}
+                                    {!! view_render_event('bagisto.shop.checkout.onepage.payment-method.title.after') !!}
 
-                                        {!! view_render_event('bagisto.shop.checkout.onepage.payment-method.description.before') !!}
+                                    {!! view_render_event('bagisto.shop.checkout.onepage.payment-method.description.before') !!}
 
-                                        <p class="text-xs font-medium mt-2.5">
-                                            @{{ payment.description }}
-                                        </p>
+                                    <p class="text-xs font-medium mt-2.5">
+                                        @{{ payment.description }}
+                                    </p>
 
-                                        {!! view_render_event('bagisto.shop.checkout.onepage.payment-method.description.after') !!}
-                                    </label>
+                                    {!! view_render_event('bagisto.shop.checkout.onepage.payment-method.description.after') !!}
                                 </label>
 
                                 {!! view_render_event('bagisto.shop.checkout.payment-method.after') !!}
@@ -115,18 +116,10 @@
                     default: () => null,
                 },
             },
-            data() {
-                return {
-                    selectedMethod: null
-                }
-            },
-
-
             emits: ['processing', 'processed'],
 
             methods: {
                 store(selectedMethod) {
-                    this.selectedMethod = selectedMethod;
                     this.$emit('processing', 'review');
 
                     this.$axios.post("{{ route('shop.checkout.onepage.payment_methods.store') }}", {
