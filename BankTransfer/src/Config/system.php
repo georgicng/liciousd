@@ -30,6 +30,7 @@ return [
                 'name'          => 'account',
                 'title'         => 'bank::app.admin.system.account',
                 'type'          => 'textarea',
+                'info'          => 'bank::app.admin.system.account-information',
                 'channel_based' => false,
                 'locale_based'  => true,
             ], [

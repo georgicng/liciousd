@@ -29,6 +29,9 @@ class ThemeServiceProvider extends ServiceProvider
         $this->loadMigrationsFrom(__DIR__.'/../Database/Migrations');
         $this->loadTranslationsFrom(__DIR__.'/../Resources/lang', 'licious');
         $this->loadViewsFrom(__DIR__.'/../Resources/views', 'licious');
+         $this->mergeConfigFrom(
+            dirname(__DIR__) . '/Config/system.php', 'core'
+        );
 
         /* aliases */
         $router->aliasMiddleware('currency', Currency::class);

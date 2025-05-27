@@ -53,6 +53,9 @@ class Pickup extends AbstractShipping
         }
 
         foreach ($records as $record) {
+            if (!$record->status) {
+                continue;
+            }
 
             $rate = $record->rate ?? $this->getConfigData('default_rate');
             $cartShippingRate = new CartShippingRate;

@@ -8,7 +8,7 @@
         id="v-coupon-template"
     >
         <div class="flex justify-between items-center mb-[10px]">
-            <span class="text-left text-[#7a7a7a] text-[14px] leading-[24px] tracking-[0]">
+            <span :class="labelClasses">
                 @{{ cart.coupon_code ? "@lang('shop::app.checkout.cart.coupon.applied')" : "@lang('shop::app.checkout.cart.coupon.discount')" }}
             </span>
 
@@ -120,7 +120,10 @@
         app.component('v-coupon', {
             template: '#v-coupon-template',
 
-            props: ['cart'],
+            props: {
+                cart: { type: Object, required: true },
+                labelClasses: { type: String, default: 'text-left text-[#7a7a7a] text-[14px] leading-[24px] tracking-[0]'}
+            },
 
             data() {
                 return {

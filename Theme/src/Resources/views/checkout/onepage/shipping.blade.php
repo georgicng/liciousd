@@ -39,7 +39,7 @@
                     <x-slot:content class="!p-0 mt-8">
                         <div class="flex flex-wrap gap-8">
                             <div
-                                class="relative w-[200px] select-none"
+                                class="relative max-w-[218px] max-sm:max-w-full max-sm:flex-auto select-none"
                                 v-for="method in methods"
                             >
                                 {!! view_render_event('bagisto.shop.checkout.onepage.shipping.before') !!}

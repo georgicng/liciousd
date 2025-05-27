@@ -12,22 +12,6 @@
                 />
             </x-licious::form.control-group>
 
-            <!-- Company Name -->
-            <x-licious::form.control-group>
-                <x-licious::form.control-group.label>
-                    @lang('licious::app.checkout.onepage.address.company-name')
-                </x-licious::form.control-group.label>
-
-                <x-licious::form.control-group.control
-                    type="text"
-                    ::name="controlName + '.company_name'"
-                    ::value="address.company_name"
-                    :placeholder="trans('shop::app.checkout.onepage.address.company-name')"
-                />
-            </x-licious::form.control-group>
-
-            {!! view_render_event('bagisto.shop.checkout.onepage.address.form.company_name.after') !!}
-
             <!-- First Name -->
             <div class="grid grid-cols-2 gap-x-5">
                 <x-licious::form.control-group>
@@ -225,7 +209,7 @@
                             :label="trans('shop::app.checkout.onepage.addresses.billing.city')"
                             :placeholder="trans('shop::app.checkout.onepage.addresses.billing.city')"
                             v-model="selectedCity"
-                            
+
                         >
                             <option
                                 v-for='(city, index) in cities[selectedCountry][selectedState]'
@@ -236,7 +220,7 @@
                             </option>
                         </x-licious::form.control-group.control>
                     </template>
-                    
+
                     <template v-else>
                         <x-licious::form.control-group.control
                             v-else
@@ -255,46 +239,26 @@
 
                 {!! view_render_event('bagisto.shop.checkout.onepage.address.form.city.after') !!}
 
-                <!-- Postcode -->
+                <!-- Phone Number -->
                 <x-licious::form.control-group>
-                    <x-licious::form.control-group.label class="{{ core()->isPostCodeRequired() ? 'required' : '' }} !mt-0">
-                        @lang('licious::app.checkout.onepage.address.postcode')
+                    <x-licious::form.control-group.label class="!mt-0 required">
+                        @lang('licious::app.checkout.onepage.address.telephone')
                     </x-licious::form.control-group.label>
 
                     <x-licious::form.control-group.control
                         type="text"
-                        ::name="controlName + '.postcode'"
-                        ::value="address.postcode"
-                        rules="{{ core()->isPostCodeRequired() ? 'required' : '' }}"
-                        :label="trans('shop::app.checkout.onepage.address.postcode')"
-                        :placeholder="trans('shop::app.checkout.onepage.address.postcode')"
+                        ::name="controlName + '.phone'"
+                        ::value="address.phone"
+                        rules="required|numeric"
+                        :label="trans('shop::app.checkout.onepage.address.telephone')"
+                        :placeholder="trans('shop::app.checkout.onepage.address.telephone')"
                     />
 
-                    <x-licious::form.control-group.error ::name="controlName + '.postcode'" />
+                    <x-licious::form.control-group.error ::name="controlName + '.phone'" />
                 </x-licious::form.control-group>
 
-                {!! view_render_event('bagisto.shop.checkout.onepage.address.form.postcode.after') !!}
+                {!! view_render_event('bagisto.shop.checkout.onepage.address.form.phone.after') !!}
             </div>
-
-            <!-- Phone Number -->
-            <x-licious::form.control-group>
-                <x-licious::form.control-group.label class="!mt-0 required">
-                    @lang('licious::app.checkout.onepage.address.telephone')
-                </x-licious::form.control-group.label>
-
-                <x-licious::form.control-group.control
-                    type="text"
-                    ::name="controlName + '.phone'"
-                    ::value="address.phone"
-                    rules="required|numeric"
-                    :label="trans('shop::app.checkout.onepage.address.telephone')"
-                    :placeholder="trans('shop::app.checkout.onepage.address.telephone')"
-                />
-
-                <x-licious::form.control-group.error ::name="controlName + '.phone'" />
-            </x-licious::form.control-group>
-
-            {!! view_render_event('bagisto.shop.checkout.onepage.address.form.phone.after') !!}
         </div>
     </script>
 

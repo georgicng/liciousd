@@ -912,4 +912,10 @@ return [
             'tracking-number'   => 'Tracking Number : :tracking_number',
         ],
     ],
+
+    'store' => [
+        'name'               => 'Order support setting',
+        'info' => 'Configure helplines and other store information here.',
+        'helpline'        => 'Call Center',
+    ],
 ];

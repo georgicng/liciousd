@@ -8,9 +8,14 @@ if (!function_exists('getGroupedCities')) {
         $collection = [];
 
         foreach (app(ShippingCityRepository::class)->all() as $city) {
+             if (!$city->status) {
+                continue;
+            }
+
             if (!isset($collection[$city->country_code])) {
                 $collection[$city->country_code] = [];
             }
+
             $collection[$city->country_code][$city->state_code][] = $city;
         }
 

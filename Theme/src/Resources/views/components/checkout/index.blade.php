@@ -36,7 +36,7 @@
                 </div>
 
                 <!-- Included Checkout Summary Blade File -->
-                <div class="sticky top-8 h-max w-[442px] max-w-full ltr:pl-8 rtl:pr-8 max-lg:w-auto max-lg:max-w-[442px] max-lg:ltr:pl-0 max-lg:rtl:pr-0">
+                <div class="sticky top-8 h-max max-w-full ltr:pl-8 rtl:pr-8 lg:w-[442px] lg:ltr:pl-0 lg:rtl:pr-0">
                     @include('shop::checkout.onepage.summary')
 
                     <div

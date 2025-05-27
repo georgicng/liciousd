@@ -121,7 +121,7 @@
             <!-- Apply Coupon -->
             {!! view_render_event('bagisto.shop.checkout.onepage.summary.coupon.before') !!}
 
-            @include('shop::checkout.cart.coupon')
+            <x-licious::coupon labelClasses="text-[#000] text-[15px]" ::cart="cart"  @coupon-applied="getCart" @coupon-removed="getCart" />
 
             {!! view_render_event('bagisto.shop.checkout.onepage.summary.coupon.after') !!}
 

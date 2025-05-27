@@ -87,7 +87,7 @@
 
                                 <!-- Drawer Content -->
                                 <x-slot:content class="!p-5">
-                                    
+
                                             <div class="px-[16px] py-[10px] dark:border-gray-800">
                                                 {!! view_render_event('bagisto.admin.settings.pickup.create.before') !!}
 
@@ -313,11 +313,11 @@
                                                     </x-admin::form.control-group.label>
 
                                                     <x-admin::form.control-group.control
-                                                        type="text"
+                                                        type="textarea"
                                                         name="location"
                                                         v-model="selectedCentre.location"
                                                         :label="trans('pickup::app.admin.settings.pickup.index.create.location')"
-                                                        :placeholder="trans('pickup::app.admin.settings.pickup.index.create.location')"
+                                                        :placeholder="trans('pickup::app.admin.settings.pickup.index.create.location-hint')"
                                                     >
                                                     </x-admin::form.control-group.control>
 
@@ -380,9 +380,9 @@
                                                 >
                                                     @lang('pickup::app.admin.settings.pickup.index.create.save-btn')
                                                 </button>
-                                                <button 
-                                                    type="button" 
-                                                    class="secondary-button justify-center w-1/2" 
+                                                <button
+                                                    type="button"
+                                                    class="secondary-button justify-center w-1/2"
                                                     @click="id=0; selectedCentre={}; $refs.centreUpdateOrCreateDrawer.toggle()">
                                                     @lang('pickup::app.admin.settings.pickup.index.create.cancel-btn')
                                                 </button>
@@ -571,7 +571,7 @@
                     const status = formData.get('status');
 
                     if (!status) {
-                        formData.append('status', 0);                        
+                        formData.append('status', 0);
                     } else if (status == 'on') {
                         formData.set('status', 1)
                     }
@@ -663,7 +663,7 @@
             },
             mounted() {
                 this.model = Object.keys(this.days).reduce((acc, day) => ({
-                    ...acc, 
+                    ...acc,
                     [day]: !this.modelValue || !this.modelValue[day]?.status ?  {  "opens": "9",  "closes": "17", "status": 'off' } : this.modelValue[day]
                 }), {});
                             },

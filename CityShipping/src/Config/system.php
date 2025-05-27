@@ -9,8 +9,7 @@ return
             [
                 'name'          => 'title',
                 'title'         => 'cs::app.admin.system.title',
-                'type'          => 'depends',
-                'depend'        => 'active:1',
+                'type'          => 'text',
                 'validation'    => 'required_if:active,1',
                 'channel_based' => true,
                 'locale_based'  => true
@@ -23,8 +22,7 @@ return
             ], [
                 'name'          => 'default_rate',
                 'title'         => 'cs::app.admin.system.rate',
-                'type'          => 'depends',
-                'depend'        => 'active:1',
+                'type'          => 'text',
                 'validation'    => 'required_if:active,1',
                 'channel_based' => true,
                 'locale_based'  => false
