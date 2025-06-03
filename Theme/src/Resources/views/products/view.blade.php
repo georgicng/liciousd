@@ -73,30 +73,32 @@
             <div class="flex flex-wrap w-full" data-aos="fade-up" data-aos-duration="2000" data-aos-delay="600">
                 <div class="w-full px-[12px]">
                     <x-licious::tabs position="center">
-                        <!-- Description Tab -->
-                        {!! view_render_event('bagisto.shop.products.view.description.before', ['product' => $product]) !!}
+                        @if($product->description)
+                            <!-- Description Tab -->
+                            {!! view_render_event('bagisto.shop.products.view.description.before', ['product' => $product]) !!}
 
-                        <x-licious::tabs.item
-                            :title="trans('shop::app.products.view.description')"
-                            :is-selected="false"
-                        >
-                            <div class="mt-[60px]">
-                                <p class="text-[#6E6E6E] text-lg max-1180:text-sm">
-                                    {!! $product->description !!}
-                                </p>
-                            </div>
-                        </x-licious::tabs.item>
+                            <x-licious::tabs.item
+                                :title="trans('shop::app.products.view.description')"
+                                :is-selected="true"
+                            >
+                                <div class="cr-description pt-[30px]">
+                                    <p class="text-[14px] text-left mb-[0] font-Poppins text-[#7a7a7a] leading-[1.75]">
+                                        {!! $product->description !!}
+                                    </p>
+                                </div>
+                            </x-licious::tabs.item>
 
-                        {!! view_render_event('bagisto.shop.products.view.description.after', ['product' => $product]) !!}
+                            {!! view_render_event('bagisto.shop.products.view.description.after', ['product' => $product]) !!}
+                        @endif
 
                         <!-- Additional Information Tab -->
                         @if(count($attributeData))
                             <x-licious::tabs.item
                                 :title="trans('shop::app.products.view.additional-information')"
-                                :is-selected="false"
+                                :is-selected="!$product->description"
                             >
                                 <div class="list">
-                                    <ul class="mt-[15px] p-[0] mb-[1rem]">
+                                    <ul class="mt-[30px] mb-[-5px] p-[0]">
                                         @foreach ($customAttributeValues as $customAttributeValue)
                                         <li class="py-[5px] text-[#777] flex">
                                             @if (! empty($customAttributeValue['value']))
@@ -135,7 +137,7 @@
                         <!-- Reviews Tab -->
                         <x-licious::tabs.item
                             :title="trans('shop::app.products.view.review')"
-                            :is-selected="true"
+                            :is-selected="!$product->description && !count($attributeData)"
                         >
                             <x-licious::products.review :$product :$avgRatings :$percentageRatings />
                         </x-licious::tabs.item>

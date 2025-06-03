@@ -3,6 +3,7 @@
  * all the `vee-validate` settings.
  */
 import {
+  useField,
   configure,
   defineRule,
   Field,
@@ -33,7 +34,7 @@ import uk from "@vee-validate/i18n/dist/locale/uk.json";
 import zh_CN from "@vee-validate/i18n/dist/locale/zh_CN.json";
 import * as AllRules from "@vee-validate/rules";
 import "vue-multiselect/dist/vue-multiselect.css";
-import { computed } from "vue";
+import { watch } from "vue";
 
 window.defineRule = defineRule;
 
@@ -76,26 +77,31 @@ export default {
         name: { type: String, default: "" },
         multiple: { type: Boolean, default: false },
         placeholder: { type: String },
+        rules: { type: String },
       },
-      methods: {
-        select(option) {
-          if (!this.multiple) {
-            this.$emit("update:modelValue", option.id);
+      setup(props, { emit }) {
+        const { value } = useField(props.name, props.rules);
+        value.value = props.modelValue;
+        watch(value, (newValue) => {
+            emit("update:modelValue", newValue);
+        });
+        const select = (option) => {
+          if (!props.multiple) {
+            value.value = option.id;
             return;
           }
-          this.$emit(
-            "update:modelValue", this.modelValue.includes(option.id)
-            ? this.modelValue.filter((i) => i !== option.id)
-            : [...this.modelValue, option.id]
-          );
-        },
-        isActive(option) {
-          if (!this.multiple) {
-            return this.modelValue == option.id;
+          value.value = value.value.includes(option.id)
+            ? value.value.filter((i) => i !== option.id)
+            : [...value.value, option.id];
+        }
+        const isActive = (option) => {
+          if (!props.multiple) {
+            return value.value == option.id;
           }
-          return this.modelValue.includes(option.id);
-        },
-      },
+          return value.value.includes(option.id);
+        }
+        return { value, select, isActive };
+      }
     });
     app.component("VErrorMessage", ErrorMessage);
 

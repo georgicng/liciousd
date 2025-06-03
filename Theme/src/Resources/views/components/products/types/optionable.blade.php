@@ -11,9 +11,7 @@ $optionList = $productOptionValueRepository->getConfigurableOptions();
 
 @push('scripts')
 <script type="text/x-template" id="v-product-options-template">
-    <div class="w-[455px] max-w-full">
-
-        <div v-for="option in productOptions.toSorted((a, b) => a.position - b.position)"  class="mt-[20px]">
+        <div v-for="option in productOptions.toSorted((a, b) => a.position - b.position)"  class="mb-[20px]">
             <h3
                 v-if="['text', 'textarea'].includes(option.type)"
                 class="mb-[15px] text-[20px] max-sm:text-[16px]"
@@ -21,38 +19,23 @@ $optionList = $productOptionValueRepository->getConfigurableOptions();
             ></h3>
 
             <!-- Dropdown Options -->
-            <v-field
+            <Tags
                 v-if="'select' == option.type"
                 :rules="option.rules"
-                :name="'options[' + option.id + ']'"
-                class="custom-select block w-full p-[14px] pr-[36px] bg-white border border-[#E9E9E9] rounded-lg text-[16px] text-[#6E6E6E] focus:ring-blue-500 focus:border-blue-500 max-md:border-0 max-md:outline-none max-md:w-[110px] cursor-pointer"
                 :label="option.name"
+                :name="'options[' + option.id + ']'"
+                :options="option.value.map(item => ({ id: item.id, name: option.nameById[item.id] }))"
                 v-model="model[option.code]"
-                v-slot="{ value, handleChange }"
-            >
-                <Tags
-                    :label="option.name"
-                    :name="'options[' + option.id + ']'"
-                    :options="option.value.map(item => ({ id: item.id, name: option.nameById[item.id] }))"
-                    :model-value="value"
-                    @update:model-value="handleChange"
-                />
-            </v-field>
-            <v-field-array 
-                v-if="'multiselect' == option.type" 
-                :name="'options[' + option.id + '][]'" 
+            />
+            <Tags
+                v-if="'multiselect' == option.type"
+                :label="option.name"
                 :rules="option.rules"
-                v-slot="{ fields, replace }"
-            >
-                <Tags
-                    :label="option.name"
-                    :name="'options[' + option.id + '][]'"
-                    :multiple="true"
-                    :options="option.value.map(item => ({ id: item.id, name: option.nameById[item.id] }))"
-                    v-model="model[option.code]"
-                />
-            </v-field-array>
-
+                :name="'options[' + option.id + '][]'"
+                :multiple="true"
+                :options="option.value.map(item => ({ id: item.id, name: option.nameById[item.id] }))"
+                v-model="model[option.code]"
+            />
             <v-field
                 v-if="option.type == 'text'"
                 type="text"
@@ -74,7 +57,7 @@ $optionList = $productOptionValueRepository->getConfigurableOptions();
             />
 
             <v-error-message
-                :name="'options[' + option.id + '][]'"
+                :name="`options[${option.id}]${'multiselect' == option.type ? '[]' : ''}`"
                 v-slot="{ message }"
             >
                 <p
@@ -84,7 +67,6 @@ $optionList = $productOptionValueRepository->getConfigurableOptions();
                 </p>
             </v-error-message>
         </div>
-    </div>
 </script>
 
 <script type="module">
@@ -308,7 +290,7 @@ $optionList = $productOptionValueRepository->getConfigurableOptions();
                 ...acc,
                 [option.code]: ['multiselect', 'checkbox'].includes(option.type)? [] : ''
             }), {});
-            //console.log(this.productOptions)
+            console.log(this.productOptions)
         },
     });
 </script>

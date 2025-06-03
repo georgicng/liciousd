@@ -14,12 +14,10 @@
                 class="nav nav-tabs border-b-[1px] border-solid border-[#dee2e6] flex flex-wrap justify-left"
                 id="{{$name}}Tab">
                 <li
-                    tabindex="0"
                     v-for="tab in tabs"
                     class="nav-item transition-all duration-[0.3s] ease-in-out mr-[30px] relative"
                     :class="{'active': tab.isActive }">
                     <a
-                        :href="`#${tab.title}`"
                         role="button"
                         class="mb-[25px] flex font-Poppins text-[17px] font-semibold leading-[1.5] tracking-[0] text-[#2b2b2d] text-left max-[1399px]:text-[18px] max-[767px]:text-[16px] max-[575px]:mb-[15px]"
                         v-text="tab.title"

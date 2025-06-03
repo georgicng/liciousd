@@ -17,7 +17,7 @@
         type="text/x-template"
         id="v-tab-item-template"
     >
-        <div v-if="isActive" class="tab-delivery-pane" :id="title">
+        <div v-show="isActive" class="tab-delivery-pane" :id="title">
             <div class="cr-tab-content">
                 <slot></slot>
             </div>
