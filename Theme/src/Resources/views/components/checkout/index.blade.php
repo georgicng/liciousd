@@ -21,23 +21,23 @@
                 >
                     <!-- Included Addresses Blade File -->
                     <template v-if="['address', 'shipping', 'payment', 'review'].includes(currentStep)">
-                        @include('shop::checkout.onepage.address')
+                        @include('licious::checkout.onepage.address')
                     </template>
 
                     <!-- Included Shipping Methods Blade File -->
                     <template v-if="cart.have_stockable_items && ['shipping', 'payment', 'review'].includes(currentStep)">
-                        @include('shop::checkout.onepage.shipping')
+                        @include('licious::checkout.onepage.shipping')
                     </template>
 
                     <!-- Included Payment Methods Blade File -->
                     <template v-if="['payment', 'review'].includes(currentStep)">
-                        @include('shop::checkout.onepage.payment')
+                        @include('licious::checkout.onepage.payment')
                     </template>
                 </div>
 
                 <!-- Included Checkout Summary Blade File -->
                 <div class="sticky top-8 h-max max-w-full ltr:pl-8 rtl:pr-8 lg:w-[442px] lg:ltr:pl-0 lg:rtl:pr-0">
-                    @include('shop::checkout.onepage.summary')
+                    @include('licious::checkout.onepage.summary')
 
                     <div
                         class="flex justify-end"
@@ -55,7 +55,7 @@
                             <x-licious::button
                                 type="button"
                                 class="btn btn-primary m-[10px] rounded-[5px] transition-all duration-[0.3s] ease-in-out h-[45px] p-[0] px-[25px] border-[0] text-[14px] font-medium leading-[45px] uppercase bg-[#3474d4] text-[#fff] flex justify-center items-center"
-                                :title="trans('shop::app.checkout.onepage.summary.place-order')"
+                                :title="trans('licious::app.checkout.onepage.summary.place-order')"
                                 ::disabled="isPlacingOrder"
                                 ::loading="isPlacingOrder"
                                 @click="placeOrder"

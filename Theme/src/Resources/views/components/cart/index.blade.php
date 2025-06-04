@@ -41,7 +41,7 @@
                                             </thead>
                                             <tbody>
                                                 <tr
-                                                    class="border-b-[1px] border-solid border-[#e9e9e9]"
+                                                    class="border-b-[1px] border-solid border-[#e9e9e9] relative"
                                                     v-for="(item, index) in cart?.items"
                                                 >
                                                     <!-- Cart Item Image -->
@@ -68,7 +68,7 @@
                                                                     >
                                                                     </span></a>
                                                                 <!-- Cart Item Options Container -->
-                                                                <div class="gap-y-2.5 relative" v-if="item.options.length">
+                                                                <div class="gap-y-2.5 relative z-20" v-if="item.options.length">
 
                                                                     {!! view_render_event('bagisto.shop.checkout.cart.item_details.before') !!}
 
@@ -86,7 +86,7 @@
 
                                                                     <div
                                                                         class="bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-60 dark:bg-gray-700 dark:divide-gray-600"
-                                                                        :class="{ 'hidden': !toggle[item.id], 'absolute z-1000': toggle[item.id] }">
+                                                                        :class="{ 'hidden': !toggle[item.id], 'absolute z-50': toggle[item.id] }">
                                                                         <ul class="p-3 space-y-1 text-sm text-gray-700 dark:text-gray-200">
                                                                             <li v-for="option in item.options">
                                                                                 <div class="flex p-2 rounded-sm">

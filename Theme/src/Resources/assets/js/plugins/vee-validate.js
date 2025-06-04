@@ -49,14 +49,14 @@ export default {
     app.component("multiselect", Multiselect);
     app.component("Tags", {
       template: `
-              <div class="cr-size-weight flex items-center pt-[20px] max-[380px]:flex-col max-[380px]:justify-start max-[380px]:items-start">
-                <h5 class="mb-[0] font-Poppins text-[16px] leading-[1.556] text-[#2b2b2d] font-medium max-[1199px]:min-w-[100px] max-[1199px]:text-[14px]">{{ label }} :</h5>
-                <div class="cr-kg pl-[10px] max-[380px]:pl-[0] max-[380px]:pt-[10px] relative group">
+              <div class="cr-size-weight flex flex-col max-[380px]:flex-col max-[380px]:justify-start max-[380px]:items-start">
+                <h5 class="mb-2 font-Poppins text-[16px] leading-[1.556] text-[#2b2b2d] font-medium max-[1199px]:min-w-[100px] max-[1199px]:text-[14px]">{{ label }}</h5>
+                <div class="cr-kg max-[380px]:pt-[10px] relative group">
                     <ul class="w-full p-[0] m-[0] flex flex-wrap">
                         <li
                             v-for="option in options"
                             :key="option.id"
-                            class="transition-all duration-[0.3s] ease-in-out m-[2px] py-[5px] px-[10px] font-Poppins text-[12px] leading-[1] bg-[#fff] text-[#777] border-[1px] border-solid border-[#e9e9e9] rounded-[5px] cursor-pointer max-[1199px]:mr-[5px]"
+                            class="transition-all duration-[0.3s] ease-in-out m-[2px] py-[5px] px-[10px] font-Poppins text-[14px] leading-[1] bg-[#fff] text-[#777] border-[1px] border-solid border-[#e9e9e9] rounded-[5px] cursor-pointer max-[1199px]:mr-[5px]"
                             :class="isActive(option)? 'active-color' : ''"
                             :role="multiple? 'checkbox': 'radio'"
                             @click="select(option)"

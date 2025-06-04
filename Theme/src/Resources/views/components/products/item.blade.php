@@ -12,7 +12,7 @@
                 <!-- Gallery Blade Inclusion -->
                 <x-licious::products.slider :product="$product" />
             </div>
-            <div class="min-[1400px]:w-[66.66%] min-[1200px]:w-[58.33%] min-[768px]:w-[50%] w-full px-[12px] mb-[24px]">
+            <div class="min-[1400px]:w-[33.33%] min-[1200px]:w-[41.66%] min-[768px]:w-[50%] w-full px-[12px] mb-[24px]">
                 <div class="cr-size-and-weight-contain border-b-[1px] border-solid border-[#e9e9e9] pb-[20px] max-[767px]:mt-[24px]">
                     {!! view_render_event('bagisto.shop.products.name.before', ['product' => $product]) !!}
                         <h2 class="heading mb-[15px] block text-[#2b2b2d] text-[22px] leading-[1.5] font-medium max-[1399px]:text-[26px] max-[991px]:text-[20px]">{{ $product->name }}</h2>

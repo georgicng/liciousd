@@ -17,7 +17,7 @@
                 leave-to-class="opacity-0"
             >
                 <div
-                    class="cr-modal-overlay w-full h-screen fixed top-0 left-0 z-[10] bg-[#000000b3]"
+                    class="cr-modal-overlay w-full h-screen fixed top-0 left-0 z-[30] bg-[#000000b3]"
                     v-show="isOpen"
                 ></div>
             </transition>
@@ -33,7 +33,7 @@
                 leave-to-class="opacity-0 translate-y-4 md:translate-y-0 md:scale-95"
             >
                 <div
-                    class="cr-modal max-[575px]:w-full fixed top-[50%] left-[50%] z-[30] max-[767px]:w-full max-[767px]:max-h-full max-[767px]:overflow-y-auto transition" v-show="isOpen"
+                    class="cr-modal max-[575px]:w-full fixed top-[50%] left-[50%] z-[35] max-[767px]:w-full max-[767px]:max-h-full max-[767px]:overflow-y-auto transition" v-show="isOpen"
                 >
                     <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
                         <div class="cr-modal-dialog max-w-[475px] max-md:w-[90%] transition-transform duration-[0.3s] ease-out cr-fadeOutUp">

@@ -11,7 +11,7 @@ $optionList = $productOptionValueRepository->getConfigurableOptions();
 
 @push('scripts')
 <script type="text/x-template" id="v-product-options-template">
-        <div v-for="option in productOptions.toSorted((a, b) => a.position - b.position)"  class="mb-[20px]">
+        <div v-for="option in productOptions.toSorted((a, b) => a.position - b.position)"  class="pt-[20px]">
             <h3
                 v-if="['text', 'textarea'].includes(option.type)"
                 class="mb-[15px] text-[20px] max-sm:text-[16px]"
