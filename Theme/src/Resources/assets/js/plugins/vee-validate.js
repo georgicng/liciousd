@@ -34,7 +34,7 @@ import uk from "@vee-validate/i18n/dist/locale/uk.json";
 import zh_CN from "@vee-validate/i18n/dist/locale/zh_CN.json";
 import * as AllRules from "@vee-validate/rules";
 import "vue-multiselect/dist/vue-multiselect.css";
-import { watch } from "vue";
+import { watch, computed } from "vue";
 
 window.defineRule = defineRule;
 
@@ -51,7 +51,7 @@ export default {
       template: `
               <div class="cr-size-weight flex items-center pt-[20px] max-[380px]:flex-col max-[380px]:justify-start max-[380px]:items-start">
                 <h5 class="mb-[0] font-Poppins text-[16px] leading-[1.556] text-[#2b2b2d] font-medium max-[1199px]:min-w-[100px] max-[1199px]:text-[14px]">{{ label }} :</h5>
-                <div class="cr-kg pl-[10px] max-[380px]:pl-[0] max-[380px]:pt-[10px]">
+                <div class="cr-kg pl-[10px] max-[380px]:pl-[0] max-[380px]:pt-[10px] relative group">
                     <ul class="w-full p-[0] m-[0] flex flex-wrap">
                         <li
                             v-for="option in options"
@@ -61,12 +61,12 @@ export default {
                             :role="multiple? 'checkbox': 'radio'"
                             @click="select(option)"
                             v-text="option.name"></li>
-
                     </ul>
+                    <p v-if="hint" class="absolute top-full left-1/2 transform -translate-x-1/2 mt-2 w-max px-2 py-1 text-sm text-white bg-gray-700 rounded shadow-lg opacity-0 group-hover:opacity-100">{{ hint }}</p>
                 </div>
-                <v-field v-if="!multiple" type="hidden" :name="name" :value="modelValue"></v-field>
+                <v-field v-if="!multiple" type="hidden" :name="name" :value="value"></v-field>
                 <template v-else>
-                    <input v-for="item in modelValue" :name="name" type="hidden" :key="item" :value="item">
+                    <input v-for="item in value" :name="name" type="hidden" :key="item" :value="item">
                 </template>
             </div>
         `,
@@ -80,10 +80,33 @@ export default {
         rules: { type: String },
       },
       setup(props, { emit }) {
-        const { value } = useField(props.name, props.rules);
-        value.value = props.modelValue;
+        const { value } = useField(props.name, props.rules, {
+            label: props.label,
+            initialValue: props.modelValue
+        });
         watch(value, (newValue) => {
             emit("update:modelValue", newValue);
+        });
+        const hint = computed(() => {
+            if (!props.multiple || !props.rules) {
+              return "";
+            }
+            const rulesArray = props.rules.split("|");
+            const hintRule = rulesArray.find((rule) => rule.startsWith("length:"));
+            if (hintRule) {
+              const values = hintRule.split(":")[1];
+              const [min, max] = values.split(",");
+              if (min && max) {
+                return `Please select between ${min} and ${max} options.`;
+              }
+              if (min) {
+                return `Please select at least ${min} options.`;
+              }
+              if (max) {
+                return `Please select up to ${max} options.`;
+              }
+            }
+            return "";
         });
         const select = (option) => {
           if (!props.multiple) {
@@ -100,7 +123,7 @@ export default {
           }
           return value.value.includes(option.id);
         }
-        return { value, select, isActive };
+        return { value, hint, select, isActive };
       }
     });
     app.component("VErrorMessage", ErrorMessage);
