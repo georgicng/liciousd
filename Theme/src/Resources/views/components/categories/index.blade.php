@@ -16,7 +16,7 @@
             <div class="w-full" data-aos="fade-up" data-aos-duration="2000" data-aos-delay="600">
                 <!-- Desktop Product Listing Toolbar -->
                 <div class="flex flex-wrap w-full">
-                    <x-licious::categories.toolbar @tool-action="setFilters('toolbar', $event)" @filter-action="setFilters('filter', $event)" @clear-action="clearFilters('filter', $event)" />
+                    <x-licious::categories.toolbar ::meta="meta" @tool-action="setFilters('toolbar', $event)" />
                 </div>
 
                 <!-- Product List Card Container -->
@@ -26,7 +26,8 @@
                 >
                     <!-- Product Card Shimmer Effect -->
                     <template v-if="isLoading">
-                        <x-licious::shimmer.products.cards.list count="12" />
+                        <x-licious::shimmer.products.cards.list v-if="filters.toolbar.mode === 'list'" count="12" />
+                        <x-licious::shimmer.products.cards.grid v-else count="12" />
                     </template>
 
                     <!-- Product Card Listing -->
@@ -116,6 +117,7 @@
                     products: [],
 
                     links: {},
+                    meta: {},
 
                     loader: false,
                 }
@@ -139,7 +141,6 @@
 
             watch: {
                 queryParams() {
-                    console.log(this.queryParams)
                     this.getProducts();
                 },
 
@@ -150,7 +151,6 @@
 
             methods: {
                 setFilters(type, filters) {
-                    console.log({ type, filters })
                     this.filters[type] = filters;
                 },
 
@@ -176,6 +176,7 @@
                             this.products = response.data.data;
 
                             this.links = response.data.links;
+                            this.meta = response.data.meta;
                         }).catch(error => {
                             console.log(error);
                         });
@@ -195,6 +196,7 @@
                             this.products = [...this.products, ...response.data.data];
 
                             this.links = response.data.links;
+                            this.meta = response.data.meta;
                         }).catch(error => {
                             console.log(error);
                         });
@@ -210,7 +212,6 @@
                             params[key] = params[key].join(',');
                         }
                     });
-                    console.log({ params })
                     return params;
                 },
 
@@ -224,6 +225,13 @@
                     return parameters.toString();
                 }
             },
+            provide() {
+                // use function syntax so that we can access `this`
+                return {
+                    setFilters: this.setFilters,
+                    clearFilters: this.clearFilters,
+                }
+            }
         });
     </script>
 @endPushOnce

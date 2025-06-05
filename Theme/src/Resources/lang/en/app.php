@@ -552,6 +552,7 @@ return [
 
     'categories' => [
         'filters' => [
+            'apply'     => 'Apply',
             'clear-all' => 'Clear All',
             'filters'   => 'Filters:',
             'filter'    => 'Filter',

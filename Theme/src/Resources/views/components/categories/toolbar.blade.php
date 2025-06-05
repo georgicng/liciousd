@@ -16,47 +16,47 @@
                 {!! view_render_event('bagisto.shop.categories.toolbar.filter.before') !!}
                 <!-- Listing Mode Switcher -->
                 <div class="cr-toggle m-[5px] flex">
-                    <x-licious::drawer.filter @filter="$emit('filter-action', $event)" @clear="$emit('clear-action', $event)" />
+                    <x-licious::drawer.filter  />
                     <a
                         href="javascript:void(0)"
                         role="button"
-                        aria-label="@lang('shop::app.categories.toolbar.grid')"
+                        aria-label="@lang('licious::app.categories.toolbar.grid')"
                         tabindex="0"
-                        class="gridCol h-[35px] w-[35px] flex justify-center items-center mr-[7px] bg-[#fff] border-[1px] border-solid border-[#e9e9e9] rounded-[5px] max-[360px]:mr-[7px] active-grid"
+                        class="gridCol h-[35px] w-[35px] flex justify-center items-centerbg-[#fff] border-[1px] border-solid border-[#e9e9e9] rounded-[5px] mr-[7px] max-[360px]:mr-[7px]"
                         :class="{ 'active-grid': filters.applied.mode === 'grid' }"
-                        @click="changeMode('list')">
+                        @click="changeMode('grid')">
                         <i class="ri-grid-line text-[20px]"></i>
                     </a>
                     <a
                         href="javascript:void(0)"
                         role="button"
-                        aria-label="@lang('shop::app.categories.toolbar.list')"
+                        aria-label="@lang('licious::app.categories.toolbar.list')"
                         tabindex="0"
                         class="gridRow h-[35px] w-[35px] flex justify-center items-center bg-[#fff] border-[1px] border-solid border-[#e9e9e9] rounded-[5px]"
                         :class="{ 'active-grid': filters.applied.mode === 'list' }"
-                        @click="changeMode('grid')"
+                        @click="changeMode('list')"
                         >
                         <i class="ri-list-check-2 text-[20px]"></i>
                     </a>
                 </div>
 
                 <div class="center-content flex justify-start items-center flex-[1]">
-                    <span class="px-[12px] font-Poppins text-[14px] leading-[1.875] text-[#7a7a7a] max-[767px]:hidden">We found 29 items for you!</span>
+                    <span v-if="meta?.total" class="px-[12px] font-Poppins text-[14px] leading-[1.875] text-[#7a7a7a] max-[767px]:hidden">We found @{{ meta.total }} items for you!</span>
                 </div>
 
                 <!-- Product Sorting Filters -->
                 <div class="cr-select h-[35px] m-[5px] pt-[3px] pr-[0] pb-[3px] pl-[15px] bg-[#fff] border-[1px] border-solid border-[#e9e9e9] rounded-[5px] flex max-[360px]:pl-[10px]">
-                    <label class="font-Poppins text-[15px] leading-[1.7] text-[#7a7a7a] inline-block max-[767px]:leading-[2.2] max-[767px]:text-[12px]">@{{ sortLabel ?? "@lang('shop::app.products.sort-by.title')" }} :</label>
+                    <label class="font-Poppins text-[15px] leading-[1.7] text-[#7a7a7a] inline-block max-[767px]:leading-[2.2] max-[767px]:text-[12px]">@lang('licious::app.products.sort-by.title') :</label>
                     <select
                         class="form-select py-[0px] px-[6px] mr-[10px] tracking-[0] font-Poppins text-[15px] bg-[10px] leading-[1.2] text-[#7a7a7a] w-[auto] border-[0] outline-[0] block cursor-pointer max-[767px]:text-[12px]"
                         aria-label="Default select example"
                         :value="filters.applied.sort"
+                        @change="apply('sort', $event.target.value)"
                         >
                         <option
                             v-for="(sort, key) in filters.available.sort"
                             :key="key"
-                            :value="sort.value"
-                            @click="apply('sort', sort.value)">@{{ sort.title }}</option>
+                            :value="sort.value">@{{ sort.title }}</option>
 
                     </select>
                 </div>
@@ -70,7 +70,12 @@
     <script type="module">
         app.component('v-toolbar', {
             template: '#v-toolbar-template',
-
+            props: {
+                meta: {
+                    type: Object,
+                    default: () => ({})
+                }
+            },
             data() {
                 return {
                     filters: {
@@ -132,7 +137,6 @@
                             filters[key] = this.filters.applied[key];
                         }
                     }
-                    console.log({ 'tool-action': filters})
                     this.$emit('tool-action', filters);
                 }
             },

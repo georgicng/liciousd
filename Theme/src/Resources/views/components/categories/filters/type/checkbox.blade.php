@@ -15,7 +15,7 @@
                     :id="'option_' + option.id"
                     class="h-[initial] w-[initial] m-[0] p-[0] hidden cursor-pointer"
                     :value="option.id"
-                    @change="$emit('change', option)" />
+                    v-model="model" />
 
                 <label
                     class="relative font-Poppins text-[14px] text-[#7a7a7a] cursor-pointer capitalize inline-block"
@@ -40,7 +40,32 @@
 <script type='module'>
     app.component('v-filter-checkbox', {
         template: '#v-filter-checkbox-template',
-        props: ['options'],
+        props: {
+            'options': { 
+                type: Array, 
+                default: () => []
+            }, 
+            'value': { 
+                type: Array, 
+                default: () => [] 
+            },
+        },
+        computed: {
+            model: {
+               get() {
+                    return this.value ?? [];
+                },
+                set(value) {
+                    this.$emit('check', value);
+                }
+            },
+        },
+        methods: {
+            applyValue(value) {
+                const values = this.value ?? [];
+                this.$emit('change', values.includes(value) ? values.filter(item => item !== value) : [...values, value]);
+            },
+        },
     })
 </script>
 @endPushOnce

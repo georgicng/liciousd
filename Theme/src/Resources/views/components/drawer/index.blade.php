@@ -4,6 +4,7 @@
 
 <v-drawer
     :is-active="{{ $isActive }}"
+    {{ $attributes }}
 >
     @isset($toggle)
         <template #toggle="{ open, toggle }">

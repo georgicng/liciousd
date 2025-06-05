@@ -2,20 +2,9 @@
 
 @pushOnce('scripts')
 <script type="text/x-template" id="v-range-slider-template">
-    <div>
-        <div class="flex items-center gap-4">
-            <p class="text-sm">
-                @lang('shop::app.components.range-slider.range')
-            </p>
+    <div class="price-range-slider w-full mt-[30px]">
 
-            <p
-                class="text-sm font-semibold"
-                v-text="rangeText"
-            >
-            </p>
-        </div>
-
-        <div class="flex relative justify-center items-center p-2 h-20 w-full mx-auto">
+        <div id="slider-range" class="range-bar h-[3px] w-full ml-[8px] border-[0] bg-[#e9e9e9]">
             <div class="relative w-full h-1 bg-gray-200 rounded-2xl">
                 <div
                     ref="progress"
@@ -32,8 +21,7 @@
                         :min="allowedMinRange"
                         :max="allowedMaxRange"
                         aria-label="@lang('shop::app.components.range-slider.min-range')"
-                        @input="handle('min')"
-                        @change="change"
+                        @input="handle('min', $event.target.value)"
                     >
                 </span>
 
@@ -46,12 +34,15 @@
                         :min="allowedMinRange"
                         :max="allowedMaxRange"
                         aria-label="@lang('shop::app.components.range-slider.max-range')"
-                        @input="handle('max')"
-                        @change="change"
+                        @input="handle('max', $event.target.value)"
                     >
                 </span>
             </div>
         </div>
+        <p class="range-value my-[20px] flex">
+            <label class="font-Poppins text-[15px] font-bold leading-[1.2] text-[#000] max-[1399px]:text-[14px]">@lang('shop::app.components.range-slider.range')</label>
+            <input type="text" id="amount" placeholder="'" :value="rangeText" class="w-[calc(100%-50px)] pl-[6px] bg-[#f7f7f8] font-Poppins text-[15px] font-bold leading-[1.2] tracking-[0] text-[#7a7a7a] border-[0] outline-[0]" readonly>
+        </p>
     </div>
 </script>
 
@@ -59,27 +50,19 @@
     app.component('v-range-slider', {
         template: '#v-range-slider-template',
 
-        props: [
-            'defaultType',
-            'defaultAllowedMinRange',
-            'defaultAllowedMaxRange',
-            'defaultMinRange',
-            'defaultMaxRange',
-        ],
+        props: {
+            'defaultType': { type: String, default: 'price' },
+            'allowedMinRange': { type: Number, default: 0 },
+            'allowedMaxRange': { type: Number, default: 100 },
+            'minRange': { type: Number, default: 0 },
+            'maxRange': { type: Number, default: 100 },
+        },
 
         data() {
             return {
-                gap: this.defaultAllowedMaxRange * 0.10,
+                gap: this.allowedMaxRange * 0.10,
 
                 supportedTypes: ['integer', 'float', 'price'],
-
-                allowedMinRange: parseInt(this.defaultAllowedMinRange ?? 0),
-
-                allowedMaxRange: parseInt(this.defaultAllowedMaxRange ?? 100),
-
-                minRange: parseInt(this.defaultMinRange ?? 0),
-
-                maxRange: parseInt(this.defaultMaxRange ?? 100),
             };
         },
 
@@ -94,19 +77,16 @@
             },
         },
 
-        mounted() {
-            this.handleProgressBar();
+        watch: {
+            minRange() {
+                this.handleProgressBar();
+            }, 
+            maxRange() {
+                this.handleProgressBar();
+            }
         },
 
         methods: {
-            getData() {
-                return {
-                    allowedMinRange: this.allowedMinRange,
-                    allowedMaxRange: this.allowedMaxRange,
-                    minRange: this.minRange,
-                    maxRange: this.maxRange,
-                };
-            },
 
             getFormattedData() {
                 /**
@@ -151,20 +131,21 @@
                 };
             },
 
-            handle(rangeType) {
-                this.minRange = parseInt(this.$refs.minRange.value);
+            handle(rangeType, evt) {
+                let minRange = parseInt(rangeType == 'min' ? evt : this.minRange);
 
-                this.maxRange = parseInt(this.$refs.maxRange.value);
+                let maxRange = parseInt(rangeType == 'max' ? evt : this.maxRange);
 
-                if (this.maxRange - this.minRange < this.gap) {
+                if (maxRange - minRange < this.gap) {
                     if (rangeType === 'min') {
-                        this.minRange = this.maxRange - this.gap;
+                        
+                        minRange = maxRange - this.gap;
                     } else {
-                        this.maxRange = this.minRange + this.gap;
+                        maxRange = this.minRange + this.gap;
                     }
-                } else {
-                    this.handleProgressBar();
                 }
+
+                this.$emit('change-range', { minRange, maxRange });
             },
 
             handleProgressBar() {
@@ -173,13 +154,6 @@
                 this.$refs.progress.style[direction] = (this.minRange / this.allowedMaxRange) * 100 + '%';
 
                 this.$refs.progress.style[direction == 'left' ? 'right' : 'left'] = 100 - (this.maxRange / this.allowedMaxRange) * 100 + '%';
-            },
-
-            change() {
-                this.$emit('change-range', {
-                    ...this.getData(),
-                    ...this.getFormattedData(),
-                });
             },
 
             isTypeSupported() {

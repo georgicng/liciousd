@@ -2,91 +2,40 @@
 
 @pushOnce('scripts')
 <script type="text/x-template" id="v-price-filter-template">
-    <div>
-        <!-- Price range filter shimmer -->
-        <template v-if="isLoading">
-            <x-licious::shimmer.range-slider />
-        </template>
-
-        <template v-else>
-            <x-licious::range-slider
-                ::key="refreshKey"
-                default-type="price"
-                ::default-allowed-max-range="allowedMaxPrice"
-                ::default-min-range="minRange"
-                ::default-max-range="maxRange"
-                @change-range="setPriceRange"
-            />
-        </template>
-    </div>
+    <x-licious::range-slider
+        default-type="price"
+        ::allowed-max-range="allowedMaxPrice"
+        ::min-range="minRange"
+        ::max-range="maxRange"
+        @change-range="setPriceRange"
+    />
 </script>
 
 <script type='module'>
     app.component('v-price-filter', {
         template: '#v-price-filter-template',
 
-        props: ['defaultPriceRange'],
-
-        data() {
-            return {
-                refreshKey: 0,
-
-                isLoading: true,
-
-                allowedMaxPrice: 100,
-
-                priceRange: this.defaultPriceRange ?? [0, 100].join(','),
-            };
-        },
+        props: ['value', 'allowedMaxPrice'],
 
         computed: {
             minRange() {
-                let priceRange = this.priceRange.split(',');
+                let priceRange = this.value.split(',');
 
-                return priceRange[0];
+                return parseInt(priceRange[0]);
             },
 
             maxRange() {
-                let priceRange = this.priceRange.split(',');
+                let priceRange = this.value.split(',');
 
-                return priceRange[1];
+                return parseInt(priceRange[1]);
             }
         },
 
-        mounted() {
-            this.getMaxPrice();
-        },
-
         methods: {
-            getMaxPrice() {
-                this.$axios.get(`{{ route("shop.api.categories.max_price", $category->id ?? '') }}`)
-                    .then((response) => {
-                        this.isLoading = false;
-
-                        /**
-                         * If data is zero, then default price will be displayed.
-                         */
-                        if (response.data.data.max_price) {
-                            this.allowedMaxPrice = response.data.data.max_price;
-                        }
-
-                        if (!this.defaultPriceRange) {
-                            this.priceRange = [0, this.allowedMaxPrice].join(',');
-                        }
-
-                        ++this.refreshKey;
-                    })
-                    .catch((error) => {
-                        console.log(error);
-                    });
-            },
-
             setPriceRange($event) {
-                this.priceRange = [$event.minRange, $event.maxRange].join(',');
-
-                this.$emit('set-price-range', this.priceRange);
+                this.$emit('slide', [$event.minRange, $event.maxRange].join(','));
             },
-        },
+        }
     });
 </script>
 @endPushOnce
