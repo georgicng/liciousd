@@ -26,7 +26,6 @@
 
 @pushOnce('scripts')
     <script type="text/x-template" id="v-drawer-template">
-
         <!-- Toggler -->
         <slot name="toggle" :open="open" :toggle="toggle"></slot>
 

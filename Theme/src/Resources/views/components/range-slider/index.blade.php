@@ -160,6 +160,9 @@
                 return this.supportedTypes.includes(this.defaultType);
             },
         },
+        mounted() {
+            this.handleProgressBar();
+        }
     });
 </script>
 @endPushOnce

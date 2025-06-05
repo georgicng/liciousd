@@ -14,7 +14,7 @@
     >
         {!! view_render_event('bagisto.shop.checkout.mini-cart.drawer.before') !!}
 
-        <x-licious::drawer ref="drawer" isActive="false" class="cr-shop-leftside">
+        <x-licious::drawer ref="filterDrawer" isActive="false" class="cr-shop-leftside">
             <!-- Drawer Toggler -->
             <x-slot:toggle>
                 <a href="javascript:void(0)" @click.prevent="open" class="shop_side_view h-[35px] w-[35px] flex justify-center items-center mr-[7px] bg-[#fff] border-[1px] border-solid border-[#e9e9e9] rounded-[5px] max-[360px]:mr-[7px]">
@@ -46,7 +46,7 @@
                     <button
                         class="cr-button h-[40px] font-bold transition-all duration-[0.3s] ease-in-out py-[8px] px-[22px] text-[14px] font-Manrope capitalize leading-[1.2] bg-[#64b496] text-[#fff] border-[1px] border-solid border-[#64b496] rounded-[5px] flex items-center justify-center hover:bg-[#000] hover:border-[#000]"
                         tabindex="0"
-                        @click="applyFilters()"
+                        @click="applyFilters(close)"
                     >@lang('licious::app.categories.filters.apply')</button>
                     <button
                         class="cr-button h-[40px] font-bold transition-all duration-[0.3s] ease-in-out py-[8px] px-[22px] text-[14px] font-Manrope capitalize leading-[1.2] bg-[#64b496] text-[#fff] border-[1px] border-solid border-[#64b496] rounded-[5px] flex items-center justify-center hover:bg-[#000] hover:border-[#000]"
@@ -130,9 +130,9 @@
                     }
                 },
 
-                applyFilters() {
+                applyFilters(cb) {
                     this.setFilters('filter', {...this.filters.applied});
-                    this.refs.drawer.toggle();
+                    cb && cb();
                 },
 
                 clear() {
