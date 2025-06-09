@@ -94,8 +94,9 @@ import VeeValidate from "./plugins/vee-validate";
 import Flatpickr from "./plugins/flatpickr";
 import Carousel from './plugins/slick'
 import Zoomer from './plugins/zoomer'
+import Swiper from './plugins/swiper'
 
-[Axios, Emitter, Shop, VeeValidate, Flatpickr, AOS, Carousel, Zoomer].forEach((plugin) =>
+[Axios, Emitter, Shop, VeeValidate, Flatpickr, AOS, Carousel, Zoomer, Swiper].forEach((plugin) =>
   app.use(plugin)
 );
 
