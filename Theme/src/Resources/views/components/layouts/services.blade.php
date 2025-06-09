@@ -25,7 +25,6 @@
                             <swiper
                                 :slides-per-view="4"
                                 :space-between="50"
-                                :loop="true"
                                 :paginationClickabl="true"
                                 :spaceBetween="24"
                                 :breakpoints="{

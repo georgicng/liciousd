@@ -63,31 +63,8 @@
 
                     {!! view_render_event('bagisto.shop.categories.view.list.product_card.after') !!}
                 </div>
-
-                {!! view_render_event('bagisto.shop.categories.view.load_more_button.before') !!}
-
-                <!-- Load More Button -->
-                <button
-                    class="secondary-button block mx-auto w-max py-3 mt-14 px-11 rounded-2xl text-base text-center"
-                    @click="loadMoreProducts"
-                    v-if="links.next && ! loader"
-                >
-                    @lang('licious::app.categories.view.load-more')
-                </button>
-
-                <button
-                    v-else-if="links.next"
-                    class="secondary-button block w-max mx-auto py-3.5 mt-14 px-[74.5px] rounded-2xl text-base text-center"
-                >
-                    <!-- Spinner -->
-                    <img
-                        class="animate-spin h-5 w-5 text-navyBlue"
-                        src="{{ bagisto_asset('images/spinner.svg') }}"
-                        alt="Loading"
-                    />
-                </button>
-
-                {!! view_render_event('bagisto.shop.categories.view.grid.load_more_button.after') !!}
+                
+                <x-licious::categories.pagination v-if="meta.total > meta.per_page" ::loading="loading" ::meta="meta" @goto="setPage" />
             </div>
         </div>
     </script>
@@ -112,6 +89,8 @@
                         toolbar: {},
 
                         filter: {},
+                        
+                        page: 1
                     },
 
                     products: [],
@@ -120,12 +99,13 @@
                     meta: {},
 
                     loader: false,
+                    page: 1
                 }
             },
 
             computed: {
                 queryParams() {
-                    let queryParams = Object.assign({}, this.filters.filter, this.filters.toolbar);
+                    let queryParams = Object.assign({}, this.filters.filter, this.filters.toolbar, { page: this.filters.page }  );
 
                     return this.removeJsonEmptyValues(queryParams);
                 },
@@ -154,11 +134,17 @@
                     this.filters[type] = filters;
                 },
 
+                setPage(page) {
+                    this.filters.page = page;
+                },
+
                 clearFilters(type, filters) {
                     this.filters[type] = {};
+                    this.filters.page = 1
                 },
 
                 getProducts() {
+                    this.isLoading = true;
                     this.isDrawerActive = {
                         toolbar: false,
 
