@@ -63,7 +63,7 @@
 
                     {!! view_render_event('bagisto.shop.categories.view.list.product_card.after') !!}
                 </div>
-                
+
                 <x-licious::categories.pagination v-if="meta.total > meta.per_page" ::loading="loading" ::meta="meta" @goto="setPage" />
             </div>
         </div>
@@ -132,6 +132,7 @@
             methods: {
                 setFilters(type, filters) {
                     this.filters[type] = filters;
+                    this.filters.page = 1
                 },
 
                 setPage(page) {
