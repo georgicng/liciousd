@@ -17,6 +17,7 @@
         {{  $channel->home_seo['meta_title'] ?? '' }}
     </x-slot>
 
+
     <!-- Loop over the theme customization -->
     @foreach ($customizations as $customization)
         @php ($data = $customization->options) @endphp
@@ -40,7 +41,7 @@
 
                 <!-- render html -->
                 @if (! empty($data['html']))
-                    {!! $data['html'] !!}
+                    {!! app('shortcode')->render($data['html']) !!}
                 @endif
 
                 @break

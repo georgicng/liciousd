@@ -50,7 +50,7 @@ class ProductsCategoriesProxyController extends Controller
                 'channel_id' => core()->getCurrentChannel()->id,
             ]);
 
-            return view('shop::home.index', compact('customizations'));
+            return view('licious::home.index', compact('customizations'));
         }
 
         $category = $this->categoryRepository->findBySlug($slugOrURLKey);
@@ -58,7 +58,7 @@ class ProductsCategoriesProxyController extends Controller
         if ($category) {
             visitor()->visit($category);
 
-            return view('shop::categories.view', [
+            return view('liciousp::categories.view', [
                 'category' => $category,
                 'params'   => [
                     'sort'  => request()->query('sort'),
@@ -81,7 +81,7 @@ class ProductsCategoriesProxyController extends Controller
 
             visitor()->visit($product);
 
-            return view('shop::products.view', compact('product'));
+            return view('licious::products.view', compact('product'));
         }
 
         /**

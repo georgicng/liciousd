@@ -21,7 +21,7 @@
 
                 <!-- Product List Card Container -->
                 <div
-                    class="flex flex-wrap col-100 mb-[-24px]"
+                    class="flex flex-wrap col-50 mb-[-24px]"
                     :class="{'col-size': filters.toolbar.mode === 'list' }"
                 >
                     <!-- Product Card Shimmer Effect -->
@@ -167,7 +167,7 @@
 
                     document.body.style.overflow ='scroll';
 
-                    this.$axios.get("{{ route('shop.api.products.index', ['category_id' => $category->id]) }}", {
+                    this.$axios.get("{{ route('shop.api.products.index', $category ? ['category_id' => $category->id] : []) }}", {
                         params: this.queryParams
                     })
                         .then(response => {

@@ -51,7 +51,7 @@
                     <button
                         class="cr-button h-[40px] font-bold transition-all duration-[0.3s] ease-in-out py-[8px] px-[22px] text-[14px] font-Manrope capitalize leading-[1.2] bg-[#64b496] text-[#fff] border-[1px] border-solid border-[#64b496] rounded-[5px] flex items-center justify-center hover:bg-[#000] hover:border-[#000]"
                         tabindex="0"
-                        @click="clear()"
+                        @click="clear(close)"
                     >@lang('licious::app.categories.filters.clear-all')</button>
                 </div>
             </div>
@@ -120,6 +120,7 @@
                             this.filters.applied[filter] = value.split(',');
                         }
                     });
+                    this.setFilters('filter', {...this.filters.applied});
                 },
 
                 setFilter({filter, values}) {
@@ -135,7 +136,7 @@
                     cb && cb();
                 },
 
-                clear() {
+                clear(cb) {
                     this.filters.applied = { price: this.allowedMaxPrice? `0,${this.allowedMaxPrice}` : '0,100'};
                 },
             },
