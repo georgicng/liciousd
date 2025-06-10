@@ -49,6 +49,7 @@ class ProductResource extends JsonResource
             'prices'      => $productTypeInstance->getProductPrices(),
             'price_html'  => $productTypeInstance->getPriceHtml(),
             'avg_ratings' => round($this->reviewHelper->getAverageRating($this)),
+            'categories' => $this->categories->map(fn($category) => $category->name)->toArray(),
         ];
     }
 }

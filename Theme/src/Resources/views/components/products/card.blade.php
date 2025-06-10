@@ -91,15 +91,8 @@
 
                 <div class="cr-product-details pt-[24px] text-center overflow-hidden max-[1199px]:pt-[20px]">
                     <div class="cr-brand">
-                        <a href="{{ route('shop.product_or_category.index', '') }}" class="transition-all duration-[0.3s] ease-in-out mb-[5px] text-[13px] text-[#777] flex justify-center">Snacks</a>
-                        <div class="cr-star mb-[12px] flex justify-center items-center">
-                            <i class="ri-star-fill mx-[1px] text-[15px] text-[#f5885f]"></i>
-                            <i class="ri-star-fill mx-[1px] text-[15px] text-[#f5885f]"></i>
-                            <i class="ri-star-fill mx-[1px] text-[15px] text-[#f5885f]"></i>
-                            <i class="ri-star-fill mx-[1px] text-[15px] text-[#f5885f]"></i>
-                            <i class="ri-star-fill mx-[1px] text-[15px] text-[#f5885f]"></i>
-                            <p class="mb-[0] font-Poppins ml-[5px] text-[#999] text-[11px] leading-[10px]">(5.0)</p>
-                        </div>
+                        <a href="{{ route('shop.product_or_category.index', '') }}" class="transition-all duration-[0.3s] ease-in-out mb-[5px] text-[13px] text-[#777] flex justify-center">@{{ product?.categories[0] }}</a>
+                        <x-licious::products.star-rating class="mb-[12px] flex justify-center items-center" ::value="product.avg_ratings" :is-editable=false><p class="mb-[0] font-Poppins ml-[5px] text-[#999] text-[11px] leading-[10px]">(@{{ product.avg_ratings }})</p></x-licious::products.star-rating>
                     </div>
 
                     {!! view_render_event('bagisto.shop.components.products.card.name.before') !!}
@@ -112,7 +105,7 @@
 
                     {!! view_render_event('bagisto.shop.components.products.card.price.before') !!}
 
-                    <p class="cr-price font-Poppins text-[16px] text-[#7a7a7a] leading-[1.75] max-[1199px]:text-[14px]" v-html="product.price_html"></p>
+                    <p class="cr-price font-Poppins text-[16px] text-[#7a7a7a] leading-[1.75] max-[1199px]:text-[14px]" v-html="transform(product.price_html)"></p>
 
                     {!! view_render_event('bagisto.shop.components.products.card.price.before') !!}
                 </div>
@@ -236,6 +229,15 @@
 
                             this.$emitter.emit('add-flash', { type: 'error', message: response.data.message });
                         });
+                },
+
+                transform(str) {
+                    const swap = {
+                        'text-[24px] font-semibold':  'text-[16px] leading-[1.75]',
+                        'text-[16px] line-through': 'ml-[5px] leading-[1.75] text-[13px] line-through'
+                    };
+                    Object.entries(swap).forEach(([key, value]) => str = str.replace(key, value));
+                    return str;
                 },
             },
         });

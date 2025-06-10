@@ -10,7 +10,7 @@
     value="{{ $value }}"
     disabled="{{ $disabled }}"
 >
-    <x-licious::shimmer.products.reviews.ratings />
+    {{ $slot }}
 </v-star-rating>
 
 @pushOnce("scripts")
@@ -43,6 +43,7 @@
                 :name="name"
                 v-model="appliedRatings"
             ></v-field>
+            <slot></slot>
         </div>
     </script>
 
