@@ -68,7 +68,15 @@
                     <!-- Pricing -->
                     {!! view_render_event('bagisto.shop.products.price.before', ['product' => $product]) !!}
                     <div class="cr-product-price pt-[20px]">
-                        {!! $product->getTypeInstance()->getPriceHtml() !!}
+                         @if ($product->type == 'optionable')
+                                <x-licious::products.price.optionable
+                                    :product="$product"
+                                    :prices="$product->getTypeInstance()->getProductPrices()"
+                                    :currency="core()->getCurrentCurrency()" />
+                        @else
+                                {!! $product->getTypeInstance()->getPriceHtml() !!}
+                        @endif
+
 
                         @if (
                             (bool) core()->getConfigData('taxes.catalogue.pricing.tax_inclusive')

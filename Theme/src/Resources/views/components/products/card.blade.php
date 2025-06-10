@@ -54,7 +54,7 @@
                                     aria-label="@lang('shop::app.components.products.card.add-to-wishlist')"
                                     tabindex="0"
                                     @click="addToWishlist()">
-                                    <i :class="product.is_wishlist ? 'ri-heart-line' : 'icon-heart'" class="text-[18px] leading-[10px]"></i>
+                                    <i :class="product.is_wishlist ? 'ri-heart-fill' : 'ri-heart-line'" class="text-[18px] leading-[10px]"></i>
                                 </a>
                             @endif
 

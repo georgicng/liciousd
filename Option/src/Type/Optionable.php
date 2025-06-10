@@ -377,19 +377,7 @@ class Optionable extends AbstractType
         return true;
     }
 
-    /**
-     * Get product minimal price.
-     *
-     * @return string
-     */
-    public function getPriceHtml()
-    {
-        return view('shop::products.prices.optionable', [
-            'product' => $this->product,
-            'prices'  => $this->getProductPrices(),
-            'currency' => core()->getCurrentCurrency(),
-        ])->render();
-    }
+
 
     /**
      * Returns price indexer class for a specific product type
