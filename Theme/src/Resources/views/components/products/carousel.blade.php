@@ -24,7 +24,7 @@
 
                 <div class="flex gap-8 justify-between items-center">
                     <span
-                        class="icon-arrow-left-stylish rtl:icon-arrow-right-stylish inline-block text-2xl cursor-pointer"
+                        class="ri-arrow-left-line rtl:ri-arrow-right-line inline-block text-2xl cursor-pointer"
                         role="button"
                         aria-label="@lang('shop::app.components.products.carousel.previous')"
                         tabindex="0"
@@ -33,7 +33,7 @@
                     </span>
 
                     <span
-                        class="icon-arrow-right-stylish rtl:icon-arrow-left-stylish inline-block text-2xl cursor-pointer"
+                        class="ri-arrow-right-line rtl:ri-arrow-left-line inline-block text-2xl cursor-pointer"
                         role="button"
                         aria-label="@lang('shop::app.components.products.carousel.next')"
                         tabindex="0"
