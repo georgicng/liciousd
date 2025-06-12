@@ -918,5 +918,38 @@ return [
         'name'               => 'Order support setting',
         'info' => 'Configure helplines and other store information here.',
         'helpline'        => 'Call Center',
+
+        'information' => [
+            'title' => 'Store Related Details',
+            'description' => 'Configure store related details here.',
+        ],
+
+        'settings' => [
+            'information' => [
+                'title' => 'Store Related Details',
+                'bio' => [
+                    'title' => 'Store Details',
+                    'logo' => 'Footer Logo',
+                    'logo-information' => 'Upload a landscape logo',
+                    'description' => 'Short Bio',
+                    'address' => 'Address',
+                    'phone' => 'Phone',
+                    'email' => 'Email',
+                    'youtube' => 'Youtube'
+                ],
+                'socials' => [
+                    'title' => 'Social Media',
+                    'instagram' => 'Instagram',
+                    'twitter' => 'Twitter',
+                    'facebook' => 'Facebook',
+                    'tiktok' => 'Tiktok',
+                    'youtube' => 'Youtube'
+                ],
+                'copyright' => [
+                    'title' => 'Copyright Info',
+                    'text' => 'Copyright Text',
+                ]
+            ]
+        ]
     ],
 ];

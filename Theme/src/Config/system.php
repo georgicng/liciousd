@@ -4,7 +4,7 @@ return [
         'key'    => 'sales.order_settings.store',
         'name'   => 'licious::app.store.name',
         'info'   => 'licious::app.store.info',
-        'sort'   => 8,
+        'sort'   => 4,
         'fields' => [
             [
                 'name'          => 'helpline',
@@ -16,14 +16,14 @@ return [
     ],
     [
         'key'  => 'store',
-        'name' => 'licious::app.store.title',
-        'info' => 'licious::app.store.info',
-        'sort' => 1
+        'name' => 'licious::app.store.information.title',
+        'info' => 'licious::app.store.information.description',
+        'sort' => 8
     ],
     [
         'key'  => 'store.information',
         'name' => 'licious::app.store.settings.information.title',
-        'info' => 'licious::app.store.settings.information.info',
+        'info' => 'licious::app.store.settings.information.description',
         'icon' => 'settings/settings.svg',
         'sort' => 1,
     ],
@@ -89,18 +89,6 @@ return [
              [
                  'name'  => 'youtube',
                  'title' => 'licious::app.store.settings.information.socials.youtube',
-                 'type'  => 'text',
-                 'validation' => ''
-             ],
-             [
-                 'name'  => 'linkedin',
-                 'title' => 'licious::app.store.settings.information.socials.linkedin',
-                 'type'  => 'text',
-                 'validation' => ''
-             ],
-             [
-                 'name'  => 'pinterest',
-                 'title' => 'licious::app.store.settings.information.socials.pinterest',
                  'type'  => 'text',
                  'validation' => ''
              ],
