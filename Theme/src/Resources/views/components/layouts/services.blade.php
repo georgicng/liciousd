@@ -11,7 +11,7 @@
         'type'       => 'services_content',
         'status'     => 1,
         'channel_id' => core()->getCurrentChannel()->id,
-    ]); 
+    ]);
 @endphp
 
 <!-- Features -->
@@ -24,9 +24,8 @@
                         <div class="cr-service-slider swiper-container">
                             <swiper
                                 :slides-per-view="4"
-                                :space-between="50"
-                                :paginationClickabl="true"
-                                :spaceBetween="24"
+                                :pagination-clickable="true"
+                                :space-between="24"
                                 :breakpoints="{
                                     1399: {
                                         slidesPerView: 4,

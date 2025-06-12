@@ -28,32 +28,32 @@
             </div>
 
             @if ($customization?->options)
-            <div class="min-[1200px]:w-[16.66%] min-[992px]:w-[25%] min-[576px]:w-full w-full px-[12px] cr-footer-border">
                 @foreach ($customization->options as $footerLinkSection)
-                    <div class="cr-footer">
-                        <h4 class="cr-sub-title font-Manrope relative text-[18px] font-bold leading-[1.3] text-[#000] mb-[15px] max-[991px]:py-[15px] max-[991px]:mb-[0] max-[991px]:text-[15px] max-[991px]:border-b-[1px] max-[991px]:border-solid max-[991px]:border-[#e9e9e9]">
-                            Company
-                            <span class="cr-heading-res hidden"></span>
-                        </h4>
-                        <ul class="cr-footer-links max-[991px]:hidden cr-footer-dropdown max-[991px]:mt-[24px]">
-                            @php
-                                usort($footerLinkSection, function ($a, $b) {
-                                    return $a['sort_order'] - $b['sort_order'];
-                                });
-                            @endphp
+                    @php
+                        usort($footerLinkSection, function ($a, $b) {
+                            return $a['sort_order'] - $b['sort_order'];
+                        });
+                        $title = array_shift($footerLinkSection);
+                    @endphp
+                    <div class="min-[1200px]:w-[16.66%] min-[992px]:w-[25%] min-[576px]:w-full w-full px-[12px] cr-footer-border">
+                        <div class="cr-footer">
+                            <h4 class="cr-sub-title font-Manrope relative text-[18px] font-bold leading-[1.3] text-[#000] mb-[15px] max-[991px]:py-[15px] max-[991px]:mb-[0] max-[991px]:text-[15px] max-[991px]:border-b-[1px] max-[991px]:border-solid max-[991px]:border-[#e9e9e9]">
+                            {{ $title['title'] }}
+                                <span class="cr-heading-res hidden"></span>
+                            </h4>
+                            <ul class="cr-footer-links max-[991px]:hidden cr-footer-dropdown max-[991px]:mt-[24px]">
 
-                            @foreach ($footerLinkSection as $link)
-                                <li class="mb-[12px] font-Poppins text-[14px] leading-[26px] text-[#777] relative max-[991px]:my-[12px]">
-                                    <a class="transition-all duration-[0.3s] ease-in-out relative font-Poppins text-[14px] leading-[26px] text-[#777] hover:text-[#64b496]" href="{{ $link['url'] }}">
-                                        {{ $link['title'] }}
-                                    </a>
-                                </li>
-                            @endforeach
-                        </ul>
+                                @foreach ($footerLinkSection as $link)
+                                    <li class="mb-[12px] font-Poppins text-[14px] leading-[26px] text-[#777] relative max-[991px]:my-[12px]">
+                                        <a class="transition-all duration-[0.3s] ease-in-out relative font-Poppins text-[14px] leading-[26px] text-[#777] hover:text-[#64b496]" href="{{ $link['url'] }}">
+                                            {{ $link['title'] }}
+                                        </a>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </div>
                     </div>
                 @endforeach
-
-            </div>
             @endif
 
             {!! view_render_event('bagisto.shop.layout.footer.newsletter_subscription.before') !!}
@@ -77,7 +77,7 @@
             {!! view_render_event('bagisto.shop.layout.footer.footer_text.before') !!}
 
             <p class="font-Poppins text-[14px] text-[#000] leading-[1.2] ">
-                @lang('licious::app.components.layouts.footer.footer-text', ['current_year'=> date('Y') ])
+               {{ core()->getConfigData('store.information.copyright.copyright') }}
             </p>
 
             {!! view_render_event('bagisto.shop.layout.footer.footer_text.after') !!}
