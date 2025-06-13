@@ -38,7 +38,7 @@
 
                         <!-- Dropdown Content -->
                         <x-slot:content class="!p-0">
-                            <x-licious::currency-switcher />
+                            <x-licious::switcher.currency />
                         </x-slot>
                     </x-licious::dropdown>
 
@@ -73,7 +73,7 @@
 
                         <!-- Dropdown Content -->
                         <x-slot:content class="!p-0">
-                            <v-locale-switcher></v-locale-switcher>
+                            <x-licious::switcher.locale></x-licious::switcher.locale>
                         </x-slot>
                     </x-licious::dropdown>
                 </div>
