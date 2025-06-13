@@ -14,7 +14,7 @@
     >
         {!! view_render_event('bagisto.shop.checkout.mini-cart.drawer.before') !!}
 
-        <x-licious::drawer ref="filterDrawer" isActive="false" class="cr-shop-leftside">
+        <x-licious::drawer ref="filterDrawer" isActive="false" :append="'cr-shop-leftside'">
             <!-- Drawer Toggler -->
             <x-slot:toggle>
                 <a href="javascript:void(0)" @click.prevent="open" class="shop_side_view h-[35px] w-[35px] flex justify-center items-center mr-[7px] bg-[#fff] border-[1px] border-solid border-[#e9e9e9] rounded-[5px] max-[360px]:mr-[7px]">
@@ -36,7 +36,7 @@
                         </a>
                     </div>
                     <template v-if="isLoading">
-                        <x-licious::shimmer.categories.filters />                        
+                        <x-licious::shimmer.categories.filters />
                     </template>
                     <div v-else class="cr-shop-sideview p-[24px] bg-[#f7f7f8] border-[1px] border-solid border-[#e9e9e9] rounded-[0] sticky top-[30px]">
                         <x-licious::categories.filters ::allowed-Max-Price="allowedMaxPrice" ::filters="filters" @filter="setFilter($event)" />

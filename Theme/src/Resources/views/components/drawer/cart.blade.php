@@ -23,7 +23,7 @@
     >
         {!! view_render_event('bagisto.shop.checkout.mini-cart.drawer.before') !!}
 
-        <x-licious::drawer isActive="false" class="cr-cart-view right-[0]">
+        <x-licious::drawer isActive="false" :append="'cr-cart-view right-[0]'">
             <!-- Drawer Toggler -->
             <x-slot:toggle>
                 {!! view_render_event('bagisto.shop.checkout.mini-cart.drawer.toggle.before') !!}
@@ -277,8 +277,8 @@
                 getQty(change, quantity) {
                     if (change === 'increase') {
                        return  quantity + 1;
-                    } 
-                    
+                    }
+
                     if (change === 'decrease' && quantity > 1) {
                        return  quantity - 1;
                     }

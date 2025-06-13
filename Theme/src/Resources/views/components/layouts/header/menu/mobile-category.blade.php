@@ -2,23 +2,30 @@
 
 @pushOnce('scripts')
     <script type="text/x-template" id="v-mobile-category-template">
-        <ul>
+        <ul v-if="categories.length" class="cr-mobile-category-list">
             <template v-for="(category) in categories">
                 {!! view_render_event('bagisto.shop.components.layouts.header.mobile.category.before') !!}
 
                 <li class="dropdown drop-list relative leading-[28px]">
-                    <span
-                        class="menu-toggle h-[48px] absolute top-[0] right-[0] z-[-1] flex justify-center items-center cursor-pointer bg-transparent"
-                        @click="toggle(category)"></span>
-                    <a
-                        :href="category.url"
-                        class="dropdown-list py-[12px] block capitalize text-[15px] font-medium text-[#444] border-b-[1px] border-solid border-[#e9e9e9]"
-                        v-text="category.name"
-                    >
-                    </a>
+                    <span class="flex justify-between items-center">
+                        
+                        <a
+                            :href="category.url"
+                            class="dropdown-list py-[12px] grow capitalize text-[15px] font-medium text-[#444] border-b-[1px] border-solid border-[#e9e9e9]"
+                            v-text="category.name"
+                        >
+                        </a>
+                        <span v-if="category.children.length"
+                            class="text-2xl items-center cursor-pointer bg-transparent"
+                            :class="{
+                                'ri-arrow-drop-up-line': activeCategory == category.id,
+                                'ri-arrow-drop-right-line': activeCategory != category.id
+                            }"
+                            @click="toggle(category.id)"></span>
+                    </span>
 
-                    <template v-if="category.isOpen">
-                        <ul v-if="category.children.length" class="sub-menu w-full mb-[0] p-[0] hidden min-w-auto opacity-[1]">
+                    <template v-if="activeCategory == category.id">
+                        <ul class="sub-menu w-full mb-[0] p-[0] min-w-auto opacity-[1]">
                             <li v-for="secondLevelCategory in category.children">
                                 <div class="flex justify-between items-center ltr:ml-3 rtl:mr-3 border border-b border-l-0 border-r-0 border-t-0 border-[#f3f3f5]">
                                     <a
@@ -29,18 +36,19 @@
                                     </a>
 
                                     <span
+                                        v-if="secondLevelCategory.children.length"
                                         class="text-2xl cursor-pointer"
                                         :class="{
-                                            'icon-arrow-down': secondLevelCategory.category_show,
-                                            'icon-arrow-right': ! secondLevelCategory.category_show
+                                            'ri-arrow-drop-up-line': activeSubCategory == secondLevelCategory.id,
+                                            'ri-arrow-drop-right-line': activeSubCategory != secondLevelCategory.id
                                         }"
-                                        @click="secondLevelCategory.category_show = ! secondLevelCategory.category_show"
+                                        @click="toggleSecond(secondLevelCategory.id)"
                                     >
                                     </span>
                                 </div>
 
-                                <div v-if="secondLevelCategory.category_show">
-                                    <ul v-if="secondLevelCategory.children.length">
+                                <div v-if="activeSubCategory == secondLevelCategory.id">
+                                    <ul>
                                         <li v-for="thirdLevelCategory in secondLevelCategory.children">
                                             <div class="flex justify-between items-center ltr:ml-3 rtl:mr-3 border border-b border-l-0 border-r-0 border-t-0 border-[#f3f3f5]">
                                                 <a
@@ -53,28 +61,22 @@
                                         </li>
                                     </ul>
 
-                                    <span
-                                        class="ltr:ml-2 rtl:mr-2"
-                                        v-else
-                                    >
-                                        @lang('licious::app.components.layouts.header.no-category-found')
-                                    </span>
                                 </div>
                             </li>
-                        </ul>
-
-                        <span
-                            class="ltr:ml-2 rtl:mr-2 mt-2"
-                            v-else
-                        >
-                            @lang('licious::app.components.layouts.header.no-category-found')
-                        </span>
+                        </ul>                        
                     </template>
                 </li>
 
                 {!! view_render_event('bagisto.shop.components.layouts.header.mobile.category.after') !!}
             </template>
+           
         </ul>
+         <span
+            class="ltr:ml-2 rtl:mr-2 mt-2"
+            v-else
+        >
+            @lang('licious::app.components.layouts.header.no-category-found')
+        </span>
     </script>
 
     <script type="module">
@@ -86,6 +88,7 @@
             data() {
                 return  {
                     activeCategory: null,
+                    activeSubCategory : null
                 }
             },
 
@@ -104,7 +107,10 @@
 
             methods: {
                 toggle(category) {
-                    this.activeCategory = category;
+                    this.activeCategory = this.activeCategory == category ? null : category;
+                },
+                toggleSecond(subCategory) {
+                    this.activeSubCategory = this.activeSubCategory  == subCategory ? null : subCategory;
                 },
             },
         });

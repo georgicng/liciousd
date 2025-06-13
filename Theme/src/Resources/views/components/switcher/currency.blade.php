@@ -1,8 +1,8 @@
-<v-currency-switcher></v-currency-switcher>
+<v-currency-switcher {{ $attributes }}></v-currency-switcher>
 
 @pushOnce('scripts')
     <script type="text/x-template" id="v-currency-switcher-template">
-        <div class="flex flex-wrap gap-1 mt-2.5 pb-2.5">
+    <div class="gap-1 mt-2.5 pb-2.5" :class="{ 'flex flex-wrap': position == 'horizontal', 'grid': position == 'vertical' }">
             <span
                 class="px-5 py-2 text-base cursor-pointer hover:bg-gray-100"
                 v-for="currency in currencies"
@@ -17,6 +17,13 @@
     <script type="module">
         app.component('v-currency-switcher', {
             template: '#v-currency-switcher-template',
+
+            props: {
+                position: {
+                    type: String,
+                    default: 'horizontal',
+                }
+            },
 
             data() {
                 return {

@@ -1,4 +1,4 @@
-<x-licious::drawer isActive="false" id="cr_mobile_menu" class="cr-side-cart cr-mobile-menu">
+<x-licious::drawer isActive="false" id="cr_mobile_menu" :append="'cr-side-cart cr-mobile-menu p-[15px]'">
     <x-slot:toggle>
         <a href="#" @click.prevent="open" class="navbar-toggler py-[7px] px-[14px] hidden text-[16px] leading-[1] max-[991px]:flex max-[991px]:p-[0] max-[991px]:border-[0]">
             <i class="ri-menu-3-line max-[991px]:text-[20px]"></i>
@@ -38,7 +38,7 @@
 
                     <!-- Dropdown Content -->
                     <x-slot:content class="!p-0">
-                        <x-licious::switcher.currency />
+                        <x-licious::switcher.currency position="vertical" />
                     </x-slot>
                 </x-licious::dropdown>
 
@@ -73,7 +73,7 @@
 
                     <!-- Dropdown Content -->
                     <x-slot:content class="!p-0">
-                        <x-licious::switcher.locale />
+                        <x-licious::switcher.locale position="vertical" />
                     </x-slot>
                 </x-licious::dropdown>
             </div>

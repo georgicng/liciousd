@@ -1,9 +1,8 @@
-<v-locale-switcher></v-locale-switcher>
+<v-locale-switcher {{ $attributes }}></v-locale-switcher>
 
 @pushOnce('scripts')
-
     <script type="text/x-template" id="v-locale-switcher-template">
-        <div class="flex flex-wrap gap-1 mt-2.5 pb-2.5">
+        <div class="gap-1 mt-2.5 pb-2.5" :class="{ 'flex flex-wrap': position == 'horizontal', 'grid': position == 'vertical' }">
             <span
                 class="flex items-center gap-2.5 px-5 py-2 text-base cursor-pointer hover:bg-gray-100"
                 v-for="locale in locales"
@@ -24,6 +23,13 @@
     <script type="module">
         app.component('v-locale-switcher', {
             template: '#v-locale-switcher-template',
+
+            props: {
+                position: {
+                    type: String,
+                    default: 'horizontal',
+                }
+            },
 
             data() {
                 return {

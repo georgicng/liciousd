@@ -1,9 +1,11 @@
 @props([
     'isActive' => false,
+    'append' => ''
 ])
 
 <v-drawer
     :is-active="{{ $isActive }}"
+    :append="'{{ $append }}'"
     {{ $attributes }}
 >
     @isset($toggle)
@@ -35,7 +37,7 @@
 
             <!-- Content -->
             <div
-                {{ $attributes->merge(['class' => 'fixed h-screen z-[25] top-[0] bg-[#fff] p-[0] m-[0] w-[350px] max-[575px]:w-[300px] max-[420px]:w-[250px] transition-all duration-[0.4s] ease overflow-x-auto']) }}
+                :class="['fixed h-screen z-[25] top-[0] bg-[#fff] p-[0] m-[0] w-[350px] max-[575px]:w-[300px] max-[420px]:w-[250px] transition-all duration-[0.4s] ease overflow-x-auto', append]"
                 v-if="isOpen"
             >
                 <!-- Content Slot -->
@@ -52,6 +54,10 @@
                 isActive: {
                     type: Boolean,
                     default: false
+                },
+                append: {
+                    type: String,
+                    default: ''
                 },
             },
 
