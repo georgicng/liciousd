@@ -17,7 +17,7 @@
     <div class="cr-menu-inner">
         <div class="cr-menu-content">
             <!-- Mobile category view -->
-            <x-licious::layouts.header.menu.mobile />
+            <x-licious::layouts.header.menu.mobile-category />
 
             <!-- Localization & Currency Section -->
             <div class="absolute w-full flex bottom-0 left-0 bg-white shadow-lg p-4 gap-x-5 justify-between items-center mb-4">
@@ -73,7 +73,7 @@
 
                     <!-- Dropdown Content -->
                     <x-slot:content class="!p-0">
-                        <x-licious::switcher.locale></x-licious::switcher.locale>
+                        <x-licious::switcher.locale />
                     </x-slot>
                 </x-licious::dropdown>
             </div>

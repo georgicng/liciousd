@@ -2,7 +2,7 @@
 
 @pushOnce('scripts')
     <script type="text/x-template" id="v-currency-switcher-template">
-        <div class="grid gap-1 mt-2.5 pb-2.5">
+        <div class="flex flex-wrap gap-1 mt-2.5 pb-2.5">
             <span
                 class="px-5 py-2 text-base cursor-pointer hover:bg-gray-100"
                 v-for="currency in currencies"

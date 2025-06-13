@@ -3,7 +3,7 @@
 @pushOnce('scripts')
 
     <script type="text/x-template" id="v-locale-switcher-template">
-        <div class="grid gap-1 mt-2.5 pb-2.5">
+        <div class="flex flex-wrap gap-1 mt-2.5 pb-2.5">
             <span
                 class="flex items-center gap-2.5 px-5 py-2 text-base cursor-pointer hover:bg-gray-100"
                 v-for="locale in locales"
