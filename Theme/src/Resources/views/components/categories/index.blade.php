@@ -35,7 +35,7 @@
 
                     <template v-else>
                         <template v-if="products.length">
-                            <x-licious::products.card
+                            <x-licious::products.cardx
                                 ::mode="mode"
                                 v-for="product in products"
                                 ::product="product"

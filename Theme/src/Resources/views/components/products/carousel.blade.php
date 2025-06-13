@@ -47,9 +47,11 @@
                 ref="swiperContainer"
                 class="flex gap-8 [&>*]:flex-[0] mt-10 overflow-auto scroll-smooth scrollbar-hide max-sm:mt-5"
             >
-                <x-licious::products.card
+                <x-licious::products.cardx
                     class="min-w-[291px]"
                     v-for="product in products"
+                    ::product="product"
+                    ::key="product.id"
                 />
             </div>
 
