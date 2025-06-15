@@ -1,7 +1,10 @@
 /**
  * This will track all the images and fonts for publishing.
  */
-import.meta.glob(["../images/**", "../fonts/**"]);
+import.meta.glob(["../images/**"]);
+import 'remixicon/fonts/remixicon.css'
+import '@mdi/font/css/materialdesignicons.min.css'
+
 
 /**
  * Main vue bundler.
@@ -95,6 +98,7 @@ import Flatpickr from "./plugins/flatpickr";
 import Carousel from './plugins/slick'
 import Zoomer from './plugins/zoomer'
 import Swiper from './plugins/swiper'
+import '../css/style.css'
 
 [Axios, Emitter, Shop, VeeValidate, Flatpickr, AOS, Carousel, Zoomer, Swiper].forEach((plugin) =>
   app.use(plugin)

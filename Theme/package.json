@@ -14,11 +14,13 @@
     "vue": "^3.4.19"
   },
   "dependencies": {
+    "@mdi/font": "^7.4.47",
     "@vee-validate/i18n": "^4.9.1",
     "@vee-validate/rules": "^4.9.1",
     "@vitejs/plugin-vue": "^4.2.3",
     "aos": "^3.0.0-beta.6",
     "mitt": "^3.0.0",
+    "remixicon": "^4.6.0",
     "swiper": "^11.2.8",
     "v-slick-carousel": "^0.6.3",
     "vee-validate": "^4.9.1",

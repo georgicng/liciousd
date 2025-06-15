@@ -24,21 +24,7 @@
         sizes="16x16"
         href="{{ core()->getCurrentChannel(env('APP_HOST'))->favicon_url ?? bagisto_asset('images/favicon.png') }}" />
 
-    <!-- Icon CSS -->
-    <link rel="stylesheet" href="{{ bagisto_asset('css/vendor/materialdesignicons.min.css') }}">
-    <link rel="stylesheet" href="{{ bagisto_asset('css/vendor/remixicon.css') }}">
-
-    <!-- Vendor -->
-    <link rel="stylesheet" href="{{ bagisto_asset('css/vendor/animate.css') }}">
-    <link rel="stylesheet" href="{{ bagisto_asset('css/vendor/range-slider.css') }}">
-    <link rel="stylesheet" href="{{ bagisto_asset('css/vendor/swiper-bundle.min.css') }}">
-    <link rel="stylesheet" href="{{ bagisto_asset('css/vendor/jquery.slick.css') }}">
-    <link rel="stylesheet" href="{{ bagisto_asset('css/vendor/slick-theme.css') }}">
-
     @bagistoVite(['src/Resources/assets/css/app.css', 'src/Resources/assets/js/app.js'])
-
-    <!-- Main CSS -->
-    <link rel="stylesheet" href="{{ bagisto_asset('css/style.css') }}">
 
     @stack('styles')
 
