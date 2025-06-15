@@ -16,7 +16,6 @@
                         alt="{{ config('app.name') }}"
                         class="logo block h-[35px] w-[115px] max-[575px]:w-[100px]"
                     >
-                    <img src="{{ core()->getCurrentChannel(env('APP_HOST'))->dark_logo_url ?? bagisto_asset('images/dark-logo.svg') }}" alt="{{ config('app.name') }}" class="dark-logo hidden h-[35px] w-[115px] max-[575px]:w-[100px]">
                 </a>
 
                 {!! view_render_event('bagisto.shop.components.layouts.header.desktop.bottom.logo.after') !!}
