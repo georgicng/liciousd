@@ -5,7 +5,7 @@
 
 @if ($customAttributeValues = $productViewHelper->getAdditionalData($product))
     <accordian
-        :title="'trans('shop::app.products.specification')'"
+        :title="'trans('licious::app.products.specification')'"
         :active="false"
     >
         <div slot="header">

@@ -2,7 +2,7 @@
 <x-licious::dropdown position="bottom-{{ core()->getCurrentLocale()->direction === 'ltr' ? 'right' : 'left' }}">
     <x-slot:toggle>
         <a class="nav-link dropdown-toggle cr-right-bar-item transition-all duration-[0.3s] ease-in-out flex items-center relative text-[14px] font-medium text-[#000] z-[1] relative py-[11px] pr-[30px] pl-[8px] max-[1199px]:py-[8px]" href="javascript:void(0)" role="button"
-            aria-label="@lang('shop::app.components.layouts.header.profile')"
+            aria-label="@lang('licious::app.components.layouts.header.profile')"
             tabindex="0">
             <i class="ri-user-3-line pr-[5px] text-[21px] leading-[17px]"></i>
             <span class="transition-all duration-[0.3s] ease-in-out font-Poppins text-[15px] leading-[15px] text-[15px] font-medium text-[#000] tracking-[0.03rem]">Account</span>

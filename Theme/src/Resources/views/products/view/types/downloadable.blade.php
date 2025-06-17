@@ -39,7 +39,7 @@
                             id="{{ $link->id }}"
                             class="hidden peer"
                             rules="required"
-                            label="@lang('shop::app.products.view.type.downloadable.links')"
+                            label="@lang('licious::app.products.view.type.downloadable.links')"
                         >
                         </v-field>
 

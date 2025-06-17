@@ -418,7 +418,7 @@
                                 <li v-if="!isMinimumCharacters">
                                     <p
                                         class="hover:bg-grey-light block cursor-pointer p-2 text-black"
-                                        v-text="'@lang('shop::app.components.datagrid.filters.dropdown.searchable.atleast-two-chars')'"
+                                        v-text="'@lang('licious::app.components.datagrid.filters.dropdown.searchable.atleast-two-chars')'"
                                     >
                                     </p>
                                 </li>
@@ -426,7 +426,7 @@
                                 <li v-else-if="!searchedOptions.length">
                                     <p
                                         class="hover:bg-grey-light block cursor-pointer p-2 text-black"
-                                        v-text="'@lang('shop::app.components.datagrid.filters.dropdown.searchable.no-results')'"
+                                        v-text="'@lang('licious::app.components.datagrid.filters.dropdown.searchable.no-results')'"
                                     >
                                     </p>
                                 </li>

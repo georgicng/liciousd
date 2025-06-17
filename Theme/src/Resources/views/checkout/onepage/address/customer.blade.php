@@ -54,7 +54,7 @@
                                             ::value="address.id"
                                             v-model="selectedAddresses.billing_address_id"
                                             rules="required"
-                                            label="{{ trans('shop::app.checkout.onepage.address.billing-address') }}"
+                                            label="{{ trans('licious::app.checkout.onepage.address.billing-address') }}"
                                         />
                                     </x-licious::form.control-group>
 
@@ -114,7 +114,7 @@
                                         role="presentation"
                                     ></span>
 
-                                    <p class="text-base">@lang('shop::app.checkout.onepage.address.add-new-address')</p>
+                                    <p class="text-base">@lang('licious::app.checkout.onepage.address.add-new-address')</p>
                                 </div>
                             </div>
                         </div>
@@ -174,7 +174,7 @@
                                                     ::value="address.id"
                                                     v-model="selectedAddresses.shipping_address_id"
                                                     rules="required"
-                                                    label="{{ trans('shop::app.checkout.onepage.address.shipping-address') }}"
+                                                    label="{{ trans('licious::app.checkout.onepage.address.shipping-address') }}"
                                                 />
                                             </x-licious::form.control-group>
 
@@ -234,7 +234,7 @@
                                                 role="presentation"
                                             ></span>
 
-                                            <p class="text-base">@lang('shop::app.checkout.onepage.address.add-new-address')</p>
+                                            <p class="text-base">@lang('licious::app.checkout.onepage.address.add-new-address')</p>
                                         </div>
                                     </div>
                                 </div>
@@ -247,7 +247,7 @@
                         <div class="flex justify-end mt-4">
                             <x-licious::button
                                 class="primary-button py-3 px-11 rounded-2xl"
-                                :title="trans('shop::app.checkout.onepage.address.proceed')"
+                                :title="trans('licious::app.checkout.onepage.address.proceed')"
                                 ::loading="isStoring"
                                 ::disabled="isStoring"
                             />
@@ -316,7 +316,7 @@
                         <div class="flex justify-end mt-4">
                             <x-licious::button
                                 class="btn btn-primary m-[10px] rounded-[5px] transition-all duration-[0.3s] ease-in-out h-[45px] p-[0] px-[25px] border-[0] text-[14px] font-medium leading-[45px] uppercase bg-[#3474d4] text-[#fff] flex justify-center items-center"
-                                :title="trans('shop::app.checkout.onepage.address.save')"
+                                :title="trans('licious::app.checkout.onepage.address.save')"
                                 ::loading="isStoring"
                                 ::disabled="isStoring"
                             />

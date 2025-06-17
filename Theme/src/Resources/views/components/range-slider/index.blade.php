@@ -20,7 +20,7 @@
                         class="absolute w-full h-1 appearance-none pointer-events-none bg-transparent outline-none cursor-pointer [&::-webkit-slider-thumb]:pointer-events-auto [&::-webkit-slider-thumb]:bg-white [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:h-[18px] [&::-webkit-slider-thumb]:w-[18px] [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:ring-navyBlue [&::-webkit-slider-thumb]:ring [&::-moz-range-thumb]:pointer-events-auto [&::-moz-range-thumb]:bg-white [&::-moz-range-thumb]:appearance-none [&::-moz-range-thumb]:h-[18px] [&::-moz-range-thumb]:w-[18px] [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:ring-navyBlue [&::-moz-range-thumb]:ring [&::-ms-thumb]:pointer-events-auto [&::-ms-thumb]:bg-white [&::-ms-thumb]:appearance-none [&::-ms-thumb]:h-[18px] [&::-ms-thumb]:w-[18px] [&::-ms-thumb]:rounded-full [&::-ms-thumb]:ring-navyBlue [&::-ms-thumb]:ring"
                         :min="allowedMinRange"
                         :max="allowedMaxRange"
-                        aria-label="@lang('shop::app.components.range-slider.min-range')"
+                        aria-label="@lang('licious::app.components.range-slider.min-range')"
                         @input="handle('min', $event.target.value)"
                     >
                 </span>
@@ -33,14 +33,14 @@
                         class="absolute w-full h-1 appearance-none pointer-events-none bg-transparent outline-none cursor-pointer [&::-webkit-slider-thumb]:pointer-events-auto [&::-webkit-slider-thumb]:bg-white [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:h-[18px] [&::-webkit-slider-thumb]:w-[18px] [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:ring-navyBlue [&::-webkit-slider-thumb]:ring [&::-moz-range-thumb]:pointer-events-auto [&::-moz-range-thumb]:bg-white [&::-moz-range-thumb]:appearance-none [&::-moz-range-thumb]:h-[18px] [&::-moz-range-thumb]:w-[18px] [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:ring-navyBlue [&::-moz-range-thumb]:ring [&::-ms-thumb]:pointer-events-auto [&::-ms-thumb]:bg-white [&::-ms-thumb]:appearance-none [&::-ms-thumb]:h-[18px] [&::-ms-thumb]:w-[18px] [&::-ms-thumb]:rounded-full [&::-ms-thumb]:ring-navyBlue [&::-ms-thumb]:ring"
                         :min="allowedMinRange"
                         :max="allowedMaxRange"
-                        aria-label="@lang('shop::app.components.range-slider.max-range')"
+                        aria-label="@lang('licious::app.components.range-slider.max-range')"
                         @input="handle('max', $event.target.value)"
                     >
                 </span>
             </div>
         </div>
         <p class="range-value my-[20px] flex">
-            <label class="font-Poppins text-[15px] font-bold leading-[1.2] text-[#000] max-[1399px]:text-[14px]">@lang('shop::app.components.range-slider.range')</label>
+            <label class="font-Poppins text-[15px] font-bold leading-[1.2] text-[#000] max-[1399px]:text-[14px]">@lang('licious::app.components.range-slider.range')</label>
             <input type="text" id="amount" placeholder="'" :value="rangeText" class="w-[calc(100%-50px)] pl-[6px] bg-[#f7f7f8] font-Poppins text-[15px] font-bold leading-[1.2] tracking-[0] text-[#7a7a7a] border-[0] outline-[0]" readonly>
         </p>
     </div>
@@ -80,7 +80,7 @@
         watch: {
             minRange() {
                 this.handleProgressBar();
-            }, 
+            },
             maxRange() {
                 this.handleProgressBar();
             }
@@ -138,7 +138,7 @@
 
                 if (maxRange - minRange < this.gap) {
                     if (rangeType === 'min') {
-                        
+
                         minRange = maxRange - this.gap;
                     } else {
                         maxRange = this.minRange + this.gap;

@@ -1,8 +1,8 @@
 <!-- SEO Meta Content -->
 @push('meta')
-    <meta name="description" content="@lang('shop::app.customers.reset-password.title')"/>
+    <meta name="description" content="@lang('licious::app.customers.reset-password.title')"/>
 
-    <meta name="keywords" content="@lang('shop::app.customers.reset-password.title')"/>
+    <meta name="keywords" content="@lang('licious::app.customers.reset-password.title')"/>
 @endPush
 
 <x-licious::layouts
@@ -23,7 +23,7 @@
             <a
                 href="{{ route('shop.home.index') }}"
                 class="m-[0_auto_20px_auto]"
-                aria-label="@lang('shop::app.customers.reset-password.bagisto')"
+                aria-label="@lang('licious::app.customers.reset-password.bagisto')"
             >
                 <img
                     src="{{ core()->getCurrentChannel()->logo_url ?? bagisto_asset('images/logo.svg') }}"
@@ -68,9 +68,9 @@
                             name="email"
                             rules="required|email"
                             :value="old('email')"
-                            :label="trans('shop::app.customers.reset-password.email')"
+                            :label="trans('licious::app.customers.reset-password.email')"
                             placeholder="email@example.com"
-                            aria-label="@lang('shop::app.customers.reset-password.email')"
+                            aria-label="@lang('licious::app.customers.reset-password.email')"
                             aria-required="true"
                         />
 
@@ -88,10 +88,10 @@
                             name="password"
                             rules="required|min:6"
                             value=""
-                            :label="trans('shop::app.customers.reset-password.password')"
-                            :placeholder="trans('shop::app.customers.reset-password.password')"
+                            :label="trans('licious::app.customers.reset-password.password')"
+                            :placeholder="trans('licious::app.customers.reset-password.password')"
                             ref="password"
-                            aria-label="@lang('shop::app.customers.reset-password.password')"
+                            aria-label="@lang('licious::app.customers.reset-password.password')"
                             aria-required="true"
                         />
 
@@ -109,9 +109,9 @@
                             name="password_confirmation"
                             rules="confirmed:@password"
                             value=""
-                            :label="trans('shop::app.customers.reset-password.confirm-password')"
-                            :placeholder="trans('shop::app.customers.reset-password.confirm-password')"
-                            aria-label="@lang('shop::app.customers.reset-password.confirm-password')"
+                            :label="trans('licious::app.customers.reset-password.confirm-password')"
+                            :placeholder="trans('licious::app.customers.reset-password.confirm-password')"
+                            aria-label="@lang('licious::app.customers.reset-password.confirm-password')"
                             aria-required="true"
                         />
 

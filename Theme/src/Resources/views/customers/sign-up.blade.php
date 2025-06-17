@@ -1,8 +1,8 @@
 <!-- SEO Meta Content -->
 @push('meta')
-    <meta name="description" content="@lang('shop::app.customers.signup-form.page-title')"/>
+    <meta name="description" content="@lang('licious::app.customers.signup-form.page-title')"/>
 
-    <meta name="keywords" content="@lang('shop::app.customers.signup-form.page-title')"/>
+    <meta name="keywords" content="@lang('licious::app.customers.signup-form.page-title')"/>
 @endPush
 
 <x-licious::layouts
@@ -23,7 +23,7 @@
             <a
                 href="{{ route('shop.home.index') }}"
                 class="m-[0_auto_20px_auto]"
-                aria-label="@lang('shop::app.customers.signup-form.bagisto')"
+                aria-label="@lang('licious::app.customers.signup-form.bagisto')"
             >
                 <img
                     src="{{ core()->getCurrentChannel()->logo_url ?? bagisto_asset('images/logo.svg') }}"
@@ -63,9 +63,9 @@
                             name="first_name"
                             rules="required"
                             :value="old('first_name')"
-                            :label="trans('shop::app.customers.signup-form.first-name')"
-                            :placeholder="trans('shop::app.customers.signup-form.first-name')"
-                            aria-label="@lang('shop::app.customers.signup-form.first-name')"
+                            :label="trans('licious::app.customers.signup-form.first-name')"
+                            :placeholder="trans('licious::app.customers.signup-form.first-name')"
+                            aria-label="@lang('licious::app.customers.signup-form.first-name')"
                             aria-required="true"
                         />
 
@@ -85,9 +85,9 @@
                             name="last_name"
                             rules="required"
                             :value="old('last_name')"
-                            :label="trans('shop::app.customers.signup-form.last-name')"
-                            :placeholder="trans('shop::app.customers.signup-form.last-name')"
-                            :aria-label="trans('shop::app.customers.signup-form.last-name')"
+                            :label="trans('licious::app.customers.signup-form.last-name')"
+                            :placeholder="trans('licious::app.customers.signup-form.last-name')"
+                            :aria-label="trans('licious::app.customers.signup-form.last-name')"
                             aria-required="true"
                         />
 
@@ -107,9 +107,9 @@
                             name="email"
                             rules="required|email"
                             :value="old('email')"
-                            :label="trans('shop::app.customers.signup-form.email')"
+                            :label="trans('licious::app.customers.signup-form.email')"
                             placeholder="email@example.com"
-                            aria-label="@lang('shop::app.customers.signup-form.email')"
+                            aria-label="@lang('licious::app.customers.signup-form.email')"
                             aria-required="true"
                         />
 
@@ -129,10 +129,10 @@
                             name="password"
                             rules="required|min:6"
                             :value="old('password')"
-                            :label="trans('shop::app.customers.signup-form.password')"
-                            :placeholder="trans('shop::app.customers.signup-form.password')"
+                            :label="trans('licious::app.customers.signup-form.password')"
+                            :placeholder="trans('licious::app.customers.signup-form.password')"
                             ref="password"
-                            aria-label="@lang('shop::app.customers.signup-form.password')"
+                            aria-label="@lang('licious::app.customers.signup-form.password')"
                             aria-required="true"
                         />
 
@@ -152,9 +152,9 @@
                             name="password_confirmation"
                             rules="confirmed:@password"
                             value=""
-                            :label="trans('shop::app.customers.signup-form.password')"
-                            :placeholder="trans('shop::app.customers.signup-form.confirm-pass')"
-                            aria-label="@lang('shop::app.customers.signup-form.confirm-pass')"
+                            :label="trans('licious::app.customers.signup-form.password')"
+                            :placeholder="trans('licious::app.customers.signup-form.confirm-pass')"
+                            aria-label="@lang('licious::app.customers.signup-form.confirm-pass')"
                             aria-required="true"
                         />
 

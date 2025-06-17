@@ -48,7 +48,7 @@
                             <div class="grid items-center justify-items-center place-content-center w-full m-auto h-[476px] text-center">
                                 <img
                                     src="{{ bagisto_asset('images/thank-you.png') }}"
-                                    alt="@lang('shop::app.categories.view.empty')"
+                                    alt="@lang('licious::app.categories.view.empty')"
                                 />
 
                                 <p

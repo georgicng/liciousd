@@ -78,7 +78,7 @@
                             {!! view_render_event('bagisto.shop.products.view.description.before', ['product' => $product]) !!}
 
                             <x-licious::tabs.item
-                                :title="trans('shop::app.products.view.description')"
+                                :title="trans('licious::app.products.view.description')"
                                 :is-selected="true"
                             >
                                 <div class="cr-description pt-[30px]">
@@ -94,7 +94,7 @@
                         <!-- Additional Information Tab -->
                         @if(count($attributeData))
                             <x-licious::tabs.item
-                                :title="trans('shop::app.products.view.additional-information')"
+                                :title="trans('licious::app.products.view.additional-information')"
                                 :is-selected="!$product->description"
                             >
                                 <div class="list">
@@ -136,7 +136,7 @@
 
                         <!-- Reviews Tab -->
                         <x-licious::tabs.item
-                            :title="trans('shop::app.products.view.review')"
+                            :title="trans('licious::app.products.view.review')"
                             :is-selected="!$product->description && !count($attributeData)"
                         >
                             <x-licious::products.review :$product :$avgRatings :$percentageRatings />
@@ -151,13 +151,13 @@
 
     <!-- Featured Products -->
     <x-licious::products.carousel
-        :title="trans('shop::app.products.view.related-product-title')"
+        :title="trans('licious::app.products.view.related-product-title')"
         :src="route('shop.api.products.related.index', ['id' => $product->id])"
     />
 
     <!-- Upsell Products -->
     <x-licious::products.carousel
-        :title="trans('shop::app.products.view.up-sell-title')"
+        :title="trans('licious::app.products.view.up-sell-title')"
         :src="route('shop.api.products.up-sell.index', ['id' => $product->id])"
     />
 

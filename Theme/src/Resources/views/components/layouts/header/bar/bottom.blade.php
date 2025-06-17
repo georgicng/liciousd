@@ -17,7 +17,7 @@
                         <a
                             href="{{ route('shop.compare.index') }}"
                             class="cr-right-bar-item transition-all duration-[0.3s] ease-in-out mr-[16px] max-[991px]:mr-[20px]"
-                            aria-label="@lang('shop::app.components.layouts.header.compare')"
+                            aria-label="@lang('licious::app.components.layouts.header.compare')"
                         >
                             <i class="ri-arrow-left-right-fill text-[20px]"></i>
                         </a>

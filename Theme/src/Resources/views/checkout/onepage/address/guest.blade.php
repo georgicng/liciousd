@@ -9,7 +9,7 @@
 
 {!! view_render_event('bagisto.shop.checkout.onepage.address.guest.after') !!}
 
-@include('shop::checkout.onepage.address.form')
+@include('licious::checkout.onepage.address.form')
 
 @pushOnce('scripts')
     <script
@@ -94,7 +94,7 @@
                 <div class="flex justify-end mt-4">
                     <x-licious::button
                         class="btn btn-primary m-[10px] rounded-[5px] transition-all duration-[0.3s] ease-in-out h-[45px] p-[0] px-[25px] border-[0] text-[14px] font-medium leading-[45px] uppercase bg-[#3474d4] text-[#fff] flex justify-center items-center"
-                        :title="trans('shop::app.checkout.onepage.address.proceed')"
+                        :title="trans('licious::app.checkout.onepage.address.proceed')"
                         ::loading="isStoring"
                         ::disabled="isStoring"
                     />

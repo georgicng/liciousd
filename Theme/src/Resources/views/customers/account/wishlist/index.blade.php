@@ -151,7 +151,7 @@
                                                 <!--Wishlist Item Move-to-cart-->
                                                 <x-licious::button
                                                     class="primary-button w-max max-h-10 py-1.5 px-6 rounded-2xl text-base text-center"
-                                                    :title="trans('shop::app.customers.account.wishlist.move-to-cart')"
+                                                    :title="trans('licious::app.customers.account.wishlist.move-to-cart')"
                                                     ::loading="isMovingToCart[item.id]"
                                                     ::disabled="isMovingToCart[item.id]"
                                                     @click="moveToCart(item.id,index)"

@@ -21,7 +21,7 @@
                 <option v-for="(category) in categories" :key="category.id"  :value="category.id" :selected="'{{ request('category') }}' == category.id ">@{{ category.name }}</option>
             </select>
             @if (core()->getConfigData('general.content.shop.image_search'))
-                @include('shop::search.images.index')
+                @include('licious::search.images.index')
             @endif
             <button type="submit" aria-label="Submit" class="search-btn w-[45px] bg-[#64b496] absolute right-[0] top-[0] bottom-[0] rounded-r-[5px] flex items-center justify-center">
                 <i class="ri-search-line text-[14px] text-[#fff]"></i>

@@ -1,4 +1,4 @@
-@component('shop::emails.layout')
+@component('licious::emails.layout')
     <div style="margin-bottom: 34px;">
         <span style="font-size: 22px;font-weight: 600;color: #121A26">
             @lang('licious::app.emails.orders.canceled.title')
@@ -9,7 +9,7 @@
         </p>
 
         <p style="font-size: 16px;color: #5E5E5E;line-height: 24px;">
-            {!! __('shop::app.emails.orders.canceled.greeting', [
+            {!! __('licious::app.emails.orders.canceled.greeting', [
                 'order_id' => '<a href="' . route('shop.customers.account.orders.view', $order->id) . '" style="color: #2969FF;">#' . $order->increment_id . '</a>',
                 'created_at' => core()->formatDate($order->created_at, 'Y-m-d H:i:s')
                 ])
@@ -101,10 +101,10 @@
         border-spacing: 0;width: 100%">
             <thead>
                 <tr style="color: #121A26;border-top: 1px solid #CBD5E1;border-bottom: 1px solid #CBD5E1;">
-                    <th style="text-align: left;padding: 15px">@lang('shop::app.emails.orders.sku')</th>
-                    <th style="text-align: left;padding: 15px">@lang('shop::app.emails.orders.name')</th>
-                    <th style="text-align: left;padding: 15px">@lang('shop::app.emails.orders.price')</th>
-                    <th style="text-align: left;padding: 15px">@lang('shop::app.emails.orders.qty')</th>
+                    <th style="text-align: left;padding: 15px">@lang('licious::app.emails.orders.sku')</th>
+                    <th style="text-align: left;padding: 15px">@lang('licious::app.emails.orders.name')</th>
+                    <th style="text-align: left;padding: 15px">@lang('licious::app.emails.orders.price')</th>
+                    <th style="text-align: left;padding: 15px">@lang('licious::app.emails.orders.qty')</th>
                 </tr>
             </thead>
 
@@ -139,7 +139,7 @@
 
     <div style="display: grid;justify-content: end;font-size: 16px;color: #384860;line-height: 30px;padding-top: 20px;padding-bottom: 20px;">
         <div style="display: grid;gap: 100px;grid-template-columns: repeat(2, minmax(0, 1fr));">
-            <span>@lang('shop::app.emails.orders.subtotal')</span>
+            <span>@lang('licious::app.emails.orders.subtotal')</span>
 
             <span style="text-align: right;">
                 {{ core()->formatPrice($order->sub_total, $order->order_currency_code) }}
@@ -148,7 +148,7 @@
 
         @if ($order->shipping_address)
             <div style="display: grid;gap: 100px;grid-template-columns: repeat(2, minmax(0, 1fr));">
-                <span>@lang('shop::app.emails.orders.shipping-handling')</span>
+                <span>@lang('licious::app.emails.orders.shipping-handling')</span>
 
                 <span style="text-align: right;">
                     {{ core()->formatPrice($order->shipping_amount, $order->order_currency_code) }}
@@ -170,7 +170,7 @@
 
         @if ($order->discount_amount > 0)
             <div style="display: grid;gap: 100px;grid-template-columns: repeat(2, minmax(0, 1fr));">
-                <span>@lang('shop::app.emails.orders.discount')</span>
+                <span>@lang('licious::app.emails.orders.discount')</span>
 
                 <span style="text-align: right;">
                     {{ core()->formatPrice($order->discount_amount, $order->order_currency_code) }}
@@ -179,7 +179,7 @@
         @endif
 
         <div style="display: grid;gap: 100px;grid-template-columns: repeat(2, minmax(0, 1fr));font-weight: bold">
-            <span>@lang('shop::app.emails.orders.grand-total')</span>
+            <span>@lang('licious::app.emails.orders.grand-total')</span>
 
             <span style="text-align: right;">
                 {{ core()->formatPrice($order->grand_total, $order->order_currency_code) }}

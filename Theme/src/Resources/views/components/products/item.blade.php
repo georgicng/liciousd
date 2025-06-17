@@ -171,7 +171,7 @@
                                         class="cr-button cr-shopping-bag h-[40px] font-bold transition-all duration-[0.3s] ease-in-out py-[8px] px-[22px] text-[14px] font-Manrope capitalize leading-[1.2] bg-[#64b496] text-[#fff] border-[1px] border-solid border-[#64b496] rounded-[5px] flex items-center justify-center hover:bg-[#000] hover:border-[#000] max-[1199px]:py-[8px] max-[1199px]:px-[15px]"
                                         button-type="secondary-button"
                                         :loading="false"
-                                        :title="trans('shop::app.products.view.add-to-cart')"
+                                        :title="trans('licious::app.products.view.add-to-cart')"
                                         :disabled="! $product->isSaleable(1)"
                                         ::loading="isStoring.addToCart"
                                     />
@@ -185,7 +185,7 @@
                                             href="javascript:void(0)"
                                             class="wishlist m-[0] p-[0] bg-transparent"
                                             role="button"
-                                            aria-label="@lang('shop::app.products.view.add-to-wishlist')"
+                                            aria-label="@lang('licious::app.products.view.add-to-wishlist')"
                                             tabindex="0"
                                             @click="addToWishlist"
                                         >
@@ -217,7 +217,7 @@
                                     type="submit"
                                     class="primary-button w-full max-w-[470px] mt-5"
                                     button-type="secondary-button"
-                                    :title="trans('shop::app.products.view.buy-now')"
+                                    :title="trans('licious::app.products.view.buy-now')"
                                     :disabled="! $product->isSaleable(1)"
                                     ::loading="isStoring.buyNow"
                                     @click="is_buy_now=1;"
@@ -349,14 +349,14 @@
 
                             this.setStorageValue(this.getCompareItemsStorageKey(), existingItems);
 
-                            this.$emitter.emit('add-flash', { type: 'success', message: "@lang('shop::app.products.view.add-to-compare')" });
+                            this.$emitter.emit('add-flash', { type: 'success', message: "@lang('licious::app.products.view.add-to-compare')" });
                         } else {
-                            this.$emitter.emit('add-flash', { type: 'warning', message: "@lang('shop::app.products.view.already-in-compare')" });
+                            this.$emitter.emit('add-flash', { type: 'warning', message: "@lang('licious::app.products.view.already-in-compare')" });
                         }
                     } else {
                         this.setStorageValue(this.getCompareItemsStorageKey(), [productId]);
 
-                        this.$emitter.emit('add-flash', { type: 'success', message: "@lang('shop::app.products.view.add-to-compare')" });
+                        this.$emitter.emit('add-flash', { type: 'success', message: "@lang('licious::app.products.view.add-to-compare')" });
                     }
                 },
 

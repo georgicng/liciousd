@@ -23,7 +23,7 @@
                     type="button"
                     class="plus h-[25px] w-[25px] mt-[-2px] border-[0] bg-transparent flex justify-center items-center"
                     tabindex="0"
-                    aria-label="@lang('shop::app.components.quantity-changer.increase-quantity')"
+                    aria-label="@lang('licious::app.components.quantity-changer.increase-quantity')"
                     @click="increase">+</button>
                 <input
                     type="text"
@@ -37,7 +37,7 @@
                     type="button"
                     class="minus h-[25px] w-[25px] mt-[-2px] border-[0] bg-transparent flex justify-center items-center"
                     tabindex="0"
-                    aria-label="@lang('shop::app.components.quantity-changer.decrease-quantity')"
+                    aria-label="@lang('licious::app.components.quantity-changer.decrease-quantity')"
                     @click="decrease">-</button>
             </div>
         @endif

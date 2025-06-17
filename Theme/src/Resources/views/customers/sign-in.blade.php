@@ -1,8 +1,8 @@
 <!-- SEO Meta Content -->
 @push('meta')
-    <meta name="description" content="@lang('shop::app.customers.login-form.page-title')"/>
+    <meta name="description" content="@lang('licious::app.customers.login-form.page-title')"/>
 
-    <meta name="keywords" content="@lang('shop::app.customers.login-form.page-title')"/>
+    <meta name="keywords" content="@lang('licious::app.customers.login-form.page-title')"/>
 @endPush
 
 <x-licious::layouts
@@ -23,7 +23,7 @@
             <a
                 href="{{ route('shop.home.index') }}"
                 class="m-[0_auto_20px_auto]"
-                aria-label="@lang('shop::app.customers.login-form.bagisto')"
+                aria-label="@lang('licious::app.customers.login-form.bagisto')"
             >
                 <img
                     src="{{ core()->getCurrentChannel()->logo_url ?? bagisto_asset('images/logo.svg') }}"
@@ -67,9 +67,9 @@
                             name="email"
                             rules="required|email"
                             value=""
-                            :label="trans('shop::app.customers.login-form.email')"
+                            :label="trans('licious::app.customers.login-form.email')"
                             placeholder="email@example.com"
-                            aria-label="@lang('shop::app.customers.login-form.email')"
+                            aria-label="@lang('licious::app.customers.login-form.email')"
                             aria-required="true"
                         />
 
@@ -89,9 +89,9 @@
                             name="password"
                             rules="required|min:6"
                             value=""
-                            :label="trans('shop::app.customers.login-form.password')"
-                            :placeholder="trans('shop::app.customers.login-form.password')"
-                            aria-label="@lang('shop::app.customers.login-form.password')"
+                            :label="trans('licious::app.customers.login-form.password')"
+                            :placeholder="trans('licious::app.customers.login-form.password')"
+                            aria-label="@lang('licious::app.customers.login-form.password')"
                             aria-required="true"
                         />
 

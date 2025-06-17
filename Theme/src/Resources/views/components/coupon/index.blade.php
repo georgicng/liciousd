@@ -9,7 +9,7 @@
     >
         <div class="flex justify-between items-center mb-[10px]">
             <span :class="labelClasses">
-                @{{ cart.coupon_code ? "@lang('shop::app.checkout.cart.coupon.applied')" : "@lang('shop::app.checkout.cart.coupon.discount')" }}
+                @{{ cart.coupon_code ? "@lang('licious::app.checkout.cart.coupon.applied')" : "@lang('licious::app.checkout.cart.coupon.discount')" }}
             </span>
 
             {!! view_render_event('bagisto.shop.checkout.cart.coupon.before') !!}
@@ -53,7 +53,7 @@
                                         class="py-5 px-6"
                                         name="code"
                                         rules="required"
-                                        :placeholder="trans('shop::app.checkout.cart.coupon.enter-your-code')"
+                                        :placeholder="trans('licious::app.checkout.cart.coupon.enter-your-code')"
                                     />
 
                                     <x-licious::form.control-group.error
@@ -79,7 +79,7 @@
 
                                     <x-licious::button
                                         class="flex-auto max-w-none cr-button h-[40px] font-bold transition-all duration-[0.3s] ease-in-out py-[8px] px-[22px] text-[14px] font-Manrope capitalize leading-[1.2] bg-[#64b496] text-[#fff] border-[1px] border-solid border-[#64b496] rounded-[5px] flex items-center justify-center hover:bg-[#000] hover:border-[#000]"
-                                        :title="trans('shop::app.checkout.cart.coupon.button-title')"
+                                        :title="trans('licious::app.checkout.cart.coupon.button-title')"
                                         ::loading="isStoring"
                                         ::disabled="isStoring"
                                     />
@@ -98,14 +98,14 @@
                 >
                     <p
                         class="text-base font-medium text-navyBlue"
-                        title="@lang('shop::app.checkout.cart.coupon.applied')"
+                        title="@lang('licious::app.checkout.cart.coupon.applied')"
                     >
                         "@{{ cart.coupon_code }}"
                     </p>
 
                     <span
                         class="ri-close-line text-2xl cursor-pointer"
-                        title="@lang('shop::app.checkout.cart.coupon.remove')"
+                        title="@lang('licious::app.checkout.cart.coupon.remove')"
                         @click="destroyCoupon"
                     >
                     </span>

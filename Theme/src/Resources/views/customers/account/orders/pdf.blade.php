@@ -171,7 +171,7 @@
                             </div>
                         @endif
                         <div class="invoice-text">
-                            <span>{{ strtoupper(__('shop::app.customers.account.orders.invoice-pdf.invoice')) }}</span>
+                            <span>{{ strtoupper(__('licious::app.customers.account.orders.invoice-pdf.invoice')) }}</span>
                         </div>
                     </div>
                 </div>
@@ -192,7 +192,7 @@
 
                                 <div class="row">
                                     <span
-                                        class="label">@lang('shop::app.customers.account.orders.invoice-pdf.date'):
+                                        class="label">@lang('licious::app.customers.account.orders.invoice-pdf.date'):
                                     </span>
 
                                     <span class="value">
@@ -286,9 +286,9 @@
                     <table>
                         <thead>
                             <tr>
-                                <th class="table-header align-left" style="width: 50%;">{{ ucwords(trans('shop::app.customers.account.orders.invoice-pdf.bill-to')) }}</th>
+                                <th class="table-header align-left" style="width: 50%;">{{ ucwords(trans('licious::app.customers.account.orders.invoice-pdf.bill-to')) }}</th>
                                 @if ($invoice->order->shipping_address)
-                                    <th class="table-header align-left">{{ ucwords(trans('shop::app.customers.account.orders.invoice-pdf.ship-to')) }}</th>
+                                    <th class="table-header align-left">{{ ucwords(trans('licious::app.customers.account.orders.invoice-pdf.ship-to')) }}</th>
                                 @endif
                             </tr>
                         </thead>

@@ -1,4 +1,4 @@
-@component('shop::emails.layout')
+@component('licious::emails.layout')
     <div style="margin-bottom: 34px;">
         <p style="font-weight: bold;font-size: 20px;color: #121A26;line-height: 24px;margin-bottom: 24px">
             @lang('licious::app.emails.dear', ['customer_name' => ! empty($fullName) ? $fullName : $subscribersList->email ]), 👋

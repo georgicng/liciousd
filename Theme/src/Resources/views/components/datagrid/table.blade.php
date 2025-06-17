@@ -177,13 +177,13 @@
                                 </div>
                             </div>
 
-                            <nav aria-label="@lang('shop::app.components.datagrid.table.page-navigation')">
+                            <nav aria-label="@lang('licious::app.components.datagrid.table.page-navigation')">
                                 <ul class="inline-flex items-center -space-x-px">
                                     <li @click="$parent.changePage('previous')">
                                         <a
                                             href="javascript:void(0);"
                                             class="flex items-center justify-center w-[35px] h-[37px] border border-[#E9E9E9] rounded-l-lg leading-normal font-medium hover:bg-gray-100"
-                                            aria-label="@lang('shop::app.components.datagrid.table.previous-page')"
+                                            aria-label="@lang('licious::app.components.datagrid.table.previous-page')"
                                         >
                                             <span class="icon-arrow-left text-2xl"></span>
                                         </a>
@@ -195,7 +195,7 @@
                                             :value="$parent.available.meta.current_page"
                                             class="px-4 pt-1.5 pb-1.5 max-w-[42px] border border-[#E9E9E9] leading-normal text-black font-medium text-center hover:bg-gray-100"
                                             @change="$parent.changePage(parseInt($event.target.value))"
-                                            aria-label="@lang('shop::app.components.datagrid.table.page-number')"
+                                            aria-label="@lang('licious::app.components.datagrid.table.page-number')"
                                         >
                                     </li>
 
@@ -203,7 +203,7 @@
                                         <a
                                             href="javascript:void(0);"
                                             class="flex items-center justify-center w-[35px] h-[37px] border border-[#E9E9E9] rounded-r-lg leading-normal font-medium hover:bg-gray-100"
-                                            aria-label="@lang('shop::app.components.datagrid.table.next-page')"
+                                            aria-label="@lang('licious::app.components.datagrid.table.next-page')"
                                         >
                                             <span class="icon-arrow-right text-2xl"></span>
                                         </a>

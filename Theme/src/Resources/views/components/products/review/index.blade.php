@@ -70,7 +70,7 @@
                                     name="rating"
                                     rules="required"
                                     :value="old('rating') ?? 5"
-                                    :label="trans('shop::app.products.view.reviews.rating')"
+                                    :label="trans('licious::app.products.view.reviews.rating')"
                                     :disabled="false"
                                 />
 
@@ -87,8 +87,8 @@
                                         name="name"
                                         rules="required"
                                         :value="old('name')"
-                                        :label="trans('shop::app.products.view.reviews.name')"
-                                        :placeholder="trans('shop::app.products.view.reviews.name')"
+                                        :label="trans('licious::app.products.view.reviews.name')"
+                                        :placeholder="trans('licious::app.products.view.reviews.name')"
                                     />
 
                                     <x-licious::form.control-group.error control-name="name" />
@@ -101,8 +101,8 @@
                                     name="title"
                                     rules="required"
                                     :value="old('title')"
-                                    :label="trans('shop::app.products.view.reviews.title')"
-                                    :placeholder="trans('shop::app.products.view.reviews.title')"
+                                    :label="trans('licious::app.products.view.reviews.title')"
+                                    :placeholder="trans('licious::app.products.view.reviews.title')"
                                 />
 
                                 <x-licious::form.control-group.error control-name="title" />
@@ -115,8 +115,8 @@
                                     name="comment"
                                     rules="required"
                                     :value="old('comment')"
-                                    :label="trans('shop::app.products.view.reviews.comment')"
-                                    :placeholder="trans('shop::app.products.view.reviews.comment')"
+                                    :label="trans('licious::app.products.view.reviews.comment')"
+                                    :placeholder="trans('licious::app.products.view.reviews.comment')"
                                     rows="12"
                                 />
                                 <x-licious::form.control-group.error control-name="comment" />
@@ -193,7 +193,7 @@
                             this.canReview = false;
                         })
                         .catch(error => {
-                            setErrors({'attachments': ["@lang('shop::app.products.view.reviews.failed-to-upload')"]});
+                            setErrors({'attachments': ["@lang('licious::app.products.view.reviews.failed-to-upload')"]});
 
                             this.$refs.reviewImages.uploadedFiles.forEach(element => {
                                 setTimeout(() => {

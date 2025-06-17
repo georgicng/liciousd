@@ -8,7 +8,7 @@
 
                 <a
                     href="{{ route('shop.home.index') }}"
-                    aria-label="@lang('shop::app.components.layouts.header.bagisto')"
+                    aria-label="@lang('licious::app.components.layouts.header.bagisto')"
                     class="cr-logo max-[575px]:mb-[15px] max-[575px]:flex max-[575px]:justify-center"
                 >
                     <img
@@ -42,7 +42,7 @@
                         <a
                             href="{{ route('shop.compare.index') }}"
                             class="cr-right-bar-item pr-[30px] transition-all duration-[0.3s] ease-in-out flex items-center"
-                            aria-label="@lang('shop::app.components.layouts.header.compare')"
+                            aria-label="@lang('licious::app.components.layouts.header.compare')"
                         >
                             <i class="ri-arrow-left-right-fill pr-[5px] text-[21px] leading-[17px]"></i>
                             <span class="transition-all duration-[0.3s] ease-in-out font-Poppins text-[15px] leading-[15px] font-medium text-[#000]" role="presentation">Compare</span>

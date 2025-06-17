@@ -59,7 +59,7 @@
                 <span
                     class="flex items-center justify-center absolute top-9 -left-10 w-[50px] h-[50px] bg-white border border-black rounded-full transition ri-arrow-left-line text-2xl hover:bg-black hover:text-white max-lg:-left-7 cursor-pointer"
                     role="button"
-                    aria-label="@lang('shop::components.carousel.previous')"
+                    aria-label="@lang('licious::components.carousel.previous')"
                     tabindex="0"
                     @click="swipeLeft"
                 >
@@ -68,7 +68,7 @@
                 <span
                     class="flex items-center justify-center absolute top-9 -right-6 w-[50px] h-[50px] bg-white border border-black rounded-full transition ri-arrow-right-line text-2xl hover:bg-black hover:text-white max-lg:-right-7 cursor-pointer"
                     role="button"
-                    aria-label="@lang('shop::components.carousel.next')"
+                    aria-label="@lang('licious::components.carousel.next')"
                     tabindex="0"
                     @click="swipeRight"
                 >

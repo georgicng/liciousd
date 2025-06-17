@@ -111,7 +111,7 @@
             type="select"
             name="column"
             rules="required"
-            :label="trans('shop::app.catalog.families.create.column')"
+            :label="trans('licious::app.catalog.families.create.column')"
         >
             <!-- Default Option -->
             <option value="">

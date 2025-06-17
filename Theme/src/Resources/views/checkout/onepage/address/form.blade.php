@@ -24,8 +24,8 @@
                         ::name="controlName + '.first_name'"
                         ::value="address.first_name"
                         rules="required"
-                        :label="trans('shop::app.checkout.onepage.address.first-name')"
-                        :placeholder="trans('shop::app.checkout.onepage.address.first-name')"
+                        :label="trans('licious::app.checkout.onepage.address.first-name')"
+                        :placeholder="trans('licious::app.checkout.onepage.address.first-name')"
                     />
 
                     <x-licious::form.control-group.error ::name="controlName + '.first_name'" />
@@ -44,8 +44,8 @@
                         ::name="controlName + '.last_name'"
                         ::value="address.last_name"
                         rules="required"
-                        :label="trans('shop::app.checkout.onepage.address.last-name')"
-                        :placeholder="trans('shop::app.checkout.onepage.address.last-name')"
+                        :label="trans('licious::app.checkout.onepage.address.last-name')"
+                        :placeholder="trans('licious::app.checkout.onepage.address.last-name')"
                     />
 
                     <x-licious::form.control-group.error ::name="controlName + '.last_name'" />
@@ -65,7 +65,7 @@
                     ::name="controlName + '.email'"
                     ::value="address.email"
                     rules="required|email"
-                    :label="trans('shop::app.checkout.onepage.address.email')"
+                    :label="trans('licious::app.checkout.onepage.address.email')"
                     placeholder="email@example.com"
                 />
 
@@ -85,8 +85,8 @@
                     ::name="controlName + '.address.[0]'"
                     ::value="address.address[0]"
                     rules="required|address"
-                    :label="trans('shop::app.checkout.onepage.address.street-address')"
-                    :placeholder="trans('shop::app.checkout.onepage.address.street-address')"
+                    :label="trans('licious::app.checkout.onepage.address.street-address')"
+                    :placeholder="trans('licious::app.checkout.onepage.address.street-address')"
                 />
 
                 <x-licious::form.control-group.error
@@ -100,8 +100,8 @@
                             type="text"
                             ::name="controlName + '.address.[{{ $i }}]'"
                             rules="address"
-                            :label="trans('shop::app.checkout.onepage.address.street-address')"
-                            :placeholder="trans('shop::app.checkout.onepage.address.street-address')"
+                            :label="trans('licious::app.checkout.onepage.address.street-address')"
+                            :placeholder="trans('licious::app.checkout.onepage.address.street-address')"
                         />
 
                         <x-licious::form.control-group.error
@@ -127,8 +127,8 @@
                         ::value="address.country"
                         v-model="selectedCountry"
                         rules="{{ core()->isCountryRequired() ? 'required' : '' }}"
-                        :label="trans('shop::app.checkout.onepage.address.country')"
-                        :placeholder="trans('shop::app.checkout.onepage.address.country')"
+                        :label="trans('licious::app.checkout.onepage.address.country')"
+                        :placeholder="trans('licious::app.checkout.onepage.address.country')"
                     >
                         <option value="">
                             @lang('licious::app.checkout.onepage.address.select-country')
@@ -159,8 +159,8 @@
                             ::name="controlName + '.state'"
                             v-model="selectedState"
                             rules="{{ core()->isStateRequired() ? 'required' : '' }}"
-                            :label="trans('shop::app.checkout.onepage.address.state')"
-                            :placeholder="trans('shop::app.checkout.onepage.address.state')"
+                            :label="trans('licious::app.checkout.onepage.address.state')"
+                            :placeholder="trans('licious::app.checkout.onepage.address.state')"
                         >
                             <option value="">
                                 @lang('licious::app.checkout.onepage.address.select-state')
@@ -182,8 +182,8 @@
                             ::name="controlName + '.state'"
                             v-model="selectedState"
                             rules="{{ core()->isStateRequired() ? 'required' : '' }}"
-                            :label="trans('shop::app.checkout.onepage.address.state')"
-                            :placeholder="trans('shop::app.checkout.onepage.address.state')"
+                            :label="trans('licious::app.checkout.onepage.address.state')"
+                            :placeholder="trans('licious::app.checkout.onepage.address.state')"
                         />
                     </template>
 
@@ -206,8 +206,8 @@
                             ::name="controlName + '.city'"
                             class="py-2 mb-2"
                             rules="required"
-                            :label="trans('shop::app.checkout.onepage.addresses.billing.city')"
-                            :placeholder="trans('shop::app.checkout.onepage.addresses.billing.city')"
+                            :label="trans('licious::app.checkout.onepage.addresses.billing.city')"
+                            :placeholder="trans('licious::app.checkout.onepage.addresses.billing.city')"
                             v-model="selectedCity"
 
                         >
@@ -228,8 +228,8 @@
                             ::name="controlName + '.city'"
                             v-model="selectedCity"
                             rules="required"
-                            :label="trans('shop::app.checkout.onepage.address.city')"
-                            :placeholder="trans('shop::app.checkout.onepage.address.city')"
+                            :label="trans('licious::app.checkout.onepage.address.city')"
+                            :placeholder="trans('licious::app.checkout.onepage.address.city')"
                         />
                     </template>
 
@@ -250,8 +250,8 @@
                         ::name="controlName + '.phone'"
                         ::value="address.phone"
                         rules="required|numeric"
-                        :label="trans('shop::app.checkout.onepage.address.telephone')"
-                        :placeholder="trans('shop::app.checkout.onepage.address.telephone')"
+                        :label="trans('licious::app.checkout.onepage.address.telephone')"
+                        :placeholder="trans('licious::app.checkout.onepage.address.telephone')"
                     />
 
                     <x-licious::form.control-group.error ::name="controlName + '.phone'" />

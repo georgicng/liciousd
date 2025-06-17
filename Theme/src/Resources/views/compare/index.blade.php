@@ -1,8 +1,8 @@
 <!-- SEO Meta Content -->
 @push('meta')
-    <meta name="description" content="@lang('shop::app.compare.title')"/>
+    <meta name="description" content="@lang('licious::app.compare.title')"/>
 
-    <meta name="keywords" content="@lang('shop::app.compare.title')"/>
+    <meta name="keywords" content="@lang('licious::app.compare.title')"/>
 @endPush
 
 <x-licious::layouts>
@@ -139,7 +139,7 @@
                     >
                         <img
                             src="{{ bagisto_asset('images/thank-you.png') }}"
-                            alt="@lang('shop::app.compare.empty-text')"
+                            alt="@lang('licious::app.compare.empty-text')"
                         />
 
                         <p
@@ -245,7 +245,7 @@
 
                                     this.items = [];
 
-                                    this.$emitter.emit('add-flash', { type: 'success', message:  "@lang('shop::app.compare.remove-all-success')" });
+                                    this.$emitter.emit('add-flash', { type: 'success', message:  "@lang('licious::app.compare.remove-all-success')" });
 
                                     return;
                                 }

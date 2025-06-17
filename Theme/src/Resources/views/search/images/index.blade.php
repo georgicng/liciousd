@@ -2,7 +2,7 @@
     <button
         type="button"
         class="icon-camera flex items-center absolute top-2.5 ltr:right-3 rtl:left-3 ltr:pr-3 rtl:pl-3 text-xl"
-        aria-label="@lang('shop::app.search.images.index.search')"
+        aria-label="@lang('licious::app.search.images.index.search')"
     >
     </button>
 </v-image-search>
@@ -15,7 +15,7 @@
         <div>
             <label
                 class="icon-camera flex items-center absolute top-2.5 ltr:right-3 rtl:left-3 ltr:pr-3 rtl:pl-3 text-xl cursor-pointer"
-                aria-label="@lang('shop::app.search.images.index.search')"
+                aria-label="@lang('licious::app.search.images.index.search')"
                 :for="'v-image-search-' + $.uid"
                 v-if="! isSearching"
             >
@@ -87,7 +87,7 @@
                  * This method will dynamically load the scripts. Because image search library
                  * only used when someone clicks or interact with the image button. This will
                  * reduce some data usage for mobile user.
-                 * 
+                 *
                  * @return {void}
                  */
                 loadLibrary() {
@@ -104,7 +104,7 @@
 
                 /**
                  * This method will analyze the image and load the sets on the bases of trained model.
-                 * 
+                 *
                  * @return {void}
                  */
                 analyzeImage() {
@@ -151,7 +151,7 @@
                                                     }
                                                 });
                                             } catch (error) {
-                                                this.$emitter.emit('add-flash', { type: 'error', message: '@lang('shop::app.search.images.index.something-went-wrong')'});
+                                                this.$emitter.emit('add-flash', { type: 'error', message: '@lang('licious::app.search.images.index.something-went-wrong')'});
                                             }
 
                                             localStorage.searchedImageUrl = self.uploadedImageUrl;
@@ -168,21 +168,21 @@
                                         app();
                                     })
                                     .catch((error) => {
-                                        this.$emitter.emit('add-flash', { type: 'error', message: '@lang('shop::app.search.images.index.something-went-wrong')'});
+                                        this.$emitter.emit('add-flash', { type: 'error', message: '@lang('licious::app.search.images.index.something-went-wrong')'});
 
                                         this.isSearching = false;
                                     });
                             } else {
                                 imageInput.value = '';
 
-                                this.$emitter.emit('add-flash', { type: 'error', message: '@lang('shop::app.search.images.index.size-limit-error')'});
+                                this.$emitter.emit('add-flash', { type: 'error', message: '@lang('licious::app.search.images.index.size-limit-error')'});
 
                                 this.isSearching = false;
                             }
                         } else {
                             imageInput.value = '';
 
-                            this.$emitter.emit('add-flash', { type: 'error', message: '@lang('shop::app.search.images.index.only-images-allowed')'});
+                            this.$emitter.emit('add-flash', { type: 'error', message: '@lang('licious::app.search.images.index.only-images-allowed')'});
 
                             this.isSearching = false;
                         }

@@ -14,7 +14,7 @@
                     <span
                         class="icon-arrow-up text-2xl cursor-pointer"
                         role="button"
-                        aria-label="@lang('shop::app.components.products.carousel.previous')"
+                        aria-label="@lang('licious::app.components.products.carousel.previous')"
                         tabindex="0"
                         @click="swipeDown"
                         v-if= "lengthOfMedia"
@@ -52,7 +52,7 @@
                         class="icon-arrow-down text-2xl cursor-pointer"
                         v-if= "lengthOfMedia"
                         role="button"
-                        aria-label="@lang('shop::app.components.products.carousel.previous')"
+                        aria-label="@lang('licious::app.components.products.carousel.previous')"
                         tabindex="0"
                         @click="swipeTop"
                     >

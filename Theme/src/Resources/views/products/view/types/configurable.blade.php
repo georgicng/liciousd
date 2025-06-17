@@ -347,7 +347,7 @@
 
                         attribute.options = [{
                             'id': '',
-                            'label': "@lang('shop::app.products.view.type.configurable.select-options')",
+                            'label': "@lang('licious::app.products.view.type.configurable.select-options')",
                             'products': []
                         }];
 

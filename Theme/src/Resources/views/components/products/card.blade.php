@@ -51,7 +51,7 @@
                                     href="javascript:void(0)"
                                     class="wishlist h-[35px] w-[35px] flex items-center justify-center m-0 p-0 bg-[#fff] border-[1px] border-solid border-[#e9e9e9] rounded-[100%]"
                                     role="button"
-                                    aria-label="@lang('shop::app.components.products.card.add-to-wishlist')"
+                                    aria-label="@lang('licious::app.components.products.card.add-to-wishlist')"
                                     tabindex="0"
                                     @click="addToWishlist()">
                                     <i :class="product?.is_wishlist ? 'ri-heart-fill' : 'ri-heart-line'" class="text-[18px] leading-[10px]"></i>
@@ -66,7 +66,7 @@
                                 <a
                                     class="model-oraganic-product h-[35px] w-[35px] flex items-center justify-center m-0 p-0 bg-[#fff] border-[1px] border-solid border-[#e9e9e9] rounded-[100%] mt-[5px] cursor-pointer cr-modal-toggle"
                                     role="button"
-                                    aria-label="@lang('shop::app.components.products.card.add-to-compare')"
+                                    aria-label="@lang('licious::app.components.products.card.add-to-compare')"
                                     tabindex="0"
                                     @click="addToCompare(product?.id)">
                                     <i class="ri-eye-line text-[18px] leading-[10px]"></i>
@@ -82,7 +82,7 @@
                             href="javascript:void(0)"
                             :disabled="! product?.is_saleable || isAddingToCart"
                             role="button"
-                            aria-label="@lang('shop::app.components.products.card.add-to-cart')"
+                            aria-label="@lang('licious::app.components.products.card.add-to-cart')"
                             @click="addToCart()">
                             <i class="ri-shopping-bag-line text-[#64b496]"></i>
                         </a>
@@ -179,14 +179,14 @@
 
                             localStorage.setItem('compare_items', JSON.stringify(items));
 
-                            this.$emitter.emit('add-flash', { type: 'success', message: "@lang('shop::app.components.products.card.add-to-compare-success')" });
+                            this.$emitter.emit('add-flash', { type: 'success', message: "@lang('licious::app.components.products.card.add-to-compare-success')" });
                         } else {
-                            this.$emitter.emit('add-flash', { type: 'warning', message: "@lang('shop::app.components.products.card.already-in-compare')" });
+                            this.$emitter.emit('add-flash', { type: 'warning', message: "@lang('licious::app.components.products.card.already-in-compare')" });
                         }
                     } else {
                         localStorage.setItem('compare_items', JSON.stringify([productId]));
 
-                        this.$emitter.emit('add-flash', { type: 'success', message: "@lang('shop::app.components.products.card.add-to-compare-success')" });
+                        this.$emitter.emit('add-flash', { type: 'success', message: "@lang('licious::app.components.products.card.add-to-compare-success')" });
 
                     }
                 },

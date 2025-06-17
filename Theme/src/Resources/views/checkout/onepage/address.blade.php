@@ -15,12 +15,12 @@
     <x-slot:content class="!p-0 mt-8">
         <!-- If the customer is guest -->
         <template v-if="cart.is_guest">
-            @include('shop::checkout.onepage.address.guest')
+            @include('licious::checkout.onepage.address.guest')
         </template>
 
         <!-- If the customer is logged in -->
         <template v-else>
-            @include('shop::checkout.onepage.address.customer')
+            @include('licious::checkout.onepage.address.customer')
         </template>
     </x-slot:content>
 </x-licious::accordion>

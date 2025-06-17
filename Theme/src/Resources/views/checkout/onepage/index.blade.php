@@ -1,8 +1,8 @@
 <!-- SEO Meta Content -->
 @push('meta')
-    <meta name="description" content="@lang('shop::app.checkout.onepage.index.checkout')"/>
+    <meta name="description" content="@lang('licious::app.checkout.onepage.index.checkout')"/>
 
-    <meta name="keywords" content="@lang('shop::app.checkout.onepage.index.checkout')"/>
+    <meta name="keywords" content="@lang('licious::app.checkout.onepage.index.checkout')"/>
 @endPush
 
 <x-licious::layouts
@@ -25,7 +25,7 @@
                     <a
                         href="{{ route('shop.home.index') }}"
                         class="flex min-h-[30px]"
-                        aria-label="@lang('shop::checkout.onepage.index.bagisto')"
+                        aria-label="@lang('licious::checkout.onepage.index.bagisto')"
                     >
                         <img
                             src="{{ core()->getCurrentChannel()->logo_url ?? bagisto_asset('images/logo.svg') }}"

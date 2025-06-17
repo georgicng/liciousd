@@ -48,8 +48,8 @@
                 name="first_name"
                 rules="required"
                 :value="old('first_name') ?? $customer->first_name"
-                :label="trans('shop::app.customers.account.profile.first-name')"
-                :placeholder="trans('shop::app.customers.account.profile.first-name')"
+                :label="trans('licious::app.customers.account.profile.first-name')"
+                :placeholder="trans('licious::app.customers.account.profile.first-name')"
             />
 
             <x-licious::form.control-group.error control-name="first_name" />
@@ -67,8 +67,8 @@
                 name="last_name"
                 rules="required"
                 :value="old('last_name') ?? $customer->last_name"
-                :label="trans('shop::app.customers.account.profile.last-name')"
-                :placeholder="trans('shop::app.customers.account.profile.last-name')"
+                :label="trans('licious::app.customers.account.profile.last-name')"
+                :placeholder="trans('licious::app.customers.account.profile.last-name')"
             />
 
             <x-licious::form.control-group.error control-name="last_name" />
@@ -86,8 +86,8 @@
                 name="email"
                 rules="required|email"
                 :value="old('email') ?? $customer->email"
-                :label="trans('shop::app.customers.account.profile.email')"
-                :placeholder="trans('shop::app.customers.account.profile.email')"
+                :label="trans('licious::app.customers.account.profile.email')"
+                :placeholder="trans('licious::app.customers.account.profile.email')"
             />
 
             <x-licious::form.control-group.error control-name="email" />
@@ -105,8 +105,8 @@
                 name="phone"
                 rules="required|phone"
                 :value="old('phone') ?? $customer->phone"
-                :label="trans('shop::app.customers.account.profile.phone')"
-                :placeholder="trans('shop::app.customers.account.profile.phone')"
+                :label="trans('licious::app.customers.account.profile.phone')"
+                :placeholder="trans('licious::app.customers.account.profile.phone')"
             />
 
             <x-licious::form.control-group.error control-name="phone" />
@@ -125,8 +125,8 @@
                 name="gender"
                 rules="required"
                 :value="old('gender') ?? $customer->gender"
-                :aria-label="trans('shop::app.customers.account.profile.select-gender')"
-                :label="trans('shop::app.customers.account.profile.gender')"
+                :aria-label="trans('licious::app.customers.account.profile.select-gender')"
+                :label="trans('licious::app.customers.account.profile.gender')"
             >
                 <option value="Other">
                     @lang('licious::app.customers.account.profile.other')
@@ -155,8 +155,8 @@
                 type="date"
                 name="date_of_birth"
                 :value="old('date_of_birth') ?? $customer->date_of_birth"
-                :label="trans('shop::app.customers.account.profile.dob')"
-                :placeholder="trans('shop::app.customers.account.profile.dob')"
+                :label="trans('licious::app.customers.account.profile.dob')"
+                :placeholder="trans('licious::app.customers.account.profile.dob')"
             />
 
             <x-licious::form.control-group.error control-name="date_of_birth" />
@@ -173,8 +173,8 @@
                 type="password"
                 name="current_password"
                 value=""
-                :label="trans('shop::app.customers.account.profile.current-password')"
-                :placeholder="trans('shop::app.customers.account.profile.current-password')"
+                :label="trans('licious::app.customers.account.profile.current-password')"
+                :placeholder="trans('licious::app.customers.account.profile.current-password')"
             />
 
             <x-licious::form.control-group.error control-name="current_password" />
@@ -191,8 +191,8 @@
                 type="password"
                 name="new_password"
                 value=""
-                :label="trans('shop::app.customers.account.profile.new-password')"
-                :placeholder="trans('shop::app.customers.account.profile.new-password')"
+                :label="trans('licious::app.customers.account.profile.new-password')"
+                :placeholder="trans('licious::app.customers.account.profile.new-password')"
             />
 
             <x-licious::form.control-group.error control-name="new_password" />
@@ -210,8 +210,8 @@
                 name="new_password_confirmation"
                 rules="confirmed:@new_password"
                 value=""
-                :label="trans('shop::app.customers.account.profile.confirm-password')"
-                :placeholder="trans('shop::app.customers.account.profile.confirm-password')"
+                :label="trans('licious::app.customers.account.profile.confirm-password')"
+                :placeholder="trans('licious::app.customers.account.profile.confirm-password')"
             />
 
             <x-licious::form.control-group.error control-name="new_password_confirmation" />

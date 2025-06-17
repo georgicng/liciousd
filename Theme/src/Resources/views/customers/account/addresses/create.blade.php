@@ -34,8 +34,8 @@
                             type="text"
                             name="company_name"
                             :value="old('company_name')"
-                            :label="trans('shop::app.customers.account.addresses.company-name')"
-                            :placeholder="trans('shop::app.customers.account.addresses.company-name')"
+                            :label="trans('licious::app.customers.account.addresses.company-name')"
+                            :placeholder="trans('licious::app.customers.account.addresses.company-name')"
                         />
 
                         <x-licious::form.control-group.error control-name="company_name" />
@@ -54,8 +54,8 @@
                             name="first_name"
                             rules="required"
                             :value="old('first_name')"
-                            :label="trans('shop::app.customers.account.addresses.first-name')"
-                            :placeholder="trans('shop::app.customers.account.addresses.first-name')"
+                            :label="trans('licious::app.customers.account.addresses.first-name')"
+                            :placeholder="trans('licious::app.customers.account.addresses.first-name')"
                         />
 
                         <x-licious::form.control-group.error control-name="first_name" />
@@ -74,8 +74,8 @@
                             name="last_name"
                             rules="required"
                             :value="old('last_name')"
-                            :label="trans('shop::app.customers.account.addresses.last-name')"
-                            :placeholder="trans('shop::app.customers.account.addresses.last-name')"
+                            :label="trans('licious::app.customers.account.addresses.last-name')"
+                            :placeholder="trans('licious::app.customers.account.addresses.last-name')"
                         />
 
                         <x-licious::form.control-group.error control-name="last_name" />
@@ -94,8 +94,8 @@
                             name="email"
                             rules="required|email"
                             :value="old('email')"
-                            :label="trans('shop::app.customers.account.addresses.email')"
-                            :placeholder="trans('shop::app.customers.account.addresses.email')"
+                            :label="trans('licious::app.customers.account.addresses.email')"
+                            :placeholder="trans('licious::app.customers.account.addresses.email')"
                         />
 
                         <x-licious::form.control-group.error control-name="email" />
@@ -113,8 +113,8 @@
                             type="text"
                             name="vat_id"
                             :value="old('vat_id')"
-                            :label="trans('shop::app.customers.account.addresses.vat-id')"
-                            :placeholder="trans('shop::app.customers.account.addresses.vat-id')"
+                            :label="trans('licious::app.customers.account.addresses.vat-id')"
+                            :placeholder="trans('licious::app.customers.account.addresses.vat-id')"
                         />
 
                         <x-licious::form.control-group.error control-name="vat_id" />
@@ -133,8 +133,8 @@
                             name="address[]"
                             rules="required|address"
                             :value="collect(old('address'))->first()"
-                            :label="trans('shop::app.customers.account.addresses.street-address')"
-                            :placeholder="trans('shop::app.customers.account.addresses.street-address')"
+                            :label="trans('licious::app.customers.account.addresses.street-address')"
+                            :placeholder="trans('licious::app.customers.account.addresses.street-address')"
                         />
 
                         <x-licious::form.control-group.error control-name="address[]" />
@@ -152,8 +152,8 @@
                                 name="address[{{ $i }}]"
                                 :value="old('address[{{ $i }}]')"
                                 rules="address"
-                                :label="trans('shop::app.customers.account.addresses.street-address')"
-                                :placeholder="trans('shop::app.customers.account.addresses.street-address')"
+                                :label="trans('licious::app.customers.account.addresses.street-address')"
+                                :placeholder="trans('licious::app.customers.account.addresses.street-address')"
                             />
 
                             <x-licious::form.control-group.error
@@ -176,8 +176,8 @@
                             name="country"
                             rules="{{ core()->isCountryRequired() ? 'required' : '' }}"
                             v-model="country"
-                            aria-label="trans('shop::app.customers.account.addresses.country')"
-                            :label="trans('shop::app.customers.account.addresses.country')"
+                            aria-label="trans('licious::app.customers.account.addresses.country')"
+                            :label="trans('licious::app.customers.account.addresses.country')"
                         >
                             <option value="">
                                 @lang('licious::app.customers.account.addresses.select-country')
@@ -204,8 +204,8 @@
                                 name="state"
                                 rules="{{ core()->isStateRequired() ? 'required' : '' }}"
                                 v-model="state"
-                                :label="trans('shop::app.customers.account.addresses.state')"
-                                :placeholder="trans('shop::app.customers.account.addresses.state')"
+                                :label="trans('licious::app.customers.account.addresses.state')"
+                                :placeholder="trans('licious::app.customers.account.addresses.state')"
                             >
                                 <option
                                     v-for='(state, index) in countryStates[country]'
@@ -222,8 +222,8 @@
                                 name="state"
                                 :value="old('state')"
                                 rules="{{ core()->isStateRequired() ? 'required' : '' }}"
-                                :label="trans('shop::app.customers.account.addresses.state')"
-                                :placeholder="trans('shop::app.customers.account.addresses.state')"
+                                :label="trans('licious::app.customers.account.addresses.state')"
+                                :placeholder="trans('licious::app.customers.account.addresses.state')"
                             />
                         </template>
 
@@ -243,8 +243,8 @@
                             name="city"
                             rules="required"
                             :value="old('city')"
-                            :label="trans('shop::app.customers.account.addresses.city')"
-                            :placeholder="trans('shop::app.customers.account.addresses.city')"
+                            :label="trans('licious::app.customers.account.addresses.city')"
+                            :placeholder="trans('licious::app.customers.account.addresses.city')"
                         />
 
                         <x-licious::form.control-group.error control-name="city" />
@@ -263,8 +263,8 @@
                             name="postcode"
                             rules="{{ core()->isPostCodeRequired() ? 'required' : '' }}|numeric"
                             :value="old('postcode')"
-                            :label="trans('shop::app.customers.account.addresses.post-code')"
-                            :placeholder="trans('shop::app.customers.account.addresses.post-code')"
+                            :label="trans('licious::app.customers.account.addresses.post-code')"
+                            :placeholder="trans('licious::app.customers.account.addresses.post-code')"
                         />
 
                         <x-licious::form.control-group.error control-name="postcode" />
@@ -283,8 +283,8 @@
                             name="phone"
                             rules="required|integer"
                             :value="old('phone')"
-                            :label="trans('shop::app.customers.account.addresses.phone')"
-                            :placeholder="trans('shop::app.customers.account.addresses.phone')"
+                            :label="trans('licious::app.customers.account.addresses.phone')"
+                            :placeholder="trans('licious::app.customers.account.addresses.phone')"
                         />
 
                         <x-licious::form.control-group.error control-name="phone" />

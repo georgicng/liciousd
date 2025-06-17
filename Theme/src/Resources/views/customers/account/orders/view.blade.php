@@ -32,7 +32,7 @@
                 class="secondary-button flex items-center gap-x-2.5 py-3 px-5 border-[#E9E9E9] font-normal"
                 href="javascript:void(0);"
                 @click="$emitter.emit('open-confirm-modal', {
-                    message: '@lang('shop::app.customers.account.orders.view.cancel-confirm-msg')',
+                    message: '@lang('licious::app.customers.account.orders.view.cancel-confirm-msg')',
 
                     agree: () => {
                         this.$refs['cancelOrderForm'].submit()
@@ -51,7 +51,7 @@
         <x-licious::tabs>
             <x-licious::tabs.item
                 class="!px-0"
-                :title="trans('shop::app.customers.account.orders.view.information.info')"
+                :title="trans('licious::app.customers.account.orders.view.information.info')"
                 :is-selected="true"
             >
                 <div class="text-base font-medium">
@@ -131,14 +131,14 @@
                                 <tr class="bg-white border-b">
                                     <td
                                         class="px-6 py-4 text-black font-medium"
-                                        data-value="@lang('shop::app.customers.account.orders.view.information.sku')"
+                                        data-value="@lang('licious::app.customers.account.orders.view.information.sku')"
                                     >
                                         {{ $item->getTypeInstance()->getOrderedItem($item)->sku }}
                                     </td>
 
                                     <td
                                         class="px-6 py-4 text-black font-medium"
-                                        data-value="@lang('shop::app.customers.account.orders.view.information.product-name')"
+                                        data-value="@lang('licious::app.customers.account.orders.view.information.product-name')"
                                     >
                                         {{ $item->name }}
 
@@ -153,14 +153,14 @@
 
                                     <td
                                         class="px-6 py-4 text-black font-medium"
-                                        data-value="@lang('shop::app.customers.account.orders.view.information.price')"
+                                        data-value="@lang('licious::app.customers.account.orders.view.information.price')"
                                     >
                                         {{ core()->formatPrice($item->price, $order->order_currency_code) }}
                                     </td>
 
                                     <td
                                         class="px-6 py-4 text-black font-medium"
-                                        data-value= "@lang('shop::app.customers.account.orders.view.information.item-status')"
+                                        data-value= "@lang('licious::app.customers.account.orders.view.information.item-status')"
                                     >
                                         <span>
                                             @if($item->qty_ordered)
@@ -195,28 +195,28 @@
 
                                     <td
                                         class="px-6 py-4 text-black font-medium"
-                                        data-value="@lang('shop::app.customers.account.orders.view.information.subtotal')"
+                                        data-value="@lang('licious::app.customers.account.orders.view.information.subtotal')"
                                     >
                                         {{ core()->formatPrice($item->total, $order->order_currency_code) }}
                                     </td>
 
                                     <td
                                         class="px-6 py-4 text-black font-medium"
-                                        data-value="@lang('shop::app.customers.account.orders.view.information.tax-percent')"
+                                        data-value="@lang('licious::app.customers.account.orders.view.information.tax-percent')"
                                     >
                                         {{ number_format($item->tax_percent, 2) }}%
                                     </td>
 
                                     <td
                                         class="px-6 py-4 text-black font-medium"
-                                        data-value="@lang('shop::app.customers.account.orders.view.information.tax-amount')"
+                                        data-value="@lang('licious::app.customers.account.orders.view.information.tax-amount')"
                                     >
                                         {{ core()->formatPrice($item->tax_amount, $order->order_currency_code) }}
                                     </td>
 
                                     <td
                                         class="px-6 py-4 text-black font-medium"
-                                        data-value="@lang('shop::app.customers.account.orders.view.information.grand-total')"
+                                        data-value="@lang('licious::app.customers.account.orders.view.information.grand-total')"
                                     >
                                         {{ core()->formatPrice($item->total + $item->tax_amount - $item->discount_amount, $order->order_currency_code) }}
                                     </td>
@@ -359,7 +359,7 @@
             </x-licious::tabs.item>
 
             @if ($order->invoices->count())
-                <x-licious::tabs.item  :title="trans('shop::app.customers.account.orders.view.invoices.invoices')">
+                <x-licious::tabs.item  :title="trans('licious::app.customers.account.orders.view.invoices.invoices')">
 
                     @foreach ($order->invoices as $invoice)
                         <div class="flex justify-between items-center">
@@ -436,49 +436,49 @@
                                         <tr class="bg-white border-b">
                                             <td
                                                 class="px-6 py-4 text-black font-medium"
-                                                data-value="@lang('shop::app.customers.account.orders.view.invoices.sku')"
+                                                data-value="@lang('licious::app.customers.account.orders.view.invoices.sku')"
                                             >
                                                 {{ $item->getTypeInstance()->getOrderedItem($item)->sku }}
                                             </td>
 
                                             <td
                                                 class="px-6 py-4 text-black font-medium"
-                                                data-value="@lang('shop::app.customers.account.orders.view.invoices.product-name')"
+                                                data-value="@lang('licious::app.customers.account.orders.view.invoices.product-name')"
                                             >
                                                 {{ $item->name }}
                                             </td>
 
                                             <td
                                                 class="px-6 py-4 text-black font-medium"
-                                                data-value="@lang('shop::app.customers.account.orders.view.invoices.price')"
+                                                data-value="@lang('licious::app.customers.account.orders.view.invoices.price')"
                                             >
                                                 {{ core()->formatPrice($item->price, $order->order_currency_code) }}
                                             </td>
 
                                             <td
                                                 class="px-6 py-4 text-black font-medium"
-                                                data-value="@lang('shop::app.customers.account.orders.view.invoices.qty')"
+                                                data-value="@lang('licious::app.customers.account.orders.view.invoices.qty')"
                                             >
                                                 {{ $item->qty }}
                                             </td>
 
                                             <td
                                                 class="px-6 py-4 text-black font-medium"
-                                                data-value="@lang('shop::app.customers.account.orders.view.invoices.subtotal')"
+                                                data-value="@lang('licious::app.customers.account.orders.view.invoices.subtotal')"
                                             >
                                                 {{ core()->formatPrice($item->total, $order->order_currency_code) }}
                                             </td>
 
                                             <td
                                                 class="px-6 py-4 text-black font-medium"
-                                                data-value="@lang('shop::app.customers.account.orders.view.invoices.tax-amount')"
+                                                data-value="@lang('licious::app.customers.account.orders.view.invoices.tax-amount')"
                                             >
                                                 {{ core()->formatPrice($item->tax_amount, $order->order_currency_code) }}
                                             </td>
 
                                             <td
                                                 class="px-6 py-4 text-black font-medium"
-                                                data-value="@lang('shop::app.customers.account.orders.view.invoices.grand-total')"
+                                                data-value="@lang('licious::app.customers.account.orders.view.invoices.grand-total')"
                                             >
                                                 {{ core()->formatPrice($item->total + $item->tax_amount, $order->order_currency_code) }}
                                             </td>
@@ -573,7 +573,7 @@
             @endif
 
             @if ($order->shipments->count())
-                <x-licious::tabs.item title="{{ trans('shop::app.customers.account.orders.view.shipments.shipments') }}">
+                <x-licious::tabs.item title="{{ trans('licious::app.customers.account.orders.view.shipments.shipments') }}">
                     @foreach ($order->shipments as $shipment)
                         <div>
                             <label class="text-base font-medium">
@@ -623,21 +623,21 @@
                                         <tr class="bg-white border-b">
                                             <td
                                                 class="px-6 py-4 text-black font-medium"
-                                                data-value="@lang('shop::app.customers.account.orders.view.shipments.sku')"
+                                                data-value="@lang('licious::app.customers.account.orders.view.shipments.sku')"
                                             >
                                                 {{ $item->sku }}
                                             </td>
 
                                             <td
                                                 class="px-6 py-4 text-black font-medium"
-                                                data-value="@lang('shop::app.customers.account.orders.view.shipments.product-name')"
+                                                data-value="@lang('licious::app.customers.account.orders.view.shipments.product-name')"
                                             >
                                                 {{ $item->name }}
                                             </td>
 
                                             <td
                                                 class="px-6 py-4 text-black font-medium"
-                                                data-value="@lang('shop::app.customers.account.orders.view.shipments.qty')"
+                                                data-value="@lang('licious::app.customers.account.orders.view.shipments.qty')"
                                             >
                                                 {{ $item->qty }}
                                             </td>
@@ -651,7 +651,7 @@
             @endif
 
             @if ($order->refunds->count())
-                <x-licious::tabs.item :title="trans('shop::app.customers.account.orders.view.refunds.refunds')">
+                <x-licious::tabs.item :title="trans('licious::app.customers.account.orders.view.refunds.refunds')">
 
                     @foreach ($order->refunds as $refund)
                         <div class="text-base font-medium">
@@ -720,49 +720,49 @@
                                         <tr class="bg-white border-b">
                                             <td
                                                 class="px-6 py-4 text-black font-medium"
-                                                data-value="@lang('shop::app.customers.account.orders.view.refunds.sku')"
+                                                data-value="@lang('licious::app.customers.account.orders.view.refunds.sku')"
                                             >
                                                 {{ $item->child ? $item->child->sku : $item->sku }}
                                             </td>
 
                                             <td
                                                 class="px-6 py-4 text-black font-medium"
-                                                data-value="@lang('shop::app.customers.account.orders.view.refunds.product-name')"
+                                                data-value="@lang('licious::app.customers.account.orders.view.refunds.product-name')"
                                             >
                                                 {{ $item->name }}
                                             </td>
 
                                             <td
                                                 class="px-6 py-4 text-black font-medium"
-                                                data-value="@lang('shop::app.customers.account.orders.view.refunds.price')"
+                                                data-value="@lang('licious::app.customers.account.orders.view.refunds.price')"
                                             >
                                                 {{ core()->formatPrice($item->price, $order->order_currency_code) }}
                                             </td>
 
                                             <td
                                                 class="px-6 py-4 text-black font-medium"
-                                                data-value="@lang('shop::app.customers.account.orders.view.refunds.qty')"
+                                                data-value="@lang('licious::app.customers.account.orders.view.refunds.qty')"
                                             >
                                                 {{ $item->qty }}
                                             </td>
 
                                             <td
                                                 class="px-6 py-4 text-black font-medium"
-                                                data-value="@lang('shop::app.customers.account.orders.view.refunds.subtotal')"
+                                                data-value="@lang('licious::app.customers.account.orders.view.refunds.subtotal')"
                                             >
                                                 {{ core()->formatPrice($item->total, $order->order_currency_code) }}
                                             </td>
 
                                             <td
                                                 class="px-6 py-4 text-black font-medium"
-                                                data-value="@lang('shop::app.customers.account.orders.view.refunds.tax-amount')"
+                                                data-value="@lang('licious::app.customers.account.orders.view.refunds.tax-amount')"
                                             >
                                                 {{ core()->formatPrice($item->tax_amount, $order->order_currency_code) }}
                                             </td>
 
                                             <td
                                                 class="px-6 py-4 text-black font-medium"
-                                                data-value="@lang('shop::app.customers.account.orders.view.refunds.grand-total')"
+                                                data-value="@lang('licious::app.customers.account.orders.view.refunds.grand-total')"
                                             >
                                                 {{ core()->formatPrice($item->total + $item->tax_amount, $order->order_currency_code) }}
                                             </td>
@@ -771,7 +771,7 @@
 
                                     @if (! $refund->items->count())
                                         <tr>
-                                            <td>@lang('shop::app.customers.account.orders.view.refunds.no-result-found')</td>
+                                            <td>@lang('licious::app.customers.account.orders.view.refunds.no-result-found')</td>
                                         </tr>
                                     @endif
                                 </tbody>

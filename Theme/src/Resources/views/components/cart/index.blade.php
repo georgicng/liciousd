@@ -169,7 +169,7 @@
 
                                                 <x-licious::button
                                                     class="cr-button h-[40px] font-bold transition-all duration-[0.3s] ease-in-out py-[8px] px-[22px] text-[14px] font-Manrope capitalize leading-[1.2] bg-[#64b496] text-[#fff] border-[1px] border-solid border-[#64b496] rounded-[5px] flex items-center justify-center hover:bg-[#000] hover:border-[#000]"
-                                                    :title="trans('shop::app.checkout.cart.index.update-cart')"
+                                                    :title="trans('licious::app.checkout.cart.index.update-cart')"
                                                     ::loading="isStoring"
                                                     ::disabled="isStoring"
                                                     @click="update()"
@@ -204,7 +204,7 @@
                     >
                         <img
                             src="{{ bagisto_asset('images/thank-you.png') }}"
-                            alt="@lang('shop::app.checkout.cart.index.empty-product')"
+                            alt="@lang('licious::app.checkout.cart.index.empty-product')"
                         />
 
                         <p

@@ -26,7 +26,7 @@
                     <span
                         class="ri-arrow-left-line rtl:ri-arrow-right-line inline-block text-2xl cursor-pointer"
                         role="button"
-                        aria-label="@lang('shop::app.components.products.carousel.previous')"
+                        aria-label="@lang('licious::app.components.products.carousel.previous')"
                         tabindex="0"
                         @click="swipeLeft"
                     >
@@ -35,7 +35,7 @@
                     <span
                         class="ri-arrow-right-line rtl:ri-arrow-left-line inline-block text-2xl cursor-pointer"
                         role="button"
-                        aria-label="@lang('shop::app.components.products.carousel.next')"
+                        aria-label="@lang('licious::app.components.products.carousel.next')"
                         tabindex="0"
                         @click="swipeRight"
                     >

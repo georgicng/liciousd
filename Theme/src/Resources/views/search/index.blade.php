@@ -1,9 +1,9 @@
 @inject('categoryRepository','Webkul\Category\Repositories\CategoryRepository')
 @php
     if (request()->has('query')) {
-        $title = trans('shop::app.search.title', ['query' => request()->query('query')]);
+        $title = trans('licious::app.search.title', ['query' => request()->query('query')]);
     } else {
-        $title = trans('shop::app.search.results');
+        $title = trans('licious::app.search.results');
     }
 
     $category = null;

@@ -62,7 +62,7 @@
                                             </button>
 
                                             <button type="button" class="btn btn-success m-[10px] rounded-[5px] transition-all duration-[0.3s] ease-in-out h-[45px] p-[0] px-[25px] border-[0] text-[14px] font-medium leading-[45px] uppercase bg-[#64b496] text-[#fff]" @click="agree">
-                                                @{{ options.btnAgree }} 
+                                                @{{ options.btnAgree }}
                                             </button>
                                         </div>
                                     </div>
@@ -104,11 +104,11 @@
 
             methods: {
                 open({
-                    title = "@lang('shop::app.components.modal.confirm.title')",
-                    message = "@lang('shop::app.components.modal.confirm.message')",
+                    title = "@lang('licious::app.components.modal.confirm.title')",
+                    message = "@lang('licious::app.components.modal.confirm.message')",
                     options = {
-                        btnDisagree: "@lang('shop::app.components.modal.confirm.disagree-btn')",
-                        btnAgree: "@lang('shop::app.components.modal.confirm.agree-btn')",
+                        btnDisagree: "@lang('licious::app.components.modal.confirm.disagree-btn')",
+                        btnAgree: "@lang('licious::app.components.modal.confirm.agree-btn')",
                     },
                     agree = () => {},
                     disagree = () => {},

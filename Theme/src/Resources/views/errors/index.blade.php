@@ -43,7 +43,7 @@
                         href="{{ route('shop.home.index') }}"
 						class="block w-max mt-8 m-auto py-4 px-10 bg-navyBlue rounded-[45px] text-white text-base font-medium text-center cursor-pointer max-sm:text-sm max-sm:px-6 max-sm:mb-10"
                     >
-						@lang('shop::app.errors.go-to-home')
+						@lang('licious::app.errors.go-to-home')
                     </a>
 				</div>
 			</div>

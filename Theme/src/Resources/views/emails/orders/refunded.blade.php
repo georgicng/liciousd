@@ -1,4 +1,4 @@
-@component('shop::emails.layout')
+@component('licious::emails.layout')
     <div style="margin-bottom: 34px;">
         <span style="font-size: 22px;font-weight: 600;color: #121A26">
             @lang('licious::app.emails.orders.refunded.title')
