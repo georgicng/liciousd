@@ -35,7 +35,7 @@ class ResetPasswordController extends Controller
      */
     public function create($token = null)
     {
-        return view('shop::customers.reset-password')->with([
+        return view('licious::customers.reset-password')->with([
             'token' => $token,
             'email' => request('email'),
         ]);

@@ -18,7 +18,7 @@ class ForgotPasswordController extends Controller
      */
     public function create()
     {
-        return view('shop::customers.forgot-password');
+        return view('licious::customers.forgot-password');
     }
 
     /**
@@ -34,13 +34,13 @@ class ForgotPasswordController extends Controller
             $response = $this->broker()->sendResetLink($request->only(['email']));
 
             if ($response == Password::RESET_LINK_SENT) {
-                session()->flash('success', trans('shop::app.customers.forgot-password.reset-link-sent'));
+                session()->flash('success', trans('licious::app.customers.forgot-password.reset-link-sent'));
 
                 return redirect()->route('shop.customers.forgot_password.create');
             }
 
             if ($response == Password::RESET_THROTTLED) {
-                session()->flash('warning', trans('shop::app.customers.forgot-password.already-sent'));
+                session()->flash('warning', trans('licious::app.customers.forgot-password.already-sent'));
 
                 return redirect()->route('shop.customers.forgot_password.create');
             }
@@ -48,10 +48,10 @@ class ForgotPasswordController extends Controller
             return redirect()->route('shop.customers.forgot_password.create')
                 ->withInput($request->only(['email']))
                 ->withErrors([
-                    'email' => trans('shop::app.customers.forgot-password.email-not-exist'),
+                    'email' => trans('licious::app.customers.forgot-password.email-not-exist'),
                 ]);
         } catch (\Swift_RfcComplianceException $e) {
-            session()->flash('success', trans('shop::app.customers.forgot-password.reset-link-sent'));
+            session()->flash('success', trans('licious::app.customers.forgot-password.reset-link-sent'));
 
             return redirect()->route('shop.customers.forgot_password.create');
         } catch (\Exception $e) {

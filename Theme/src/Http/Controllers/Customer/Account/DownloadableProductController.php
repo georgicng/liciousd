@@ -29,7 +29,7 @@ class DownloadableProductController extends Controller
             return app(DownloadableProductDataGrid::class)->toJson();
         }
 
-        return view('shop::customers.account.downloadable_products.index');
+        return view('licious::customers.account.downloadable_products.index');
     }
 
     /**
@@ -64,7 +64,7 @@ class DownloadableProductController extends Controller
             $downloadableLinkPurchased->download_used == $totalInvoiceQty
             || $downloadableLinkPurchased->download_used > $totalInvoiceQty
         ) {
-            session()->flash('warning', trans('shop::app.customers.account.downloadable-products.download-error'));
+            session()->flash('warning', trans('licious::app.customers.account.downloadable-products.download-error'));
 
             return redirect()->route('shop.customers.account.downloadable_products.index');
         }
@@ -73,7 +73,7 @@ class DownloadableProductController extends Controller
             $downloadableLinkPurchased->download_bought
             && ($downloadableLinkPurchased->download_bought - ($downloadableLinkPurchased->download_used + $downloadableLinkPurchased->download_canceled)) <= 0
         ) {
-            session()->flash('warning', trans('shop::app.customers.account.downloadable-products.download-error'));
+            session()->flash('warning', trans('licious::app.customers.account.downloadable-products.download-error'));
 
             return redirect()->route('shop.customers.account.downloadable_products.index');
         }

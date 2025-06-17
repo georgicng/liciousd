@@ -35,7 +35,7 @@ class CustomerController extends Controller
     {
         $customer = $this->customerRepository->find(auth()->guard('customer')->user()->id);
 
-        return view('shop::customers.account.profile.index', compact('customer'));
+        return view('licious::customers.account.profile.index', compact('customer'));
     }
 
     /**
@@ -47,7 +47,7 @@ class CustomerController extends Controller
     {
         $customer = $this->customerRepository->find(auth()->guard('customer')->user()->id);
 
-        return view('shop::customers.account.profile.edit', compact('customer'));
+        return view('licious::customers.account.profile.edit', compact('customer'));
     }
 
     /**
@@ -80,7 +80,7 @@ class CustomerController extends Controller
 
                 $data['password'] = bcrypt($data['new_password']);
             } else {
-                session()->flash('warning', trans('shop::app.customers.account.profile.unmatch'));
+                session()->flash('warning', trans('licious::app.customers.account.profile.unmatch'));
 
                 return redirect()->back();
             }
@@ -139,12 +139,12 @@ class CustomerController extends Controller
                 }
             }
 
-            session()->flash('success', trans('shop::app.customers.account.profile.edit-success'));
+            session()->flash('success', trans('licious::app.customers.account.profile.edit-success'));
 
             return redirect()->route('shop.customers.account.profile.index');
         }
 
-        session()->flash('success', trans('shop::app.customer.account.profile.edit-fail'));
+        session()->flash('success', trans('licious::app.customer.account.profile.edit-fail'));
 
         return redirect()->back('shop.customers.account.profile.edit');
     }
@@ -166,23 +166,23 @@ class CustomerController extends Controller
         try {
             if (Hash::check(request()->input('password'), $customerRepository->password)) {
                 if ($customerRepository->orders->whereIn('status', [Order::STATUS_PENDING, Order::STATUS_PROCESSING])->first()) {
-                    session()->flash('error', trans('shop::app.customers.account.profile.order-pending'));
+                    session()->flash('error', trans('licious::app.customers.account.profile.order-pending'));
 
                     return redirect()->route('shop.customers.account.profile.index');
                 }
 
                 $this->customerRepository->delete(auth()->guard('customer')->user()->id);
 
-                session()->flash('success', trans('shop::app.customers.account.profile.delete-success'));
+                session()->flash('success', trans('licious::app.customers.account.profile.delete-success'));
 
                 return redirect()->route('shop.customer.session.index');
             }
 
-            session()->flash('error', trans('shop::app.customers.account.profile.wrong-password'));
+            session()->flash('error', trans('licious::app.customers.account.profile.wrong-password'));
 
             return redirect()->back();
         } catch (\Exception $e) {
-            session()->flash('error', trans('shop::app.customers.account.profile.delete-failed'));
+            session()->flash('error', trans('licious::app.customers.account.profile.delete-failed'));
 
             return redirect()->route('shop.customers.account.profile.index');
         }
@@ -197,6 +197,6 @@ class CustomerController extends Controller
     {
         $reviews = $this->productReviewRepository->getCustomerReview();
 
-        return view('shop::customers.account.reviews.index', compact('reviews'));
+        return view('licious::customers.account.reviews.index', compact('reviews'));
     }
 }

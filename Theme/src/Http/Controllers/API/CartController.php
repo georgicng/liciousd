@@ -89,13 +89,13 @@ class CartController extends APIController
                     return new JsonResource([
                         'data'     => new CartResource(Cart::getCart()),
                         'redirect' => route('shop.checkout.onepage.index'),
-                        'message'  => trans('shop::app.checkout.cart.item-add-to-cart'),
+                        'message'  => trans('licious::app.checkout.cart.item-add-to-cart'),
                     ]);
                 }
 
                 return new JsonResource([
                     'data'     => new CartResource(Cart::getCart()),
-                    'message'  => trans('shop::app.checkout.cart.item-add-to-cart'),
+                    'message'  => trans('licious::app.checkout.cart.item-add-to-cart'),
                 ]);
             }
         } catch (\Exception $exception) {
@@ -121,7 +121,7 @@ class CartController extends APIController
 
         return new JsonResource([
             'data'    => new CartResource(Cart::getCart()),
-            'message' => trans('shop::app.checkout.cart.success-remove'),
+            'message' => trans('licious::app.checkout.cart.success-remove'),
         ]);
     }
 
@@ -136,7 +136,7 @@ class CartController extends APIController
 
         return new JsonResource([
             'data'     => new CartResource(Cart::getCart()) ?? null,
-            'message'  => trans('shop::app.checkout.cart.index.remove-selected-success'),
+            'message'  => trans('licious::app.checkout.cart.index.remove-selected-success'),
         ]);
     }
 
@@ -153,7 +153,7 @@ class CartController extends APIController
 
         return new JsonResource([
             'data'     => new CartResource(Cart::getCart()) ?? null,
-            'message'  => trans('shop::app.checkout.cart.index.move-to-wishlist-success'),
+            'message'  => trans('licious::app.checkout.cart.index.move-to-wishlist-success'),
         ]);
     }
 
@@ -167,7 +167,7 @@ class CartController extends APIController
 
             return new JsonResource([
                 'data'    => new CartResource(Cart::getCart()),
-                'message' => trans('shop::app.checkout.cart.index.quantity-update'),
+                'message' => trans('licious::app.checkout.cart.index.quantity-update'),
             ]);
         } catch (\Exception $exception) {
             return new JsonResource([
@@ -200,7 +200,7 @@ class CartController extends APIController
                     if (Cart::getCart()->coupon_code == $validatedData['code']) {
                         return (new JsonResource([
                             'data'     => new CartResource(Cart::getCart()),
-                            'message'  => trans('shop::app.checkout.cart.coupon-already-applied'),
+                            'message'  => trans('licious::app.checkout.cart.coupon-already-applied'),
                         ]))->response()->setStatusCode(Response::HTTP_UNPROCESSABLE_ENTITY);
                     }
 
@@ -209,7 +209,7 @@ class CartController extends APIController
                     if (Cart::getCart()->coupon_code == $validatedData['code']) {
                         return new JsonResource([
                             'data'     => new CartResource(Cart::getCart()),
-                            'message'  => trans('shop::app.checkout.cart.coupon.success-apply'),
+                            'message'  => trans('licious::app.checkout.cart.coupon.success-apply'),
                         ]);
                     }
                 }
@@ -222,7 +222,7 @@ class CartController extends APIController
         } catch (\Exception $e) {
             return (new JsonResource([
                 'data'    => new CartResource(Cart::getCart()),
-                'message' => trans('shop::app.checkout.cart.coupon.error'),
+                'message' => trans('licious::app.checkout.cart.coupon.error'),
             ]))->response()->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
@@ -236,7 +236,7 @@ class CartController extends APIController
 
         return new JsonResource([
             'data'     => new CartResource(Cart::getCart()),
-            'message'  => trans('shop::app.checkout.cart.coupon.remove'),
+            'message'  => trans('licious::app.checkout.cart.coupon.remove'),
         ]);
     }
 

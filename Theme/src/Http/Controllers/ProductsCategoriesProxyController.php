@@ -58,7 +58,7 @@ class ProductsCategoriesProxyController extends Controller
         if ($category) {
             visitor()->visit($category);
 
-            return view('liciousp::categories.view', [
+            return view('licious::categories.view', [
                 'category' => $category,
                 'params'   => [
                     'sort'  => request()->query('sort'),

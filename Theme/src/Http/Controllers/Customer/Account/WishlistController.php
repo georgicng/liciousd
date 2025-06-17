@@ -17,6 +17,6 @@ class WishlistController extends Controller
             abort(404);
         }
 
-        return view('shop::customers.account.wishlist.index');
+        return view('licious::customers.account.wishlist.index');
     }
 }

@@ -80,7 +80,7 @@ class ReviewController extends APIController
         $this->productReviewAttachmentRepository->upload($data['attachments'], $review);
 
         return new JsonResource([
-            'message' => trans('shop::app.products.view.reviews.success'),
+            'message' => trans('licious::app.products.view.reviews.success'),
         ]);
     }
 

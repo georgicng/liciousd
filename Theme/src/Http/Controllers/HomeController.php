@@ -34,7 +34,7 @@ class HomeController extends Controller
             'channel_id' => core()->getCurrentChannel()->id,
         ]);
 
-        return view('shop::home.index', compact('customizations'));
+        return view('licious::home.index', compact('customizations'));
     }
 
     /**

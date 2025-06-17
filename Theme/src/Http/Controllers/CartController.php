@@ -11,6 +11,6 @@ class CartController extends Controller
      */
     public function index()
     {
-        return view('shop::checkout.cart.index');
+        return view('licious::checkout.cart.index');
     }
 }

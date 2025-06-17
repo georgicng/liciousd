@@ -31,7 +31,7 @@ class OnepageController extends Controller
          * If user is suspended then redirect back to the cart page
          */
         if (auth()->guard('customer')->user()?->is_suspended) {
-            session()->flash('warning', trans('shop::app.checkout.cart.suspended-account-message'));
+            session()->flash('warning', trans('licious::app.checkout.cart.suspended-account-message'));
 
             return redirect()->route('shop.checkout.cart.index');
         }
@@ -65,14 +65,14 @@ class OnepageController extends Controller
         $minimumOrderAmount = (float) core()->getConfigData('sales.order_settings.minimum_order.minimum_order_amount') ?: 0;
 
         if (! $cart->checkMinimumOrder()) {
-            session()->flash('warning', trans('shop::app.checkout.cart.minimum-order-message', [
+            session()->flash('warning', trans('licious::app.checkout.cart.minimum-order-message', [
                 'amount' => core()->currency($minimumOrderAmount),
             ]));
 
             return redirect()->back();
         }
 
-        return view('shop::checkout.onepage.index', compact('cart'));
+        return view('licious::checkout.onepage.index', compact('cart'));
     }
 
     /**
@@ -105,7 +105,7 @@ class OnepageController extends Controller
             }
         }
 
-        return view('shop::checkout.success', compact('order'));
+        return view('licious::checkout.success', compact('order'));
     }
 
     /**

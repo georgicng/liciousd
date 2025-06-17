@@ -36,7 +36,7 @@ class RegistrationController extends Controller
      */
     public function index()
     {
-        return view('shop::customers.sign-up');
+        return view('licious::customers.sign-up');
     }
 
     /**
@@ -90,9 +90,9 @@ class RegistrationController extends Controller
         Event::dispatch('customer.registration.after', $customer);
 
         if (core()->getConfigData('customer.settings.email.verification')) {
-            session()->flash('success', trans('shop::app.customers.signup-form.success-verify'));
+            session()->flash('success', trans('licious::app.customers.signup-form.success-verify'));
         } else {
-            session()->flash('success', trans('shop::app.customers.signup-form.success'));
+            session()->flash('success', trans('licious::app.customers.signup-form.success'));
         }
 
         return redirect()->route('shop.customer.session.index');
@@ -120,9 +120,9 @@ class RegistrationController extends Controller
 
             $this->customerRepository->syncNewRegisteredCustomerInformation($customer);
 
-            session()->flash('success', trans('shop::app.customers.signup-form.verified'));
+            session()->flash('success', trans('licious::app.customers.signup-form.verified'));
         } else {
-            session()->flash('warning', trans('shop::app.customers.signup-form.verify-failed'));
+            session()->flash('warning', trans('licious::app.customers.signup-form.verify-failed'));
         }
 
         return redirect()->route('shop.customer.session.index');
@@ -158,12 +158,12 @@ class RegistrationController extends Controller
         } catch (\Exception $e) {
             report($e);
 
-            session()->flash('error', trans('shop::app.customers.signup-form.verification-not-sent'));
+            session()->flash('error', trans('licious::app.customers.signup-form.verification-not-sent'));
 
             return redirect()->back();
         }
 
-        session()->flash('success', trans('shop::app.customers.signup-form.verification-sent'));
+        session()->flash('success', trans('licious::app.customers.signup-form.verification-sent'));
 
         return redirect()->back();
     }

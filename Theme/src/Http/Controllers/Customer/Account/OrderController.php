@@ -34,7 +34,7 @@ class OrderController extends Controller
             return app(OrderDataGrid::class)->toJson();
         }
 
-        return view('shop::customers.account.orders.index');
+        return view('licious::customers.account.orders.index');
     }
 
     /**
@@ -52,7 +52,7 @@ class OrderController extends Controller
 
         abort_if(! $order, 404);
 
-        return view('shop::customers.account.orders.view', compact('order'));
+        return view('licious::customers.account.orders.view', compact('order'));
     }
 
     /**
@@ -70,7 +70,7 @@ class OrderController extends Controller
             ->firstOrFail();
 
         return $this->downloadPDF(
-            view('shop::customers.account.orders.pdf', compact('invoice'))->render(),
+            view('licious::customers.account.orders.pdf', compact('invoice'))->render(),
             'invoice-'.$invoice->created_at->format('d-m-Y')
         );
     }
@@ -96,9 +96,9 @@ class OrderController extends Controller
         $result = $this->orderRepository->cancel($order);
 
         if ($result) {
-            session()->flash('success', trans('shop::app.customers.account.orders.view.cancel-success', ['name' => trans('admin::app.customers.account.orders.order')]));
+            session()->flash('success', trans('licious::app.customers.account.orders.view.cancel-success', ['name' => trans('admin::app.customers.account.orders.order')]));
         } else {
-            session()->flash('error', trans('shop::app.customers.account.orders.view.cancel-error', ['name' => trans('admin::app.customers.account.orders.order')]));
+            session()->flash('error', trans('licious::app.customers.account.orders.view.cancel-error', ['name' => trans('admin::app.customers.account.orders.order')]));
         }
 
         return redirect()->back();

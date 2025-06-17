@@ -18,7 +18,7 @@ class SessionController extends Controller
     {
         return auth()->guard('customer')->check()
             ? redirect()->route('shop.home.index')
-            : view('shop::customers.sign-in');
+            : view('licious::customers.sign-in');
     }
 
     /**
@@ -29,7 +29,7 @@ class SessionController extends Controller
     public function create(LoginRequest $loginRequest)
     {
         if (! auth()->guard('customer')->attempt($loginRequest->only(['email', 'password']))) {
-            session()->flash('error', trans('shop::app.customers.login-form.invalid-credentials'));
+            session()->flash('error', trans('licious::app.customers.login-form.invalid-credentials'));
 
             return redirect()->back();
         }
@@ -37,13 +37,13 @@ class SessionController extends Controller
         if (! auth()->guard('customer')->user()->status) {
             auth()->guard('customer')->logout();
 
-            session()->flash('warning', trans('shop::app.customers.login-form.not-activated'));
+            session()->flash('warning', trans('licious::app.customers.login-form.not-activated'));
 
             return redirect()->back();
         }
 
         if (! auth()->guard('customer')->user()->is_verified) {
-            session()->flash('info', trans('shop::app.customers.login-form.verify-first'));
+            session()->flash('info', trans('licious::app.customers.login-form.verify-first'));
 
             Cookie::queue(Cookie::make('enable-resend', 'true', 1));
 

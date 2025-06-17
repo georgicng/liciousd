@@ -32,7 +32,7 @@ class SubscriptionController extends Controller
         $subscription = $this->subscriptionRepository->findOneByField('email', $email);
 
         if ($subscription) {
-            session()->flash('error', trans('shop::app.subscription.already'));
+            session()->flash('error', trans('licious::app.subscription.already'));
 
             return redirect()->back();
         }
@@ -57,7 +57,7 @@ class SubscriptionController extends Controller
 
         Event::dispatch('customer.subscription.after', $subscription);
 
-        session()->flash('success', trans('shop::app.subscription.subscribe-success'));
+        session()->flash('success', trans('licious::app.subscription.subscribe-success'));
 
         return redirect()->back();
     }
@@ -72,7 +72,7 @@ class SubscriptionController extends Controller
     {
         $this->subscriptionRepository->deleteWhere(['token' => $token]);
 
-        session()->flash('success', trans('shop::app.subscription.unsubscribe-success'));
+        session()->flash('success', trans('licious::app.subscription.unsubscribe-success'));
 
         return redirect()->route('shop.home.index');
     }

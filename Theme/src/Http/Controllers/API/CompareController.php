@@ -63,7 +63,7 @@ class CompareController extends APIController
 
         if ($compareProduct) {
             return (new JsonResource([
-                'message' => trans('shop::app.compare.already-added'),
+                'message' => trans('licious::app.compare.already-added'),
             ]))->response()->setStatusCode(Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
@@ -73,7 +73,7 @@ class CompareController extends APIController
         ]);
 
         return new JsonResource([
-            'message' => trans('shop::app.compare.item-add-success'),
+            'message' => trans('licious::app.compare.item-add-success'),
         ]);
     }
 
@@ -89,7 +89,7 @@ class CompareController extends APIController
 
         if (! $success) {
             return new JsonResource([
-                'message'  => trans('shop::app.compare.remove-error'),
+                'message'  => trans('licious::app.compare.remove-error'),
             ]);
         }
 
@@ -106,7 +106,7 @@ class CompareController extends APIController
 
         return new JsonResource([
             'data'    => CompareItemResource::collection($products),
-            'message' => trans('shop::app.compare.remove-success'),
+            'message' => trans('licious::app.compare.remove-success'),
         ]);
     }
 
@@ -121,12 +121,12 @@ class CompareController extends APIController
 
         if (! $success) {
             return new JsonResource([
-                'message'  => trans('shop::app.compare.remove-error'),
+                'message'  => trans('licious::app.compare.remove-error'),
             ]);
         }
 
         return new JsonResource([
-            'message'  => trans('shop::app.compare.remove-all-success'),
+            'message'  => trans('licious::app.compare.remove-all-success'),
         ]);
     }
 }

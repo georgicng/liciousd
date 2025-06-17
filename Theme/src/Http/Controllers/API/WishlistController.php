@@ -52,7 +52,7 @@ class WishlistController extends APIController
 
         if (! $product) {
             return new JsonResource([
-                'message' => trans('shop::app.customers.account.wishlist.product-removed'),
+                'message' => trans('licious::app.customers.account.wishlist.product-removed'),
             ]);
         }
 
@@ -66,7 +66,7 @@ class WishlistController extends APIController
             $this->wishlistRepository->create($data);
 
             return new JsonResource([
-                'message' => trans('shop::app.customers.account.wishlist.success'),
+                'message' => trans('licious::app.customers.account.wishlist.success'),
             ]);
         }
 
@@ -76,7 +76,7 @@ class WishlistController extends APIController
         ]);
 
         return new JsonResource([
-            'message' => trans('shop::app.customers.account.wishlist.removed'),
+            'message' => trans('licious::app.customers.account.wishlist.removed'),
         ]);
     }
 
@@ -106,14 +106,14 @@ class WishlistController extends APIController
                         'cart'     => new CartResource(Cart::getCart()),
                     ],
 
-                    'message'  => trans('shop::app.customers.account.wishlist.moved-success'),
+                    'message'  => trans('licious::app.customers.account.wishlist.moved-success'),
                 ]);
             }
 
             return new JsonResource([
                 'redirect' => true,
                 'data'     => route('shop.product_or_category.index', $wishlistItem->product->url_key),
-                'message'  => trans('shop::app.checkout.cart.missing-options'),
+                'message'  => trans('licious::app.checkout.cart.missing-options'),
             ]);
 
         } catch (\Exception $exception) {
@@ -136,7 +136,7 @@ class WishlistController extends APIController
 
         return new JsonResource([
             'data'    => WishlistResource::collection($this->wishlistRepository->get()),
-            'message' => trans('shop::app.customers.account.wishlist.removed'),
+            'message' => trans('licious::app.customers.account.wishlist.removed'),
         ]);
     }
 
@@ -151,12 +151,12 @@ class WishlistController extends APIController
 
         if (! $success) {
             return new JsonResource([
-                'message'  => trans('shop::app.customers.account.wishlist.remove-fail'),
+                'message'  => trans('licious::app.customers.account.wishlist.remove-fail'),
             ]);
         }
 
         return new JsonResource([
-            'message'  => trans('shop::app.customers.account.wishlist.removed'),
+            'message'  => trans('licious::app.customers.account.wishlist.removed'),
         ]);
     }
 

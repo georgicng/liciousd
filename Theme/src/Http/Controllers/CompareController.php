@@ -24,6 +24,6 @@ class CompareController extends Controller
     {
         $comparableAttributes = $this->attributeFamilyRepository->getComparableAttributesBelongsToFamily();
 
-        return view('shop::compare.index', compact('comparableAttributes'));
+        return view('licious::compare.index', compact('comparableAttributes'));
     }
 }

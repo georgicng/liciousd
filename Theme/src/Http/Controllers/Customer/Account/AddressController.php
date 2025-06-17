@@ -25,7 +25,7 @@ class AddressController extends Controller
      */
     public function index()
     {
-        return view('shop::customers.account.addresses.index')->with('addresses', auth()->guard('customer')->user()->addresses);
+        return view('licious::customers.account.addresses.index')->with('addresses', auth()->guard('customer')->user()->addresses);
     }
 
     /**
@@ -35,7 +35,7 @@ class AddressController extends Controller
      */
     public function create()
     {
-        return view('shop::customers.account.addresses.create');
+        return view('licious::customers.account.addresses.create');
     }
 
     /**
@@ -71,7 +71,7 @@ class AddressController extends Controller
 
         Event::dispatch('customer.addresses.create.after', $customerAddress);
 
-        session()->flash('success', trans('shop::app.customers.account.addresses.create-success'));
+        session()->flash('success', trans('licious::app.customers.account.addresses.create-success'));
 
         return redirect()->route('shop.customers.account.addresses.index');
     }
@@ -92,7 +92,7 @@ class AddressController extends Controller
             abort(404);
         }
 
-        return view('shop::customers.account.addresses.edit')->with('address', $address);
+        return view('licious::customers.account.addresses.edit')->with('address', $address);
     }
 
     /**
@@ -106,7 +106,7 @@ class AddressController extends Controller
         $customer = auth()->guard('customer')->user();
 
         if (! $customer->addresses()->find($id)) {
-            session()->flash('warning', trans('shop::app.customers.account.addresses.security-warning'));
+            session()->flash('warning', trans('licious::app.customers.account.addresses.security-warning'));
 
             return redirect()->route('shop.customers.account.addresses.index');
         }
@@ -133,7 +133,7 @@ class AddressController extends Controller
 
         Event::dispatch('customer.addresses.update.after', $customerAddress);
 
-        session()->flash('success', trans('shop::app.customers.account.addresses.edit-success'));
+        session()->flash('success', trans('licious::app.customers.account.addresses.edit-success'));
 
         return redirect()->route('shop.customers.account.addresses.index');
     }
@@ -155,7 +155,7 @@ class AddressController extends Controller
         if ($address = $customer->addresses()->find($id)) {
             $address->update(['default_address' => 1]);
         } else {
-            session()->flash('success', trans('shop::app.customers.account.addresses.default-delete'));
+            session()->flash('success', trans('licious::app.customers.account.addresses.default-delete'));
         }
 
         return redirect()->back();
@@ -184,7 +184,7 @@ class AddressController extends Controller
 
         Event::dispatch('customer.addresses.delete.after', $id);
 
-        session()->flash('success', trans('shop::app.customers.account.addresses.delete-success'));
+        session()->flash('success', trans('licious::app.customers.account.addresses.delete-success'));
 
         return redirect()->route('shop.customers.account.addresses.index');
     }

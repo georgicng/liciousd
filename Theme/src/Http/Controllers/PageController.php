@@ -40,6 +40,6 @@ class PageController extends Controller
             }
         }
 
-        return view('shop::cms.page')->with('page', $page);
+        return view('licious::cms.page')->with('page', $page);
     }
 }

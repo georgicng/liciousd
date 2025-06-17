@@ -62,7 +62,7 @@ class AddressController extends APIController
 
         return new JsonResource([
             'data'    => new AddressResource($customerAddress),
-            'message' => trans('shop::app.customers.account.addresses.create-success'),
+            'message' => trans('licious::app.customers.account.addresses.create-success'),
         ]);
     }
 
@@ -97,7 +97,7 @@ class AddressController extends APIController
 
         return new JsonResource([
             'data'    => new AddressResource($customerAddress),
-            'message' => trans('shop::app.customers.account.addresses.create-success'),
+            'message' => trans('licious::app.customers.account.addresses.create-success'),
         ]);
     }
 }
