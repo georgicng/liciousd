@@ -1,8 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Webkul\Shop\Http\Controllers\CartController;
-use Webkul\Shop\Http\Controllers\OnepageController;
+use Gaiproject\Theme\Http\Controllers\CartController;
+use Gaiproject\Theme\Http\Controllers\OnepageController;
 
 Route::group(['middleware' => ['locale', 'theme', 'currency']], function () {
     /**

@@ -19,12 +19,12 @@
                     <div class="cr-image-inner zoom-image-hover w-full h-full flex items-center justify-center relative overflow-hidden max-[991px]:pointer-events-none">
                         <x-licious::media.images.lazy
                             class="relative after:content-[' '] after:block after:pb-[calc(100%+9px)] bg-[#F5F5F5] group-hover:scale-105 transition-all duration-300"
-                            ::src="product.base_image.medium_image_url"
-                            ::key="product.id"
-                            ::index="product.id"
+                            ::src="product?.base_image.medium_image_url"
+                            ::key="product?.id"
+                            ::index="product?.id"
                             width="291"
                             height="300"
-                            ::alt="product.name"
+                            ::alt="product?.name"
                         />
                     </div>
 
@@ -33,14 +33,14 @@
                     <div class="cr-side-view transition-all duration-[0.4s] ease-in-out absolute z-[20] top-[15px] right-[-40px] grid opacity-0 max-[991px]:right-[12px]">
                         <!--p
                             class="inline-block absolute top-5 ltr:left-5 rtl:right-5 px-2.5  bg-[#E51A1A] rounded-[44px] text-white text-sm"
-                            v-if="product.on_sale"
+                            v-if="product?.on_sale"
                         >
                             @lang('licious::app.components.products.card.sale')
                         </p>
 
                         <p
                             class="inline-block absolute top-5 ltr:left-5 rtl:right-5 px-2.5 bg-navyBlue rounded-[44px] text-white text-sm"
-                            v-else-if="product.is_new"
+                            v-else-if="product?.is_new"
                         >
                             @lang('licious::app.components.products.card.new')
                         </p-->
@@ -54,7 +54,7 @@
                                     aria-label="@lang('shop::app.components.products.card.add-to-wishlist')"
                                     tabindex="0"
                                     @click="addToWishlist()">
-                                    <i :class="product.is_wishlist ? 'ri-heart-fill' : 'ri-heart-line'" class="text-[18px] leading-[10px]"></i>
+                                    <i :class="product?.is_wishlist ? 'ri-heart-fill' : 'ri-heart-line'" class="text-[18px] leading-[10px]"></i>
                                 </a>
                             @endif
 
@@ -68,7 +68,7 @@
                                     role="button"
                                     aria-label="@lang('shop::app.components.products.card.add-to-compare')"
                                     tabindex="0"
-                                    @click="addToCompare(product.id)">
+                                    @click="addToCompare(product?.id)">
                                     <i class="ri-eye-line text-[18px] leading-[10px]"></i>
                                 </a>
                             @endif
@@ -80,7 +80,7 @@
                         <a
                             class="cr-shopping-bag h-[35px] w-[35px] absolute bottom-[-16px] flex items-center justify-center m-0 p-0 bg-[#f7f7f8] border-[1px] border-solid border-[#e9e9e9] rounded-[100%]"
                             href="javascript:void(0)"
-                            :disabled="! product.is_saleable || isAddingToCart"
+                            :disabled="! product?.is_saleable || isAddingToCart"
                             role="button"
                             aria-label="@lang('shop::app.components.products.card.add-to-cart')"
                             @click="addToCart()">
@@ -92,20 +92,20 @@
                 <div class="cr-product-details pt-[24px] text-center overflow-hidden max-[1199px]:pt-[20px]">
                     <div class="cr-brand">
                         <a href="{{ route('shop.product_or_category.index', '') }}" class="transition-all duration-[0.3s] ease-in-out mb-[5px] text-[13px] text-[#777] flex justify-center">@{{ product?.categories[0] }}</a>
-                        <x-licious::products.star-rating class="mb-[12px] flex justify-center items-center" ::value="product.avg_ratings" :is-editable=false><p class="mb-[0] font-Poppins ml-[5px] text-[#999] text-[11px] leading-[10px]">(@{{ product.avg_ratings }})</p></x-licious::products.star-rating>
+                        <x-licious::products.star-rating class="mb-[12px] flex justify-center items-center" ::value="product?.avg_ratings" :is-editable=false><p class="mb-[0] font-Poppins ml-[5px] text-[#999] text-[11px] leading-[10px]">(@{{ product?.avg_ratings }})</p></x-licious::products.star-rating>
                     </div>
 
                     {!! view_render_event('bagisto.shop.components.products.card.name.before') !!}
                     <a
-                        :href="`{{ route('shop.product_or_category.index', '') }}/${product.url_key}`" class="title transition-all duration-[0.3s] ease-in-out mb-[12px] font-Poppins text-[15px] font-medium leading-[24px] text-[#2b2b2d] hover:text-[#64b496] flex justify-center"
-                        v-text="product.name"></a>
+                        :href="`{{ route('shop.product_or_category.index', '') }}/${product?.url_key}`" class="title transition-all duration-[0.3s] ease-in-out mb-[12px] font-Poppins text-[15px] font-medium leading-[24px] text-[#2b2b2d] hover:text-[#64b496] flex justify-center"
+                        v-text="product?.name"></a>
                     <p class="text text-[14px] font-Poppins text-[#7a7a7a] leading-[1.75] text-left mb-[10px] hidden"></p>
 
                     {!! view_render_event('bagisto.shop.components.products.card.name.after') !!}
 
                     {!! view_render_event('bagisto.shop.components.products.card.price.before') !!}
 
-                    <p class="cr-price font-Poppins text-[16px] text-[#7a7a7a] leading-[1.75] max-[1199px]:text-[14px]" v-html="transform(product.price_html)"></p>
+                    <p class="cr-price font-Poppins text-[16px] text-[#7a7a7a] leading-[1.75] max-[1199px]:text-[14px]" v-html="transform(product?.price_html)"></p>
 
                     {!! view_render_event('bagisto.shop.components.products.card.price.before') !!}
                 </div>
@@ -131,10 +131,10 @@
                 addToWishlist() {
                     if (this.isCustomer) {
                         this.$axios.post(`{{ route('shop.api.customers.account.wishlist.store') }}`, {
-                                product_id: this.product.id
+                                product_id: this.product?.id
                             })
                             .then(response => {
-                                this.product.is_wishlist = ! this.product.is_wishlist;
+                                this.product.is_wishlist = ! this.product?.is_wishlist;
 
                                 this.$emitter.emit('add-flash', { type: 'success', message: response.data.data.message });
                             })
@@ -207,7 +207,7 @@
 
                     this.$axios.post('{{ route("shop.api.checkout.cart.store") }}', {
                             'quantity': 1,
-                            'product_id': this.product.id,
+                            'product_id': this.product?.id,
                         })
                         .then(response => {
                             if (response.data.data.redirect_uri) {

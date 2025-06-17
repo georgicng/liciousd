@@ -1,15 +1,15 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Webkul\Shop\Http\Controllers\API\AddressController;
-use Webkul\Shop\Http\Controllers\API\CartController;
-use Webkul\Shop\Http\Controllers\API\CategoryController;
-use Webkul\Shop\Http\Controllers\API\CompareController;
-use Webkul\Shop\Http\Controllers\API\CoreController;
-use Webkul\Shop\Http\Controllers\API\OnepageController;
-use Webkul\Shop\Http\Controllers\API\ProductController;
-use Webkul\Shop\Http\Controllers\API\ReviewController;
-use Webkul\Shop\Http\Controllers\API\WishlistController;
+use Gaiproject\Theme\Http\Controllers\API\AddressController;
+use Gaiproject\Theme\Http\Controllers\API\CartController;
+use Gaiproject\Theme\Http\Controllers\API\CategoryController;
+use Gaiproject\Theme\Http\Controllers\API\CompareController;
+use Gaiproject\Theme\Http\Controllers\API\CoreController;
+use Gaiproject\Theme\Http\Controllers\API\OnepageController;
+use Gaiproject\Theme\Http\Controllers\API\ProductController;
+use Gaiproject\Theme\Http\Controllers\API\ReviewController;
+use Gaiproject\Theme\Http\Controllers\API\WishlistController;
 
 Route::group(['middleware' => ['locale', 'theme', 'currency'], 'prefix' => 'api'], function () {
     Route::controller(CoreController::class)->prefix('core')->group(function () {

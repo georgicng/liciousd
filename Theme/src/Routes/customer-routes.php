@@ -1,16 +1,16 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Webkul\Shop\Http\Controllers\Customer\Account\AddressController;
-use Webkul\Shop\Http\Controllers\Customer\Account\DownloadableProductController;
-use Webkul\Shop\Http\Controllers\Customer\Account\OrderController;
-use Webkul\Shop\Http\Controllers\Customer\Account\WishlistController;
-use Webkul\Shop\Http\Controllers\Customer\CustomerController;
-use Webkul\Shop\Http\Controllers\Customer\ForgotPasswordController;
-use Webkul\Shop\Http\Controllers\Customer\RegistrationController;
-use Webkul\Shop\Http\Controllers\Customer\ResetPasswordController;
-use Webkul\Shop\Http\Controllers\Customer\SessionController;
-use Webkul\Shop\Http\Controllers\DataGridController;
+use Gaiproject\Theme\Http\Controllers\Customer\Account\AddressController;
+use Gaiproject\Theme\Http\Controllers\Customer\Account\DownloadableProductController;
+use Gaiproject\Theme\Http\Controllers\Customer\Account\OrderController;
+use Gaiproject\Theme\Http\Controllers\Customer\Account\WishlistController;
+use Gaiproject\Theme\Http\Controllers\Customer\CustomerController;
+use Gaiproject\Theme\Http\Controllers\Customer\ForgotPasswordController;
+use Gaiproject\Theme\Http\Controllers\Customer\RegistrationController;
+use Gaiproject\Theme\Http\Controllers\Customer\ResetPasswordController;
+use Gaiproject\Theme\Http\Controllers\Customer\SessionController;
+use Gaiproject\Theme\Http\Controllers\DataGridController;
 
 Route::group(['middleware' => ['locale', 'theme', 'currency']], function () {
 

@@ -34,8 +34,8 @@
                     {!! view_render_event('bagisto.shop.categories.view.list.product_card.before') !!}
 
                     <template v-else>
-                        <template v-if="products.length">
-                            <x-licious::products.cardx
+                        <template v-if="products?.length">
+                            <x-licious::products.card
                                 ::mode="mode"
                                 v-for="product in products"
                                 ::product="product"
@@ -89,7 +89,7 @@
                         toolbar: {},
 
                         filter: {},
-                        
+
                         page: 1
                     },
 
@@ -159,13 +159,11 @@
                     })
                         .then(response => {
                             this.isLoading = false;
-
                             this.products = response.data.data;
-
                             this.links = response.data.links;
                             this.meta = response.data.meta;
                         }).catch(error => {
-                            console.log(error);
+                            console.error(error);
                         });
                 },
 

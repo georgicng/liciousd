@@ -1,13 +1,13 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Webkul\Shop\Http\Controllers\CompareController;
-use Webkul\Shop\Http\Controllers\HomeController;
-use Webkul\Shop\Http\Controllers\PageController;
-use Webkul\Shop\Http\Controllers\ProductController;
-use Webkul\Shop\Http\Controllers\ProductsCategoriesProxyController;
-use Webkul\Shop\Http\Controllers\SearchController;
-use Webkul\Shop\Http\Controllers\SubscriptionController;
+use Gaiproject\Theme\Http\Controllers\CompareController;
+use Gaiproject\Theme\Http\Controllers\HomeController;
+use Gaiproject\Theme\Http\Controllers\PageController;
+use Gaiproject\Theme\Http\Controllers\ProductController;
+use Gaiproject\Theme\Http\Controllers\ProductsCategoriesProxyController;
+use Gaiproject\Theme\Http\Controllers\SearchController;
+use Gaiproject\Theme\Http\Controllers\SubscriptionController;
 
 Route::group(['middleware' => ['locale', 'theme', 'currency']], function () {
     /**
