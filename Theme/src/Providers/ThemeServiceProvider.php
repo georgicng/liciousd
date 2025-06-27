@@ -29,6 +29,7 @@ class ThemeServiceProvider extends ServiceProvider
         /* loaders */
         Route::middleware('web')->group(__DIR__ . '/../Routes/web.php');
         Route::middleware('web')->group(__DIR__ . '/../Routes/api.php');
+        $this->loadRoutesFrom(__DIR__ . '/../Routes/admin-routes.php');
 
         $this->loadMigrationsFrom(__DIR__ . '/../Database/Migrations');
         $this->loadTranslationsFrom(__DIR__ . '/../Resources/lang', 'licious');
@@ -36,6 +37,10 @@ class ThemeServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(
             dirname(__DIR__) . '/Config/system.php',
             'core'
+        );
+        $this->mergeConfigFrom(
+            dirname(__DIR__) . '/Config/admin-menu.php',
+            'menu.admin'
         );
 
         /* aliases */

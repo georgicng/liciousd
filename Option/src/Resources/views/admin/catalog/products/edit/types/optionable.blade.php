@@ -15,7 +15,7 @@ $optionList = $productOptionValueRepository->getConfigurableOptions();
 @pushOnce('scripts')
 {{-- Variations Template --}}
 <script type="text/x-template" id="v-product-options-template">
-    <div class="relative p-4 bg-white dark:bg-gray-900 rounded box-shadow">
+    <div  v-if="model.length" class="relative p-4 bg-white dark:bg-gray-900 rounded box-shadow">
         <!-- Panel Header -->
         <div class="flex gap-5 justify-between mb-4">
             <div class="flex flex-col gap-2">
@@ -77,9 +77,8 @@ $optionList = $productOptionValueRepository->getConfigurableOptions();
             </draggable>
 
             <div class="flex-1 p-6 bg-gray-50 text-medium text-gray-500 dark:text-gray-400 dark:bg-gray-800 rounded-lg">
-                <template v-if="model.length">
+                <template v-for="(option, index) in model">
                     <v-product-option-item
-                        v-for="(option, index) in model"
                         v-show="selectedOption.id == option.option_id"
                         :option="optionListMap[option.option_id]"
                         :value="model[index]"
@@ -435,6 +434,14 @@ $optionList = $productOptionValueRepository->getConfigurableOptions();
                         placeholder="input"
                         class="flex w-[289px] min:w-1/3 h-10 py-2.5 px-3 border rounded-md text-sm text-gray-600 dark:text-gray-300 transition-all hover:border-gray-400 dark:hover:border-gray-400 focus:border-gray-400 dark:focus:border-gray-400 dark:bg-gray-900 dark:border-gray-800"
                     />
+                    <input
+                        v-if="counterOperators.includes(model.operator) && selectGroup.includes(field.type)"
+                        :name="`${controlName}[rules][${ruleIndex}][conditions][${conditionIndex}][value]`"
+                        type="number"
+                        v-model="model.value"
+                        placeholder="input"
+                        class="flex w-[289px] min:w-1/3 h-10 py-2.5 px-3 border rounded-md text-sm text-gray-600 dark:text-gray-300 transition-all hover:border-gray-400 dark:hover:border-gray-400 focus:border-gray-400 dark:focus:border-gray-400 dark:bg-gray-900 dark:border-gray-800"
+                    />
                     <select
                         v-if="linearOperators.includes(model.operator) && selectGroup.includes(field.type)"
                         :name="`${controlName}[rules][${ruleIndex}][conditions][${conditionIndex}][value]`"
@@ -449,8 +456,9 @@ $optionList = $productOptionValueRepository->getConfigurableOptions();
                         v-if="selectionOperators.includes(model.operator) && selectGroup.includes(field.type)"
                         :name="`${controlName}[rules][${ruleIndex}][conditions][${conditionIndex}][value][]`"
                         v-model="model.value"
-                        class="custom-select inline-flex gap-x-1 justify-between items-center h-10 w-[196px] max-w-[196px] py-2.5 px-3 bg-white dark:bg-gray-900 border dark:border-gray-800 rounded-md text-sm text-gray-600 dark:text-gray-300 font-normal transition-all hover:border-gray-400 dark:hover:border-gray-400"
+                        class="custom-select inline-flex gap-x-1 justify-between items-center w-[196px] max-w-[196px] py-2.5 px-3 bg-white dark:bg-gray-900 border dark:border-gray-800 rounded-md text-sm text-gray-600 dark:text-gray-300 font-normal transition-all hover:border-gray-400 dark:hover:border-gray-400"
                         multiple
+                        size="5"
                     >
                         <option v-for="item in field.options" :key="item.id" :value="item.id" :selected="Array.isArray(model.value) && model.value.includes(item.id)">
                             @{{item.label}}
@@ -675,6 +683,9 @@ $optionList = $productOptionValueRepository->getConfigurableOptions();
                     }
                 );
             },
+            firstOption() {
+                return this.options.find(item => item.code !== 'config') || {};
+            },
             optionMap() {
                 return this.mapToId(this.options);
             },
@@ -730,10 +741,10 @@ $optionList = $productOptionValueRepository->getConfigurableOptions();
                 this.dynamic = !this.dynamic;
             },
         },
-        created() {
-            this.selectedOption = this.options[0];
+        mounted() {
             this.dynamic = this.config?.value?.dynamic && ['on', true].includes(this.config.value.dynamic);
             this.model = this.valueList.filter(item => item.option_id != this.config?.option_id).toSorted((a, b) => a.position - b.position);
+            this.selectedOption = this.firstOption;
         },
     });
 
@@ -959,11 +970,14 @@ $optionList = $productOptionValueRepository->getConfigurableOptions();
                 }
                 return this.fieldMap[this.model.field]
             },
+            counterOperators() {
+                return ['count'];
+            },
             linearOperators() {
                 return ['=', '!='];
             },
             selectionOperators() {
-                return ['contains', 'excludes', 'in', 'not in'];
+                return ['includes', 'excludes', 'in', 'not in'];
             },
             touchedOperators() {
                 return ['empty', 'exist'];
