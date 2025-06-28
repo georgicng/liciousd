@@ -1,6 +1,37 @@
 <?php
 
 return [
+    'admin' => [
+        'settings' => [
+            'menu' => [
+                'title' => 'Site Links',
+                'subtitle' => 'Configure the Site menu ',
+                'menus' => 'Main Menu',
+                'menus-description' => 'Drag links from the sidebar here to build the list',
+                'categories' => 'Category Links',
+                'pages' => 'Page Links',
+                'links' => 'Custom Links',
+
+                'index' => [
+                    'title' => 'Site Menu',
+                    'subtitle' => 'Configure the Site menu',
+                    'page-title' => 'Menu Builder',
+                    'back-btn' => 'Back',
+                    'save-btn' => 'Save Menu',
+                    'save-menu-success' => 'Menu saved successfully.',
+                ],
+            ],
+            'components' => [
+                'layouts' => [
+                    'sidebar' => [
+                        'menus' => 'Site Menu',
+                    ],
+                ],
+            ],
+        ],
+
+    ],
+
     'customers' => [
         'forgot-password' => [
             'already-sent'         => 'Already Password Reset Mail Sent.',
@@ -948,7 +979,14 @@ return [
                 'copyright' => [
                     'title' => 'Copyright Info',
                     'text' => 'Copyright Text',
-                ]
+                ],
+                'menu' => [
+                    'title' => 'Site Menu',
+                    'description' => 'Configure the menu items here.',
+                    'manual' => 'Use custom menu',
+                    'exim' => 'Enable Export/Import',
+                    'text' => 'Menu Data',
+                ],
             ]
         ]
     ],
