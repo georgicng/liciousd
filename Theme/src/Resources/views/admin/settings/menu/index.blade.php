@@ -4,38 +4,44 @@
     </x-slot:title>
 
     {!! view_render_event('bagisto.admin.settings.menu.create.before') !!}
-        <div class="flex justify-between items-center">
-            <p class="text-xl text-gray-800 dark:text-white font-bold">
-                @lang('licious::app.admin.settings.menu.index.page-title')
-            </p>
+     <!-- Input Form -->
+        <x-admin::form
+            :action="route('admin.settings.menu.store')"
+            enctype="multipart/form-data"
+        >
+            <div class="flex justify-between items-center">
+                <p class="text-xl text-gray-800 dark:text-white font-bold">
+                    @lang('licious::app.admin.settings.menu.index.page-title')
+                </p>
 
-            <div class="flex gap-x-2.5 items-center">
-                <!-- Cancel Button -->
-                <a
-                    href="{{ route('admin.options.index') }}"
-                    class="transparent-button hover:bg-gray-200 dark:hover:bg-gray-800 dark:text-white"
-                >
-                    @lang('licious::app.admin.settings.menu.index.back-btn')
-                </a>
+                <div class="flex gap-x-2.5 items-center">
+                    <!-- Cancel Button -->
+                    <a
+                        href="{{ route('admin.options.index') }}"
+                        class="transparent-button hover:bg-gray-200 dark:hover:bg-gray-800 dark:text-white"
+                    >
+                        @lang('licious::app.admin.settings.menu.index.back-btn')
+                    </a>
 
-                <!-- Save Button -->
-                <button
-                    type="submit"
-                    class="primary-button"
-                >
-                    @lang('licious::app.admin.settings.menu.index.save-btn')
-                </button>
+                    <!-- Save Button -->
+                    <button
+                        type="submit"
+                        class="primary-button"
+                    >
+                        @lang('licious::app.admin.settings.menu.index.save-btn')
+                    </button>
+                </div>
             </div>
-        </div>
-        <div class="flex gap-2.5 mt-3.5">
-            {{-- Left Container --}}
-            <div class="flex flex-col gap-2 flex-1 bg-white dark:bg-gray-900 rounded box-shadow">
-                <v-menu> </v-menu>
+            <div class="flex gap-2.5 mt-3.5">
+                {{-- Left Container --}}
+                <div class="flex flex-col gap-2 flex-1 bg-white dark:bg-gray-900 rounded box-shadow">
+                    <v-menu> </v-menu>
+                </div>
+                {{-- Right Container --}}
+                <div class="flex flex-col gap-2 w-[360px] max-w-full">
+                </div>
             </div>
-            {{-- Right Container --}}
-            <div class="flex flex-col gap-2 w-[360px] max-w-full">
-            </div>
-        </div>
+        </x-admin::form>
     {!! view_render_event('bagisto.admin.settings.menu.create.after') !!}
 
     @pushOnce('scripts')
@@ -120,6 +126,9 @@
                                     </div>
                                 </template>
                             </v-nestable-draggable>
+                            <input type="hidden" name="data[menus]" :value="JSON.stringify(menus)" />
+                            <input type="hidden" name="data[custom]" :value="JSON.stringify(custom)" />
+
                         </x-slot:content>
                     </x-admin::accordion>
                     <x-admin::accordion :is-active="false">

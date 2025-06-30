@@ -6,6 +6,7 @@ use Gaiproject\Theme\Http\Controllers\Controller;
 use Webkul\Core\Repositories\CoreConfigRepository;
 use Webkul\CMS\Repositories\PageRepository;
 use Webkul\Category\Repositories\CategoryRepository;
+use Illuminate\Support\Facades\Storage;
 
 class MenuController extends Controller
 {
@@ -28,13 +29,22 @@ class MenuController extends Controller
      */
     public function index()
     {
-        $data = core()->getConfigData('store.information.menu.data') ?? ['custom' => [], 'menus' => [[ 'name' => 'Root', 'key' => 'root', 'children' => [] ]]];
+        //$menuData = core()->getConfigData('store.information.menu.data');
+        $data = Storage::json('menus.json');
+        if (!$data) {
+            $data = ['custom' => [], 'menus' => []];
+        }
+
+        $Ids = ['category' => [], 'page' => []];
+        $this->getIds($data['menus'], $Ids);
+        logger()->channel('custom')->info(json_encode(['ids' => $Ids]));
+
         $categories = $this->categoryRepository->getAll([
             'status' => 1,
             'locale' => app()->getLocale(),
             'limit' => 30
-        ])->map(function ($category) {
-            return [
+        ])
+            ->map(fn($category) => [
                 'key' => 'category_' . $category->id,
                 'id' => $category->id,
                 'name' => $category->name,
@@ -42,10 +52,11 @@ class MenuController extends Controller
                 'url' => $category->url,
                 'type' => 'category',
                 'children' => [],
-            ];
-        })->toArray();
-        $pages = $this->pageRepository->all()->map(function ($page) {
-            return [
+            ])
+            //->filter(fn($item) => ! in_array($item['id'], $Ids['category'] ?? []))
+            ->toArray();
+        $pages = $this->pageRepository->findWhereNotIn('id', $Ids['page'])
+            ->map(fn($page) => [
                 'key' => 'page_' . $page->id,
                 'id' => $page->id,
                 'name' => $page->page_title,
@@ -53,9 +64,31 @@ class MenuController extends Controller
                 'url' => route('shop.cms.page', $page->url_key),
                 'type' => 'page',
                 'children' => [],
-            ];
-        })->toArray();
-        return view('licious::admin.settings.menu.index', compact('data', 'categories', 'pages'));
+            ]);
+        return view(
+            'licious::admin.settings.menu.index',
+            compact(
+                'data',
+                'pages',
+                'categories'
+            )
+        );
+    }
+
+    public function getIds($n, &$ids)
+    {
+        foreach ($n as $item) {
+            if ($item['type'] == 'custom') {
+                continue;
+            }
+
+            $ids[$item['type']][] = $item['id'];
+
+            if (empty($item['children'])) {
+                continue;
+            }
+            $this->getIds($item['children'], $ids);
+        }
     }
 
 
@@ -69,12 +102,10 @@ class MenuController extends Controller
         $this->validate(request(), [
             'data'    => 'required',
         ]);
-
-        $data = request()->all();
-        $this->coreConfigRepository->create($data);
-
+        $payload = ['menus' => json_decode(request('data')['menus']), 'custom' => json_decode(request('data')['custom'])];
+        Storage::put('menus.json', json_encode($payload));
+        //$this->coreConfigRepository->create([ 'code' => 'store.information.menu.data', 'value' => json_encode($payload) ]);
         session()->flash('success', trans('admin::app.settings.menu.create-success'));
-
-        return redirect()->route('admin::settings.menu.index');
+        return redirect()->route('admin.settings.menu.index');
     }
 }
