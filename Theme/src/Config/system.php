@@ -110,18 +110,6 @@ return [
                 'title' => 'licious::app.store.settings.information.menu.manual',
                 'type'  => 'boolean'
             ],
-            [
-                'name'  => 'exim',
-                'title' => 'licious::app.store.settings.information.menu.exim',
-                'type'  => 'boolean'
-            ],
-            [
-                'name'  => 'data',
-                'title' => 'licious::app.store.settings.information.menu.text',
-                'validation'    => 'required_if:exim,1|numeric',
-                'depends'       => 'exim:1',
-                'type'  => 'textarea'
-            ],
         ]
     ],
     [

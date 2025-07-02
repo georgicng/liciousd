@@ -223,7 +223,6 @@
 
                     <template v-else>
                         <x-licious::form.control-group.control
-                            v-else
                             type="text"
                             ::name="controlName + '.city'"
                             v-model="selectedCity"
@@ -305,7 +304,6 @@
                     states: @json(core()->groupedStatesByCountries()),
                     cities: @json(getGroupedCities()),
                 };
-                console.log({ regionData })
                 return {
                     selectedCountry: this.address.country,
                     selectedState: this.address.state,
@@ -325,7 +323,6 @@
                     ) {
                         return false;
                     }
-                    console.log(this.cities, this.selectedState, this.selectedCountry);
                     return (
                         this.cities[this.selectedCountry][this.selectedState]
                         && this.cities[this.selectedCountry][this.selectedState].length

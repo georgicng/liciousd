@@ -294,7 +294,6 @@
                 },
 
                 setItemQuantity(itemId, quantity) {
-                    console.log(itemId, quantity)
                     this.applied.quantity[itemId] = quantity;
                 },
 

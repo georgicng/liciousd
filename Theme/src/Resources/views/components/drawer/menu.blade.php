@@ -17,7 +17,12 @@
     <div class="cr-menu-inner">
         <div class="cr-menu-content">
             <!-- Mobile category view -->
-            <x-licious::layouts.header.menu.mobile-category />
+            @if(core()->getConfigData('store.information.menu.enable'))
+                <x-licious::layouts.header.menu.mobile-menu />
+            @else
+                <x-licious::layouts.header.menu.mobile-category />
+            @endif
+
 
             <!-- Localization & Currency Section -->
             <div class="absolute w-full flex bottom-0 left-0 bg-white shadow-lg p-4 gap-x-5 justify-between items-center mb-4">

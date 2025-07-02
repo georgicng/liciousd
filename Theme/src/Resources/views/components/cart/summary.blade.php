@@ -116,6 +116,7 @@
     <span class="cr-check-order-btn flex justify-end p-[0]">
         <a
             href="{{ route('shop.checkout.onepage.index') }}"
-            class="cr-button h-[40px] font-bold transition-all duration-[0.3s] ease-in-out py-[8px] px-[22px] text-[14px] font-Manrope capitalize leading-[1.2] bg-[#64b496] text-[#fff] border-[1px] border-solid border-[#64b496] rounded-[5px] flex items-center justify-center hover:bg-[#000] hover:border-[#000]" href="#">@lang('licious::app.checkout.cart.summary.proceed-to-checkout')</a>
+            class="cr-button h-[40px] font-bold transition-all duration-[0.3s] ease-in-out py-[8px] px-[22px] text-[14px] font-Manrope capitalize leading-[1.2] bg-[#64b496] text-[#fff] border-[1px] border-solid border-[#64b496] rounded-[5px] flex items-center justify-center hover:bg-[#000] hover:border-[#000]"
+            >@lang('licious::app.checkout.cart.summary.proceed-to-checkout')</a>
     </span>
 {!! view_render_event('bagisto.shop.checkout.cart.summary.proceed_to_checkout.after') !!}

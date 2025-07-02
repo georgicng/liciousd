@@ -8,7 +8,7 @@
             <!-- Mobile Nav -->
             <nav class="justify-between relative flex flex-wrap items-center max-[991px]:w-full max-[991px]:py-[10px]">
 
-                <x-licious::drawer.category />
+                <x-licious::drawer.menu />
 
                 <div class="cr-header-buttons hidden max-[991px]:flex max-[991px]:items-center">
                     <x-licious::layouts.header.menu.account-toggle />
@@ -31,8 +31,11 @@
 
                 <div class="min-[992px]:flex min-[992px]:basis-auto grow-[1] items-center hidden" id="navbarSupportedContent">
                     {!! view_render_event('bagisto.shop.components.layouts.header.desktop.bottom.category.before') !!}
-
-                    <x-licious::layouts.header.menu.desktop-category />
+                    @if(core()->getConfigData('store.information.menu.enable'))
+                        <x-licious::layouts.header.menu.desktop-menu />
+                    @else
+                        <x-licious::layouts.header.menu.desktop-category />
+                    @endif
 
                     {!! view_render_event('bagisto.shop.components.layouts.header.desktop.bottom.category.after') !!}
                 </div>
