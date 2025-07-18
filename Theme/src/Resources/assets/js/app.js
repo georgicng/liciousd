@@ -2,8 +2,6 @@
  * This will track all the images and fonts for publishing.
  */
 import.meta.glob(["../images/**"]);
-import 'remixicon/fonts/remixicon.css'
-import '@mdi/font/css/materialdesignicons.min.css'
 
 
 /**

@@ -192,6 +192,21 @@ export default {
       return regex.test(value);
     });
 
+    defineRule('minMax', (value, [min, max]) => {
+        // The field is empty so it should pass
+        if (!Array.isArray(value) || !value.length) {
+            return true;
+        }
+        const numericValue = value.length;
+        if (numericValue < min) {
+            return `This field must be greater than ${min}`;
+        }
+        if (numericValue > max) {
+            return `Maximum of ${max} exceeded`;
+        }
+        return true;
+    });
+
     configure({
       /**
        * Built-in error messages and custom error messages are available. Multiple

@@ -61,7 +61,6 @@ class CartController extends APIController
             }
 
             $cart = Cart::addProduct($product->id, request()->all());
-            logger()->channel('custom')->info(json_encode([ 'cart' => $cart ]));
 
             /**
              * To Do (@devansh-webkul): Need to check this and improve cart facade.

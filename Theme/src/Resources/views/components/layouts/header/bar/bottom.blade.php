@@ -43,7 +43,7 @@
 
             <div class="cr-calling flex justify-end items-center max-[1199px]:hidden">
                 <i class="ri-phone-line pr-[5px] text-[20px]"></i>
-                <a href="javascript:void(0)" class="text-[15px] font-medium">{{ core()->getConfigData('sales.order_settings.store.helpline') }}</a>
+                <a href="javascript:void(0)" class="text-[15px] font-medium">{{ core()->getConfigData('store.information.bio.phone') }}</a>
             </div>
         </div>
     </div>

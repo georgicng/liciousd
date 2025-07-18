@@ -1,6 +1,10 @@
+@import 'remixicon/fonts/remixicon.css' layer(components);
+@import '@mdi/font/css/materialdesignicons.min.css' layer(components);
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
 
 @layer components {
     ::selection {

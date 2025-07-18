@@ -16,7 +16,7 @@ use Webkul\Product\Repositories\ProductInventoryRepository;
 use Webkul\Product\Repositories\ProductImageRepository;
 use Webkul\Product\Repositories\ProductVideoRepository;
 use Webkul\Product\Repositories\ProductCustomerGroupPriceRepository;
-use Gaiproject\Option\Helpers\Indexers\Price\Optionable as SimpleIndexer;
+use Gaiproject\Option\Helpers\Indexers\Price\Optionable as OptionableIndexer;
 use Webkul\Product\DataTypes\CartItemValidationResult;
 use Webkul\Product\Models\ProductFlat;
 use Webkul\Product\Facades\ProductImage;
@@ -149,13 +149,17 @@ class Optionable extends AbstractType
      */
     public function prepareForCart($data)
     {
+
         $data['quantity'] = $this->handleQuantity((int) $data['quantity']);
+logger()->channel('custom')->info('gotcha');
 
         $data = $this->getQtyRequest($data);
-
+logger()->channel('custom')->info('gotcha next');
         if (!$this->haveSufficientQuantity($data['quantity'])) {
             return trans('shop::app.checkout.cart.inventory-warning');
         }
+
+        logger()->channel('custom')->info(json_encode(['options' => $data['options']]));
 
         $price = $this->getFinalPrice() + $this->getPriceIncrement($data['options']);
 
@@ -176,6 +180,7 @@ class Optionable extends AbstractType
                 'additional'        => $this->getAdditionalOptions($data),
             ],
         ];
+        logger()->channel('custom')->info(json_encode(compact('products')));
 
         return $products;
     }
@@ -350,9 +355,22 @@ class Optionable extends AbstractType
             isset($options1['options'])
             && isset($options2['options'])
         ) {
-            return empty(array_diff_assoc($options1['options'], $options2['options']));
+            foreach( array_keys($options1['options']) as $key ) {
+                if (is_array($options1['options'][$key]) && is_array($options2['options'][$key])) {
+                    if (count(array_diff($options1['options'][$key], $options2['options'][$key]))) {
+                        return false;
+                    }
+                }
+                if (
+                    $options1['options'][$key] != $options2['options'][$key]
+                ) {
+                    return false;
+                }
+            }
+            
         }
-
+        
+        /*
         if (
             isset($options1['parent_id'])
             && isset($options2['parent_id'])
@@ -373,6 +391,7 @@ class Optionable extends AbstractType
         ) {
             return false;
         }
+        */
 
         return true;
     }
@@ -386,6 +405,6 @@ class Optionable extends AbstractType
      */
     public function getPriceIndexer()
     {
-        return app(SimpleIndexer::class);
+        return app(OptionableIndexer::class);
     }
 }

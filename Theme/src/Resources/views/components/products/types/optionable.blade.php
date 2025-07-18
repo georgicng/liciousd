@@ -142,7 +142,7 @@ $optionList = $productOptionValueRepository->getConfigurableOptions();
                                     return multi ? '' : min ? `min:${min}` : '';
                             case 'max':
                                 if (multi) {
-                                    return min && max ? `length:${min},${max}` : `length:${min || max}`;
+                                    return min && max ? `minMax:${min},${max}` : `length:${min || max}`;
                                 }
                                 return max ? `max:${max}` : '';
                         }

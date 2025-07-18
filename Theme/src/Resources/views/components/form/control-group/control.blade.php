@@ -151,7 +151,7 @@
             type="checkbox"
             class="hidden"
             v-slot="{ field }"
-            {{ $attributes->only(['name', ':name', 'value', ':value', 'v-model', 'rules', ':rules', 'label', ':label']) }}
+            {{ $attributes->only(['name', ':name', 'value', ':value', 'v-model', 'rules', ':rules', 'label', ':label', 'checked', ':checked']) }}
             name="{{ $name }}"
         >
             <input
@@ -165,7 +165,8 @@
 
         <label
             class="ri-checkbox-blank-line peer-checked:ri-checkbox-line  text-2xl cursor-pointer peer-checked:text-navyBlue"
-            {{ $attributes->except(['value', ':value', 'v-model', 'rules', ':rules', 'label', ':label']) }}
+            {{ $attributes->except(['value', ':value', 'v-model', 'rules', ':rules', 'label', ':label', 'id', ':id', 'checked', ':checked']) }}
+            for="{{ $name }}"
         >
         </label>
 
