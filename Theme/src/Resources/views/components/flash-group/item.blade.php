@@ -15,7 +15,7 @@
             :style="typeStyles[flash.type]['container']"
         >
             <p
-                class="flex text-sm break-all"
+                class="flex justify-between items-center text-sm break-all"
                 :style="typeStyles[flash.type]['message']"
             >
                 <span
@@ -26,9 +26,8 @@
 
                 @{{ flash.message }}
             </p>
-
-			<span
-                class="ri-close-line max-h-4 max-w-4 cursor-pointer"
+            <span
+                class="ri-close-line cursor-pointer"
                 :style="typeStyles[flash.type]['icon']"
                 @click="remove"
             ></span>

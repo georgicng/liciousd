@@ -1,6 +1,6 @@
 @props(['category' => null])
 
-<v-category {{ $attributes }}>
+<v-category class="w-full" {{ $attributes }}>
     <!-- Category Shimmer Effect -->
     <x-licious::shimmer.categories.view />
 </v-category>
@@ -22,12 +22,16 @@
                 <!-- Product List Card Container -->
                 <div
                     class="flex flex-wrap col-50 mb-[-24px]"
-                    :class="{'col-size': filters.toolbar.mode === 'list' }"
+                    :class="{'col-size': mode == 'list' }"
                 >
                     <!-- Product Card Shimmer Effect -->
                     <template v-if="isLoading">
-                        <x-licious::shimmer.products.cards.list v-if="filters.toolbar.mode === 'list'" count="12" />
-                        <x-licious::shimmer.products.cards.grid v-else count="12" />
+                        <template v-if="mode == 'grid'" >
+                            <x-licious::shimmer.products.cards.grid  count="8" />
+                        </template>
+                        <template v-else>
+                            <x-licious::shimmer.products.cards.list count="8" />
+                        </template>
                     </template>
 
                     <!-- Product Card Listing -->

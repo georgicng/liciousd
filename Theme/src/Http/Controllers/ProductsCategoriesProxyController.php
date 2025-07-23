@@ -69,6 +69,7 @@ class ProductsCategoriesProxyController extends Controller
         }
 
         $product = $this->productRepository->findBySlug($slugOrURLKey);
+        $product->loadCount(['related_products', 'up_sells']);
 
         if ($product) {
             if (

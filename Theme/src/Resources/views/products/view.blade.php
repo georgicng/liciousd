@@ -65,9 +65,7 @@
         <div class="flex flex-wrap justify-between relative items-center mx-auto min-[1600px]:max-w-[1500px] min-[1400px]:max-w-[1320px] min-[1200px]:max-w-[1140px] min-[992px]:max-w-[960px] min-[768px]:max-w-[720px] min-[576px]:max-w-[540px]">
 
             <!-- Product Information Vue Component -->
-            <x-licious::products.item ::product-id="{{ $product->id }}" :$product :$customAttributeValues :$avgRatings>
-                <x-licious::shimmer.products.view />
-            </x-licious::products.item>
+            <x-licious::products.item ::product-id="{{ $product->id }}" :$product :$customAttributeValues :$avgRatings></x-licious::products.item>
 
             <!-- Information Section -->
             <div class="flex flex-wrap w-full" data-aos="fade-up" data-aos-duration="2000" data-aos-delay="600">
@@ -148,18 +146,21 @@
         </div>
     </section>
 
+    @if($product->related_products_count)
+        <!-- Featured Products -->
+        <x-licious::products.carousel
+            :title="trans('licious::app.products.view.related-product-title')"
+            :src="route('shop.api.products.related.index', ['id' => $product->id])"
+        />
+    @endif
 
-    <!-- Featured Products -->
-    <x-licious::products.carousel
-        :title="trans('licious::app.products.view.related-product-title')"
-        :src="route('shop.api.products.related.index', ['id' => $product->id])"
-    />
-
-    <!-- Upsell Products -->
-    <x-licious::products.carousel
-        :title="trans('licious::app.products.view.up-sell-title')"
-        :src="route('shop.api.products.up-sell.index', ['id' => $product->id])"
-    />
+    @if($product->up_sells_count)
+        <!-- Upsell Products -->
+        <x-licious::products.carousel
+            :title="trans('licious::app.products.view.up-sell-title')"
+            :src="route('shop.api.products.up-sell.index', ['id' => $product->id])"
+        />
+    @endif
 
     {!! view_render_event('bagisto.shop.products.view.after', ['product' => $product]) !!}
 </x-licious::layouts>

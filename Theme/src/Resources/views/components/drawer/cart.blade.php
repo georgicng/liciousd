@@ -38,7 +38,7 @@
                         </span>
 
                         <span
-                            class="absolute px-2 top-0 ltr:left-14 rtl:right-14 py-1.5 bg-[#060C3B] rounded-[44px] text-white text-xs font-semibold leading-[9px]"
+                            class="absolute px-2 -top-2 ltr:left-14 rtl:right-14 py-1.5 bg-[#060C3B] rounded-[44px] text-white text-xs font-semibold leading-[9px]"
                             v-if="cart?.items_qty"
                         >
                             @{{ cart.items_qty }}

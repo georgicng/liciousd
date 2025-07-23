@@ -271,7 +271,6 @@
                     this.isStoring[operation] = true;
 
                     let formData = new FormData(this.$refs.formData);
-                    console.log({ params, formData })
 
                     this.$axios.post('{{ route("shop.api.checkout.cart.store") }}', formData, {
                             headers: {
@@ -288,7 +287,7 @@
                                     window.location.href= response.data.redirect;
                                 }
                             } else {
-                                this.$emitter.emit('add-flash', { type: 'warning', message: response.data.data.message });
+                               this.$emitter.emit('add-flash', { type: 'warning', message: response.data.data.message });
                             }
 
                             this.isStoring[operation] = false;

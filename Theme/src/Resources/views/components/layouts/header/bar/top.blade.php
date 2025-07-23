@@ -27,7 +27,7 @@
 
                 {!! view_render_event('bagisto.shop.components.layouts.header.desktop.bottom.search_bar.after') !!}
 
-                <div class="cr-right-bar flex max-[991px]:hidden">
+                <div class="cr-right-bar flex items-center max-[991px]:hidden">
 
                     {!! view_render_event('bagisto.shop.components.layouts.header.desktop.bottom.profile.before') !!}
 

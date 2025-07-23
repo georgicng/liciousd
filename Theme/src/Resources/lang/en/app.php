@@ -645,6 +645,8 @@ return [
             'illegal'                   => 'Quantity cannot be lesser than one.',
             'inactive'                  => 'The item has been deactivated and subsequently removed from the cart.',
             'inventory-warning'         => 'The requested quantity is not available, please try again later.',
+            'options-warning'         => 'Select options to add product to cart.',
+            'options-error'         => 'Missing required value.',
             'item-add-to-cart'          => 'Item Added Successfully',
             'minimum-order-message'     => 'Minimum order amount is :amount',
             'missing-fields'            => 'Some required fields missing for this product.',

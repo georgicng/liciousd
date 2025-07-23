@@ -151,15 +151,19 @@ class Optionable extends AbstractType
     {
 
         $data['quantity'] = $this->handleQuantity((int) $data['quantity']);
-logger()->channel('custom')->info('gotcha');
-
         $data = $this->getQtyRequest($data);
-logger()->channel('custom')->info('gotcha next');
+
         if (!$this->haveSufficientQuantity($data['quantity'])) {
-            return trans('shop::app.checkout.cart.inventory-warning');
+            return trans('licious::app.checkout.cart.inventory-warning');
         }
 
-        logger()->channel('custom')->info(json_encode(['options' => $data['options']]));
+         if (!isset($data['options'])) {
+            return trans('licious::app.checkout.cart.options-warning');
+         }
+
+         if (!$this->validOptions($data['options'])) {
+            return trans('licious::app.checkout.cart.options-error');
+         }
 
         $price = $this->getFinalPrice() + $this->getPriceIncrement($data['options']);
 
@@ -180,9 +184,45 @@ logger()->channel('custom')->info('gotcha next');
                 'additional'        => $this->getAdditionalOptions($data),
             ],
         ];
-        logger()->channel('custom')->info(json_encode(compact('products')));
-
         return $products;
+    }
+
+    /**
+     * Validate options.
+     *
+     * @param  array  $options
+     * @return boolean
+     */
+    public function validOptions($options)
+    {
+        $productOptions = $this->productOptionValueRepository->getOptionValues($this->product, true);
+
+        $optionMap = $productOptions->reduce(function (array $carry, ProductOptionValue $item) {
+            $key = $item->option_id;
+            $value = [
+                'type' => $item->option->type,
+                'required' => $item->option->required,
+                'min' => $item->min,
+                'max' => $item->max,
+            ];
+
+            $carry[$key] = $value;
+            return $carry;
+        }, []);
+
+        foreach ($options as $key => $value) {
+            if ($optionMap[$key]['required'] && !isset($value)) {
+                return false;
+            }
+            if ($optionMap[$key]['min'] && isset($value) && count($value) < $optionMap[$key]['min']) {
+                return false;
+            }
+             if ($optionMap[$key]['max'] && isset($value) && count($value) > $optionMap[$key]['max']) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     /**
@@ -367,9 +407,9 @@ logger()->channel('custom')->info('gotcha next');
                     return false;
                 }
             }
-            
+
         }
-        
+
         /*
         if (
             isset($options1['parent_id'])

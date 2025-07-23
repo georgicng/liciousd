@@ -16,7 +16,7 @@
 
 <!-- Features -->
 @if ($customization)
-    <section class="section-services pb-[100px] max-[1199px]:pb-[70px] relative">
+    <section class="section-services pt-[100px] max-[1199px]:pt-[70px] pb-[100px] max-[1199px]:pb-[70px] relative">
         <div class="flex flex-wrap justify-between relative items-center mx-auto min-[1600px]:max-w-[1500px] min-[1400px]:max-w-[1320px] min-[1200px]:max-w-[1140px] min-[992px]:max-w-[960px] min-[768px]:max-w-[720px] min-[576px]:max-w-[540px]">
             <div class="flex flex-wrap w-full">
                 <div class="w-full px-[12px]">
