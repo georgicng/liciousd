@@ -21,6 +21,7 @@ if (! function_exists('getPickupLocations')) {
                 'whatsapp' => $item->whatsapp,
                 'email' => $item->email,
                 'additional' => $item->additional,
+                'location' => $item->location,
             ];
             return $carry;
         }, []);

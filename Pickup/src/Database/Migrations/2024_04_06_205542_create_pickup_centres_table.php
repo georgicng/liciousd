@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('address')->nullable();
             $table->string('landmark')->nullable();
             $table->string('city')->nullable();
-            $table->string('location')->nullable();
+            $table->text('location')->nullable();
             $table->string('email')->nullable();
             $table->string('phone')->nullable();
             $table->string('whatsapp')->nullable();
