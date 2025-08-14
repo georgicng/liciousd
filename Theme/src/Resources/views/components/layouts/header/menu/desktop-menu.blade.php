@@ -1,3 +1,7 @@
+@inject('menuService', 'Gaiproject\Theme\Service\MenuService')
+@php
+    $menus = $menuService->getMenus();
+@endphp
 <v-desktop-menu>
     <div class="flex gap-5 items-center">
         <span
@@ -82,11 +86,12 @@
 
             data() {
                 return  {
-                    menuData: @json(Storage::json('menus.json')),
+                    menuData: @json($menus),
                 }
             },
 
             methods: {
+                //Consider moving to computed property if performance is an issue
                 pairMenuChildren(menu) {
                     return menu.children.reduce((result, value, index, array) => {
                         if (index % 2 === 0) {

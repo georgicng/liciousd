@@ -80,17 +80,4 @@
             </div>
         </div>
     </section>
-
-    {!! view_render_event('bagisto.shop.checkout.cart.cross_sell_carousel.before') !!}
-
-    <!-- Cross-sell Product Carousal -->
-    <x-licious::products.carousel
-        :title="trans('licious::app.checkout.cart.index.cross-sell.title')"
-        :src="route('shop.api.checkout.cart.cross-sell.index')"
-    >
-    </x-licious::products.carousel>
-
-    {!! view_render_event('bagisto.shop.checkout.cart.cross_sell_carousel.after') !!}
-
-
 </x-licious::layouts>

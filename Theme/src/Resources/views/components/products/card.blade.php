@@ -91,7 +91,7 @@
 
                 <div class="cr-product-details pt-[24px] text-center overflow-hidden max-[1199px]:pt-[20px]">
                     <div class="cr-brand">
-                        <a href="{{ route('shop.product_or_category.index', '') }}" class="transition-all duration-[0.3s] ease-in-out mb-[5px] text-[13px] text-[#777] flex justify-center">@{{ product?.categories[0] }}</a>
+                        <a v-if="product?.categories.length" :href="`{{ route('shop.product_or_category.index', '') }}/${product.categories[0]['slug']}`" class="transition-all duration-[0.3s] ease-in-out mb-[5px] text-[13px] text-[#777] flex justify-center">@{{ product.categories[0]['name'] }}</a>
                         <x-licious::products.star-rating class="mb-[12px] flex justify-center items-center" ::value="product?.avg_ratings" :is-editable=false><p class="mb-[0] font-Poppins ml-[5px] text-[#999] text-[11px] leading-[10px]">(@{{ product?.avg_ratings }})</p></x-licious::products.star-rating>
                     </div>
 

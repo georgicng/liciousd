@@ -1,3 +1,7 @@
+@inject('menuService', 'Gaiproject\Theme\Service\MenuService')
+@php
+    $menus = $menuService->getMenus();
+@endphp
 <v-mobile-menu></v-mobile-menu>
 
 @pushOnce('scripts')
@@ -87,7 +91,7 @@
                 return  {
                     activeMenu: null,
                     activeSubMenu : null,
-                    menuData: @json(Storage::json('menus.json')),
+                    menuData: @json($menus),
                 }
             },
 
