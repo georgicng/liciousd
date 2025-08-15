@@ -30,7 +30,7 @@
 
                     {!! view_render_event('bagisto.shop.components.products.card.image.after') !!}
 
-                    <div class="cr-side-view transition-all duration-[0.4s] ease-in-out absolute z-[20] top-[15px] right-[-40px] grid opacity-0 max-[991px]:right-[12px]">
+                    <div v-if="!hideActions" class="cr-side-view transition-all duration-[0.4s] ease-in-out absolute z-[20] top-[15px] right-[-40px] grid opacity-0 max-[991px]:right-[12px]">
                         <!--p
                             class="inline-block absolute top-5 ltr:left-5 rtl:right-5 px-2.5  bg-[#E51A1A] rounded-[44px] text-white text-sm"
                             v-if="product?.on_sale"
@@ -117,7 +117,7 @@
         app.component('v-product-card', {
             template: '#v-product-card-template',
 
-            props: ['mode', 'product'],
+            props: ['mode', 'product', 'hideActions'],
 
             data() {
                 return {
@@ -236,7 +236,7 @@
                         'text-[24px] font-semibold':  'text-[16px] leading-[1.75]',
                         'text-[16px] line-through': 'ml-[5px] leading-[1.75] text-[13px] line-through'
                     };
-                    Object.entries(swap).forEach(([key, value]) => str = str.replace(key, value));
+                    Object.entries(swap).forEach(([key, value]) => str = typeof str === 'string' ? str.replace(key, value) : str);
                     return str;
                 },
             },
