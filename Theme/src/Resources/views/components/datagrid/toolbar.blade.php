@@ -20,7 +20,7 @@
                                 @lang('licious::app.components.datagrid.toolbar.mass-actions.select-action')
                             </span>
 
-                            <span class="icon-sort-down text-2xl"></span>
+                            <span class="ri-sort-desc text-2xl"></span>
                         </button>
                     </x-slot>
 
@@ -46,7 +46,7 @@
                                         @{{ massAction.title }}
                                     </span>
 
-                                    <i class="!icon-arrow-right text-2xl"></i>
+                                    <i class="!ri-arrow-right-line text-2xl"></i>
                                 </a>
 
                                 <ul class="absolute ltr:left-full rtl:right-full top-0 z-10 hidden w-max min-w-[150px] rounded border border-gray-300 bg-white shadow-[0_5px_20px_rgba(0,0,0,0.15)] group-hover/item:block">
@@ -107,7 +107,7 @@
                             @keyup.enter="filterPage"
                         >
 
-                        <div class="icon-search pointer-events-none absolute rtl:left-2.5 ltr:right-2.5 top-2 flex items-center text-xl">
+                        <div class="ri-search-line pointer-events-none absolute rtl:left-2.5 ltr:right-2.5 top-2 flex items-center text-xl">
                         </div>
                     </div>
                 </div>
@@ -123,7 +123,7 @@
                     <button class="flex justify-between items-center gap-4 max-w-[200px] w-full ltr:pl-4 rtl:pr-4 ltr:pr-3 rtl:pl-3 py-2 rounded-lg bg-white border border-[#E9E9E9] text-sm transition-all hover:border-gray-400 focus:border-gray-400 max-md:ltr:pr-2.5 max-md:rtl:pl-2.5 max-md:ltr:pl-2.5 max-md:rtl:pr-2.5 max-md:border-0 max-md:w-[110px] cursor-pointer">
                         <span v-text="applied.pagination.perPage"></span>
 
-                        <span class="icon-arrow-down text-2xl"></span>
+                        <span class="ri-arrow-down-line text-2xl"></span>
                     </button>
                 </x-slot>
 
@@ -145,7 +145,7 @@
                         :class="{'[&>*]:text-blue-600': applied.filters.columns.length > 1}"
                     >
                         <span class="flex justify-between items-center gap-1.5">
-                            <span class="icon-filter text-2xl"></span>
+                            <span class="ri-filter-line text-2xl"></span>
 
                             @lang('licious::app.components.datagrid.toolbar.filter.title')
                         </span>

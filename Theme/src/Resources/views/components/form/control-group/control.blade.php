@@ -89,7 +89,7 @@
                     name="{{ $name }}"
                     v-bind="field"
                     :class="[errors.length ? 'border !border-red-500 hover:border-red-500' : '']"
-                    {{ $attributes->except(['value', ':value', 'v-model', 'rules', ':rules', 'label', ':label'])->merge(['class' => 'w-full border-[1px] border-solid border-[#e9e9e9] rounded-[5px] outline-[0]']) }}
+                    {{ $attributes->except(['value', ':value', 'v-model', 'rules', ':rules', 'label', ':label'])->merge(['class' => 'w-full px-[10px] h-[50px] border-[1px] border-solid border-[#e9e9e9] rounded-[5px] outline-[0]']) }}
                     autocomplete="off"
                 >
             </x-licious::flat-picker.date>

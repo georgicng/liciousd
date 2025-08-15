@@ -36,10 +36,10 @@
 
                                     <label
                                         for="mass_action_select_all_records"
-                                        class="icon-uncheck cursor-pointer rounded-md text-2xl"
+                                        class="ri-checkbox-blank-line cursor-pointer rounded-md text-2xl"
                                         :class="[
-                                            $parent.applied.massActions.meta.mode === 'all' ? 'peer-checked:icon-check-box' : (
-                                                $parent.applied.massActions.meta.mode === 'partial' ? 'peer-checked:icon-checkbox-partial' : ''
+                                            $parent.applied.massActions.meta.mode === 'all' ? 'peer-checked:ri-checkbox-blank-line' : (
+                                                $parent.applied.massActions.meta.mode === 'partial' ? 'peer-checked:ri-checkbox-indeterminate-line' : ''
                                             ),
                                         ]"
                                     >
@@ -58,7 +58,7 @@
 
                                 <i
                                     class="text-base text-gray-800 align-text-bottom"
-                                    :class="[$parent.applied.sort.order === 'asc' ? 'icon-arrow-down': 'icon-arrow-up']"
+                                    :class="[$parent.applied.sort.order === 'asc' ? 'ri-arrow-down-line': 'ri-arrow-up-line']"
                                     v-if="column.index == $parent.applied.sort.column"
                                 ></i>
                             </p>
@@ -166,14 +166,14 @@
                                     class="inline-flex w-full max-w-max cursor-pointer appearance-none items-center justify-between gap-x-1 rounded-md border border-transparent p-1.5 text-center text-gray-600 transition-all marker:shadow hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-black active:border-gray-300"
                                     @click="changePage('previous')"
                                 >
-                                    <span class="icon-sort-left text-2xl"></span>
+                                    <span class="ri-contract-left-fill text-2xl"></span>
                                 </div>
 
                                 <div
                                     class="inline-flex w-full max-w-max cursor-pointer appearance-none items-center justify-between gap-x-1 rounded-md border border-transparent p-1.5 text-center text-gray-600 transition-all marker:shadow hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-black active:border-gray-300"
                                     @click="changePage('next')"
                                 >
-                                    <span class="icon-sort-right text-2xl"></span>
+                                    <span class="ri-contract-right-fill text-2xl"></span>
                                 </div>
                             </div>
 
@@ -185,7 +185,7 @@
                                             class="flex items-center justify-center w-[35px] h-[37px] border border-[#E9E9E9] rounded-l-lg leading-normal font-medium hover:bg-gray-100"
                                             aria-label="@lang('licious::app.components.datagrid.table.previous-page')"
                                         >
-                                            <span class="icon-arrow-left text-2xl"></span>
+                                            <span class="ri-arrow-left-line text-2xl"></span>
                                         </a>
                                     </li>
 
@@ -205,7 +205,7 @@
                                             class="flex items-center justify-center w-[35px] h-[37px] border border-[#E9E9E9] rounded-r-lg leading-normal font-medium hover:bg-gray-100"
                                             aria-label="@lang('licious::app.components.datagrid.table.next-page')"
                                         >
-                                            <span class="icon-arrow-right text-2xl"></span>
+                                            <span class="ri-arrow-right-line text-2xl"></span>
                                         </a>
                                     </li>
                                 </ul>
