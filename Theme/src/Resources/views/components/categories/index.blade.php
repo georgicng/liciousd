@@ -10,7 +10,7 @@
         type="text/x-template"
         id="v-category-template"
     >
-        <div class="flex flex-wrap w-full">
+        <div ref="top" class="flex flex-wrap w-full">
 
             <!-- Product Listing Container -->
             <div class="w-full" data-aos="fade-up" data-aos-duration="2000" data-aos-delay="600">
@@ -157,6 +157,7 @@
                     };
 
                     document.body.style.overflow ='scroll';
+                    this.scrollToElement();
 
                     this.$axios.get("{{ route('shop.api.products.index', $category ? ['category_id' => $category->id] : []) }}", {
                         params: this.queryParams
@@ -212,6 +213,13 @@
                     }
 
                     return parameters.toString();
+                },
+
+                scrollToElement() {
+                    const el = this.$refs.top;
+                    if (el) {
+                        el.scrollIntoView({ behavior: 'smooth' }); // Optional: for smooth scrolling
+                    }
                 }
             },
             provide() {

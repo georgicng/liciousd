@@ -303,7 +303,7 @@
                         >
 
                         <label
-                            class="icon-uncheck text-2xl text-navyBlue peer-checked:icon-check-box peer-checked:text-navyBlue cursor-pointer"
+                            class="ri-checkbox-blank-line text-2xl text-navyBlue peer-checked:ri-checkbox-line peer-checked:text-navyBlue cursor-pointer"
                             for="default_address"
                         >
                         </label>

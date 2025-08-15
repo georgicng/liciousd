@@ -100,7 +100,7 @@
                                                 @change="$parent.setCurrentSelectionMode"
                                             >
 
-                                            <span class="icon-uncheck cursor-pointer rounded-md text-2xl peer-checked:icon-check-box">
+                                            <span class="ri-checkbox-blank-line cursor-pointer rounded-md text-2xl peer-checked:ri-checkbox-line">
                                             </span>
                                         </label>
                                     </p>

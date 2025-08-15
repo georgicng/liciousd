@@ -42,7 +42,7 @@
                             @click="removeAll"
                             v-if="wishlistItems.length"
                         >
-                            <span class="icon-bin text-2xl"></span>
+                            <span class="ri-delete-bin-line text-2xl"></span>
                             @lang('licious::app.customers.account.wishlist.delete-all')
                         </div>
 
@@ -95,7 +95,7 @@
 
                                                             <span
                                                                 class="text-2xl"
-                                                                :class="{'icon-arrow-up': item.option_show, 'icon-arrow-down': ! item.option_show}"
+                                                                :class="{'ri-arrow-right-line': item.option_show, 'ri-arrow-down-line': ! item.option_show}"
                                                             >
                                                             </span>
                                                         </p>

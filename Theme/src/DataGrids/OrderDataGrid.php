@@ -38,7 +38,7 @@ class OrderDataGrid extends DataGrid
     {
         $this->addColumn([
             'index'      => 'increment_id',
-            'label'      => trans('shop::app.customers.account.orders.order-id'),
+            'label'      => trans('licious::app.customers.account.orders.order-id'),
             'type'       => 'string',
             'searchable' => true,
             'sortable'   => true,
@@ -47,7 +47,7 @@ class OrderDataGrid extends DataGrid
 
         $this->addColumn([
             'index'      => 'created_at',
-            'label'      => trans('shop::app.customers.account.orders.order-date'),
+            'label'      => trans('licious::app.customers.account.orders.order-date'),
             'type'       => 'date_range',
             'searchable' => true,
             'sortable'   => true,
@@ -56,7 +56,7 @@ class OrderDataGrid extends DataGrid
 
         $this->addColumn([
             'index'      => 'grand_total',
-            'label'      => trans('shop::app.customers.account.orders.total'),
+            'label'      => trans('licious::app.customers.account.orders.total'),
             'type'       => 'integer',
             'searchable' => true,
             'sortable'   => true,
@@ -68,7 +68,7 @@ class OrderDataGrid extends DataGrid
 
         $this->addColumn([
             'index'      => 'status',
-            'label'      => trans('shop::app.customers.account.orders.status.title'),
+            'label'      => trans('licious::app.customers.account.orders.status.title'),
             'type'       => 'dropdown',
             'options'    => [
                 'type' => 'basic',
@@ -76,31 +76,31 @@ class OrderDataGrid extends DataGrid
                 'params' => [
                     'options' => [
                         [
-                            'label'  => trans('shop::app.customers.account.orders.status.options.processing'),
+                            'label'  => trans('licious::app.customers.account.orders.status.options.processing'),
                             'value'  => Order::STATUS_PROCESSING,
                         ],
                         [
-                            'label'  => trans('shop::app.customers.account.orders.status.options.completed'),
+                            'label'  => trans('licious::app.customers.account.orders.status.options.completed'),
                             'value'  => Order::STATUS_COMPLETED,
                         ],
                         [
-                            'label'  => trans('shop::app.customers.account.orders.status.options.canceled'),
+                            'label'  => trans('licious::app.customers.account.orders.status.options.canceled'),
                             'value'  => Order::STATUS_CANCELED,
                         ],
                         [
-                            'label'  => trans('shop::app.customers.account.orders.status.options.closed'),
+                            'label'  => trans('licious::app.customers.account.orders.status.options.closed'),
                             'value'  => Order::STATUS_CLOSED,
                         ],
                         [
-                            'label'  => trans('shop::app.customers.account.orders.status.options.pending'),
+                            'label'  => trans('licious::app.customers.account.orders.status.options.pending'),
                             'value'  => Order::STATUS_PENDING,
                         ],
                         [
-                            'label'  => trans('shop::app.customers.account.orders.status.options.pending-payment'),
+                            'label'  => trans('licious::app.customers.account.orders.status.options.pending-payment'),
                             'value'  => Order::STATUS_PENDING_PAYMENT,
                         ],
                         [
-                            'label'  => trans('shop::app.customers.account.orders.status.options.fraud'),
+                            'label'  => trans('licious::app.customers.account.orders.status.options.fraud'),
                             'value'  => Order::STATUS_FRAUD,
                         ],
                     ],
@@ -112,25 +112,25 @@ class OrderDataGrid extends DataGrid
             'closure'    => function ($row) {
                 switch ($row->status) {
                     case Order::STATUS_PROCESSING:
-                        return '<p class="label-processing">'.trans('shop::app.customers.account.orders.status.options.processing').'</p>';
+                        return '<p class="label-processing">'.trans('licious::app.customers.account.orders.status.options.processing').'</p>';
 
                     case Order::STATUS_COMPLETED:
-                        return '<p class="label-active">'.trans('shop::app.customers.account.orders.status.options.completed').'</p>';
+                        return '<p class="label-active">'.trans('licious::app.customers.account.orders.status.options.completed').'</p>';
 
                     case Order::STATUS_CANCELED:
-                        return '<p class="label-canceled">'.trans('shop::app.customers.account.orders.status.options.canceled').'</p>';
+                        return '<p class="label-canceled">'.trans('licious::app.customers.account.orders.status.options.canceled').'</p>';
 
                     case Order::STATUS_CLOSED:
-                        return '<p class="label-closed">'.trans('shop::app.customers.account.orders.status.options.closed').'</p>';
+                        return '<p class="label-closed">'.trans('licious::app.customers.account.orders.status.options.closed').'</p>';
 
                     case Order::STATUS_PENDING:
-                        return '<p class="label-pending">'.trans('shop::app.customers.account.orders.status.options.pending').'</p>';
+                        return '<p class="label-pending">'.trans('licious::app.customers.account.orders.status.options.pending').'</p>';
 
                     case Order::STATUS_PENDING_PAYMENT:
-                        return '<p class="label-pending">'.trans('shop::app.customers.account.orders.status.options.pending-payment').'</p>';
+                        return '<p class="label-pending">'.trans('licious::app.customers.account.orders.status.options.pending-payment').'</p>';
 
                     case Order::STATUS_FRAUD:
-                        return '<p class="label-canceled">'.trans('shop::app.customers.account.orders.status.options.fraud').'</p>';
+                        return '<p class="label-canceled">'.trans('licious::app.customers.account.orders.status.options.fraud').'</p>';
                 }
             },
         ]);
@@ -145,7 +145,7 @@ class OrderDataGrid extends DataGrid
     {
         $this->addAction([
             'icon'   => 'icon-eye',
-            'title'  => trans('shop::app.customers.account.orders.action-view'),
+            'title'  => trans('licious::app.customers.account.orders.action-view'),
             'method' => 'GET',
             'url'    => function ($row) {
                 return route('shop.customers.account.orders.view', $row->id);

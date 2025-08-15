@@ -53,7 +53,7 @@ class DownloadableProductDataGrid extends DataGrid
     {
         $this->addColumn([
             'index'      => 'increment_id',
-            'label'      => trans('shop::app.customers.account.downloadable-products.orderId'),
+            'label'      => trans('licious::app.customers.account.downloadable-products.orderId'),
             'type'       => 'string',
             'searchable' => false,
             'sortable'   => true,
@@ -62,7 +62,7 @@ class DownloadableProductDataGrid extends DataGrid
 
         $this->addColumn([
             'index'      => 'product_name',
-            'label'      => trans('shop::app.customers.account.downloadable-products.title'),
+            'label'      => trans('licious::app.customers.account.downloadable-products.title'),
             'type'       => 'string',
             'searchable' => true,
             'sortable'   => true,
@@ -82,7 +82,7 @@ class DownloadableProductDataGrid extends DataGrid
 
         $this->addColumn([
             'index'      => 'created_at',
-            'label'      => trans('shop::app.customers.account.downloadable-products.date'),
+            'label'      => trans('licious::app.customers.account.downloadable-products.date'),
             'type'       => 'date_range',
             'searchable' => false,
             'sortable'   => true,
@@ -91,7 +91,7 @@ class DownloadableProductDataGrid extends DataGrid
 
         $this->addColumn([
             'index'      => 'status',
-            'label'      => trans('shop::app.customers.account.downloadable-products.status'),
+            'label'      => trans('licious::app.customers.account.downloadable-products.status'),
             'type'       => 'dropdown',
             'options'    => [
                 'type' => 'basic',
@@ -99,15 +99,15 @@ class DownloadableProductDataGrid extends DataGrid
                 'params' => [
                     'options' => [
                         [
-                            'label' => trans('shop::app.customers.account.downloadable-products.expired'),
+                            'label' => trans('licious::app.customers.account.downloadable-products.expired'),
                             'value' => self::STATUS_EXPIRED,
                         ],
                         [
-                            'label' => trans('shop::app.customers.account.downloadable-products.pending'),
+                            'label' => trans('licious::app.customers.account.downloadable-products.pending'),
                             'value' => self::STATUS_PENDING,
                         ],
                         [
-                            'label' => trans('shop::app.customers.account.downloadable-products.available'),
+                            'label' => trans('licious::app.customers.account.downloadable-products.available'),
                             'value' => self::STATUS_AVAILABLE,
                         ],
                     ],
@@ -119,27 +119,27 @@ class DownloadableProductDataGrid extends DataGrid
             'closure'    => function ($row) {
                 switch ($row->status) {
                     case self::STATUS_EXPIRED:
-                        return '<p class="label-closed">'.trans('shop::app.customers.account.downloadable-products.expired').'</p>';
+                        return '<p class="label-closed">'.trans('licious::app.customers.account.downloadable-products.expired').'</p>';
 
                     case self::STATUS_PENDING:
-                        return '<p class="label-pending">'.trans('shop::app.customers.account.downloadable-products.pending').'</p>';
+                        return '<p class="label-pending">'.trans('licious::app.customers.account.downloadable-products.pending').'</p>';
 
                     case self::STATUS_AVAILABLE:
-                        return '<p class="label-active">'.trans('shop::app.customers.account.downloadable-products.available').'</p>';
+                        return '<p class="label-active">'.trans('licious::app.customers.account.downloadable-products.available').'</p>';
                 }
             },
         ]);
 
         $this->addColumn([
             'index'      => 'remaining_downloads',
-            'label'      => trans('shop::app.customers.account.downloadable-products.remaining-downloads'),
+            'label'      => trans('licious::app.customers.account.downloadable-products.remaining-downloads'),
             'type'       => 'datetime',
             'searchable' => false,
             'sortable'   => true,
             'filterable' => false,
             'closure'    => function ($row) {
                 if (! $row->download_bought) {
-                    return trans('shop::app.customer.account.downloadable_products.unlimited');
+                    return trans('licious::app.customer.account.downloadable_products.unlimited');
                 }
 
                 return $row->remaining_downloads;

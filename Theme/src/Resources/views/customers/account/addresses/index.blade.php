@@ -19,7 +19,7 @@
             href="{{ route('shop.customers.account.addresses.create') }}"
             class="secondary-button flex gap-x-2.5 items-center py-3 px-5 border-[#E9E9E9] font-normal"
         >
-            <span class="icon-location text-2xl"></span>
+            <span class="ri-map-pin-line text-2xl"></span>
 
             @lang('licious::app.customers.account.addresses.add-address')
         </a>
@@ -53,7 +53,7 @@
                             <!-- Dropdown Actions -->
                             <x-licious::dropdown position="bottom-{{ core()->getCurrentLocale()->direction === 'ltr' ? 'right' : 'left' }}">
                                 <x-slot:toggle>
-                                    <button class="icon-more px-1.5 py-1 rounded-md text-2xl text-[#6E6E6E] cursor-pointer transition-all hover:bg-gray-100 hover:text-black focus:bg-gray-100 focus:text-black"></button>
+                                    <button class="ri-more-line px-1.5 py-1 rounded-md text-2xl text-[#6E6E6E] cursor-pointer transition-all hover:bg-gray-100 hover:text-black focus:bg-gray-100 focus:text-black"></button>
                                 </x-slot>
 
                                 <x-slot:menu>

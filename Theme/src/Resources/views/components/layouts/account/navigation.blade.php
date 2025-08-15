@@ -42,7 +42,7 @@
                 <div class="max-md:flex max-md:gap-x-4 max-md:justify-between max-md:items-center pb-5 max-md:bg-gray-100 max-md:px-6 max-md:py-5 max-md:rounded-tl-[6px] max-md:rounded-tr-[6px] accordian-toggle md:pointer-events-none select-none">
                     <p class="text-xl md:font-medium">@lang($menuItem['name'])</p>
 
-                    <span class="icon-arrow-right text-2xl md:hidden"></span>
+                    <span class="ri-arrow-right-line text-2xl md:hidden"></span>
                 </div>
 
                 <!-- Account Navigation Content -->
@@ -62,7 +62,7 @@
                                     @lang($subMenuItem['name'])
                                 </p>
 
-                                <span class="icon-arrow-right text-2xl max-md:hidden"></span>
+                                <span class="ri-arrow-right-line text-2xl max-md:hidden"></span>
                             </div>
                         </a>
                     @endforeach
@@ -100,13 +100,13 @@
                     this.isOpen = ! this.isOpen;
 
                     if (this.isOpen) {
-                        this.$el.querySelector('.icon-arrow-right').classList.add('icon-arrow-down');
-                        this.$el.querySelector('.icon-arrow-down').classList.remove('icon-arrow-right');
+                        this.$el.querySelector('.ri-arrow-right-line').classList.add('ri-arrow-down-line');
+                        this.$el.querySelector('.ri-arrow-down-line').classList.remove('ri-arrow-right-line');
 
                         this.$el.querySelector('.accordian-content').style.display = "grid";
                     } else {
-                        this.$el.querySelector('.icon-arrow-down').classList.add('icon-arrow-right');
-                        this.$el.querySelector('.icon-arrow-right').classList.remove('icon-arrow-down');
+                        this.$el.querySelector('.ri-arrow-down-line').classList.add('ri-arrow-right-line');
+                        this.$el.querySelector('.ri-arrow-right-line').classList.remove('ri-arrow-down-line');
 
                         this.$el.querySelector('.accordian-content').style.display = "none";
                     }
