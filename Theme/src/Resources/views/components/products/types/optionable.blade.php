@@ -134,20 +134,18 @@ $optionList = $productOptionValueRepository->getConfigurableOptions();
                 }) => {
                     const option = this.optionMap[id];
                     const multi = ['checkbox', 'multiselect'].includes(option.type)
-                    const rules = ['min', 'max', 'required'].map(key => {
+                    const rules = [...(multi && min != '' && max != ''? ['minmax'] : ['min', 'max']), 'required'].map(key => {
                         switch (key) {
                             case 'required':
-                                return required ? 'required' : '';
+                                return required == '1' ? 'required' : '';
                             case 'min':
-                                    return multi ? '' : min ? `min:${min}` : '';
+                                    return min != '' ? `min:${min}` : '';
                             case 'max':
-                                if (multi) {
-                                    return min && max ? `minMax:${min},${max}` : `length:${min || max}`;
-                                }
-                                return max ? `max:${max}` : '';
+                                return max != '' ? `max:${max}` : '';
+                            case 'minmax':
+                                return `minMax:${min},${max}`;
                         }
                     }).filter(item => !!item).join('|');
-                    //console.log({value, rules});
                     return {
                         id,
                         rules,
