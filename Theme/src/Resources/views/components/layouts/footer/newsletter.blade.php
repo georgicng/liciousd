@@ -3,10 +3,23 @@
     <span class="cr-heading-res hidden"></span>
 </h4>
 <div class="cr-footer-links max-[991px]:hidden cr-footer-dropdown max-[1199px]:max-w-[500px] max-[991px]:mt-[24px]">
-    <form class="cr-search-footer relative">
-        <input class="search-input w-full h-[44px] py-[5px] px-[15px] border-[1px] border-solid border-[#e9e9e9] outline-[0] rounded-[5px]" type="text" placeholder="Search here...">
-        <a href="javascript:void(0)" class="search-btn w-[50px] absolute right-[0] top-[0] bottom-[0] flex items-center justify-center">
+    <x-shop::form
+        :action="route('shop.subscription.store')"
+        class="cr-search-footer relative"
+    >
+        <x-shop::form.control-group.control
+            type="email"
+            class="search-input w-full h-[44px] py-[5px] px-[15px] border-[1px] border-solid border-[#e9e9e9] outline-[0] rounded-[5px]"
+            name="email"
+            rules="required|email"
+            :aria-label="trans('shop::app.components.layouts.footer.email')"
+            placeholder="email@example.com"
+        />
+
+        <x-shop::form.control-group.error control-name="email" />
+        <button
+            type="submit" class="search-btn w-[50px] absolute right-[0] top-[0] bottom-[0] flex items-center justify-center">
             <i class="ri-send-plane-fill text-[21px] text-[#000]"></i>
-        </a>
-    </form>
+        </button>
+    </x-shop::form>
 </div>
