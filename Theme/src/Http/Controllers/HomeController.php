@@ -3,6 +3,9 @@
 namespace Gaiproject\Theme\Http\Controllers;
 
 use Webkul\Theme\Repositories\ThemeCustomizationRepository;
+use Illuminate\Support\Facades\Mail;
+use Gaiproject\Theme\Http\Requests\ContactRequest;
+use Gaiproject\Theme\Mail\ContactUs;
 
 class HomeController extends Controller
 {
@@ -45,5 +48,40 @@ class HomeController extends Controller
     public function notFound()
     {
         abort(404);
+    }
+
+    /**
+     * Summary of contact.
+     *
+     * @return \Illuminate\View\View
+     */
+    public function contactUs()
+    {
+        return view('licious::home.contact-us');
+    }
+
+    /**
+     * Summary of store.
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function sendContactUsMail(ContactRequest $contactRequest)
+    {
+        try {
+            Mail::queue(new ContactUs($contactRequest->only([
+                'name',
+                'email',
+                'contact',
+                'message',
+            ])));
+
+            session()->flash('success', trans('licious::app.home.thanks-for-contact'));
+        } catch (\Exception $e) {
+            session()->flash('error', $e->getMessage());
+
+            report($e);
+        }
+
+        return back();
     }
 }

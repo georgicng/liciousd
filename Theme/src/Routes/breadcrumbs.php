@@ -74,3 +74,10 @@ Breadcrumbs::for('licious.customer.addresses.edit', function (BreadcrumbTrail $t
 
     $trail->push(trans('shop::app.customer.account.address.edit.page-title'), route('licious.customer.addresses.edit', $id));
 });
+
+
+// Home > Contact-Us
+Breadcrumbs::for('contact', function (BreadcrumbTrail $trail) {
+    $trail->parent('home');
+    $trail->push(trans('licious::app.home.contact.title'), route('shop.home.contact_us'));
+});
