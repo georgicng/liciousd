@@ -791,6 +791,9 @@ return [
             'phone-number'  => 'Phone Number',
             'submit'        => 'Submit',
             'title'         => 'Contact Us',
+            'name' => 'Contact',
+            'mail' => 'Mail & Website',
+            'address' => 'Address',
         ],
 
         'index' => [
@@ -967,22 +970,25 @@ return [
         'helpline'        => 'Call Center',
 
         'information' => [
-            'title' => 'Store Related Details',
-            'description' => 'Configure store related details here.',
+            'title' => 'Business',
+            'description' => 'Business',
         ],
 
         'settings' => [
             'information' => [
                 'title' => 'Store Related Details',
+                'description' => 'Configure store related details here.',
                 'bio' => [
                     'title' => 'Store Details',
                     'logo' => 'Footer Logo',
                     'logo-information' => 'Upload a landscape logo',
                     'description' => 'Short Bio',
                     'address' => 'Address',
+                    'location' => 'Map Embed',
                     'phone' => 'Phone',
+                    'whatsapp' => 'WhatsApp',
                     'email' => 'Email',
-                    'youtube' => 'Youtube'
+                    'website' => 'Website',
                 ],
                 'socials' => [
                     'title' => 'Social Media',

@@ -19,7 +19,7 @@
                 <div class="w-full px-[12px]">
                     <div class="mb-[30px]" data-aos="fade-up" data-aos-duration="2000" data-aos-delay="400">
                         <div class="cr-banner mb-[15px] text-center">
-                            <h2 class="font-Manrope text-[32px] font-bold leading-[1.2] text-[#2b2b2d] max-[1199px]:text-[28px] max-[991px]:text-[25px] max-[767px]:text-[22px]"> @lang('licious::app.home.contact.title')</h2>
+                            <h2 class="font-Manrope text-[32px] font-bold leading-[1.2] text-[#2b2b2d] max-[1199px]:text-[28px] max-[991px]:text-[25px] max-[767px]:text-[22px]">@lang('licious::app.home.contact.title')</h2>
                         </div>
                         <div class="cr-banner-sub-title w-full">
                             <p class="max-w-[600px] m-auto font-Poppins text-[14px] text-[#212529] leading-[22px] text-center max-[1199px]:w-[80%] max-[991px]:w-full">@lang('licious::app.home.contact.about')</p>
@@ -34,9 +34,9 @@
                             <i class="ri-phone-line text-[30px] text-[#64b496]"></i>
                         </div>
                         <div class="cr-info-content">
-                            <h4 class="heading font-Manrope text-[18px] font-bold text-[#2b2b2d] leading-[1.2] mb-[0.5rem] max-[991px]:text-[22px]">Contact</h4>
-                            <p class="font-Poppins leading-[1.75] text-[14px] max-[991px]:text-[13px] m-[0] text-[#777]"><a href="javascript:void(0)" class="text-[#000]"><i class="ri-phone-line"></i> &nbsp; (+91)-9876XXXXX</a></p>
-                            <p class="font-Poppins leading-[1.75] text-[14px] max-[991px]:text-[13px] m-[0] text-[#777]"><a href="javascript:void(0)" class="text-[#000]"><i class="ri-phone-line"></i> &nbsp; (+91)-987654XXXX</a></p>
+                            <h4 class="heading font-Manrope text-[18px] font-bold text-[#2b2b2d] leading-[1.2] mb-[0.5rem] max-[991px]:text-[22px]">@lang('licious::app.home.contact.name')</h4>
+                            <p class="font-Poppins leading-[1.75] text-[14px] max-[991px]:text-[13px] m-[0] text-[#777]"><a href="javascript:void(0)" class="text-[#000]"><i class="ri-phone-line"></i> &nbsp; {{ core()->getConfigData('store.information.bio.phone') }}</a></p>
+                            <p class="font-Poppins leading-[1.75] text-[14px] max-[991px]:text-[13px] m-[0] text-[#777]"><a href="javascript:void(0)" class="text-[#000]"><i class="ri-whatsapp-line"></i> &nbsp; {{ core()->getConfigData('store.information.bio.whatsapp') }}</a></p>
                         </div>
                     </div>
                 </div>
@@ -46,9 +46,9 @@
                             <i class="ri-mail-line text-[30px] text-[#64b496]"></i>
                         </div>
                         <div class="cr-info-content">
-                            <h4 class="heading font-Manrope text-[18px] font-bold text-[#2b2b2d] leading-[1.2] mb-[0.5rem] max-[991px]:text-[22px]">Mail & Website</h4>
-                            <p class="font-Poppins leading-[1.75] text-[14px] max-[991px]:text-[13px] m-[0] text-[#777]"><a href="javascript:void(0)" class="text-[#000]"><i class="ri-mail-line"></i> &nbsp; mail.example@gmail.com</a></p>
-                            <p class="font-Poppins leading-[1.75] text-[14px] max-[991px]:text-[13px] m-[0] text-[#777]"><a href="javascript:void(0)" class="text-[#000]"><i class="ri-globe-line"></i> &nbsp; www.yourdomain.com</a></p>
+                            <h4 class="heading font-Manrope text-[18px] font-bold text-[#2b2b2d] leading-[1.2] mb-[0.5rem] max-[991px]:text-[22px]">@lang('licious::app.home.contact.mail')</h4>
+                            <p class="font-Poppins leading-[1.75] text-[14px] max-[991px]:text-[13px] m-[0] text-[#777]"><a href="javascript:void(0)" class="text-[#000]"><i class="ri-mail-line"></i> &nbsp; {{ core()->getConfigData('store.information.bio.email') }}</a></p>
+                            <p class="font-Poppins leading-[1.75] text-[14px] max-[991px]:text-[13px] m-[0] text-[#777]"><a href="javascript:void(0)" class="text-[#000]"><i class="ri-globe-line"></i> &nbsp; {{ core()->getConfigData('store.information.bio.website') }}</a></p>
                         </div>
                     </div>
                 </div>
@@ -58,17 +58,16 @@
                             <i class="ri-map-pin-line text-[30px] text-[#64b496]"></i>
                         </div>
                         <div class="cr-info-content">
-                            <h4 class="heading font-Manrope text-[18px] font-bold text-[#2b2b2d] leading-[1.2] mb-[0.5rem] max-[991px]:text-[22px]">Address</h4>
-                            <p class="font-Poppins leading-[1.75] text-[14px] max-[991px]:text-[13px] m-[0] text-[#777]"><a href="javascript:void(0)" class="text-[#000]"><i class="ri-map-pin-line"></i> &nbsp; 140 Ruami Moraes Filho, 987 - Salvador - MA, 40352, Brazil.</a></p>
+                            <h4 class="heading font-Manrope text-[18px] font-bold text-[#2b2b2d] leading-[1.2] mb-[0.5rem] max-[991px]:text-[22px]">@lang('licious::app.home.contact.address')</h4>
+                            <p class="font-Poppins leading-[1.75] text-[14px] max-[991px]:text-[13px] m-[0] text-[#777]"><a href="javascript:void(0)" class="text-[#000]"><i class="ri-map-pin-line"></i> &nbsp; {{ core()->getConfigData('store.information.bio.address') }}</a></p>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="flex flex-wrap w-full pt-[100px] max-[1199px]:pt-[70px]  mb-[-24px]">
                 <div class="min-[768px]:w-[50%] w-full px-[12px] mb-[24px]" data-aos="fade-up" data-aos-duration="2000" data-aos-delay="400">
-                    <iframe src="https://www.google.com/maps/embed?pb=!1m16!1m12!1m3!1d2965.0824050173574!2d-93.63905729999999!3d41.998507000000004!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!2m1!1sWebFilings%2C+University+Boulevard%2C+Ames%2C+IA!5e0!3m2!1sen!2sus!4v1390839289319"
-                        title="maps" class="w-full h-full mb-[-7px] border-[1px] border-solid border-[#e9e9e9] rounded-[5px]">
-                    </iframe>
+                    {!! core()->getConfigData('store.information.bio.location') !!}
+
                 </div>
                 <div class="min-[768px]:w-[50%] w-full px-[12px] mb-[24px]" data-aos="fade-up" data-aos-duration="2000" data-aos-delay="800">
                     <x-licious::form :action="route('shop.home.contact_us.send_mail')" class="cr-content-form">

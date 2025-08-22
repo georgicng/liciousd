@@ -52,6 +52,11 @@ return [
                 'type'  => 'textarea'
             ],
             [
+                'name'  => 'location',
+                'title' => 'licious::app.store.settings.information.bio.location',
+                'type'  => 'textarea'
+            ],
+            [
                 'name'  => 'email',
                 'title' => 'licious::app.store.settings.information.bio.email',
                 'type'  => 'text'
@@ -59,6 +64,16 @@ return [
             [
                 'name'  => 'phone',
                 'title' => 'licious::app.store.settings.information.bio.phone',
+                'type'  => 'text'
+            ],
+             [
+                'name'  => 'whatsapp',
+                'title' => 'licious::app.store.settings.information.bio.whatsapp',
+                'type'  => 'text'
+            ],
+             [
+                'name'  => 'website',
+                'title' => 'licious::app.store.settings.information.bio.website',
                 'type'  => 'text'
             ],
         ]
