@@ -29,7 +29,7 @@
 
                         <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity">
                             <span
-                                class="icon-bin text-2xl text-black cursor-pointer"
+                                class="ri-delete-bin-line text-2xl text-black cursor-pointer"
                                 @click="removeFile"
                             >
                             </span>
@@ -47,10 +47,11 @@
                 >
                     <label
                         for="file-input"
-                        class="primary-button block w-max m-0 mx-auto py-3 px-11 rounded-2xl text-base text-center"
+                        class="ri-eye-line text-3xl max-sm:text-lg"
                     >
-                        @lang('licious::app.components.media.add-attachments')
                     </label>
+
+                    <p class="font-medium max-sm:text-xs">@lang('licious::app.components.media.add-attachments')</p>
 
                     <input type="hidden" :name="name" v-if="! uploadedFiles.isPicked"/>
 
@@ -92,7 +93,7 @@
 
                                 <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity">
                                     <span
-                                        class="icon-bin text-2xl text-black cursor-pointer"
+                                        class="ri-delete-bin-line text-2xl text-black cursor-pointer"
                                         @click="removeFile(index)"
                                     >
                                     </span>
@@ -116,7 +117,7 @@
 
                                 <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity">
                                     <span
-                                        class="icon-bin text-2xl text-black cursor-pointer"
+                                        class="ri-delete-bin-line text-2xl text-black cursor-pointer"
                                         @click="removeFile(index)"
                                     >
                                     </span>
