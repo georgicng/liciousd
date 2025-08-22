@@ -6,17 +6,16 @@
 @pushOnce('scripts')
     <!-- Product Review Item Template -->
     <script type="text/x-template" id="v-product-review-item-template">
-        <div class="content flex max-[575px]:flex-col">
-            <img 
-                v-if="review.profile"
-                :src="review.profile"
+        <div class="content flex mt-[30px] max-[575px]:flex-col">
+            <img
+                :src="review.profile || `{{ bagisto_asset('img/review/1.jpg') }}`"
                 :alt="review.name"
                 :title="review.name"
                 class="h-[50px] w-[50px] mr-[24px] rounded-[5px] max-[575px]:mb-[24px]"
             >
             <div class="details flex flex-col">
                 <span class="date mb-[10px] text-[13px] text-[#777]" v-text="review.created_at"></span>
-                <span class="name mb-[10px] font-medium text-[17px]" v-text="review.name.split(' ').map(name => name.charAt(0).toUpperCase()).join('')"></span>
+                <span class="name mb-[10px] font-medium text-[17px]" v-text="review.name"></span>
             </div>
             <div class="cr-t-review-rating ml-auto mb-[20px] max-[575px]:ml-[0] max-[575px]:mb-[24px]">
                 <i v-for="i in availableRating" class="ri-star-s-fill text-[19px] tracking-[-5px]" :class="{ 'text-[#f5885f]' : i >= max  }"></i>
