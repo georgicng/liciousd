@@ -55,17 +55,18 @@
 
 
                         <div>
-                            <x-licious::form.control-group class="cr-ratting-star flex">
+                            <x-licious::form.control-group class="cr-ratting-star flex items-center">
                                 <x-licious::form.control-group.label class="font-Poppins text-[14px] text-[#7a7a7a] leading-[1.75] mr-[10px]">
-                                    @lang('licious::app.products.view.reviews.rating')
+                                    @lang('licious::app.products.view.reviews.rating'):
                                 </x-licious::form.control-group.label>
 
                                 <x-licious::products.star-rating
                                     name="rating"
                                     rules="required"
-                                    :value="old('rating') ?? 5"
+                                    :value="old('rating') ?? 0"
                                     :label="trans('licious::app.products.view.reviews.rating')"
-                                    :disabled="false"
+                                    ::disabled="false"
+                                    class="mb-2"
                                 />
 
                                 <x-licious::form.control-group.error control-name="rating" />
@@ -137,7 +138,7 @@
                 </x-licious::form>
             </div>
 
-            <div v-else class="post p-[30px]">
+            <div v-else class="post">
                 <template v-if="reviews.length">
                     <!-- Product Review Item Vue Component -->
                     <template v-for='review in reviews'>

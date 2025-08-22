@@ -20,20 +20,20 @@
     >
         <div class="cr-star mr-[10px]">
             <i
-                class="ri-star-fill text-[16px] cursor-pointer"
+                class="text-[#f5885f] text-[24px] cursor-pointer"
                 role="presentation"
                 v-for="rating in availableRatings"
                 v-if="! disabled"
-                :style="[`color: ${appliedRatings >= rating ? 'text-[#f5885f]' : 'text-[##7d7d7d]'}`]"
+                :class="[appliedRatings >= rating ? 'ri-star-fill' : 'ri-star-line']"
                 @click="change(rating)"
             >
             </i>
 
             <i
-                class="ri-star-fill text-[16px]"
+                class="text-[#f5885f] text-[16px]"
                 role="presentation"
                 v-for="rating in availableRatings"
-                :style="[`color: ${appliedRatings >= rating ? 'text-[#f5885f]' : 'text-[##7d7d7d]'}`]"
+                :class="[appliedRatings >= rating ? 'ri-star-fill' : 'ri-star-line']"
                 v-else
             >
             </i>
