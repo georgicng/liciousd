@@ -7,7 +7,6 @@ use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\View\AnonymousComponent;
 use Webkul\Core\Tree;
 use Gaiproject\Theme\Http\Middleware\AuthenticateCustomer;
 use Gaiproject\Theme\Http\Middleware\Currency;
@@ -119,50 +118,5 @@ class ThemeServiceProvider extends ServiceProvider
             'menu.customer'
         );
         $this->shortCodeService = new ShortcodeService();
-        $this->shortCodeService->register('category_carousel', function ($data) {
-            return Blade::renderComponent(
-                new AnonymousComponent(
-                    view('licious::components.categories.carousel'),
-                    [
-                        'title' => $data['name'] ?? '',
-                        'src' => route('shop.api.categories.index', $data['filters'] ?? []),
-                        'navigation-link' => route('shop.home.index')
-                    ]
-                )
-            );
-        });
-        $this->shortCodeService->register('categories', function ($data) {
-            return Blade::renderComponent(new AnonymousComponent(view('licious::components.shortcodes.categories'), $data));
-        });
-        $this->shortCodeService->register('deals', function ($data) {
-            return Blade::renderComponent(new AnonymousComponent(view('licious::components.shortcodes.deals'), $data));
-        });
-        $this->shortCodeService->register('hero_slider', function ($data) {
-            return Blade::renderComponent(new AnonymousComponent(view('licious::components.shortcodes.hero-slider'), $data));
-        });
-        $this->shortCodeService->register('instagram', function ($data) {
-            return Blade::renderComponent(new AnonymousComponent(view('licious::components.shortcodes.instagram'), $data));
-        });
-        $this->shortCodeService->register('services', function ($data) {
-            return Blade::renderComponent(new AnonymousComponent(view('licious::components.shortcodes.services'), $data));
-        });
-        $this->shortCodeService->register('new_product', function ($data) {
-            return Blade::renderComponent(new AnonymousComponent(view('licious::components.shortcodes.new-product'), $data));
-        });
-        $this->shortCodeService->register('popular_product', function ($data) {
-            return Blade::renderComponent(new AnonymousComponent(view('licious::components.shortcodes.popular-product'), $data));
-        });
-        $this->shortCodeService->register('popular_products', function ($data) {
-            return Blade::renderComponent(new AnonymousComponent(view('licious::components.shortcodes.popular-products'), $data));
-        });
-        $this->shortCodeService->register('product_banner', function ($data) {
-            return Blade::renderComponent(new AnonymousComponent(view('licious::components.shortcodes.product-banner'), $data));
-        });
-        $this->shortCodeService->register('testimonials', function ($data) {
-            return Blade::renderComponent(new AnonymousComponent(view('licious::components.shortcodes.testimonials'), $data));
-        });
-        $this->shortCodeService->register('top_collection', function ($data) {
-            return Blade::renderComponent(new AnonymousComponent(view('licious::components.shortcodes.top-collection'), $data));
-        });
     }
 }

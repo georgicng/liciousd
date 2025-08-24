@@ -157,7 +157,7 @@
                     };
 
                     document.body.style.overflow ='scroll';
-                    this.scrollToElement();
+                    this.filters.page != 1 && this.scrollToElement();
 
                     this.$axios.get("{{ route('shop.api.products.index', $category ? ['category_id' => $category->id] : []) }}", {
                         params: this.queryParams

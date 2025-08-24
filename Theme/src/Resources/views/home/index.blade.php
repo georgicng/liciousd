@@ -63,7 +63,7 @@
                 />
 
                 @break
-                
+
         @endswitch
     @endforeach
 </x-licious::layouts>

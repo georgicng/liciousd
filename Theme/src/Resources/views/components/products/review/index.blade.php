@@ -56,7 +56,7 @@
 
                         <div>
                             <x-licious::form.control-group class="cr-ratting-star flex items-center">
-                                <x-licious::form.control-group.label class="font-Poppins text-[14px] text-[#7a7a7a] leading-[1.75] mr-[10px]">
+                                <x-licious::form.control-group.label class="font-Poppins text-[14px] text-[#7a7a7a] leading-[1.75] mr-[10px]  required">
                                     @lang('licious::app.products.view.reviews.rating'):
                                 </x-licious::form.control-group.label>
 
