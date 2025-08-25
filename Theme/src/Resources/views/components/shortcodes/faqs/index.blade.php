@@ -13,8 +13,8 @@
                 @click="toggle">
                 @{{ question }}
             </h4>
-            <div v-show="isOpen" class="accordion-body py-[15px] p-[15px] text-[14px] font-Poppins text-[#7a7a7a] leading-[1.75]">
-                <div v-html="answer"></div>
+            <div v-show="isOpen" class="accordion-body py-[15px] p-[15px]">
+                <div class="text-[14px] font-Poppins text-[#7a7a7a] leading-[1.75]" v-html="answer"></div>
             </div>
         </div>
     </script>
