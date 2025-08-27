@@ -118,7 +118,7 @@ abstract class Shortcode
     public static function getClasses(): Collection
     {
         if (! isset(static::$classesCache)) {
-            $directory = __DIR__.'\Shortcodes';
+            $directory = __DIR__.'/Shortcodes';
 
             $classes = collect(scandir($directory))
                 ->diff(['..', '.'])
@@ -140,7 +140,7 @@ abstract class Shortcode
                 ->transform(function (string $class): string {
                     return sprintf(
                         '%sShortcodes\%s',
-                        'Gaiproject\Theme\\',
+                        "Gaiproject/Theme",
                         rtrim($class, '.php')
                     );
                 });
