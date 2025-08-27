@@ -8,7 +8,7 @@
     <script type="text/x-template" id="v-accordion-template">
         <div class="cr-accordion-item overflow-hidden mb-[10px] border-[1px] border-solid border-[#eee] rounded-[5px]">
             <h4
-                class="accordion-head active-arrow m-[0] p-[14px] text-[#4b5966] text-[16px] leading-[20px] font-medium relative border-b-[1px] border-solid border-[#eee] font-Poppins cursor-pointer tracking-[0] max-[767px]:text-[15px]"
+                class="accordion-head m-[0] p-[14px] text-[#4b5966] text-[16px] leading-[20px] font-medium relative border-b-[1px] border-solid border-[#eee] font-Poppins cursor-pointer tracking-[0] max-[767px]:text-[15px]"
                 :class="isOpen ? 'active-arrow' : ''"
                 @click="toggle">
                 @{{ question }}

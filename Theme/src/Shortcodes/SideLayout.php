@@ -5,6 +5,7 @@ namespace Gaiproject\Theme\Shortcodes;
 use Gaiproject\Theme\Shortcode;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\View\AnonymousComponent;
+use Illuminate\Support\Str;
 
 class SideLayout extends Shortcode
 {
@@ -25,6 +26,11 @@ class SideLayout extends Shortcode
      */
     public function handle(): ?string
     {
-        return Blade::renderComponent(new AnonymousComponent(view('licious::components.shortcodes.layout.image'), [ ...($this->attributes ?: []), 'slot' => $this->body]));
+        $attributes = [
+            'image' => isset($this->attributes['path']) ? bagisto_asset($this->attributes['path']) : (isset($this->attributes['url']) ? $this->attributes['url']: '//placehold.co/600x500'),
+            'alt' => $this->attributes['alt'] ?? '',
+            'align' => $this->attributes['align'] ?? 'left',
+        ];
+        return Blade::renderComponent(new AnonymousComponent(view('licious::components.shortcodes.layout.image'), [ ...$attributes, 'slot' => $this->body]));
     }
 }

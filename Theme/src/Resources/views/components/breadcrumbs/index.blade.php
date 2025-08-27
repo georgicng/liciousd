@@ -1,5 +1,6 @@
 @props([
     'name'  => '',
+    'title' => '',
     'entity' => null,
 ])
 <section class="section-breadcrumb">
@@ -8,7 +9,7 @@
             <div class="flex flex-wrap w-full">
                 <div class="w-full px-[12px]">
                     <div class="cr-breadcrumb-title flex items-center justify-between flex-row max-[575px]:flex-col">
-                        <h2 class="mb-[0] font-Manrope text-[19px] leading-[1] font-bold text-[#2b2b2d] max-[1199px]:text-[18px] max-[767px]:text-[17px] max-[575px]:mb-[5px] max-[575px]:text-[20px]">{{ $name }}</h2>
+                        <h2 class="mb-[0] font-Manrope text-[19px] leading-[1] font-bold text-[#2b2b2d] max-[1199px]:text-[18px] max-[767px]:text-[17px] max-[575px]:mb-[5px] max-[575px]:text-[20px]">{{ $title ?? $name }}</h2>
                         {{ Breadcrumbs::view('licious::partials.breadcrumbs', $name, $entity) }}
                     </div>
                 </div>

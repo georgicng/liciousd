@@ -14,8 +14,8 @@
         {{ $page->meta_title }}
     </x-slot>
 
-    <!-- Page Content -->
-    <div class="container mt-8 px-[60px] max-lg:px-8">
-        {!! app('shortcode')->render($page->html_content)  !!}
-    </div>
+    <x-licious::breadcrumbs name="page" :entity="$page" :title="$page->page_title" />
+
+    {!! app('shortcode')->render($page->html_content)  !!}
+
 </x-licious::layouts>

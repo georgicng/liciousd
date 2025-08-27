@@ -3,6 +3,7 @@
 namespace Gaiproject\Theme;
 
 use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 
 class ShortcodeCompiler
 {
@@ -31,7 +32,7 @@ class ShortcodeCompiler
             $content
         );
 
-        return $parsedContent;
+        return Str::of($parsedContent)->pipe(fn($str) => preg_replace('/<p[^>]*>(?:\\s|&nbsp;)*<\\/p>/', '', $str));
     }
 
     /**

@@ -1,3 +1,3 @@
-<div class="flex flex-wrap mb-[-24px]">
+<div class="w-full flex flex-wrap mb-[-24px]">
 {!! $slot !!}
 </div>

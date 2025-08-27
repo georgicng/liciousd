@@ -1,6 +1,6 @@
 @props(['subject' => '', 'content' => ''])
 
-<div class="w-full cr-cgi-block">
+<div class="w-full cr-cgi-block mb-[24px]">
     <div class="cr-cgi-block-inner">
         @if($subject)
             <h5 class="cr-cgi-block-title mb-[10px] text-[18px] font-bold leading-[1.2]">{{ $subject }}</h5>

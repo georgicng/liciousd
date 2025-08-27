@@ -1,6 +1,6 @@
 @props(['title' => 'Instagram Feed', 'subtitle' => 'Instagram Feed'])
 
-<div class="flex flex-wrap">
+<div class="w-full flex flex-wrap">
     <div class="w-full px-[12px]">
         <div class="mb-[30px]">
             <div class="cr-banner mb-[15px] text-center">

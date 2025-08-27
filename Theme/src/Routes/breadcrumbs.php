@@ -81,3 +81,8 @@ Breadcrumbs::for('contact', function (BreadcrumbTrail $trail) {
     $trail->parent('home');
     $trail->push(trans('licious::app.home.contact.title'), route('shop.home.contact_us'));
 });
+
+Breadcrumbs::for('page', function (BreadcrumbTrail $trail, $entity) {
+    $trail->parent('home');
+    $trail->push($entity->page_title, route('shop.cms.page', ['slug' => $entity->url_key]));
+});
