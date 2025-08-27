@@ -140,7 +140,7 @@ abstract class Shortcode
                 ->transform(function (string $class): string {
                     return sprintf(
                         '%sShortcodes\%s',
-                        "Gaiproject/Theme",
+                        "Gaiproject\Theme\\",
                         rtrim($class, '.php')
                     );
                 });
