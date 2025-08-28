@@ -8,7 +8,7 @@
     <script type="text/x-template" id="v-product-review-item-template">
         <div class="content flex max-[575px]:flex-col mt-[30px]">
             <img
-                :src="review.profile || `{{ bagisto_asset('img/review/user-line.svg') }}`"
+                :src="review.profile || `{{ asset('img/review/user-line.svg') }}`"
                 :alt="review.name"
                 :title="review.name"
                 class="h-[50px] w-[50px] mr-[24px] rounded-[5px] max-[575px]:mb-[24px]"
