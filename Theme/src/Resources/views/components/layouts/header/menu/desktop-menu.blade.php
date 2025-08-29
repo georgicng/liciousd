@@ -40,11 +40,11 @@
                     class="dropdown-menu transition-all duration-[0.3s] ease-in-out py-[8px] min-w-[160px] mt-[35px] absolute text-left opacity-0 invisible left-auto bg-[#fff] rounded-[5px] block z-[9] border-[1px] border-solid border-[#e9e9e9]"
                     v-if="menu.children.length"
                 >
-                    <li
-                        class="w-full mr-[0]"
-                        v-for="pairMenuChildren in pairMenuChildren(menu)"
-                    >
-                        <template v-for="secondLevelMenu in pairMenuChildren">
+                    <template v-for="pairMenuChildren in pairMenuChildren(menu)">
+                        <li
+                            class="w-full mr-[0]"
+                            v-for="secondLevelMenu in pairMenuChildren"
+                        >
                             <a
                                 :href="secondLevelMenu.url"
                                 class="dropdown-item transition-all duration-[0.3s] ease-in-out font-Poppins py-[7px] px-[20px] bg-[#fff] relative capitalize text-[13px] text-[#777] hover:text-[#64b496] whitespace-nowrap tracking-[0.03rem] block w-full"
@@ -53,22 +53,24 @@
                             </a>
 
                             <ul
-                                class="grid grid-cols-[1fr] gap-3"
+                                class="pl-6 grid grid-cols-[1fr] gap-3"
                                 v-if="secondLevelMenu.children.length"
                             >
                                 <li
-                                    class="text-sm font-medium text-[#6E6E6E]"
+                                    class="w-full mr-[0] flex items-center"
                                     v-for="thirdLevelMenu in secondLevelMenu.children"
                                 >
+                                    <span class="py-[7px]"> - </span>
                                     <a
                                         :href="thirdLevelMenu.url"
+                                        class="dropdown-item transition-all duration-[0.3s] ease-in-out font-Poppins py-[7px] px-[5px] bg-[#fff] relative capitalize text-[13px] text-[#777] hover:text-[#64b496] whitespace-nowrap tracking-[0.03rem] block w-full"
                                         v-text="thirdLevelMenu.name"
                                     >
                                     </a>
                                 </li>
                             </ul>
-                        </template>
-                    </li>
+                        </li>
+                    </template>
                 </ul>
             </li>
         </ul>
