@@ -68,7 +68,7 @@
                             </a>
 
                             <ul
-                                class="pl-6 grid grid-cols-[1fr] gap-3"
+                                class="pl-6 grid grid-cols-[1fr] px-[20px]"
                                 v-if="secondLevelCategory.children.length"
                             >
                                 <li
