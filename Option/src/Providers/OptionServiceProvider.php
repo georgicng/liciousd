@@ -26,9 +26,9 @@ class OptionServiceProvider extends ServiceProvider
 
         $this->loadViewsFrom(__DIR__ . '/../Resources/views/shop', 'shop');
 
-        Event::listen('bagisto.admin.layout.head', function($viewRenderEventManager) {
+       /*  Event::listen('bagisto.admin.layout.head', function($viewRenderEventManager) {
             $viewRenderEventManager->addTemplate('admin::layouts.style');
-        });
+        }); */
 
 
 
