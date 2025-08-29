@@ -21,11 +21,11 @@ return [
                     'save-menu-success' => 'Menu saved successfully.',
                 ],
             ],
-            'components' => [
-                'layouts' => [
-                    'sidebar' => [
-                        'menus' => 'Site Menu',
-                    ],
+        ],
+        'components' => [
+            'layouts' => [
+                'sidebar' => [
+                    'menus' => 'Site Menu',
                 ],
             ],
         ],
