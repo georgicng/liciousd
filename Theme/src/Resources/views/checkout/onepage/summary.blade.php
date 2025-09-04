@@ -65,20 +65,20 @@
 
             <!-- Taxes -->
             {!! view_render_event('bagisto.shop.checkout.onepage.summary.tax.before') !!}
+            <template v-if="parseFloat(cart.base_tax_total)">
+                <div
+                    class="flex text-right justify-between"
+                    v-for="(amount, index) in cart.base_tax_amounts"
+                >
+                    <p class="text-base max-sm:text-sm max-sm:font-normal">
+                        @lang('licious::app.checkout.onepage.summary.tax') (@{{ index }})%
+                    </p>
 
-            <div
-                class="flex text-right justify-between"
-                v-for="(amount, index) in cart.base_tax_amounts"
-                v-if="parseFloat(cart.base_tax_total)"
-            >
-                <p class="text-base max-sm:text-sm max-sm:font-normal">
-                    @lang('licious::app.checkout.onepage.summary.tax') (@{{ index }})%
-                </p>
-
-                <p class="text-base font-medium max-sm:text-sm">
-                    @{{ amount }}
-                </p>
-            </div>
+                    <p class="text-base font-medium max-sm:text-sm">
+                        @{{ amount }}
+                    </p>
+                </div>
+            </template>
 
             {!! view_render_event('bagisto.shop.checkout.onepage.summary.tax.after') !!}
 

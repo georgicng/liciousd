@@ -9,7 +9,7 @@
                 @lang('licious::app.checkout.onepage.address.title')
             </h2>
         </div>
-    </x-slot>
+    </x-slot:header>
 
     <!-- Accordian Content Component Slot -->
     <x-slot:content class="!p-0 mt-8">

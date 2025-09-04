@@ -47,8 +47,7 @@
                         <x-licious::form.control-group.control
                             type="checkbox"
                             name="billing.use_for_shipping"
-                            id="use_for_shipping"
-                            for="use_for_shipping"
+                            id="billing.use_for_shipping"
                             value="1"
                             @change="useBillingAddressForShipping = ! useBillingAddressForShipping"
                             ::checked="!! useBillingAddressForShipping"
@@ -56,7 +55,7 @@
 
                         <label
                             class="text-base text-[#6E6E6E] max-sm:text-xs ltr:pl-0 rtl:pr-0 select-none cursor-pointer"
-                            for="use_for_shipping"
+                            for="billing.use_for_shipping"
                         >
                             @lang('licious::app.checkout.onepage.address.same-as-billing')
                         </label>
@@ -133,7 +132,7 @@
 
                     this.moveToNextStep();
 
-                    this.$axios.post('{{ route('shop.checkout.onepage.addresses.store') }}', params)
+                    this.$axios.post("{{ route('shop.checkout.onepage.addresses.store') }}", params)
                         .then((response) => {
                             this.isStoring = false;
 
