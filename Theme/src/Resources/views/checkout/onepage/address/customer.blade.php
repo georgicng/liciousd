@@ -50,7 +50,6 @@
                                             type="radio"
                                             name="billing.id"
                                             ::id="`billing_address_id_${address.id}`"
-                                            ::for="`billing_address_id_${address.id}`"
                                             ::value="address.id"
                                             v-model="selectedAddresses.billing_address_id"
                                             rules="required"
@@ -169,7 +168,6 @@
                                                     type="radio"
                                                     name="shipping.id"
                                                     ::id="`shipping_address_id_${address.id}`"
-                                                    ::for="`shipping_address_id_${address.id}`"
                                                     ::value="address.id"
                                                     v-model="selectedAddresses.shipping_address_id"
                                                     rules="required"
@@ -296,8 +294,7 @@
                             <x-licious::form.control-group.control
                                 type="checkbox"
                                 ::name="activeAddressForm + '.save_address'"
-                                id="save_address"
-                                for="save_address"
+                                ::id="activeAddressForm + '.save_address'"
                                 value="1"
                                 v-model="saveAddress"
                                 @change="saveAddress = ! saveAddress"
@@ -305,7 +302,7 @@
 
                             <label
                                 class="text-base text-[#6E6E6E] max-sm:text-xs ltr:pl-0 rtl:pr-0 select-none cursor-pointer"
-                                for="save_address"
+                                :for="activeAddressForm + '.save_address'"
                             >
                                 @lang('licious::app.checkout.onepage.address.save-address')
                             </label>
