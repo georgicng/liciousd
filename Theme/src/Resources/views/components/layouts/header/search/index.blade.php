@@ -18,7 +18,7 @@
                 placeholder="Search For items...">
             <select name="category" class="form-select mr-[10px] w-[120px] h-[calc(100%-2px)] border-[0] tracking-[0] absolute top-[1px] pt-[0.375rem] pb-[0.375rem] pl-[0.5rem] outline-[0] right-[45px] text-[13px] border-l-[1px] border-solid border-[#64b496] rounded-[0] max-[420px]:hidden" aria-label="Default select example">
                 <option value="" :selected="!'{{ request('category') }}'">All Categories</option>
-                <option v-for="(category) in categories" :key="category.id"  :value="category.id" :selected="'{{ request('category') }}' == category.id " :class="{ 'pl-2': category.level == 2, 'font-bold': category.level == 1 }">@{{ category.name }}</option>
+                <option v-for="(category) in categories" :key="category.id"  :value="category.id" :selected="'{{ request('category') }}' == category.id " :class="{ 'pl-4': category.level == 3, 'pl-2': category.level == 2, 'font-bold': category.level == 1 }">@{{ category.name }}</option>
             </select>
             @if (core()->getConfigData('general.content.shop.image_search'))
                 @include('licious::search.images.index')
@@ -38,11 +38,20 @@
             computed: {
                 categories() {
                     return this.store.categories?.flatMap(category => {
-                        return [{...category, level: 1}, ...category.children.map(item => ({
-                                ...item,
-                                name: ' - ' + item.name,
-                                level: 2
-                            }))];
+                        return [{...category, level: 1}, ...category.children.flatMap(item => {
+                            return [
+                                {
+                                    ...item,
+                                    name: ' - ' + item.name,
+                                    level: 2
+                                },
+                                ...item.children.map(subItem => ({
+                                    ...subItem,
+                                    name: ' -- ' + subItem.name,
+                                    level: 3
+                                }))
+                            ];
+                        })];
                     });
                 },
             },
